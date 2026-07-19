@@ -1,0 +1,512 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Processing" description="Analyzing X-ray image with AI fracture detection model" active="analyze" variant="app">
+  <main class="processing-page page-enter">
+    <div class="proc-bg">
+      <div class="proc-orb orb-1"></div>
+      <div class="proc-orb orb-2"></div>
+    </div>
+    <div class="processing-container">
+      <div class="proc-badge">
+        <span class="badge-dot"></span>
+        Analyzing
+      </div>
+
+      <div class="spinner-ring" aria-hidden="true">
+        <div class="spinner-ring-inner"></div>
+      </div>
+
+      <div aria-live="polite">
+        <h2 class="processing-title">Analyzing X-ray, please wait&hellip;</h2>
+      </div>
+      <p class="processing-subtext">
+        Our AI model is processing the image. This may take a few seconds.
+      </p>
+
+      <div class="steps-track">
+        <div class="step active" id="step-1">
+          <div class="step-circle">1</div>
+          <span class="step-label">Loading</span>
+        </div>
+        <div class="step-connector active"></div>
+        <div class="step" id="step-2">
+          <div class="step-circle">2</div>
+          <span class="step-label">Analyzing</span>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step" id="step-3">
+          <div class="step-circle">3</div>
+          <span class="step-label">Results</span>
+        </div>
+      </div>
+
+      <div class="progress-area">
+        <div
+          class="progress-track"
+          id="progress-track"
+          role="progressbar"
+          aria-valuenow="0"
+          aria-valuemin="0"
+          aria-valuemax="100"
+        >
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <span class="progress-label" id="progress-label">0%</span>
+      </div>
+
+      <div class="proc-details">
+        <div class="proc-detail-item">
+          <div class="proc-detail-dot"></div>
+          <span>Preprocessing image&hellip;</span>
+        </div>
+        <div class="proc-detail-item" id="detail-model">
+          <div class="proc-detail-dot"></div>
+          <span>Running detection model&hellip;</span>
+        </div>
+        <div class="proc-detail-item" id="detail-heatmap">
+          <div class="proc-detail-dot"></div>
+          <span>Generating heatmap&hellip;</span>
+        </div>
+      </div>
+
+      <div class="info-banner">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10" />
+          <line x1="12" y1="16" x2="12" y2="12" />
+          <line x1="12" y1="8" x2="12.01" y2="8" />
+        </svg>
+        <span>Please do not refresh or close this page.</span>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<script>
+  (function () {
+    var imageData = sessionStorage.getItem('fracturedetect:image');
+    if (!imageData) {
+      window.location.replace('/analyze');
+      return;
+    }
+
+    function simulateProgress(callback) {
+      var DURATION = 2500;
+      var TARGET = 95;
+      var fillEl = document.getElementById('progress-fill');
+      var labelEl = document.getElementById('progress-label');
+      var barEl = document.getElementById('progress-track');
+      var startTime = performance.now();
+
+      var step2El = document.getElementById('step-2');
+      var step3El = document.getElementById('step-3');
+      var detailModel = document.getElementById('detail-model');
+      var detailHeatmap = document.getElementById('detail-heatmap');
+
+      function easeOut(t) {
+        return 1 - Math.pow(1 - t, 3);
+      }
+
+      function frame(now) {
+        var elapsed = now - startTime;
+        var t = Math.min(elapsed / DURATION, 1);
+        var value = Math.round(easeOut(t) * TARGET);
+
+        if (fillEl && labelEl && barEl) {
+          fillEl.style.width = value + '%';
+          labelEl.textContent = value + '%';
+          barEl.setAttribute('aria-valuenow', value);
+        }
+
+        if (value >= 20 && step2El && !step2El.classList.contains('active')) {
+          step2El.classList.add('active');
+          if (detailModel) detailModel.classList.add('active');
+        }
+        if (value >= 50 && step3El && !step3El.classList.contains('active')) {
+          step3El.classList.add('active');
+          if (detailHeatmap) detailHeatmap.classList.add('active');
+        }
+
+        if (t < 1) {
+          requestAnimationFrame(frame);
+        } else {
+          setTimeout(callback, 500);
+        }
+      }
+
+      requestAnimationFrame(frame);
+    }
+
+    function generateMockResult() {
+      var isFracture = Math.random() < 0.7;
+      return {
+        prediction: isFracture ? 'fracture' : 'normal',
+        confidence: isFracture
+          ? +(0.89 + Math.random() * 0.10).toFixed(3)
+          : +(0.85 + Math.random() * 0.12).toFixed(3),
+        inferenceTimeSec: +(0.28 + Math.random() * 0.33).toFixed(2),
+      };
+    }
+
+    simulateProgress(function () {
+      var result = generateMockResult();
+      try {
+        sessionStorage.setItem('fracturedetect:result', JSON.stringify(result));
+      } catch (e) {}
+      window.location.href = '/results';
+    });
+  })();
+</script>
+
+<style>
+  .processing-page {
+    min-height: calc(100vh - 68px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .proc-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .proc-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.1;
+  }
+
+  .proc-orb.orb-1 {
+    width: 400px;
+    height: 400px;
+    background: var(--color-primary);
+    top: -120px;
+    right: -80px;
+    animation: float-orb 12s ease-in-out infinite;
+  }
+
+  .proc-orb.orb-2 {
+    width: 300px;
+    height: 300px;
+    background: #a855f7;
+    bottom: -100px;
+    left: -60px;
+    animation: float-orb 10s ease-in-out infinite reverse;
+  }
+
+  @keyframes float-orb {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -40px) scale(1.1); }
+    66% { transform: translate(-20px, 20px) scale(0.95); }
+  }
+
+  .processing-container {
+    max-width: 520px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .proc-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-primary);
+    background: rgba(37, 99, 235, 0.08);
+    padding: 6px 14px;
+    border-radius: 20px;
+    margin-bottom: 28px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  .proc-badge .badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    animation: pulse-dot 1.2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .spinner-ring {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(37, 99, 235, 0.06);
+    margin-bottom: 28px;
+    flex-shrink: 0;
+  }
+
+  .spinner-ring-inner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--color-border);
+    border-top-color: var(--color-primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes pulse-alt {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.35; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .spinner-ring-inner {
+      animation: pulse-alt 2s ease-in-out infinite;
+    }
+  }
+
+  .processing-title {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 1.3;
+    color: var(--color-text);
+    margin: 0 0 10px;
+  }
+
+  .processing-subtext {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+    margin: 0 0 36px;
+    max-width: 400px;
+  }
+
+  .steps-track {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin-bottom: 32px;
+    width: 100%;
+    max-width: 360px;
+  }
+
+  .step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+  }
+
+  .step-circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--color-text-muted);
+    background: var(--color-bg-subtle);
+    border: 2px solid var(--color-border);
+    transition: all 0.3s ease;
+  }
+
+  .step.active .step-circle {
+    color: white;
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+  }
+
+  .step-label {
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .step.active .step-label {
+    color: var(--color-primary);
+  }
+
+  .step-connector {
+    flex: 1;
+    height: 2px;
+    background: var(--color-border);
+    margin: 0 4px;
+    margin-bottom: 28px;
+    transition: background 0.3s ease;
+  }
+
+  .step-connector.active {
+    background: var(--color-primary);
+  }
+
+  .progress-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    margin-bottom: 28px;
+  }
+
+  .progress-track {
+    flex: 1;
+    height: 8px;
+    background: var(--color-bg-subtle);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--color-primary), #3b82f6);
+    border-radius: var(--radius-sm);
+    transition: width 0.1s linear;
+  }
+
+  .progress-label {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--color-primary);
+    min-width: 40px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .proc-details {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+
+  .proc-detail-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--color-text-muted);
+    padding: 10px 16px;
+    background: var(--color-bg-subtle);
+    border-radius: var(--radius-md);
+    opacity: 0.5;
+    transition: all 0.3s ease;
+  }
+
+  .proc-detail-item.active {
+    opacity: 1;
+    background: rgba(37, 99, 235, 0.06);
+    color: var(--color-text);
+  }
+
+  .proc-detail-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-border);
+    flex-shrink: 0;
+    transition: background 0.3s ease;
+  }
+
+  .proc-detail-item.active .proc-detail-dot {
+    background: var(--color-primary);
+    box-shadow: 0 0 6px rgba(37, 99, 235, 0.4);
+    animation: pulse-dot 1.2s ease-in-out infinite;
+  }
+
+  .info-banner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 18px;
+    background: var(--color-bg-subtle);
+    border-radius: var(--radius-md);
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 14px;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+    text-align: left;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .info-banner svg {
+    flex-shrink: 0;
+    color: var(--color-neutral);
+  }
+
+  @media (max-width: 480px) {
+    .processing-page {
+      padding: 40px 20px;
+    }
+
+    .processing-title {
+      font-size: 20px;
+    }
+
+    .processing-subtext {
+      font-size: 15px;
+      margin-bottom: 28px;
+    }
+
+    .spinner-ring {
+      width: 56px;
+      height: 56px;
+      margin-bottom: 24px;
+    }
+
+    .spinner-ring-inner {
+      width: 34px;
+      height: 34px;
+      border-width: 3px;
+    }
+
+    .steps-track {
+      max-width: 300px;
+    }
+
+    .step-circle {
+      width: 32px;
+      height: 32px;
+      font-size: 13px;
+    }
+
+    .info-banner {
+      font-size: 13px;
+      padding: 12px 14px;
+    }
+  }
+</style>

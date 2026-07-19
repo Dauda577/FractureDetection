@@ -1,0 +1,413 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Account" description="Manage your FractureDetect account and settings" active="account" variant="app">
+  <main class="account-page page-enter">
+    <div class="acc-bg">
+      <div class="acc-orb orb-1"></div>
+      <div class="acc-orb orb-2"></div>
+    </div>
+    <div class="account-container">
+      <div class="acc-badge">
+        <span class="badge-dot"></span>
+        Account
+      </div>
+      <h1 class="account-title">Your Account</h1>
+
+      <div class="account-grid">
+        <div class="card profile-card">
+          <div class="profile-avatar">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="8" r="4" stroke="#64748B" stroke-width="1.6"/>
+              <path d="M4 20c1.6-3.6 4.8-5.5 8-5.5s6.4 1.9 8 5.5" stroke="#64748B" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="profile-info">
+            <p class="profile-name">Guest User</p>
+            <p class="profile-email">Not signed in</p>
+          </div>
+          <button class="btn-signin">Sign In</button>
+        </div>
+
+        <div class="card settings-card">
+          <div class="card-header-row">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3" />
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+            </svg>
+            <span>Settings</span>
+          </div>
+          <div class="settings-list">
+            <div class="setting-row">
+              <div class="setting-info">
+                <p class="setting-label">Theme</p>
+                <p class="setting-desc">Light mode (system default)</p>
+              </div>
+              <span class="setting-badge">Auto</span>
+            </div>
+            <div class="setting-row">
+              <div class="setting-info">
+                <p class="setting-label">Notifications</p>
+                <p class="setting-desc">Analysis completion alerts</p>
+              </div>
+              <span class="setting-badge status-off">Off</span>
+            </div>
+            <div class="setting-row">
+              <div class="setting-info">
+                <p class="setting-label">Image Storage</p>
+                <p class="setting-desc">Auto-delete uploads after 24 hours</p>
+              </div>
+              <span class="setting-badge status-on">On</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card about-card">
+          <div class="card-header-row">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            <span>About</span>
+          </div>
+          <div class="about-list">
+            <div class="about-row">
+              <span class="about-label">Version</span>
+              <span class="about-value">1.0.0</span>
+            </div>
+            <div class="about-row">
+              <span class="about-label">Analyses This Session</span>
+              <span class="about-value" id="session-count">0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<script>
+  const sessionCount = document.getElementById('session-count');
+  if (sessionCount) {
+    let count = 0;
+    for (let i = 0; i < sessionStorage.length; i++) {
+      const key = sessionStorage.key(i);
+      if (key && key.startsWith('fracturedetect:')) {
+        if (key === 'fracturedetect:image') count++;
+        if (key === 'fracturedetect:result') count++;
+      }
+    }
+    sessionCount.textContent = String(Math.min(count, 1));
+  }
+</script>
+
+<style>
+  .account-page {
+    min-height: calc(100vh - 68px);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .acc-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .acc-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.08;
+  }
+
+  .acc-orb.orb-1 {
+    width: 400px;
+    height: 400px;
+    background: var(--color-primary);
+    top: -120px;
+    right: -80px;
+    animation: float-orb 12s ease-in-out infinite;
+  }
+
+  .acc-orb.orb-2 {
+    width: 300px;
+    height: 300px;
+    background: #a855f7;
+    bottom: -100px;
+    left: -60px;
+    animation: float-orb 10s ease-in-out infinite reverse;
+  }
+
+  @keyframes float-orb {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -40px) scale(1.1); }
+    66% { transform: translate(-20px, 20px) scale(0.95); }
+  }
+
+  .account-container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+  }
+
+  .acc-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-primary);
+    background: rgba(37, 99, 235, 0.08);
+    padding: 6px 14px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  .acc-badge .badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-primary);
+  }
+
+  .account-title {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 34px;
+    line-height: 1.2;
+    color: var(--color-text);
+        margin: 0 0 32px;
+    letter-spacing: -0.02em;
+  }
+
+  .account-grid
+ {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 640px;
+    width: 100%;
+  }
+
+  .card {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    background: var(--color-surface);
+  }
+
+  .card-header-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+    margin: 0 0 16px;
+  }
+
+  .card-header-row svg {
+    opacity: 0.5;
+    flex-shrink: 0;
+  }
+
+  .profile-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .profile-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--color-bg-subtle);
+    border: 2px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .profile-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .profile-name {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--color-text);
+    margin: 0 0 2px;
+  }
+
+  .profile-email {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 14px;
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  .btn-signin {
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 14px;
+    color: white;
+    background: linear-gradient(135deg, var(--color-primary), #1d4ed8);
+    padding: 10px 20px;
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+  }
+
+  .btn-signin:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+  }
+
+  .btn-signin:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  .settings-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .setting-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .setting-row:last-child {
+    border-bottom: none;
+  }
+
+  .setting-label {
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 15px;
+    color: var(--color-text);
+    margin: 0 0 2px;
+  }
+
+  .setting-desc {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 13px;
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  .setting-badge {
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 12px;
+    color: var(--color-text-muted);
+    background: var(--color-bg-subtle);
+    padding: 4px 10px;
+    border-radius: 100px;
+    flex-shrink: 0;
+  }
+
+  .setting-badge.status-on {
+    color: var(--color-success);
+    background: rgba(22, 163, 74, 0.08);
+  }
+
+  .setting-badge.status-off {
+    color: var(--color-text-muted);
+    background: var(--color-bg-subtle);
+  }
+
+  .about-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .about-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .about-row:last-child {
+    border-bottom: none;
+  }
+
+  .about-label {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 15px;
+    color: var(--color-text);
+  }
+
+  .about-value {
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 15px;
+    color: var(--color-text-muted);
+  }
+
+  @media (max-width: 768px) {
+    .account-container {
+      padding: 40px 24px 64px;
+    }
+
+    .account-title {
+      font-size: 28px;
+      margin-bottom: 28px;
+    }
+
+    .account-grid {
+      max-width: 100%;
+    }
+
+    .profile-card {
+      flex-wrap: wrap;
+    }
+
+    .btn-signin {
+      width: 100%;
+      text-align: center;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .account-container {
+      padding: 32px 20px 48px;
+    }
+
+    .account-title {
+      font-size: 26px;
+    }
+  }
+</style>

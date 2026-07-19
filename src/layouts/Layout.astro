@@ -1,0 +1,54 @@
+---
+import '../styles/tokens.css';
+import Nav from '../components/Nav.astro';
+
+export interface Props {
+  title: string;
+  description?: string;
+  active: 'home' | 'analyze' | 'about' | 'account';
+  variant?: 'marketing' | 'app';
+}
+
+const { title, description, active, variant = 'marketing' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title} | FractureDetect</title>
+    <meta name="description" content={description || `${title} - FractureDetect AI-powered bone fracture detection`} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <Nav active={active} variant={variant} />
+    <slot />
+  </body>
+</html>
+
+<style>
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-body);
+    color: var(--color-text);
+    background: var(--color-surface);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+</style>

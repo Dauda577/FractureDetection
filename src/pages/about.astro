@@ -1,0 +1,515 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="About" description="Learn about FractureDetect AI-powered bone fracture detection for healthcare professionals" active="about" variant="marketing">
+  <main class="about-page page-enter">
+    <div class="about-bg">
+      <div class="about-orb orb-1"></div>
+      <div class="about-orb orb-2"></div>
+    </div>
+
+    <section class="about-hero">
+      <div class="about-container">
+        <div class="about-badge">
+          <span class="badge-dot"></span>
+          About
+        </div>
+        <h1 class="about-title">
+          About <span class="text-gradient">FractureDetect</span>
+        </h1>
+        <p class="about-description">
+          FractureDetect is an AI-powered tool that analyzes X-ray images to help
+          healthcare professionals spot bone fractures faster and more accurately.
+          Our deep learning model detects fracture regions and provides clear,
+          actionable predictions to support clinical decision-making.
+        </p>
+      </div>
+    </section>
+
+    <section class="how-section">
+      <div class="about-container">
+        <h2 class="how-heading">How It Works</h2>
+        <div class="steps-grid">
+          <div class="step-card">
+            <div class="step-icon-wrapper">
+              <div class="step-number">1</div>
+              <div class="step-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" />
+                  <line x1="12" y1="13" x2="12" y2="19" />
+                  <polyline points="9 16 12 13 15 16" />
+                </svg>
+              </div>
+            </div>
+            <h3 class="step-heading">Upload</h3>
+            <p class="step-text">Upload a clear X-ray image in PNG or JPEG format. We accept files up to 10MB.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-icon-wrapper">
+              <div class="step-number">2</div>
+              <div class="step-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                </svg>
+              </div>
+            </div>
+            <h3 class="step-heading">AI Analysis</h3>
+            <p class="step-text">Our deep learning model analyzes the image and highlights any detected fracture regions with a heatmap overlay.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-icon-wrapper">
+              <div class="step-number">3</div>
+              <div class="step-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </div>
+            </div>
+            <h3 class="step-heading">Results</h3>
+            <p class="step-text">Review the prediction, confidence score, and localized fracture region. Export a report for your records.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="tech-section">
+      <div class="about-container">
+        <h2 class="how-heading">Technology</h2>
+        <div class="tech-grid">
+          <div class="tech-card">
+            <div class="tech-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5" />
+                <path d="M8.5 8.5a4 4 0 0 0 0 8" />
+              </svg>
+            </div>
+            <h3 class="tech-heading">Deep Learning</h3>
+            <p class="tech-text">Convolutional neural network trained on thousands of annotated radiology images.</p>
+          </div>
+          <div class="tech-card">
+            <div class="tech-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 20h9" />
+                <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" />
+              </svg>
+            </div>
+            <h3 class="tech-heading">Heatmap Localization</h3>
+            <p class="tech-text">Grad-CAM visualization highlights the exact region where the model detected an abnormality.</p>
+          </div>
+          <div class="tech-card">
+            <div class="tech-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+              </svg>
+            </div>
+            <h3 class="tech-heading">Privacy First</h3>
+            <p class="tech-text">All processing happens in your browser. Your medical images are never uploaded to a server.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="about-container">
+      <div class="disclaimer-banner">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10" />
+          <line x1="12" y1="16" x2="12" y2="12" />
+          <line x1="12" y1="8" x2="12.01" y2="8" />
+        </svg>
+        <span class="disclaimer-text">This tool is intended to assist healthcare professionals and should not replace professional medical diagnosis.</span>
+      </div>
+    </div>
+
+    <div class="about-container">
+      <div class="cta-row">
+        <a href="/analyze" class="btn-try">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+          </svg>
+          Try It Now
+        </a>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .about-page {
+    padding: 48px 0 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .about-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .about-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.08;
+  }
+
+  .about-orb.orb-1 {
+    width: 450px;
+    height: 450px;
+    background: var(--color-primary);
+    top: -150px;
+    left: -100px;
+    animation: float-orb 14s ease-in-out infinite;
+  }
+
+  .about-orb.orb-2 {
+    width: 350px;
+    height: 350px;
+    background: #a855f7;
+    bottom: -120px;
+    right: -80px;
+    animation: float-orb 10s ease-in-out infinite reverse;
+  }
+
+  @keyframes float-orb {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -40px) scale(1.1); }
+    66% { transform: translate(-20px, 20px) scale(0.95); }
+  }
+
+  .about-container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .about-hero {
+    margin-bottom: 64px;
+  }
+
+  .about-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-primary);
+    background: rgba(37, 99, 235, 0.08);
+    padding: 6px 14px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  .about-badge .badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-primary);
+  }
+
+  .about-title {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 42px;
+    line-height: 1.15;
+    color: var(--color-text);
+    margin: 0 0 20px;
+    letter-spacing: -0.02em;
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, var(--color-primary), #a855f7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .about-description {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.65;
+    color: var(--color-text-muted);
+    margin: 0;
+    max-width: 640px;
+  }
+
+  .how-section {
+    margin-bottom: 48px;
+  }
+
+  .how-heading {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 1.3;
+    color: var(--color-text);
+    margin: 0 0 36px;
+  }
+
+  .steps-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+  }
+
+  .step-card {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 32px 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    background: var(--color-surface);
+    transition: all 0.25s ease;
+  }
+
+  .step-card:hover {
+    border-color: rgba(37, 99, 235, 0.2);
+    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.08);
+    transform: translateY(-4px);
+  }
+
+  .step-icon-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .step-number {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 14px;
+    color: white;
+    background: var(--color-primary);
+    flex-shrink: 0;
+  }
+
+  .step-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
+    background: rgba(37, 99, 235, 0.08);
+    color: var(--color-primary);
+  }
+
+  .step-heading {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--color-text);
+    margin: 0 0 8px;
+  }
+
+  .step-text {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  .tech-section {
+    margin-bottom: 48px;
+  }
+
+  .tech-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+  }
+
+  .tech-card {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 32px 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    background: var(--color-surface);
+    transition: all 0.25s ease;
+  }
+
+  .tech-card:hover {
+    border-color: rgba(37, 99, 235, 0.2);
+    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.08);
+    transform: translateY(-4px);
+  }
+
+  .tech-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: rgba(37, 99, 235, 0.08);
+    color: var(--color-primary);
+    margin-bottom: 20px;
+  }
+
+  .tech-heading {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--color-text);
+    margin: 0 0 10px;
+  }
+
+  .tech-text {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  .disclaimer-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px 20px;
+    background: var(--color-warning-bg);
+    border: 1px solid var(--color-warning-border);
+    border-radius: var(--radius-md);
+    margin-bottom: 32px;
+    color: var(--color-warning-text);
+  }
+
+  .disclaimer-banner svg {
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .disclaimer-text {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .cta-row {
+    text-align: center;
+  }
+
+  .btn-try {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 16px;
+    color: white;
+    background: linear-gradient(135deg, var(--color-primary), #1d4ed8);
+    padding: 14px 28px;
+    border: none;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+  }
+
+  .btn-try:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+  }
+
+  .btn-try:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 900px) {
+    .about-title {
+      font-size: 34px;
+    }
+
+    .about-description {
+      font-size: 17px;
+    }
+
+    .steps-grid {
+      gap: 16px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .about-page {
+      padding: 40px 0 64px;
+    }
+
+    .about-title {
+      font-size: 30px;
+    }
+
+    .about-description {
+      font-size: 16px;
+    }
+
+    .about-hero {
+      margin-bottom: 48px;
+    }
+
+    .how-heading {
+      font-size: 24px;
+    }
+
+    .steps-grid,
+    .tech-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .step-card,
+    .tech-card {
+      padding: 24px 20px;
+    }
+
+    .disclaimer-banner {
+      margin-bottom: 28px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .about-page {
+      padding: 32px 0 48px;
+    }
+
+    .about-container {
+      padding: 0 20px;
+    }
+
+    .about-title {
+      font-size: 26px;
+    }
+
+    .about-description {
+      font-size: 15px;
+    }
+
+    .how-heading {
+      font-size: 20px;
+      margin-bottom: 28px;
+    }
+
+    .btn-try {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>
