@@ -504,17 +504,23 @@ import Layout from '../layouts/Layout.astro';
 
   @media (max-width: 480px) {
     .hero-container {
-      padding: 32px 20px 0;
-      gap: 32px;
+      padding: 24px 20px 0;
+      gap: 28px;
     }
 
     .hero-title {
-      font-size: 26px;
+      font-size: 24px;
     }
 
     .hero-description {
       font-size: 15px;
-      margin-bottom: 28px;
+      margin-bottom: 24px;
+    }
+
+    .hero-badge {
+      font-size: 12px;
+      padding: 5px 12px;
+      margin-bottom: 16px;
     }
 
     .hero-buttons {
@@ -524,10 +530,12 @@ import Layout from '../layouts/Layout.astro';
     .btn {
       justify-content: center;
       width: 100%;
+      font-size: 15px;
+      padding: 13px 24px;
     }
 
     .features {
-      padding: 0 20px 48px;
+      padding: 0 20px 40px;
     }
 
     .feature-card {
@@ -535,15 +543,20 @@ import Layout from '../layouts/Layout.astro';
     }
 
     .stats {
-      padding: 0 20px 48px;
+      padding: 0 20px 40px;
     }
 
     .stats-container {
       padding: 28px 20px;
+      gap: 20px;
     }
 
     .stat-number {
       font-size: 26px;
+    }
+
+    .stat-label {
+      font-size: 13px;
     }
   }
 </style>
