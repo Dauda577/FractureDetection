@@ -1,7 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
 ---
-
 <Layout title="Account" description="Manage your FractureDetect account and settings" active="account" variant="app">
   <main class="account-page page-enter">
     <div class="acc-bg">
@@ -16,7 +15,7 @@ import Layout from '../layouts/Layout.astro';
       <h1 class="account-title">Your Account</h1>
 
       <div class="account-grid">
-        <div class="card profile-card">
+        <div class="card profile-card" id="profile-guest">
           <div class="profile-avatar">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <circle cx="12" cy="8" r="4" stroke="#64748B" stroke-width="1.6"/>
@@ -27,7 +26,16 @@ import Layout from '../layouts/Layout.astro';
             <p class="profile-name">Guest User</p>
             <p class="profile-email">Not signed in</p>
           </div>
-          <button class="btn-signin">Sign In</button>
+          <a href="/signin" class="btn-signin">Sign In</a>
+        </div>
+
+        <div class="card profile-card" id="profile-signedin" style="display:none">
+          <div class="profile-avatar profile-avatar-user" id="avatar-initial">U</div>
+          <div class="profile-info">
+            <p class="profile-name" id="profile-name"></p>
+            <p class="profile-email" id="profile-email"></p>
+          </div>
+          <button class="btn-signout" id="btn-signout">Sign Out</button>
         </div>
 
         <div class="card settings-card">
@@ -88,19 +96,46 @@ import Layout from '../layouts/Layout.astro';
   </main>
 </Layout>
 
-<script>
-  const sessionCount = document.getElementById('session-count');
-  if (sessionCount) {
-    let count = 0;
-    for (let i = 0; i < sessionStorage.length; i++) {
-      const key = sessionStorage.key(i);
-      if (key && key.startsWith('fracturedetect:')) {
-        if (key === 'fracturedetect:image') count++;
-        if (key === 'fracturedetect:result') count++;
-      }
+<script type="module">
+  import { getUser, logout } from '../scripts/auth.js';
+
+  var guestEl = document.getElementById('profile-guest');
+  var signedinEl = document.getElementById('profile-signedin');
+
+  async function init() {
+    var user = await getUser();
+
+    if (user) {
+      guestEl.style.display = 'none';
+      signedinEl.style.display = 'flex';
+
+      document.getElementById('profile-name').textContent = user.name;
+      document.getElementById('profile-email').textContent = user.email;
+
+      var initial = user.name.charAt(0).toUpperCase();
+      document.getElementById('avatar-initial').textContent = initial;
+
+      document.getElementById('btn-signout').addEventListener('click', async function () {
+        await logout();
+        window.location.reload();
+      });
     }
-    sessionCount.textContent = String(Math.min(count, 1));
+
+    var sessionCount = document.getElementById('session-count');
+    if (sessionCount) {
+      var count = 0;
+      for (var i = 0; i < sessionStorage.length; i++) {
+        var key = sessionStorage.key(i);
+        if (key && key.startsWith('fracturedetect:')) {
+          if (key === 'fracturedetect:image') count++;
+          if (key === 'fracturedetect:result') count++;
+        }
+      }
+      sessionCount.textContent = String(Math.min(count, 1));
+    }
   }
+
+  init();
 </script>
 
 <style>
@@ -243,6 +278,15 @@ import Layout from '../layouts/Layout.astro';
     flex-shrink: 0;
   }
 
+  .profile-avatar-user {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 22px;
+    color: white;
+  }
+
   .profile-info {
     flex: 1;
     min-width: 0;
@@ -278,6 +322,8 @@ import Layout from '../layouts/Layout.astro';
     transition: all 0.2s ease;
     flex-shrink: 0;
     box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+    text-decoration: none;
+    display: inline-block;
   }
 
   .btn-signin:hover {
@@ -287,6 +333,32 @@ import Layout from '../layouts/Layout.astro';
 
   .btn-signin:focus-visible {
     outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  .btn-signout {
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--color-text-muted);
+    background: var(--color-bg-subtle);
+    padding: 10px 20px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .btn-signout:hover {
+    color: var(--color-danger);
+    border-color: var(--color-danger);
+    background: rgba(220, 38, 38, 0.04);
+  }
+
+  .btn-signout:focus-visible {
+    outline: 2px solid var(--color-danger);
     outline-offset: 2px;
   }
 
@@ -395,7 +467,8 @@ import Layout from '../layouts/Layout.astro';
       flex-wrap: wrap;
     }
 
-    .btn-signin {
+    .btn-signin,
+    .btn-signout {
       width: 100%;
       text-align: center;
     }

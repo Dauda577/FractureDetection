@@ -1,6 +1,6 @@
 ---
 export interface Props {
-  active: 'home' | 'analyze' | 'about' | 'account';
+  active: 'home' | 'analyze' | 'about' | 'account' | 'signin' | 'signup';
   variant: 'marketing' | 'app';
 }
 
@@ -37,7 +37,8 @@ const links = [
     </div>
 
     <div class="nav-actions">
-      <a href="/account" class="avatar" aria-label="Account">
+      <a href="/signin" class="nav-signin">Sign In</a>
+      <a href="/account" class="avatar" aria-label="Account" style="display:none">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="12" cy="8" r="4" stroke="#64748B" stroke-width="1.6"/>
           <path d="M4 20c1.6-3.6 4.8-5.5 8-5.5s6.4 1.9 8 5.5" stroke="#64748B" stroke-width="1.6" stroke-linecap="round"/>
@@ -54,9 +55,26 @@ const links = [
   </nav>
 </header>
 
-<script>
+<script type="module">
+  import { supabase } from '../lib/supabase.js'
+
   const hamburger = document.getElementById('btn-hamburger');
   const navLinks = document.getElementById('nav-links');
+  const signInLink = document.querySelector('.nav-signin');
+  const avatarLink = document.querySelector('.avatar');
+
+  async function updateNav() {
+    const { data } = await supabase.auth.getSession();
+    if (data.session) {
+      if (signInLink) signInLink.style.display = 'none';
+      if (avatarLink) avatarLink.style.display = 'flex';
+    } else {
+      if (signInLink) signInLink.style.display = '';
+      if (avatarLink) avatarLink.style.display = 'none';
+    }
+  }
+
+  updateNav();
 
   function setMenu(open) {
     if (!navLinks || !hamburger) return;
@@ -211,6 +229,27 @@ const links = [
   .avatar:hover {
     background: #F1F5F9;
     border-color: #CBD5E1;
+  }
+
+  .nav-signin {
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--color-primary);
+    text-decoration: none;
+    padding: 7px 14px;
+    border-radius: var(--radius-md);
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+
+  .nav-signin:hover {
+    background: rgba(37, 99, 235, 0.06);
+  }
+
+  .nav-signin:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
   }
 
   .avatar:focus-visible {
