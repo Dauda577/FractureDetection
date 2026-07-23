@@ -326,6 +326,12 @@ import Layout from '../layouts/Layout.astro';
     z-index: 1;
   }
 
+  @media (prefers-reduced-motion: no-preference) {
+    .video-border {
+      animation: rotate-border 4s linear infinite;
+    }
+  }
+
   /* ── Features ── */
   .features {
     padding: 0 24px 80px;

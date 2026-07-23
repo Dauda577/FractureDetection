@@ -150,7 +150,6 @@ export function initParticles(canvasId, opts) {
     count: isMobile ? 20 : 40,
     color: '37, 99, 235',
     maxSpeed: isMobile ? 0.2 : 0.4,
-    connectDist: isMobile ? 0 : 140,
     radius: isMobile ? 1.2 : 1.8
   }, opts);
 
@@ -159,7 +158,6 @@ export function initParticles(canvasId, opts) {
   var ctx = canvas.getContext('2d');
   var particles = [];
   var w, h;
-  var frameCount = 0;
 
   function resize() {
     w = canvas.width = canvas.offsetWidth;
@@ -183,7 +181,6 @@ export function initParticles(canvasId, opts) {
   }
 
   function draw() {
-    frameCount++;
     ctx.clearRect(0, 0, w, h);
     for (var i = 0; i < particles.length; i++) {
       var p = particles[i];
@@ -196,24 +193,6 @@ export function initParticles(canvasId, opts) {
       ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
       ctx.fillStyle = 'rgba(' + config.color + ', 0.35)';
       ctx.fill();
-    }
-
-    if (config.connectDist > 0 && (frameCount % 2 === 0)) {
-      for (var i = 0; i < particles.length; i++) {
-        for (var j = i + 1; j < particles.length; j++) {
-          var a = particles[i], b = particles[j];
-          var dx = a.x - b.x, dy = a.y - b.y;
-          var dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < config.connectDist) {
-            ctx.beginPath();
-            ctx.moveTo(a.x, a.y);
-            ctx.lineTo(b.x, b.y);
-            ctx.strokeStyle = 'rgba(' + config.color + ', ' + (1 - dist / config.connectDist) * 0.15 + ')';
-            ctx.lineWidth = 0.6;
-            ctx.stroke();
-          }
-        }
-      }
     }
     requestAnimationFrame(draw);
   }

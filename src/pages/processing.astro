@@ -138,12 +138,8 @@ import Layout from '../layouts/Layout.astro';
       var currentPhase = -1;
       var lastValue = -1;
 
-      function easeOut(t) {
-        return 1 - Math.pow(1 - t, 3);
-      }
-
-      function frame(now) {
-        var elapsed = now - startTime;
+      function tick() {
+        var elapsed = performance.now() - startTime;
         var t = Math.min(elapsed / DURATION, 1);
         var value = Math.round(easeOut(t) * TARGET);
 
@@ -180,9 +176,8 @@ import Layout from '../layouts/Layout.astro';
           if (detailHeatmap) detailHeatmap.classList.add('active');
         }
 
-        if (t < 1) {
-          requestAnimationFrame(frame);
-        } else {
+        if (t >= 1) {
+          clearInterval(timer);
           if (scanStatus) {
             scanStatus.innerHTML = '<span class="scan-dot dot-done"></span><span>Scan complete</span>';
           }
@@ -190,7 +185,11 @@ import Layout from '../layouts/Layout.astro';
         }
       }
 
-      requestAnimationFrame(frame);
+      var timer = setInterval(tick, 60);
+    }
+
+    function easeOut(t) {
+      return 1 - Math.pow(1 - t, 3);
     }
 
     function generateMockResult() {
