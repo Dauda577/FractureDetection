@@ -561,6 +561,7 @@ import Layout from '../layouts/Layout.astro';
     padding: 16px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     background: var(--color-surface);
+    min-width: 0;
   }
 
   .image-card-header {
@@ -587,6 +588,7 @@ import Layout from '../layouts/Layout.astro';
     border-radius: var(--radius-md);
     aspect-ratio: 4 / 3;
     overflow: hidden;
+    max-width: 100%;
   }
 
   .image-container img {
@@ -667,6 +669,7 @@ import Layout from '../layouts/Layout.astro';
     display: flex;
     flex-direction: column;
     gap: 16px;
+    min-width: 0;
   }
 
   .prediction-card {
@@ -954,8 +957,20 @@ import Layout from '../layouts/Layout.astro';
       padding: 0 20px;
     }
 
+    .image-card {
+      padding: 12px;
+    }
+
     .prediction-card {
       padding: 20px;
+    }
+
+    .findings-card {
+      padding: 16px;
+    }
+
+    .metrics-card {
+      padding: 16px;
     }
 
     .prediction-text {

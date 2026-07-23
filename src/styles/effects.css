@@ -137,3 +137,6 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* ── GPU Hint ── */
+.fd-tilt, .fd-magnetic, [class*="orb"] { will-change: transform; }

@@ -136,6 +136,7 @@ import Layout from '../layouts/Layout.astro';
         { at: 90, text: 'Finalizing results&hellip;', dot: false }
       ];
       var currentPhase = -1;
+      var lastValue = -1;
 
       function easeOut(t) {
         return 1 - Math.pow(1 - t, 3);
@@ -146,15 +147,18 @@ import Layout from '../layouts/Layout.astro';
         var t = Math.min(elapsed / DURATION, 1);
         var value = Math.round(easeOut(t) * TARGET);
 
-        if (fillEl && labelEl && barEl) {
-          fillEl.style.width = value + '%';
-          labelEl.textContent = value + '%';
-          barEl.setAttribute('aria-valuenow', value);
+        if (value !== lastValue) {
+          lastValue = value;
+          if (fillEl && labelEl && barEl) {
+            fillEl.style.width = value + '%';
+            labelEl.textContent = value + '%';
+            barEl.setAttribute('aria-valuenow', value);
+          }
         }
 
         if (scanLine) {
           var scanT = (Math.sin(elapsed / 1200) + 1) / 2;
-          scanLine.style.top = (scanT * 100) + '%';
+          scanLine.style.transform = 'translateY(' + (scanT * 100) + '%)';
         }
 
         for (var p = phases.length - 1; p >= 0; p--) {
@@ -350,6 +354,7 @@ import Layout from '../layouts/Layout.astro';
     top: 0;
     z-index: 2;
     pointer-events: none;
+    will-change: transform;
   }
 
   .scan-ring {

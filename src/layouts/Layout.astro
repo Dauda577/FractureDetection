@@ -45,14 +45,24 @@ const { title, description, active, variant = 'marketing' } = Astro.props;
 <script>
   import { initTilt, initFloating, initReveal, initCounters, initMagnetic, initCursorGlow, initParticles, initRipples } from '../scripts/effects.js';
   document.addEventListener('DOMContentLoaded', function () {
-    initTilt('.fd-tilt');
-    initFloating('.fd-float, .fd-float-lg, .fd-orb-drift');
     initReveal();
     initCounters();
-    initMagnetic('.fd-magnetic');
-    initCursorGlow();
     initRipples('[data-ripple]');
-    if (document.getElementById('fd-particles')) initParticles('fd-particles');
+    requestAnimationFrame(function () {
+      initTilt('.fd-tilt');
+      initFloating('.fd-float, .fd-float-lg, .fd-orb-drift');
+      initMagnetic('.fd-magnetic');
+    });
+    if (matchMedia('(pointer: fine)').matches) {
+      requestAnimationFrame(function () {
+        initCursorGlow();
+      });
+    }
+    if (document.getElementById('fd-particles')) {
+      requestAnimationFrame(function () {
+        initParticles('fd-particles');
+      });
+    }
   });
 
   window.showToast = function (opts) {
@@ -85,6 +95,11 @@ const { title, description, active, variant = 'marketing' } = Astro.props;
     box-sizing: border-box;
   }
 
+  img {
+    max-width: 100%;
+    display: block;
+  }
+
   body {
     margin: 0;
     font-family: var(--font-body);
@@ -92,6 +107,7 @@ const { title, description, active, variant = 'marketing' } = Astro.props;
     background: var(--color-surface);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
   }
 
   #fd-particles {
@@ -180,6 +196,10 @@ const { title, description, active, variant = 'marketing' } = Astro.props;
 
     #fd-particles {
       display: none;
+    }
+
+    [class*="orb"], [class*="orb-"] {
+      filter: blur(40px) !important;
     }
   }
 </style>

@@ -1,17 +1,22 @@
 /* ── 3D Tilt ── */
 export function initTilt(selector, opts) {
+  if (matchMedia('(pointer: coarse)').matches) return;
   var config = Object.assign({ max: 12, scale: 1.03, perspective: 600 }, opts);
   var els = document.querySelectorAll(selector);
+  var raf = null;
   els.forEach(function (el) {
     el.addEventListener('mousemove', function (e) {
-      var rect = el.getBoundingClientRect();
-      var x = e.clientX - rect.left;
-      var y = e.clientY - rect.top;
-      var cx = rect.width / 2;
-      var cy = rect.height / 2;
-      var rotX = ((y - cy) / cy) * -config.max;
-      var rotY = ((x - cx) / cx) * config.max;
-      el.style.transform = 'perspective(' + config.perspective + 'px) rotateX(' + rotX + 'deg) rotateY(' + rotY + 'deg) scale' + (config.scale !== 1 ? '(' + config.scale + ')' : '');
+      if (raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(function () {
+        var rect = el.getBoundingClientRect();
+        var x = e.clientX - rect.left;
+        var y = e.clientY - rect.top;
+        var cx = rect.width / 2;
+        var cy = rect.height / 2;
+        var rotX = ((y - cy) / cy) * -config.max;
+        var rotY = ((x - cx) / cx) * config.max;
+        el.style.transform = 'perspective(' + config.perspective + 'px) rotateX(' + rotX + 'deg) rotateY(' + rotY + 'deg) scale' + (config.scale !== 1 ? '(' + config.scale + ')' : '');
+      });
     });
     el.addEventListener('mouseleave', function () {
       el.style.transform = '';
@@ -93,13 +98,18 @@ function formatNumber(n) {
 
 /* ── Magnetic Buttons ── */
 export function initMagnetic(selector) {
+  if (matchMedia('(pointer: coarse)').matches) return;
   var els = document.querySelectorAll(selector);
+  var raf = null;
   els.forEach(function (el) {
     el.addEventListener('mousemove', function (e) {
-      var rect = el.getBoundingClientRect();
-      var x = e.clientX - rect.left - rect.width / 2;
-      var y = e.clientY - rect.top - rect.height / 2;
-      el.style.transform = 'translate(' + x * 0.3 + 'px, ' + y * 0.3 + 'px)';
+      if (raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(function () {
+        var rect = el.getBoundingClientRect();
+        var x = e.clientX - rect.left - rect.width / 2;
+        var y = e.clientY - rect.top - rect.height / 2;
+        el.style.transform = 'translate(' + x * 0.3 + 'px, ' + y * 0.3 + 'px)';
+      });
     });
     el.addEventListener('mouseleave', function () {
       el.style.transform = '';
@@ -114,11 +124,15 @@ export function initCursorGlow() {
   el.id = 'fd-cursor-glow';
   document.body.appendChild(el);
   var raf = null;
+  var ticking = false;
   document.addEventListener('mousemove', function (e) {
-    if (raf) cancelAnimationFrame(raf);
-    raf = requestAnimationFrame(function () {
-      el.style.transform = 'translate(' + (e.clientX) + 'px, ' + (e.clientY) + 'px) translate(-50%, -50%)';
-    });
+    if (!ticking) {
+      ticking = true;
+      raf = requestAnimationFrame(function () {
+        el.style.transform = 'translate(' + (e.clientX) + 'px, ' + (e.clientY) + 'px) translate(-50%, -50%)';
+        ticking = false;
+      });
+    }
   });
   document.addEventListener('mouseleave', function () {
     el.style.opacity = '0';
@@ -131,12 +145,13 @@ export function initCursorGlow() {
 /* ── Particle Background ── */
 export function initParticles(canvasId, opts) {
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var isMobile = matchMedia('(max-width: 768px)').matches;
   var config = Object.assign({
-    count: 60,
+    count: isMobile ? 20 : 40,
     color: '37, 99, 235',
-    maxSpeed: 0.4,
-    connectDist: 140,
-    radius: 1.8
+    maxSpeed: isMobile ? 0.2 : 0.4,
+    connectDist: isMobile ? 0 : 140,
+    radius: isMobile ? 1.2 : 1.8
   }, opts);
 
   var canvas = document.getElementById(canvasId);
@@ -144,6 +159,7 @@ export function initParticles(canvasId, opts) {
   var ctx = canvas.getContext('2d');
   var particles = [];
   var w, h;
+  var frameCount = 0;
 
   function resize() {
     w = canvas.width = canvas.offsetWidth;
@@ -167,8 +183,10 @@ export function initParticles(canvasId, opts) {
   }
 
   function draw() {
+    frameCount++;
     ctx.clearRect(0, 0, w, h);
-    particles.forEach(function (p) {
+    for (var i = 0; i < particles.length; i++) {
+      var p = particles[i];
       p.x += p.vx;
       p.y += p.vy;
       if (p.x < 0 || p.x > w) p.vx *= -1;
@@ -178,20 +196,22 @@ export function initParticles(canvasId, opts) {
       ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
       ctx.fillStyle = 'rgba(' + config.color + ', 0.35)';
       ctx.fill();
-    });
+    }
 
-    for (var i = 0; i < particles.length; i++) {
-      for (var j = i + 1; j < particles.length; j++) {
-        var a = particles[i], b = particles[j];
-        var dx = a.x - b.x, dy = a.y - b.y;
-        var dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < config.connectDist) {
-          ctx.beginPath();
-          ctx.moveTo(a.x, a.y);
-          ctx.lineTo(b.x, b.y);
-          ctx.strokeStyle = 'rgba(' + config.color + ', ' + (1 - dist / config.connectDist) * 0.15 + ')';
-          ctx.lineWidth = 0.6;
-          ctx.stroke();
+    if (config.connectDist > 0 && (frameCount % 2 === 0)) {
+      for (var i = 0; i < particles.length; i++) {
+        for (var j = i + 1; j < particles.length; j++) {
+          var a = particles[i], b = particles[j];
+          var dx = a.x - b.x, dy = a.y - b.y;
+          var dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < config.connectDist) {
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.strokeStyle = 'rgba(' + config.color + ', ' + (1 - dist / config.connectDist) * 0.15 + ')';
+            ctx.lineWidth = 0.6;
+            ctx.stroke();
+          }
         }
       }
     }
