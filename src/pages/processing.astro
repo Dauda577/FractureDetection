@@ -5,8 +5,8 @@ import Layout from '../layouts/Layout.astro';
 <Layout title="Processing" description="Analyzing X-ray image with AI fracture detection model" active="analyze" variant="app">
   <main class="processing-page page-enter">
     <div class="proc-bg">
-      <div class="proc-orb orb-1"></div>
-      <div class="proc-orb orb-2"></div>
+      <div class="proc-orb orb-1 fd-orb-drift" style="--float-duration:20s"></div>
+      <div class="proc-orb orb-2 fd-orb-drift" style="--float-duration:16s;--float-delay:-5s"></div>
     </div>
     <div class="processing-container">
       <div class="proc-badge">
@@ -14,8 +14,29 @@ import Layout from '../layouts/Layout.astro';
         Analyzing
       </div>
 
-      <div class="spinner-ring" aria-hidden="true">
-        <div class="spinner-ring-inner"></div>
+      <div class="scanner-wrap">
+        <div class="scanner-viewbox" id="scanner-viewbox">
+          <svg class="scanner-bone" viewBox="0 0 200 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M100 30 C80 30 55 45 40 70 C25 95 20 120 25 140 C30 160 40 175 55 185 C70 195 85 200 100 200 C115 200 130 195 145 185 C160 175 170 160 175 140 C180 120 175 95 160 70 C145 45 120 30 100 30Z" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+            <path d="M100 60 C88 60 78 68 72 82 C66 96 64 112 66 125 C68 138 74 148 82 154 C90 160 95 162 100 162 C105 162 110 160 118 154 C126 148 132 138 134 125 C136 112 134 96 128 82 C122 68 112 60 100 60Z" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+            <line x1="50" y1="100" x2="70" y2="100" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+            <line x1="130" y1="100" x2="150" y2="100" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+            <line x1="45" y1="130" x2="65" y2="130" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+            <line x1="135" y1="130" x2="155" y2="130" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+          </svg>
+          <div class="scan-line" id="scan-line"></div>
+          <div class="scan-ring scan-ring-1"></div>
+          <div class="scan-ring scan-ring-2"></div>
+          <div class="scan-ring scan-ring-3"></div>
+          <div class="corner-bracket corner-tl"></div>
+          <div class="corner-bracket corner-tr"></div>
+          <div class="corner-bracket corner-bl"></div>
+          <div class="corner-bracket corner-br"></div>
+        </div>
+        <div class="scan-status" id="scan-status">
+          <span class="scan-dot"></span>
+          <span>Initializing scan&hellip;</span>
+        </div>
       </div>
 
       <div aria-live="polite">
@@ -92,17 +113,29 @@ import Layout from '../layouts/Layout.astro';
     }
 
     function simulateProgress(callback) {
-      var DURATION = 2500;
-      var TARGET = 95;
+      var DURATION = 3500;
+      var TARGET = 98;
       var fillEl = document.getElementById('progress-fill');
       var labelEl = document.getElementById('progress-label');
       var barEl = document.getElementById('progress-track');
+      var scanLine = document.getElementById('scan-line');
+      var scanStatus = document.getElementById('scan-status');
       var startTime = performance.now();
 
       var step2El = document.getElementById('step-2');
       var step3El = document.getElementById('step-3');
       var detailModel = document.getElementById('detail-model');
       var detailHeatmap = document.getElementById('detail-heatmap');
+
+      var phases = [
+        { at: 0, text: 'Preprocessing image&hellip;', dot: true },
+        { at: 15, text: 'Running detection model&hellip;', dot: true },
+        { at: 35, text: 'Analyzing bone structures&hellip;', dot: true },
+        { at: 55, text: 'Generating heatmap&hellip;', dot: true },
+        { at: 75, text: 'Calculating confidence score&hellip;', dot: true },
+        { at: 90, text: 'Finalizing results&hellip;', dot: false }
+      ];
+      var currentPhase = -1;
 
       function easeOut(t) {
         return 1 - Math.pow(1 - t, 3);
@@ -119,11 +152,26 @@ import Layout from '../layouts/Layout.astro';
           barEl.setAttribute('aria-valuenow', value);
         }
 
-        if (value >= 20 && step2El && !step2El.classList.contains('active')) {
+        if (scanLine) {
+          var scanT = (Math.sin(elapsed / 1200) + 1) / 2;
+          scanLine.style.top = (scanT * 100) + '%';
+        }
+
+        for (var p = phases.length - 1; p >= 0; p--) {
+          if (value >= phases[p].at && p > currentPhase) {
+            currentPhase = p;
+            if (scanStatus) {
+              scanStatus.innerHTML = '<span class="scan-dot' + (phases[p].dot ? ' dot-active' : '') + '"></span><span>' + phases[p].text + '</span>';
+            }
+            break;
+          }
+        }
+
+        if (value >= 15 && step2El && !step2El.classList.contains('active')) {
           step2El.classList.add('active');
           if (detailModel) detailModel.classList.add('active');
         }
-        if (value >= 50 && step3El && !step3El.classList.contains('active')) {
+        if (value >= 45 && step3El && !step3El.classList.contains('active')) {
           step3El.classList.add('active');
           if (detailHeatmap) detailHeatmap.classList.add('active');
         }
@@ -131,7 +179,10 @@ import Layout from '../layouts/Layout.astro';
         if (t < 1) {
           requestAnimationFrame(frame);
         } else {
-          setTimeout(callback, 500);
+          if (scanStatus) {
+            scanStatus.innerHTML = '<span class="scan-dot dot-done"></span><span>Scan complete</span>';
+          }
+          setTimeout(callback, 400);
         }
       }
 
@@ -190,7 +241,6 @@ import Layout from '../layouts/Layout.astro';
     background: var(--color-primary);
     top: -120px;
     right: -80px;
-    animation: float-orb 12s ease-in-out infinite;
   }
 
   .proc-orb.orb-2 {
@@ -199,13 +249,6 @@ import Layout from '../layouts/Layout.astro';
     background: #a855f7;
     bottom: -100px;
     left: -60px;
-    animation: float-orb 10s ease-in-out infinite reverse;
-  }
-
-  @keyframes float-orb {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    33% { transform: translate(30px, -40px) scale(1.1); }
-    66% { transform: translate(-20px, 20px) scale(0.95); }
   }
 
   .processing-container {
@@ -248,41 +291,7 @@ import Layout from '../layouts/Layout.astro';
     50% { opacity: 0.3; }
   }
 
-  .spinner-ring {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(37, 99, 235, 0.06);
-    margin-bottom: 28px;
-    flex-shrink: 0;
-  }
 
-  .spinner-ring-inner {
-    width: 40px;
-    height: 40px;
-    border: 4px solid var(--color-border);
-    border-top-color: var(--color-primary);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-  }
-
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
-
-  @keyframes pulse-alt {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.35; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .spinner-ring-inner {
-      animation: pulse-alt 2s ease-in-out infinite;
-    }
-  }
 
   .processing-title {
     font-family: var(--font-heading);
@@ -301,6 +310,120 @@ import Layout from '../layouts/Layout.astro';
     color: var(--color-text-muted);
     margin: 0 0 36px;
     max-width: 400px;
+  }
+
+  .scanner-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 28px;
+  }
+
+  .scanner-viewbox {
+    position: relative;
+    width: 180px;
+    height: 220px;
+    background: #0B1121;
+    border-radius: 14px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.06), 0 8px 32px rgba(0,0,0,0.3);
+  }
+
+  .scanner-bone {
+    width: 120px;
+    height: auto;
+    opacity: 0.6;
+    z-index: 1;
+  }
+
+  .scan-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.8), rgba(56, 189, 248, 1), rgba(56, 189, 248, 0.8), transparent);
+    box-shadow: 0 0 12px rgba(56, 189, 248, 0.5), 0 0 30px rgba(56, 189, 248, 0.2);
+    top: 0;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .scan-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(56, 189, 248, 0.12);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .scan-ring-1 {
+    width: 140px;
+    height: 140px;
+    animation: scan-ring-expand 3s ease-out infinite;
+  }
+
+  .scan-ring-2 {
+    width: 100px;
+    height: 100px;
+    animation: scan-ring-expand 3s ease-out 0.6s infinite;
+  }
+
+  .scan-ring-3 {
+    width: 60px;
+    height: 60px;
+    animation: scan-ring-expand 3s ease-out 1.2s infinite;
+  }
+
+  @keyframes scan-ring-expand {
+    0% { transform: scale(0.6); opacity: 0.6; }
+    100% { transform: scale(1.8); opacity: 0; }
+  }
+
+  .corner-bracket {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border-color: rgba(56, 189, 248, 0.35);
+    border-style: solid;
+    z-index: 3;
+  }
+
+  .corner-tl { top: 8px; left: 8px; border-width: 2px 0 0 2px; border-radius: 3px 0 0 0; }
+  .corner-tr { top: 8px; right: 8px; border-width: 2px 2px 0 0; border-radius: 0 3px 0 0; }
+  .corner-bl { bottom: 8px; left: 8px; border-width: 0 0 2px 2px; border-radius: 0 0 0 3px; }
+  .corner-br { bottom: 8px; right: 8px; border-width: 0 2px 2px 0; border-radius: 0 0 3px 0; }
+
+  .scan-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: var(--color-text-muted);
+    font-weight: 500;
+  }
+
+  .scan-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #64748B;
+    flex-shrink: 0;
+  }
+
+  .scan-dot.dot-active {
+    background: #38BDF8;
+    box-shadow: 0 0 6px rgba(56, 189, 248, 0.5);
+    animation: pulse-dot 0.8s ease-in-out infinite;
+  }
+
+  .scan-dot.dot-done {
+    background: #16A34A;
+    box-shadow: 0 0 6px rgba(22, 163, 74, 0.4);
   }
 
   .steps-track {
@@ -482,16 +605,13 @@ import Layout from '../layouts/Layout.astro';
       margin-bottom: 28px;
     }
 
-    .spinner-ring {
-      width: 56px;
-      height: 56px;
-      margin-bottom: 24px;
+    .scanner-viewbox {
+      width: 150px;
+      height: 180px;
     }
 
-    .spinner-ring-inner {
-      width: 34px;
-      height: 34px;
-      border-width: 3px;
+    .scanner-bone {
+      width: 90px;
     }
 
     .steps-track {

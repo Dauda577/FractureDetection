@@ -4,8 +4,8 @@ import Layout from '../layouts/Layout.astro';
 <Layout title="Account" description="Manage your FractureDetect account and settings" active="account" variant="app">
   <main class="account-page page-enter">
     <div class="acc-bg">
-      <div class="acc-orb orb-1"></div>
-      <div class="acc-orb orb-2"></div>
+      <div class="acc-orb orb-1 fd-orb-drift" style="--float-duration:20s"></div>
+      <div class="acc-orb orb-2 fd-orb-drift" style="--float-duration:16s;--float-delay:-5s"></div>
     </div>
     <div class="account-container">
       <div class="acc-badge">
@@ -26,16 +26,19 @@ import Layout from '../layouts/Layout.astro';
             <p class="profile-name">Guest User</p>
             <p class="profile-email">Not signed in</p>
           </div>
-          <a href="/signin" class="btn-signin">Sign In</a>
+          <a href="/signin" class="btn-signin fd-magnetic" data-ripple>Sign In</a>
         </div>
 
         <div class="card profile-card" id="profile-signedin" style="display:none">
-          <div class="profile-avatar profile-avatar-user" id="avatar-initial">U</div>
+          <div class="profile-avatar profile-avatar-user" id="avatar-container">
+            <span id="avatar-initial">U</span>
+            <img id="avatar-img" class="avatar-img hidden" alt="" />
+          </div>
           <div class="profile-info">
             <p class="profile-name" id="profile-name"></p>
             <p class="profile-email" id="profile-email"></p>
           </div>
-          <button class="btn-signout" id="btn-signout">Sign Out</button>
+          <button class="btn-signout fd-magnetic" id="btn-signout" data-ripple>Sign Out</button>
         </div>
 
         <div class="card settings-card">
@@ -68,6 +71,13 @@ import Layout from '../layouts/Layout.astro';
               </div>
               <span class="setting-badge status-on">On</span>
             </div>
+            <div class="setting-row setting-row-danger">
+              <div class="setting-info">
+                <p class="setting-label setting-label-danger">Delete Account</p>
+                <p class="setting-desc">Permanently remove your account and all data</p>
+              </div>
+              <button class="btn-delete-account" id="btn-delete-account" data-ripple>Delete</button>
+            </div>
           </div>
         </div>
 
@@ -91,16 +101,118 @@ import Layout from '../layouts/Layout.astro';
             </div>
           </div>
         </div>
+
+        <div class="history-card" id="history-card" style="display:none">
+          <div class="history-card-header">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
+            </svg>
+            <span>Analysis History</span>
+            <span class="history-card-count" id="history-count"></span>
+            <button class="history-export-all hidden" id="btn-export-all" title="Export all visible reports">Export All</button>
+          </div>
+          <div class="history-filters" id="history-filters">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="fracture">Fracture</button>
+            <button class="filter-btn" data-filter="normal">Normal</button>
+          </div>
+          <div id="history-list">
+            <div class="history-skeleton">
+              <div class="skeleton skeleton-mini"></div>
+              <div class="skeleton skeleton-mini"></div>
+              <div class="skeleton skeleton-mini"></div>
+              <div class="skeleton skeleton-mini"></div>
+            </div>
+          </div>
+          <div id="history-empty" style="display:none">
+            <div class="history-empty-wrap">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" class="history-empty-icon">
+                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                <path d="M2 17l10 5 10-5"/>
+                <path d="M2 12l10 5 10-5"/>
+              </svg>
+              <p class="history-empty-title">No analyses yet</p>
+              <p class="history-empty-text">Upload an X-ray image to get your first analysis.</p>
+              <a href="/analyze" class="history-empty-btn">Analyze an X-ray</a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </main>
+
+  <div class="confirm-overlay hidden" id="confirm-overlay">
+    <div class="confirm-modal">
+      <div class="confirm-icon-wrap" id="confirm-icon-wrap">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/>
+          <line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+      </div>
+      <p class="confirm-title" id="confirm-title"></p>
+      <p class="confirm-msg" id="confirm-msg"></p>
+      <div class="confirm-actions">
+        <button class="confirm-cancel" id="confirm-cancel">Cancel</button>
+        <button class="confirm-ok" id="confirm-ok"></button>
+      </div>
+    </div>
+  </div>
 </Layout>
 
 <script type="module">
   import { getUser, logout } from '../scripts/auth.js';
+  import { getAnalyses, deleteAnalysis } from '../scripts/api.js';
 
   var guestEl = document.getElementById('profile-guest');
   var signedinEl = document.getElementById('profile-signedin');
+  var confirmOverlay = document.getElementById('confirm-overlay');
+  var confirmTitle = document.getElementById('confirm-title');
+  var confirmMsg = document.getElementById('confirm-msg');
+  var confirmOk = document.getElementById('confirm-ok');
+  var confirmCancel = document.getElementById('confirm-cancel');
+  var confirmIconWrap = document.getElementById('confirm-icon-wrap');
+
+  var confirmResolve = null;
+
+  function showConfirm(opts) {
+    confirmTitle.textContent = opts.title || 'Are you sure?';
+    confirmMsg.textContent = opts.message || '';
+    confirmOk.textContent = opts.okText || 'Confirm';
+    confirmOk.className = 'confirm-ok' + (opts.danger ? ' confirm-danger' : '');
+    if (confirmIconWrap) {
+      confirmIconWrap.style.display = opts.icon !== false ? 'flex' : 'none';
+    }
+    confirmOverlay.classList.remove('hidden');
+    return new Promise(function (resolve) {
+      confirmResolve = resolve;
+    });
+  }
+
+  confirmOk.addEventListener('click', function () {
+    confirmOverlay.classList.add('hidden');
+    if (confirmResolve) confirmResolve(true);
+  });
+
+  confirmCancel.addEventListener('click', function () {
+    confirmOverlay.classList.add('hidden');
+    if (confirmResolve) confirmResolve(false);
+  });
+
+  confirmOverlay.addEventListener('click', function (e) {
+    if (e.target === confirmOverlay) {
+      confirmOverlay.classList.add('hidden');
+      if (confirmResolve) confirmResolve(false);
+    }
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !confirmOverlay.classList.contains('hidden')) {
+      confirmOverlay.classList.add('hidden');
+      if (confirmResolve) confirmResolve(false);
+    }
+  });
 
   async function init() {
     var user = await getUser();
@@ -112,13 +224,50 @@ import Layout from '../layouts/Layout.astro';
       document.getElementById('profile-name').textContent = user.name;
       document.getElementById('profile-email').textContent = user.email;
 
-      var initial = user.name.charAt(0).toUpperCase();
-      document.getElementById('avatar-initial').textContent = initial;
+      var avatarImg = document.getElementById('avatar-img');
+      var avatarInitial = document.getElementById('avatar-initial');
+      if (user.avatarUrl && avatarImg) {
+        avatarImg.src = user.avatarUrl;
+        avatarImg.classList.remove('hidden');
+        avatarInitial.style.display = 'none';
+      } else {
+        avatarInitial.textContent = user.name.charAt(0).toUpperCase();
+        avatarInitial.style.display = '';
+      }
 
       document.getElementById('btn-signout').addEventListener('click', async function () {
+        var ok = await showConfirm({ title: 'Sign out?', message: 'You will need to sign in again to access your history.', okText: 'Sign Out', danger: false });
+        if (!ok) return;
         await logout();
         window.location.reload();
       });
+
+      var deleteBtn = document.getElementById('btn-delete-account');
+      if (deleteBtn) {
+        deleteBtn.addEventListener('click', async function () {
+          var ok = await showConfirm({ title: 'Delete account?', message: 'This will permanently delete your account, all analysis history, and uploaded images. This action cannot be undone.', okText: 'Delete Account', danger: true });
+          if (!ok) return;
+
+          var ok2 = await showConfirm({ title: 'Are you absolutely sure?', message: 'All your data will be lost forever. There is no recovery.', okText: 'Yes, Delete Everything', danger: true });
+          if (!ok2) return;
+
+          var { supabase } = await import('../lib/supabase.js');
+          var { data: { session } } = await supabase.auth.getSession();
+          if (!session) return;
+
+          var res = await fetch('https://nuagqljcnfhpxtgvbmnb.supabase.co/functions/v1/delete-account', {
+            method: 'POST',
+            headers: { 'Authorization': 'Bearer ' + session.access_token }
+          });
+
+          if (res.ok) {
+            await logout();
+            window.location.href = '/';
+          }
+        });
+      }
+
+      loadHistory();
     }
 
     var sessionCount = document.getElementById('session-count');
@@ -133,6 +282,274 @@ import Layout from '../layouts/Layout.astro';
       }
       sessionCount.textContent = String(Math.min(count, 1));
     }
+  }
+
+  var filterMode = 'all';
+
+  async function loadHistory() {
+    var analyses = await getAnalyses();
+    var card = document.getElementById('history-card');
+    var list = document.getElementById('history-list');
+    var empty = document.getElementById('history-empty');
+    var countEl = document.getElementById('history-count');
+    var exportAllBtn = document.getElementById('btn-export-all');
+    var filtersEl = document.getElementById('history-filters');
+
+    if (!analyses.length) {
+      list.innerHTML = '';
+      card.style.display = 'block';
+      empty.style.display = 'block';
+      if (countEl) countEl.textContent = '';
+      if (exportAllBtn) exportAllBtn.classList.add('hidden');
+      if (filtersEl) filtersEl.style.display = 'none';
+      return;
+    }
+
+    card.style.display = 'block';
+    empty.style.display = 'none';
+    if (filtersEl) filtersEl.style.display = '';
+    if (exportAllBtn) exportAllBtn.classList.remove('hidden');
+
+    window._exportData = analyses;
+
+    list.innerHTML = analyses.map(function (a, i) {
+      var isFracture = a.prediction === 'fracture';
+      return '<div class="history-card-mini' + (isFracture ? '' : ' is-normal') + '" data-idx="' + i + '">' +
+        '<div class="mini-icon ' + (isFracture ? 'mini-icon-danger' : 'mini-icon-safe') + '">' +
+          (isFracture
+            ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>'
+            : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'
+          ) +
+        '</div>' +
+        '<span class="mini-label ' + (isFracture ? 'label-danger' : 'label-safe') + '">' + (isFracture ? 'Fracture' : 'Normal') + '</span>' +
+        '<div class="mini-actions">' +
+        '<button class="mini-export" data-export="' + i + '" title="Export report">' +
+          '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+            '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>' +
+            '<polyline points="7 10 12 15 17 10"/>' +
+            '<line x1="12" y1="15" x2="12" y2="3"/>' +
+          '</svg>' +
+        '</button>' +
+        '<button class="mini-delete" data-delete="' + i + '" title="Delete analysis">' +
+          '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+            '<polyline points="3 6 5 6 21 6"/>' +
+            '<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>' +
+          '</svg>' +
+        '</button>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+
+    applyFilter(filterMode);
+    updateCount();
+
+    list.querySelectorAll('.mini-export').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        exportHistoryItem(parseInt(this.getAttribute('data-export')));
+      });
+    });
+
+    list.querySelectorAll('.mini-delete').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        deleteHistoryItem(parseInt(this.getAttribute('data-delete')));
+      });
+    });
+  }
+
+  function applyFilter(mode) {
+    filterMode = mode;
+    document.querySelectorAll('.filter-btn').forEach(function (btn) {
+      btn.classList.toggle('active', btn.getAttribute('data-filter') === mode);
+    });
+    document.querySelectorAll('.history-card-mini').forEach(function (el) {
+      if (mode === 'all') { el.style.display = ''; return; }
+      var isNormal = el.classList.contains('is-normal');
+      el.style.display = (mode === 'normal' && isNormal) || (mode === 'fracture' && !isNormal) ? '' : 'none';
+    });
+  }
+
+  function updateCount() {
+    var countEl = document.getElementById('history-count');
+    if (!countEl) return;
+    var visible = document.querySelectorAll('.history-card-mini:not([style*="display: none"])').length;
+    countEl.textContent = visible;
+  }
+
+  document.querySelectorAll('.filter-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      applyFilter(this.getAttribute('data-filter'));
+      updateCount();
+    });
+  });
+
+  var exportAllBtn = document.getElementById('btn-export-all');
+  if (exportAllBtn) {
+    exportAllBtn.addEventListener('click', async function () {
+      var visible = Array.from(document.querySelectorAll('.history-card-mini:not([style*="display: none"])'));
+      if (!visible.length) return;
+      showToast({ type: 'info', message: 'Exporting ' + visible.length + ' report(s)' });
+      for (var i = 0; i < visible.length; i++) {
+        var idx = parseInt(visible[i].getAttribute('data-idx'));
+        await exportHistoryItem(idx);
+        await new Promise(function (r) { setTimeout(r, 600); });
+      }
+      showToast({ type: 'success', message: 'All reports exported' });
+    });
+  }
+
+  async function deleteHistoryItem(idx) {
+    var items = window._exportData || [];
+    var item = items[idx];
+    if (!item) return;
+
+    var ok = await showConfirm({ title: 'Delete analysis?', message: 'This will permanently remove this analysis and its image from your account.', okText: 'Delete', danger: true });
+    if (!ok) return;
+
+    var ok2 = await deleteAnalysis(item.id, item.image_path);
+    if (ok2) {
+      showToast({ type: 'success', message: 'Analysis deleted' });
+      loadHistory();
+    }
+  }
+
+  async function exportHistoryItem(idx) {
+    var items = window._exportData || [];
+    var item = items[idx];
+    if (!item) return;
+
+    var imgUrl = item.image_path ? 'https://nuagqljcnfhpxtgvbmnb.supabase.co/storage/v1/object/public/analysis-images/' + item.image_path : null;
+    if (!imgUrl) return;
+
+    return new Promise(function (resolve) {
+      var img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.src = imgUrl;
+
+      img.onload = function () {
+        var canvas = document.createElement('canvas');
+        var ctx = canvas.getContext('2d');
+
+        var imgW = img.naturalWidth || 400;
+        var imgH = img.naturalHeight || 300;
+        var maxImgW = 560;
+        var scale = Math.min(maxImgW / imgW, 1);
+        var dispW = Math.round(imgW * scale);
+        var dispH = Math.round(imgH * scale);
+
+        var findingsText = item.findings && item.findings.length
+          ? item.findings
+          : (item.prediction === 'fracture'
+              ? ['Bone discontinuity detected in the forearm region', 'Fracture localized to the mid-shaft of the radius', 'No signs of comminution or displacement detected']
+              : ['No visible bone discontinuity detected', 'Bone alignment appears normal', 'No suspicious abnormalities identified']);
+
+        canvas.width = 800;
+        canvas.height = 700 + dispH + findingsText.length * 28;
+
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.fillStyle = '#0F172A';
+        ctx.font = 'bold 26px Poppins, sans-serif';
+        ctx.fillText('FractureDetect Analysis Report', 40, 50);
+
+        ctx.fillStyle = '#475569';
+        ctx.font = '14px Inter, sans-serif';
+        ctx.fillText('Generated: ' + new Date(item.created_at).toLocaleString(), 40, 80);
+
+        ctx.strokeStyle = '#E2E8F0';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(40, 100);
+        ctx.lineTo(760, 100);
+        ctx.stroke();
+
+        var label = item.prediction === 'fracture' ? 'Fracture Detected' : 'No Fracture Detected';
+        ctx.fillStyle = '#0F172A';
+        ctx.font = 'bold 20px Poppins, sans-serif';
+        ctx.fillText('Prediction: ' + label, 40, 140);
+
+        ctx.fillStyle = item.prediction === 'fracture' ? '#DC2626' : '#16A34A';
+        ctx.font = 'bold 40px Poppins, sans-serif';
+        ctx.fillText((item.confidence * 100).toFixed(1) + '%', 40, 190);
+
+        ctx.fillStyle = '#475569';
+        ctx.font = '14px Inter, sans-serif';
+        ctx.fillText('Confidence Score', 40, 210);
+
+        ctx.fillStyle = '#0F172A';
+        ctx.font = '15px Inter, sans-serif';
+        ctx.fillText('Inference Time: ' + (item.inference_time || 0).toFixed(2) + ' sec', 40, 248);
+        ctx.fillText('Model Version: v2.1.0', 40, 272);
+
+        ctx.strokeStyle = '#E2E8F0';
+        ctx.beginPath();
+        ctx.moveTo(40, 296);
+        ctx.lineTo(760, 296);
+        ctx.stroke();
+
+        ctx.fillStyle = '#0F172A';
+        ctx.font = 'bold 16px Poppins, sans-serif';
+        ctx.fillText('Findings Summary', 40, 325);
+
+        ctx.fillStyle = '#334155';
+        ctx.font = '14px Inter, sans-serif';
+        findingsText.forEach(function (text, i) {
+          ctx.fillText('\u2022  ' + text, 40, 353 + i * 28);
+        });
+
+        var findingsEndY = 353 + findingsText.length * 28;
+
+        ctx.strokeStyle = '#E2E8F0';
+        ctx.beginPath();
+        ctx.moveTo(40, findingsEndY + 8);
+        ctx.lineTo(760, findingsEndY + 8);
+        ctx.stroke();
+
+        ctx.fillStyle = '#0F172A';
+        ctx.font = 'bold 16px Poppins, sans-serif';
+        ctx.fillText('X-ray & Fracture Localization', 40, findingsEndY + 40);
+
+        var imgX = Math.round((canvas.width - dispW) / 2);
+        ctx.drawImage(img, imgX, findingsEndY + 56, dispW, dispH);
+
+        if (item.prediction === 'fracture') {
+          var overlay = document.createElement('canvas');
+          overlay.width = dispW;
+          overlay.height = dispH;
+          var octx = overlay.getContext('2d');
+          var gradient = octx.createRadialGradient(dispW * 0.42, dispH * 0.52, 0, dispW * 0.42, dispH * 0.52, dispW * 0.5);
+          gradient.addColorStop(0, 'rgba(255, 50, 0, 0.5)');
+          gradient.addColorStop(0.18, 'rgba(255, 130, 0, 0.35)');
+          gradient.addColorStop(0.38, 'rgba(255, 220, 0, 0.2)');
+          gradient.addColorStop(1, 'transparent');
+          octx.fillStyle = gradient;
+          octx.fillRect(0, 0, dispW, dispH);
+          ctx.drawImage(overlay, imgX, findingsEndY + 56, dispW, dispH);
+        }
+
+        var imgBottomY = findingsEndY + 56 + dispH + 24;
+
+        ctx.strokeStyle = '#E2E8F0';
+        ctx.beginPath();
+        ctx.moveTo(40, imgBottomY);
+        ctx.lineTo(760, imgBottomY);
+        ctx.stroke();
+
+        ctx.fillStyle = '#475569';
+        ctx.font = '13px Inter, sans-serif';
+        ctx.fillText('This result is intended to assist healthcare professionals and should not replace', 40, imgBottomY + 24);
+        ctx.fillText('professional medical diagnosis.', 40, imgBottomY + 44);
+
+        var link = document.createElement('a');
+        link.download = 'fracturedetect-report-' + item.id.slice(0, 8) + '.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+
+        resolve();
+      };
+
+      img.onerror = function () { resolve(); };
+    });
   }
 
   init();
@@ -165,7 +582,6 @@ import Layout from '../layouts/Layout.astro';
     background: var(--color-primary);
     top: -120px;
     right: -80px;
-    animation: float-orb 12s ease-in-out infinite;
   }
 
   .acc-orb.orb-2 {
@@ -174,13 +590,6 @@ import Layout from '../layouts/Layout.astro';
     background: #a855f7;
     bottom: -100px;
     left: -60px;
-    animation: float-orb 10s ease-in-out infinite reverse;
-  }
-
-  @keyframes float-orb {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    33% { transform: translate(30px, -40px) scale(1.1); }
-    66% { transform: translate(-20px, 20px) scale(0.95); }
   }
 
   .account-container {
@@ -190,6 +599,9 @@ import Layout from '../layouts/Layout.astro';
     width: 100%;
     position: relative;
     z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .acc-badge {
@@ -221,8 +633,9 @@ import Layout from '../layouts/Layout.astro';
     font-size: 34px;
     line-height: 1.2;
     color: var(--color-text);
-        margin: 0 0 32px;
+    margin: 0 0 32px;
     letter-spacing: -0.02em;
+    text-align: center;
   }
 
   .account-grid
@@ -285,6 +698,17 @@ import Layout from '../layouts/Layout.astro';
     font-weight: 600;
     font-size: 22px;
     color: white;
+    overflow: hidden;
+  }
+
+  .avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .avatar-img.hidden {
+    display: none;
   }
 
   .profile-info {
@@ -471,6 +895,406 @@ import Layout from '../layouts/Layout.astro';
     .btn-signout {
       width: 100%;
       text-align: center;
+    }
+  }
+
+  .history-card {
+    background: #ffffff;
+    border: 1px solid #F1F5F9;
+    border-radius: var(--radius-xl, 12px);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    overflow: hidden;
+    margin-top: 0;
+  }
+
+  .history-card-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 18px 20px 0;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+  }
+
+  .history-card-header svg {
+    opacity: 0.5;
+    flex-shrink: 0;
+  }
+
+  .history-card-count {
+    margin-left: auto;
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    background: #F8FAFC;
+    padding: 2px 10px;
+    border-radius: 9999px;
+    line-height: 1.6;
+  }
+
+  .history-export-all {
+    margin-left: 8px;
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 3px 12px;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    line-height: 1.6;
+  }
+
+  .history-export-all:hover {
+    background: #F1F5F9;
+    border-color: #CBD5E1;
+    color: var(--color-text);
+  }
+
+  .history-filters {
+    display: flex;
+    gap: 6px;
+    padding: 12px 20px 0;
+  }
+
+  .filter-btn {
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 14px;
+    border: 1px solid var(--color-border);
+    border-radius: 9999px;
+    background: transparent;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .filter-btn:hover {
+    background: #F1F5F9;
+    border-color: #CBD5E1;
+  }
+
+  .filter-btn.active {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: #ffffff;
+  }
+
+  #history-list {
+    padding: 16px 20px 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .history-card-mini {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 14px;
+    border: 1px solid #F1F5F9;
+    border-radius: 10px;
+    background: #ffffff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+
+  .history-card-mini:hover {
+    border-color: #E2E8F0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+
+  .mini-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 9999px;
+    flex-shrink: 0;
+  }
+
+  .mini-icon-danger {
+    background: #FEF2F2;
+    color: #DC2626;
+  }
+
+  .mini-icon-safe {
+    background: #ECFDF5;
+    color: #059669;
+  }
+
+  .mini-label {
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 1.3;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .label-danger {
+    color: #DC2626;
+  }
+
+  .label-safe {
+    color: #059669;
+  }
+
+  .mini-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+
+  .mini-export,
+  .mini-delete {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    background: transparent;
+    color: #94A3B8;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all 0.15s;
+  }
+
+  .mini-export:hover {
+    color: #475569;
+    border-color: #CBD5E1;
+    background: #F8FAFC;
+  }
+
+  .mini-delete:hover {
+    color: #DC2626;
+    border-color: #FCA5A5;
+    background: #FEF2F2;
+  }
+
+  .mini-export:focus-visible,
+  .mini-delete:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  .history-empty-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 20px;
+    text-align: center;
+  }
+
+  .history-empty-icon {
+    color: #94A3B8;
+    opacity: 0.3;
+    margin-bottom: 16px;
+  }
+
+  .history-empty-title {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 17px;
+    color: #0F172A;
+    margin: 0 0 6px;
+  }
+
+  .history-empty-text {
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: #64748B;
+    margin: 0 0 24px;
+    max-width: 260px;
+    line-height: 1.5;
+  }
+
+  .history-empty-btn {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 14px;
+    color: white;
+    background: var(--color-primary);
+    padding: 10px 24px;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: all 0.15s;
+  }
+
+  .history-empty-btn:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+  }
+
+  .setting-row-danger {
+    border-bottom: none !important;
+    margin-top: 8px;
+    padding-top: 16px;
+    border-top: 1px solid #FEE2E2;
+  }
+
+  .setting-label-danger {
+    color: #DC2626 !important;
+  }
+
+  .btn-delete-account {
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 12px;
+    color: #DC2626;
+    background: #FEF2F2;
+    border: 1px solid #FECACA;
+    border-radius: 8px;
+    padding: 6px 14px;
+    cursor: pointer;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+
+  .btn-delete-account:hover {
+    background: #FEE2E2;
+    border-color: #FCA5A5;
+  }
+
+  .confirm-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(15, 23, 42, 0.5);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .confirm-overlay.hidden {
+    display: none;
+  }
+
+  .confirm-modal {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 28px;
+    max-width: 380px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    text-align: center;
+  }
+
+  .confirm-icon-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 9999px;
+    background: #FEF2F2;
+    color: #DC2626;
+    margin: 0 auto 16px;
+  }
+
+  .confirm-title {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 18px;
+    color: #0F172A;
+    margin: 0 0 8px;
+  }
+
+  .confirm-msg {
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: #64748B;
+    margin: 0 0 24px;
+    line-height: 1.5;
+  }
+
+  .confirm-actions {
+    display: flex;
+    gap: 10px;
+  }
+
+  .confirm-cancel {
+    flex: 1;
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 14px;
+    color: #475569;
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    padding: 11px 0;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .confirm-cancel:hover {
+    background: #F1F5F9;
+    border-color: #CBD5E1;
+  }
+
+  .confirm-ok {
+    flex: 1;
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 14px;
+    color: white;
+    background: var(--color-primary);
+    border: none;
+    border-radius: 10px;
+    padding: 11px 0;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .confirm-ok:hover {
+    background: #1d4ed8;
+  }
+
+  .confirm-ok.confirm-danger {
+    background: #DC2626;
+  }
+
+  .confirm-ok.confirm-danger:hover {
+    background: #B91C1C;
+  }
+
+  .history-skeleton {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .skeleton-mini {
+    height: 58px;
+  }
+
+  @media (max-width: 640px) {
+    #history-list {
+      grid-template-columns: 1fr;
+      padding: 12px 16px 16px;
+      gap: 8px;
+    }
+
+    .history-card-mini {
+      padding: 12px 12px;
     }
   }
 

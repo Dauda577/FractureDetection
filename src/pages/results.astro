@@ -140,14 +140,14 @@ import Layout from '../layouts/Layout.astro';
       </div>
 
       <div class="action-row">
-        <button class="btn-primary" id="btn-another">
+        <button class="btn-primary" id="btn-another" data-ripple>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="23 4 23 10 17 10" />
             <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
           </svg>
           Analyze Another Image
         </button>
-        <button class="btn-secondary" id="btn-download">
+        <button class="btn-secondary" id="btn-download" data-ripple>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
             <polyline points="7 10 12 15 17 10" />
@@ -160,11 +160,14 @@ import Layout from '../layouts/Layout.astro';
   </main>
 </Layout>
 
-<script>
-  (function () {
-    var imageData = sessionStorage.getItem('fracturedetect:image');
-    var resultData = sessionStorage.getItem('fracturedetect:result');
+<script type="module">
+  import { saveAnalysis } from '../scripts/api.js';
+  import { supabase } from '../lib/supabase.js';
 
+  var imageData = sessionStorage.getItem('fracturedetect:image');
+  var resultData = sessionStorage.getItem('fracturedetect:result');
+
+  (async function () {
     if (!resultData) {
       window.location.replace('/analyze');
       return;
@@ -262,17 +265,29 @@ import Layout from '../layouts/Layout.astro';
         var canvas = document.createElement('canvas');
         var ctx = canvas.getContext('2d');
         canvas.width = 800;
-        canvas.height = 600;
+
+        var originalImg = document.getElementById('img-original');
+        var imgW = originalImg ? (originalImg.naturalWidth || 400) : 400;
+        var imgH = originalImg ? (originalImg.naturalHeight || 300) : 300;
+        var maxImgW = 560;
+        var scale = Math.min(maxImgW / imgW, 1);
+        var dispW = Math.round(imgW * scale);
+        var dispH = Math.round(imgH * scale);
+        var findingsText = result.prediction === 'fracture'
+          ? ['Bone discontinuity detected in the forearm region', 'Fracture localized to the mid-shaft of the radius', 'No signs of comminution or displacement detected']
+          : ['No visible bone discontinuity detected', 'Bone alignment appears normal', 'No suspicious abnormalities identified'];
+
+        canvas.height = 700 + dispH + findingsText.length * 28;
 
         ctx.fillStyle = '#ffffff';
-        ctx.fillRect(0, 0, 800, 600);
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         ctx.fillStyle = '#0F172A';
-        ctx.font = 'bold 24px sans-serif';
+        ctx.font = 'bold 26px Poppins, sans-serif';
         ctx.fillText('FractureDetect Analysis Report', 40, 50);
 
         ctx.fillStyle = '#475569';
-        ctx.font = '14px sans-serif';
+        ctx.font = '14px Inter, sans-serif';
         ctx.fillText('Generated: ' + new Date().toLocaleString(), 40, 80);
 
         ctx.strokeStyle = '#E2E8F0';
@@ -283,32 +298,80 @@ import Layout from '../layouts/Layout.astro';
         ctx.stroke();
 
         ctx.fillStyle = '#0F172A';
-        ctx.font = 'bold 18px sans-serif';
+        ctx.font = 'bold 20px Poppins, sans-serif';
         ctx.fillText('Prediction: ' + predictionText.textContent, 40, 140);
 
         ctx.fillStyle = result.prediction === 'fracture' ? '#DC2626' : '#16A34A';
-        ctx.font = 'bold 36px sans-serif';
+        ctx.font = 'bold 40px Poppins, sans-serif';
         ctx.fillText((result.confidence * 100).toFixed(1) + '%', 40, 190);
 
         ctx.fillStyle = '#475569';
-        ctx.font = '14px sans-serif';
+        ctx.font = '14px Inter, sans-serif';
         ctx.fillText('Confidence Score', 40, 210);
 
         ctx.fillStyle = '#0F172A';
-        ctx.font = '16px sans-serif';
-        ctx.fillText('Inference Time: ' + result.inferenceTimeSec.toFixed(2) + ' sec', 40, 250);
-        ctx.fillText('Model Version: v2.1.0', 40, 275);
+        ctx.font = '15px Inter, sans-serif';
+        ctx.fillText('Inference Time: ' + result.inferenceTimeSec.toFixed(2) + ' sec', 40, 248);
+        ctx.fillText('Model Version: v2.1.0', 40, 272);
 
         ctx.strokeStyle = '#E2E8F0';
         ctx.beginPath();
-        ctx.moveTo(40, 300);
-        ctx.lineTo(760, 300);
+        ctx.moveTo(40, 296);
+        ctx.lineTo(760, 296);
+        ctx.stroke();
+
+        ctx.fillStyle = '#0F172A';
+        ctx.font = 'bold 16px Poppins, sans-serif';
+        ctx.fillText('Findings Summary', 40, 325);
+
+        ctx.fillStyle = '#334155';
+        ctx.font = '14px Inter, sans-serif';
+        findingsText.forEach(function (text, i) {
+          ctx.fillText('\u2022  ' + text, 40, 353 + i * 28);
+        });
+
+        var findingsEndY = 353 + findingsText.length * 28;
+
+        ctx.strokeStyle = '#E2E8F0';
+        ctx.beginPath();
+        ctx.moveTo(40, findingsEndY + 8);
+        ctx.lineTo(760, findingsEndY + 8);
+        ctx.stroke();
+
+        ctx.fillStyle = '#0F172A';
+        ctx.font = 'bold 16px Poppins, sans-serif';
+        ctx.fillText('X-ray & Fracture Localization', 40, findingsEndY + 40);
+
+        var imgX = Math.round((canvas.width - dispW) / 2);
+        ctx.drawImage(originalImg, imgX, findingsEndY + 56, dispW, dispH);
+
+        if (result.prediction === 'fracture') {
+          var overlay = document.createElement('canvas');
+          overlay.width = dispW;
+          overlay.height = dispH;
+          var octx = overlay.getContext('2d');
+          var gradient = octx.createRadialGradient(dispW * 0.42, dispH * 0.52, 0, dispW * 0.42, dispH * 0.52, dispW * 0.5);
+          gradient.addColorStop(0, 'rgba(255, 50, 0, 0.5)');
+          gradient.addColorStop(0.18, 'rgba(255, 130, 0, 0.35)');
+          gradient.addColorStop(0.38, 'rgba(255, 220, 0, 0.2)');
+          gradient.addColorStop(1, 'transparent');
+          octx.fillStyle = gradient;
+          octx.fillRect(0, 0, dispW, dispH);
+          ctx.drawImage(overlay, imgX, findingsEndY + 56, dispW, dispH);
+        }
+
+        var imgBottomY = findingsEndY + 56 + dispH + 24;
+
+        ctx.strokeStyle = '#E2E8F0';
+        ctx.beginPath();
+        ctx.moveTo(40, imgBottomY);
+        ctx.lineTo(760, imgBottomY);
         ctx.stroke();
 
         ctx.fillStyle = '#475569';
-        ctx.font = '13px sans-serif';
-        ctx.fillText('This result is intended to assist healthcare professionals and should not replace', 40, 340);
-        ctx.fillText('professional medical diagnosis.', 40, 358);
+        ctx.font = '13px Inter, sans-serif';
+        ctx.fillText('This result is intended to assist healthcare professionals and should not replace', 40, imgBottomY + 24);
+        ctx.fillText('professional medical diagnosis.', 40, imgBottomY + 44);
 
         var link = document.createElement('a');
         link.download = 'fracturedetect-report.png';
@@ -316,7 +379,98 @@ import Layout from '../layouts/Layout.astro';
         link.click();
       });
     }
+
+    var findingsItems = (function () {
+      var items = [];
+      document.querySelectorAll('#findings-list .findings-item span:last-child').forEach(function (el) {
+        items.push(el.textContent);
+      });
+      return items;
+    })();
+
+    saveAnalysis(
+      imageData,
+      result.prediction,
+      result.confidence,
+      result.inferenceTimeSec,
+      findingsItems
+    );
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'e' || e.key === 'E') {
+        if (!e.ctrlKey && !e.metaKey) {
+          e.preventDefault();
+          btnDownload?.click();
+        }
+      }
+      if (e.key === 'n' || e.key === 'N') {
+        if (!e.ctrlKey && !e.metaKey) {
+          e.preventDefault();
+          btnAnother?.click();
+        }
+      }
+    });
+
+    initImageZoom();
   })();
+
+  /* ── Image Zoom & Pan ── */
+  function initImageZoom() {
+    var containers = document.querySelectorAll('.image-container');
+    containers.forEach(function (container) {
+      var img = container.querySelector('img');
+      if (!img) return;
+      var zoomed = false;
+      var startX, startY, panX = 0, panY = 0, originX, originY;
+      img.style.cursor = 'zoom-in';
+      img.style.transition = 'transform 0.2s ease';
+
+      function toggleZoom(clientX, clientY) {
+        zoomed = !zoomed;
+        if (zoomed) {
+          var rect = container.getBoundingClientRect();
+          var px = (clientX - rect.left) / rect.width;
+          var py = (clientY - rect.top) / rect.height;
+          img.style.transformOrigin = (px * 100) + '% ' + (py * 100) + '%';
+          img.style.transform = 'scale(2.5)';
+          img.style.cursor = 'grab';
+        } else {
+          img.style.transform = '';
+          img.style.transformOrigin = '';
+          img.style.cursor = 'zoom-in';
+          panX = 0; panY = 0;
+        }
+      }
+
+      img.addEventListener('click', function (e) {
+        if (!zoomed) toggleZoom(e.clientX, e.clientY);
+      });
+
+      img.addEventListener('mousedown', function (e) {
+        if (!zoomed) return;
+        e.preventDefault();
+        startX = e.clientX - panX;
+        startY = e.clientY - panY;
+        img.style.cursor = 'grabbing';
+        function onMove(ev) {
+          panX = ev.clientX - startX;
+          panY = ev.clientY - startY;
+          img.style.transform = 'scale(2.5) translate(' + (panX / 2.5) + 'px, ' + (panY / 2.5) + 'px)';
+        }
+        function onUp() {
+          document.removeEventListener('mousemove', onMove);
+          document.removeEventListener('mouseup', onUp);
+          img.style.cursor = 'grab';
+        }
+        document.addEventListener('mousemove', onMove);
+        document.addEventListener('mouseup', onUp);
+      });
+
+      img.addEventListener('dblclick', function () {
+        if (zoomed) toggleZoom(0, 0);
+      });
+    });
+  }
 </script>
 
 <style>
@@ -346,7 +500,6 @@ import Layout from '../layouts/Layout.astro';
     background: var(--color-primary);
     top: -150px;
     left: -100px;
-    animation: float-orb 14s ease-in-out infinite;
   }
 
   .res-orb.orb-2 {
@@ -355,13 +508,6 @@ import Layout from '../layouts/Layout.astro';
     background: #a855f7;
     bottom: -120px;
     right: -80px;
-    animation: float-orb 10s ease-in-out infinite reverse;
-  }
-
-  @keyframes float-orb {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    33% { transform: translate(30px, -40px) scale(1.1); }
-    66% { transform: translate(-20px, 20px) scale(0.95); }
   }
 
   .results-container {

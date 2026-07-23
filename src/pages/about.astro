@@ -5,8 +5,8 @@ import Layout from '../layouts/Layout.astro';
 <Layout title="About" description="Learn about FractureDetect AI-powered bone fracture detection for healthcare professionals" active="about" variant="marketing">
   <main class="about-page page-enter">
     <div class="about-bg">
-      <div class="about-orb orb-1"></div>
-      <div class="about-orb orb-2"></div>
+      <div class="about-orb orb-1 fd-orb-drift" style="--float-duration:20s"></div>
+      <div class="about-orb orb-2 fd-orb-drift" style="--float-duration:16s;--float-delay:-5s"></div>
     </div>
 
     <section class="about-hero">
@@ -162,7 +162,6 @@ import Layout from '../layouts/Layout.astro';
     background: var(--color-primary);
     top: -150px;
     left: -100px;
-    animation: float-orb 14s ease-in-out infinite;
   }
 
   .about-orb.orb-2 {
@@ -171,13 +170,6 @@ import Layout from '../layouts/Layout.astro';
     background: #a855f7;
     bottom: -120px;
     right: -80px;
-    animation: float-orb 10s ease-in-out infinite reverse;
-  }
-
-  @keyframes float-orb {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    33% { transform: translate(30px, -40px) scale(1.1); }
-    66% { transform: translate(-20px, 20px) scale(0.95); }
   }
 
   .about-container {

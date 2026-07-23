@@ -36,6 +36,59 @@
   }
 }
 
+@keyframes fd-float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-16px);
+  }
+}
+
+@keyframes fd-float-lg {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+  }
+  33% {
+    transform: translateY(-24px) scale(1.04);
+  }
+  66% {
+    transform: translateY(8px) scale(0.97);
+  }
+}
+
+@keyframes fd-orb-drift {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(40px, -30px) rotate(90deg); }
+  50% { transform: translate(-20px, -50px) rotate(180deg); }
+  75% { transform: translate(-40px, 10px) rotate(270deg); }
+  100% { transform: translate(0, 0) rotate(360deg); }
+}
+
+.fd-float {
+  animation: fd-float var(--float-duration, 5s) ease-in-out var(--float-delay, 0s) infinite;
+}
+
+.fd-float-lg {
+  animation: fd-float-lg var(--float-duration, 8s) ease-in-out var(--float-delay, 0s) infinite;
+}
+
+.fd-orb-drift {
+  animation: fd-orb-drift var(--float-duration, 20s) linear var(--float-delay, 0s) infinite;
+}
+
+.fd-glass {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.fd-tilt {
+  transition: transform 0.15s ease-out;
+  will-change: transform;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .page-enter {
     animation: fd-fadeIn 0.28s ease-out;

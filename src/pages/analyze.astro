@@ -5,8 +5,8 @@ import Layout from '../layouts/Layout.astro';
 <Layout title="Upload" description="Upload an X-ray image for AI-powered fracture analysis" active="analyze" variant="app">
   <main class="analyze-page page-enter">
     <div class="analyze-bg">
-      <div class="analyze-orb orb-left"></div>
-      <div class="analyze-orb orb-right"></div>
+      <div class="analyze-orb orb-left fd-orb-drift" style="--float-duration:20s"></div>
+      <div class="analyze-orb orb-right fd-orb-drift" style="--float-duration:16s;--float-delay:-5s"></div>
     </div>
     <div class="analyze-container">
       <div class="upload-section">
@@ -33,7 +33,7 @@ import Layout from '../layouts/Layout.astro';
 
         <p class="error-message" id="error-message"></p>
 
-        <button class="btn-analyze" id="btn-analyze" disabled>
+        <button class="btn-analyze" id="btn-analyze" data-ripple disabled>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
           </svg>
@@ -171,6 +171,8 @@ import Layout from '../layouts/Layout.astro';
   }
 
   if (dropzone) {
+    var dragCounter = 0;
+
     dropzone.addEventListener('click', () => fileInput?.click());
     dropzone.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
@@ -178,16 +180,29 @@ import Layout from '../layouts/Layout.astro';
         fileInput?.click();
       }
     });
+    dropzone.addEventListener('dragenter', (e) => {
+      e.preventDefault();
+      dragCounter++;
+      if (dragCounter === 1) {
+        dropzone.classList.add('dragover');
+        dropzone.classList.add('drag-hover');
+      }
+    });
     dropzone.addEventListener('dragover', (e) => {
       e.preventDefault();
-      dropzone.classList.add('dragover');
     });
     dropzone.addEventListener('dragleave', () => {
-      dropzone.classList.remove('dragover');
+      dragCounter--;
+      if (dragCounter === 0) {
+        dropzone.classList.remove('dragover');
+        dropzone.classList.remove('drag-hover');
+      }
     });
     dropzone.addEventListener('drop', (e) => {
       e.preventDefault();
+      dragCounter = 0;
       dropzone.classList.remove('dragover');
+      dropzone.classList.remove('drag-hover');
       if (e.dataTransfer?.files?.length) {
         handleFile(e.dataTransfer.files[0]);
       }
@@ -208,6 +223,13 @@ import Layout from '../layouts/Layout.astro';
       clearPreview();
     });
   }
+
+  document.addEventListener('keydown', function (e) {
+    if (e.ctrlKey && e.key === 'Enter' && btnAnalyze && !btnAnalyze.disabled) {
+      e.preventDefault();
+      storeAndNavigate();
+    }
+  });
 
   if (btnAnalyze) {
     btnAnalyze.addEventListener('click', storeAndNavigate);
@@ -241,7 +263,6 @@ import Layout from '../layouts/Layout.astro';
     background: var(--color-primary);
     top: -100px;
     left: -100px;
-    animation: float-orb 12s ease-in-out infinite;
   }
 
   .orb-right {
@@ -250,13 +271,6 @@ import Layout from '../layouts/Layout.astro';
     background: #a855f7;
     bottom: -120px;
     right: -80px;
-    animation: float-orb 10s ease-in-out infinite reverse;
-  }
-
-  @keyframes float-orb {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    33% { transform: translate(30px, -40px) scale(1.1); }
-    66% { transform: translate(-20px, 20px) scale(0.95); }
   }
 
   .analyze-container {
@@ -342,6 +356,13 @@ import Layout from '../layouts/Layout.astro';
     box-shadow: 0 4px 20px rgba(37, 99, 235, 0.06);
   }
 
+  .dropzone.drag-hover {
+    border-color: var(--color-primary);
+    background: rgba(37, 99, 235, 0.05);
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08), 0 4px 24px rgba(37, 99, 235, 0.1);
+    animation: dropzone-pulse 1s ease-in-out infinite;
+  }
+
   .dropzone:focus-visible {
     outline: 2px solid var(--color-primary);
     outline-offset: 2px;
@@ -398,6 +419,11 @@ import Layout from '../layouts/Layout.astro';
     font-size: 13px;
     color: var(--color-text-muted);
     margin: 0;
+  }
+
+  @keyframes dropzone-pulse {
+    0%, 100% { box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08), 0 4px 24px rgba(37, 99, 235, 0.1); }
+    50% { box-shadow: 0 0 0 8px rgba(37, 99, 235, 0.12), 0 4px 28px rgba(37, 99, 235, 0.15); }
   }
 
   .error-message {

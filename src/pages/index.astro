@@ -6,12 +6,12 @@ import Layout from '../layouts/Layout.astro';
   <main class="page-enter">
     <section class="hero">
       <div class="bg-orbs">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-        <div class="orb orb-3"></div>
+        <div class="orb orb-1 fd-orb-drift" style="--float-duration:22s"></div>
+        <div class="orb orb-2 fd-orb-drift" style="--float-duration:18s;--float-delay:-4s"></div>
+        <div class="orb orb-3 fd-float-lg" style="--float-duration:14s;--float-delay:-2s"></div>
       </div>
       <div class="hero-container">
-        <div class="hero-content">
+        <div class="hero-content reveal" style="transition-delay:0.1s">
           <div class="hero-badge">
             <span class="badge-dot"></span>
             Powered by Deep Learning
@@ -25,19 +25,19 @@ import Layout from '../layouts/Layout.astro';
             faster and more accurate decisions.
           </p>
           <div class="hero-buttons">
-            <a href="/analyze" class="btn btn-primary">
+            <a href="/analyze" class="btn btn-primary fd-magnetic" data-ripple>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
               </svg>
               Analyze X-ray
             </a>
-            <a href="/about" class="btn btn-secondary">
+            <a href="/about" class="btn btn-secondary fd-magnetic" data-ripple>
               Learn More
             </a>
           </div>
         </div>
-        <div class="hero-visual">
-          <div class="video-wrapper">
+        <div class="hero-visual reveal-right" style="transition-delay:0.2s">
+          <div class="video-wrapper fd-tilt" data-tilt-max="6">
             <div class="video-border"></div>
             <img class="hero-image" src="/WhatsApp%20Image%202026-07-19%20at%205.09.45%20PM.jpeg" alt="X-ray scan visualization" />
           </div>
@@ -45,9 +45,9 @@ import Layout from '../layouts/Layout.astro';
       </div>
     </section>
 
-    <section class="features">
+    <section class="features reveal" style="transition-delay:0.1s">
       <div class="features-container">
-        <div class="feature-card">
+        <div class="feature-card fd-tilt reveal" style="--float-duration:6s;--float-delay:0s;transition-delay:0.1s">
           <div class="feature-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
@@ -56,7 +56,7 @@ import Layout from '../layouts/Layout.astro';
           <h3 class="feature-title">High Accuracy</h3>
           <p class="feature-desc">Trained on thousands of annotated X-ray images for reliable fracture detection.</p>
         </div>
-        <div class="feature-card">
+        <div class="feature-card fd-tilt reveal" style="--float-duration:6s;--float-delay:0.8s;transition-delay:0.2s">
           <div class="feature-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
@@ -65,7 +65,7 @@ import Layout from '../layouts/Layout.astro';
           <h3 class="feature-title">Instant Results</h3>
           <p class="feature-desc">Get analysis in seconds, not hours. Speed up your diagnostic workflow.</p>
         </div>
-        <div class="feature-card">
+        <div class="feature-card fd-tilt reveal" style="--float-duration:6s;--float-delay:1.6s;transition-delay:0.3s">
           <div class="feature-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M12 20h9" />
@@ -78,20 +78,20 @@ import Layout from '../layouts/Layout.astro';
       </div>
     </section>
 
-    <section class="stats">
+    <section class="stats reveal" style="transition-delay:0.1s">
       <div class="stats-container">
         <div class="stat-item">
-          <span class="stat-number">98.5%</span>
+          <span class="stat-number" data-count-to="98.5" data-count-suffix="%"></span>
           <span class="stat-label">Detection Accuracy</span>
         </div>
         <div class="stat-divider"></div>
         <div class="stat-item">
-          <span class="stat-number">&lt;5s</span>
+          <span class="stat-number" data-count-prefix="<" data-count-to="5" data-count-suffix="s"></span>
           <span class="stat-label">Processing Time</span>
         </div>
         <div class="stat-divider"></div>
         <div class="stat-item">
-          <span class="stat-number">10K+</span>
+          <span class="stat-number" data-count-to="10" data-count-suffix="K+"></span>
           <span class="stat-label">X-rays Analyzed</span>
         </div>
       </div>
@@ -129,7 +129,6 @@ import Layout from '../layouts/Layout.astro';
     background: var(--color-primary);
     top: -200px;
     right: -100px;
-    animation: float-orb 12s ease-in-out infinite;
   }
 
   .orb-2 {
@@ -138,7 +137,6 @@ import Layout from '../layouts/Layout.astro';
     background: #a855f7;
     bottom: -150px;
     left: -100px;
-    animation: float-orb 10s ease-in-out infinite reverse;
   }
 
   .orb-3 {
@@ -148,13 +146,6 @@ import Layout from '../layouts/Layout.astro';
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    animation: float-orb 14s ease-in-out infinite;
-  }
-
-  @keyframes float-orb {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    33% { transform: translate(30px, -40px) scale(1.1); }
-    66% { transform: translate(-20px, 20px) scale(0.95); }
   }
 
   .hero-container {
@@ -296,6 +287,11 @@ import Layout from '../layouts/Layout.astro';
     border-radius: var(--radius-lg);
     overflow: hidden;
     box-shadow: 0 8px 32px rgba(37, 99, 235, 0.15);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .video-wrapper:hover {
+    box-shadow: 0 12px 48px rgba(37, 99, 235, 0.25), 0 0 80px rgba(37, 99, 235, 0.08);
   }
 
   .video-border {
@@ -349,8 +345,8 @@ import Layout from '../layouts/Layout.astro';
   }
 
   .feature-card:hover {
-    border-color: rgba(37, 99, 235, 0.2);
-    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.08);
+    border-color: rgba(37, 99, 235, 0.3);
+    box-shadow: 0 8px 32px rgba(37, 99, 235, 0.15), 0 0 60px rgba(37, 99, 235, 0.06);
     transform: translateY(-4px);
   }
 

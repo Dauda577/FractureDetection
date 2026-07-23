@@ -37,7 +37,7 @@ const links = [
     </div>
 
     <div class="nav-actions">
-      <a href="/signin" class="nav-signin">Sign In</a>
+      <a href="/signin" class="nav-signin" style="display:none">Sign In</a>
       <a href="/account" class="avatar" aria-label="Account" style="display:none">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="12" cy="8" r="4" stroke="#64748B" stroke-width="1.6"/>
@@ -63,9 +63,8 @@ const links = [
   const signInLink = document.querySelector('.nav-signin');
   const avatarLink = document.querySelector('.avatar');
 
-  async function updateNav() {
-    const { data } = await supabase.auth.getSession();
-    if (data.session) {
+  function updateNav(session) {
+    if (session) {
       if (signInLink) signInLink.style.display = 'none';
       if (avatarLink) avatarLink.style.display = 'flex';
     } else {
@@ -74,7 +73,13 @@ const links = [
     }
   }
 
-  updateNav();
+  supabase.auth.getSession().then(function (res) {
+    updateNav(res.data.session);
+  });
+
+  supabase.auth.onAuthStateChange(function (event, session) {
+    updateNav(session);
+  });
 
   function setMenu(open) {
     if (!navLinks || !hamburger) return;
