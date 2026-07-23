@@ -274,10 +274,15 @@ import Layout from '../layouts/Layout.astro';
   }
 
   /* ── Video ── */
+  .hero-content {
+    min-width: 0;
+  }
+
   .hero-visual {
     display: flex;
     justify-content: center;
     align-items: center;
+    min-width: 0;
   }
 
   .video-wrapper {
@@ -334,6 +339,7 @@ import Layout from '../layouts/Layout.astro';
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 24px;
+    min-width: 0;
   }
 
   .feature-card {
@@ -342,6 +348,7 @@ import Layout from '../layouts/Layout.astro';
     border-radius: var(--radius-lg);
     padding: 32px 28px;
     transition: all 0.25s ease;
+    min-width: 0;
   }
 
   .feature-card:hover {

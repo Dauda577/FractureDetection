@@ -260,6 +260,7 @@ import Layout from '../layouts/Layout.astro';
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     background: var(--color-surface);
     transition: all 0.25s ease;
+    min-width: 0;
   }
 
   .step-card:hover {
@@ -326,6 +327,7 @@ import Layout from '../layouts/Layout.astro';
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 20px;
+    min-width: 0;
   }
 
   .tech-card {
@@ -335,6 +337,7 @@ import Layout from '../layouts/Layout.astro';
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     background: var(--color-surface);
     transition: all 0.25s ease;
+    min-width: 0;
   }
 
   .tech-card:hover {
@@ -502,6 +505,11 @@ import Layout from '../layouts/Layout.astro';
     .btn-try {
       width: 100%;
       justify-content: center;
+    }
+
+    .step-card,
+    .tech-card {
+      padding: 24px 20px;
     }
   }
 </style>
