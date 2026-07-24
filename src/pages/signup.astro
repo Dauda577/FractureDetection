@@ -161,6 +161,9 @@ import Footer from '../components/Footer.astro';
       document.querySelector('.social-btns').style.display = 'none';
       document.getElementById('auth-footer').style.display = 'none';
       document.getElementById('success-msg').style.display = 'flex';
+      if (window.showToast) {
+        window.showToast({ type: 'info', message: 'Check your email inbox for the confirmation link to activate your account.', duration: 6000 });
+      }
     } else {
       errorEl.textContent = result.error;
       errorEl.style.display = 'block';
