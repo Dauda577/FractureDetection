@@ -130,15 +130,6 @@ import Layout from '../layouts/Layout.astro';
         </div>
       </div>
 
-      <div class="disclaimer-banner">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10" />
-          <line x1="12" y1="16" x2="12" y2="12" />
-          <line x1="12" y1="8" x2="12.01" y2="8" />
-        </svg>
-        <span class="disclaimer-text">This result is intended to assist healthcare professionals and should not replace professional medical diagnosis.</span>
-      </div>
-
       <div class="action-row">
         <button class="btn-primary" id="btn-another" data-ripple>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -388,12 +379,15 @@ import Layout from '../layouts/Layout.astro';
       return items;
     })();
 
+    var patientId = sessionStorage.getItem('fracturedetect:patient_id');
+
     saveAnalysis(
       imageData,
       result.prediction,
       result.confidence,
       result.inferenceTimeSec,
-      findingsItems
+      findingsItems,
+      patientId
     );
 
     document.addEventListener('keydown', function (e) {
@@ -827,30 +821,6 @@ import Layout from '../layouts/Layout.astro';
     height: 1px;
     background: var(--color-border);
     margin: 14px 0;
-  }
-
-  .disclaimer-banner {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 16px 20px;
-    background: var(--color-warning-bg);
-    border: 1px solid var(--color-warning-border);
-    border-radius: var(--radius-md);
-    margin-bottom: 32px;
-    color: var(--color-warning-text);
-  }
-
-  .disclaimer-text {
-    font-family: var(--font-body);
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 1.5;
-  }
-
-  .disclaimer-banner svg {
-    flex-shrink: 0;
-    margin-top: 2px;
   }
 
   .action-row {

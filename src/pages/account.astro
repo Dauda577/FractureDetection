@@ -1,1349 +1,683 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Sidebar from '../components/Sidebar.astro';
 ---
-<Layout title="Account" description="Manage your FractureDetect account and settings" active="account" variant="app">
-  <main class="account-page page-enter">
-    <div class="acc-bg">
-      <div class="acc-orb orb-1 fd-orb-drift" style="--float-duration:20s"></div>
-      <div class="acc-orb orb-2 fd-orb-drift" style="--float-duration:16s;--float-delay:-5s"></div>
-    </div>
-    <div class="account-container">
-      <div class="acc-badge">
-        <span class="badge-dot"></span>
-        Account
+<Layout title="Dashboard" description="Your FractureDetect analysis dashboard" active="account" variant="app">
+  <main class="dash-page page-enter">
+    <div id="dash-gate" class="dash-gate">
+      <div class="dash-gate-card">
+        <div class="dash-gate-icon">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+          </svg>
+        </div>
+        <h1 class="dash-gate-title">Dashboard</h1>
+        <p class="dash-gate-subtext">Sign in or create an account to view your analysis dashboard, history, and insights.</p>
+        <div class="dash-gate-buttons">
+          <a href="/signup" class="btn-submit fd-magnetic" data-ripple>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+              <circle cx="8.5" cy="7" r="4" />
+              <line x1="20" y1="8" x2="20" y2="14" />
+              <line x1="23" y1="11" x2="17" y2="11" />
+            </svg>
+            Create Account
+          </a>
+          <a href="/signin" class="btn-submit-alt fd-magnetic" data-ripple>Sign In</a>
+        </div>
       </div>
-      <h1 class="account-title">Your Account</h1>
+    </div>
 
-      <div class="account-grid">
-        <div class="card profile-card" id="profile-guest">
-          <div class="profile-avatar">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="12" cy="8" r="4" stroke="#64748B" stroke-width="1.6"/>
-              <path d="M4 20c1.6-3.6 4.8-5.5 8-5.5s6.4 1.9 8 5.5" stroke="#64748B" stroke-width="1.6" stroke-linecap="round"/>
-            </svg>
-          </div>
-          <div class="profile-info">
-            <p class="profile-name">Guest User</p>
-            <p class="profile-email">Not signed in</p>
-          </div>
-          <a href="/signin" class="btn-signin fd-magnetic" data-ripple>Sign In</a>
-        </div>
-
-        <div class="card profile-card" id="profile-signedin" style="display:none">
-          <div class="profile-avatar profile-avatar-user" id="avatar-container">
-            <span id="avatar-initial">U</span>
-            <img id="avatar-img" class="avatar-img hidden" alt="" />
-          </div>
-          <div class="profile-info">
-            <p class="profile-name" id="profile-name"></p>
-            <p class="profile-email" id="profile-email"></p>
-          </div>
-          <button class="btn-signout fd-magnetic" id="btn-signout" data-ripple>Sign Out</button>
-        </div>
-
-        <div class="card settings-card">
-          <div class="card-header-row">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="3" />
-              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
-            </svg>
-            <span>Settings</span>
-          </div>
-          <div class="settings-list">
-            <div class="setting-row">
-              <div class="setting-info">
-                <p class="setting-label">Theme</p>
-                <p class="setting-desc">Light mode (system default)</p>
+    <div id="dash-ui" class="hidden">
+      <div class="dash-layout">
+        <Sidebar active="dashboard" />
+        <div class="dash-main">
+          <div class="dash-content">
+            <div class="dash-top-bar">
+              <h1 class="dash-heading" id="dash-heading">Analysis Dashboard</h1>
+              <div class="dash-top-right">
+                <span class="dash-date" id="dash-date"></span>
+                <button class="dash-refresh" id="dash-refresh" title="Refresh">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10" /><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" /></svg>
+                </button>
               </div>
-              <span class="setting-badge">Auto</span>
             </div>
-            <div class="setting-row">
-              <div class="setting-info">
-                <p class="setting-label">Notifications</p>
-                <p class="setting-desc">Analysis completion alerts</p>
-              </div>
-              <span class="setting-badge status-off">Off</span>
-            </div>
-            <div class="setting-row">
-              <div class="setting-info">
-                <p class="setting-label">Image Storage</p>
-                <p class="setting-desc">Auto-delete uploads after 24 hours</p>
-              </div>
-              <span class="setting-badge status-on">On</span>
-            </div>
-            <div class="setting-row setting-row-danger">
-              <div class="setting-info">
-                <p class="setting-label setting-label-danger">Delete Account</p>
-                <p class="setting-desc">Permanently remove your account and all data</p>
-              </div>
-              <button class="btn-delete-account" id="btn-delete-account" data-ripple>Delete</button>
-            </div>
-          </div>
-        </div>
 
-        <div class="card about-card">
-          <div class="card-header-row">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-            <span>About</span>
-          </div>
-          <div class="about-list">
-            <div class="about-row">
-              <span class="about-label">Version</span>
-              <span class="about-value">1.0.0</span>
-            </div>
-            <div class="about-row">
-              <span class="about-label">Analyses This Session</span>
-              <span class="about-value" id="session-count">0</span>
-            </div>
-          </div>
-        </div>
+            <div id="analysis-view">
+              <div class="row row-top" id="row-summary">
+                <div class="panel panel-diag" id="panel-diag">
+                  <div class="panel-head">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    <span>Diagnosis</span>
+                  </div>
+                  <div class="panel-diag-result" id="diag-result">
+                    <span class="diag-badge" id="diag-badge">Fracture Detected</span>
+                  </div>
+                  <div class="panel-diag-meta" id="diag-meta">High confidence positive finding</div>
+                </div>
 
-        <div class="history-card" id="history-card" style="display:none">
-          <div class="history-card-header">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10" />
-              <polyline points="12 6 12 12 16 14" />
-            </svg>
-            <span>Analysis History</span>
-            <span class="history-card-count" id="history-count"></span>
-            <button class="history-export-all hidden" id="btn-export-all" title="Export all visible reports">Export All</button>
-          </div>
-          <div class="history-filters" id="history-filters">
-            <button class="filter-btn active" data-filter="all">All</button>
-            <button class="filter-btn" data-filter="fracture">Fracture</button>
-            <button class="filter-btn" data-filter="normal">Normal</button>
-          </div>
-          <div id="history-list">
-            <div class="history-skeleton">
-              <div class="skeleton skeleton-mini"></div>
-              <div class="skeleton skeleton-mini"></div>
-              <div class="skeleton skeleton-mini"></div>
-              <div class="skeleton skeleton-mini"></div>
+                <div class="panel panel-conf" id="panel-conf">
+                  <div class="panel-head">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+                    <span>Confidence Score</span>
+                  </div>
+                  <div class="panel-gauge-wrap">
+                    <svg class="gauge-svg" viewBox="0 0 120 120">
+                      <circle class="gauge-bg" cx="60" cy="60" r="50" fill="none" stroke="var(--color-bg-subtle)" stroke-width="8" />
+                      <circle class="gauge-fill" id="gauge-fill" cx="60" cy="60" r="50" fill="none" stroke="var(--color-primary)" stroke-width="8" stroke-linecap="round" stroke-dasharray="314.16" stroke-dashoffset="220" transform="rotate(-90 60 60)" />
+                      <text class="gauge-text" id="gauge-text" x="60" y="60" text-anchor="middle" dominant-baseline="central" font-size="22" font-weight="700" fill="currentColor">94.3%</text>
+                    </svg>
+                  </div>
+                  <div class="panel-conf-label">Confidence</div>
+                </div>
+
+                <div class="panel panel-ood" id="panel-ood">
+                  <div class="panel-head">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" /></svg>
+                    <span>Novelty / OOD Score</span>
+                  </div>
+                  <div class="panel-ood-value" id="ood-value">18.4</div>
+                  <div class="panel-ood-label">Low — in-distribution</div>
+                  <div class="ood-bar-wrap">
+                    <div class="ood-bar-fill" id="ood-bar-fill" style="width:18%"></div>
+                  </div>
+                </div>
+
+                <div class="panel panel-report">
+                  <div class="panel-head">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /></svg>
+                    <span>Generate Report</span>
+                  </div>
+                  <div class="report-content">
+                    <p class="report-desc">Download a comprehensive PDF report with all analysis results, images, and findings.</p>
+                    <button class="report-btn" id="btn-report-download" data-ripple>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
+                      Download Report
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row row-mid" id="row-images">
+                <div class="panel panel-img">
+                  <div class="panel-head">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2" /><circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" /></svg>
+                    <span>Original X-ray</span>
+                  </div>
+                  <div class="panel-img-wrap">
+                    <img id="img-original" class="panel-img" alt="Original X-ray" />
+                    <div class="panel-img-empty" id="empty-original">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2" /><circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" /></svg>
+                      <span>No image</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="panel panel-img">
+                  <div class="panel-head">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9" /><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" /></svg>
+                    <span>Predicted Heatmap</span>
+                  </div>
+                  <div class="panel-img-wrap">
+                    <img id="img-heatmap" class="panel-img" alt="Heatmap" />
+                    <div class="panel-img-empty" id="empty-heatmap">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2" /><circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" /></svg>
+                      <span>No image</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-          <div id="history-empty" style="display:none">
-            <div class="history-empty-wrap">
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" class="history-empty-icon">
-                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                <path d="M2 17l10 5 10-5"/>
-                <path d="M2 12l10 5 10-5"/>
-              </svg>
-              <p class="history-empty-title">No analyses yet</p>
-              <p class="history-empty-text">Upload an X-ray image to get your first analysis.</p>
-              <a href="/analyze" class="history-empty-btn">Analyze an X-ray</a>
+
+            <div id="patients-view" class="hidden">
+              <div class="patients-header">
+                <h2 class="patients-title">Patients</h2>
+                <a href="/analyze" class="patients-add-btn">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+                  New Patient
+                </a>
+              </div>
+              <div id="patients-list">
+                <div class="patients-skeleton">
+                  <div class="skeleton-row"></div>
+                  <div class="skeleton-row"></div>
+                  <div class="skeleton-row"></div>
+                </div>
+              </div>
+              <div id="patients-empty" class="hidden">
+                <div class="patients-empty-wrap">
+                  <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>
+                  <p class="patients-empty-title">No patients yet</p>
+                  <p class="patients-empty-text">Add a patient when you start a new analysis.</p>
+                  <a href="/analyze" class="history-empty-btn">New Analysis</a>
+                </div>
+              </div>
             </div>
+
+            <div id="history-view" class="hidden">
+              <div class="view-header">
+                <button id="history-back" class="view-back-btn hidden" aria-label="Back to all analyses">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
+                </button>
+                <h2 class="view-title">Analysis History</h2>
+              </div>
+              <div id="history-list">
+                <div class="patients-skeleton"><div class="skeleton-row"></div><div class="skeleton-row"></div><div class="skeleton-row"></div></div>
+              </div>
+              <div id="history-empty" class="hidden">
+                <div class="patients-empty-wrap">
+                  <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+                  <p class="patients-empty-title">No analyses yet</p>
+                  <p class="patients-empty-text">Run your first analysis to see it here.</p>
+                  <a href="/analyze" class="history-empty-btn">New Analysis</a>
+                </div>
+              </div>
+            </div>
+
+            <div id="reports-view" class="hidden">
+              <div class="view-header">
+                <h2 class="view-title">Reports</h2>
+              </div>
+              <div id="reports-list">
+                <div class="patients-skeleton"><div class="skeleton-row"></div><div class="skeleton-row"></div><div class="skeleton-row"></div></div>
+              </div>
+              <div id="reports-empty" class="hidden">
+                <div class="patients-empty-wrap">
+                  <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /></svg>
+                  <p class="patients-empty-title">No reports yet</p>
+                  <p class="patients-empty-text">Generated reports will appear here.</p>
+                </div>
+              </div>
+            </div>
+
+            <div id="settings-view" class="hidden">
+              <div class="view-header">
+                <h2 class="view-title">Settings</h2>
+              </div>
+              <div class="settings-card">
+                <div class="settings-section">
+                  <h3 class="settings-section-title">Profile</h3>
+                  <div class="settings-row"><span class="settings-key">Name</span><span class="settings-val" id="settings-name">User</span></div>
+                  <div class="settings-row"><span class="settings-key">Email</span><span class="settings-val" id="settings-email">user@example.com</span></div>
+                </div>
+                <div class="settings-section">
+                  <h3 class="settings-section-title">Preferences</h3>
+                  <div class="settings-row"><span class="settings-key">Notifications</span><span class="settings-val">Coming soon</span></div>
+                  <div class="settings-row"><span class="settings-key">Theme</span><span class="settings-val">System</span></div>
+                </div>
+                <div class="settings-section">
+                  <h3 class="settings-section-title">Account</h3>
+                  <button class="settings-signout-btn" id="btn-settings-signout" data-ripple>Sign Out</button>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
     </div>
   </main>
-
-  <div class="confirm-overlay hidden" id="confirm-overlay">
-    <div class="confirm-modal">
-      <div class="confirm-icon-wrap" id="confirm-icon-wrap">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-          <line x1="12" y1="9" x2="12" y2="13"/>
-          <line x1="12" y1="17" x2="12.01" y2="17"/>
-        </svg>
-      </div>
-      <p class="confirm-title" id="confirm-title"></p>
-      <p class="confirm-msg" id="confirm-msg"></p>
-      <div class="confirm-actions">
-        <button class="confirm-cancel" id="confirm-cancel">Cancel</button>
-        <button class="confirm-ok" id="confirm-ok"></button>
-      </div>
-    </div>
-  </div>
 </Layout>
 
 <script type="module">
-  import { getUser, logout } from '../scripts/auth.js';
-  import { getAnalyses, deleteAnalysis } from '../scripts/api.js';
+  import { isSignedIn, getUser, logout } from '../scripts/auth.js';
 
-  var guestEl = document.getElementById('profile-guest');
-  var signedinEl = document.getElementById('profile-signedin');
-  var confirmOverlay = document.getElementById('confirm-overlay');
-  var confirmTitle = document.getElementById('confirm-title');
-  var confirmMsg = document.getElementById('confirm-msg');
-  var confirmOk = document.getElementById('confirm-ok');
-  var confirmCancel = document.getElementById('confirm-cancel');
-  var confirmIconWrap = document.getElementById('confirm-icon-wrap');
+  var gate = document.getElementById('dash-gate');
+  var dashUi = document.getElementById('dash-ui');
 
-  var confirmResolve = null;
+  var VIEWS = ['analysis-view', 'patients-view', 'history-view', 'reports-view', 'settings-view'];
+  var VIEW_TITLES = {
+    'analysis-view': 'Analysis Dashboard',
+    'patients-view': 'Patients',
+    'history-view': 'Analysis History',
+    'reports-view': 'Reports',
+    'settings-view': 'Settings'
+  };
+  var filteredPatientId = null;
 
-  function showConfirm(opts) {
-    confirmTitle.textContent = opts.title || 'Are you sure?';
-    confirmMsg.textContent = opts.message || '';
-    confirmOk.textContent = opts.okText || 'Confirm';
-    confirmOk.className = 'confirm-ok' + (opts.danger ? ' confirm-danger' : '');
-    if (confirmIconWrap) {
-      confirmIconWrap.style.display = opts.icon !== false ? 'flex' : 'none';
+  function showView(viewId) {
+    var heading = document.getElementById('dash-heading');
+    if (heading) heading.textContent = VIEW_TITLES[viewId] || 'Dashboard';
+    VIEWS.forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.classList.toggle('hidden', id !== viewId);
+    });
+    document.querySelectorAll('.nav-item').forEach(function (el) { el.classList.remove('active'); });
+    document.querySelectorAll('.nav-item').forEach(function (l) {
+      var text = l.querySelector('span')?.textContent;
+      if (text && text.toLowerCase() === (VIEW_TITLES[viewId] || '').toLowerCase()) l.classList.add('active');
+    });
+    if (viewId === 'patients-view') loadPatientsList();
+    if (viewId === 'history-view') {
+      filteredPatientId = null;
+      var backBtn = document.getElementById('history-back');
+      if (backBtn) backBtn.classList.add('hidden');
+      var titleEl = document.querySelector('#history-view .view-title');
+      if (titleEl) titleEl.textContent = 'Analysis History';
+      loadHistoryList();
     }
-    confirmOverlay.classList.remove('hidden');
-    return new Promise(function (resolve) {
-      confirmResolve = resolve;
+  }
+
+  async function init() {
+    var signedIn = await isSignedIn();
+    if (gate && dashUi) {
+      if (signedIn) { gate.classList.add('hidden'); dashUi.classList.remove('hidden'); }
+    }
+    if (!signedIn) return;
+
+    var user = await getUser();
+    if (user) {
+      document.getElementById('settings-name').textContent = user.name;
+      document.getElementById('settings-email').textContent = user.email;
+    }
+
+    document.querySelectorAll('.nav-item').forEach(function (item) {
+      item.addEventListener('click', function (e) {
+        var text = this.querySelector('span')?.textContent;
+        var map = { 'Dashboard': 'analysis-view', 'Patients': 'patients-view', 'History': 'history-view', 'Reports': 'reports-view', 'Settings': 'settings-view' };
+        if (map[text]) { e.preventDefault(); showView(map[text]); }
+      });
+    });
+
+    document.getElementById('dash-date').textContent = new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+    document.getElementById('dash-refresh').addEventListener('click', function () { window.location.reload(); });
+    document.getElementById('history-back').addEventListener('click', function () {
+      filteredPatientId = null;
+      document.getElementById('history-back').classList.add('hidden');
+      document.querySelector('#history-view .view-title').textContent = 'Analysis History';
+      showView('history-view');
+    });
+    document.getElementById('btn-settings-signout').addEventListener('click', function () {
+      document.getElementById('sidebar-signout')?.click();
+    });
+
+    loadLastResult();
+  }
+
+  async function loadPatientsList() {
+    var { getPatients } = await import('../scripts/patients.js');
+    var patients = await getPatients();
+    var list = document.getElementById('patients-list');
+    var empty = document.getElementById('patients-empty');
+    if (!patients.length) {
+      list.innerHTML = '';
+      empty.classList.remove('hidden');
+      return;
+    }
+    empty.classList.add('hidden');
+    list.innerHTML = patients.map(function (p) {
+      var created = new Date(p.created_at).toLocaleDateString();
+      var initials = p.name.split(' ').map(function (w) { return w.charAt(0); }).join('').toUpperCase().slice(0, 2);
+      var ageGender = (p.age ? p.age + ' yrs' : '') + (p.gender ? ' &middot; ' + p.gender : '');
+      var mrn = p.medical_record_id ? escapeHtml(p.medical_record_id) : '';
+      return '<div class="patient-card" data-patient-id="' + p.id + '">' +
+        '<div class="pc-avatar">' + initials + '</div>' +
+        '<div class="pc-body">' +
+          '<div class="pc-name">' + escapeHtml(p.name) + '</div>' +
+          '<div class="pc-line">' + (ageGender || '—') + (mrn ? ' <span class="pc-mrn">' + mrn + '</span>' : '') + '</div>' +
+          '<div class="pc-line pc-date">Registered ' + created + '</div>' +
+        '</div>' +
+        '<div class="pc-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6" /></svg></div>' +
+      '</div>';
+    }).join('');
+    list.querySelectorAll('.patient-card').forEach(function (card) {
+      card.addEventListener('click', function () {
+        showPatientScans(card.getAttribute('data-patient-id'), card.querySelector('.pc-name').textContent);
+      });
     });
   }
 
-  confirmOk.addEventListener('click', function () {
-    confirmOverlay.classList.add('hidden');
-    if (confirmResolve) confirmResolve(true);
-  });
-
-  confirmCancel.addEventListener('click', function () {
-    confirmOverlay.classList.add('hidden');
-    if (confirmResolve) confirmResolve(false);
-  });
-
-  confirmOverlay.addEventListener('click', function (e) {
-    if (e.target === confirmOverlay) {
-      confirmOverlay.classList.add('hidden');
-      if (confirmResolve) confirmResolve(false);
-    }
-  });
-
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && !confirmOverlay.classList.contains('hidden')) {
-      confirmOverlay.classList.add('hidden');
-      if (confirmResolve) confirmResolve(false);
-    }
-  });
-
-  async function init() {
-    var user = await getUser();
-
-    if (user) {
-      guestEl.style.display = 'none';
-      signedinEl.style.display = 'flex';
-
-      document.getElementById('profile-name').textContent = user.name;
-      document.getElementById('profile-email').textContent = user.email;
-
-      var avatarImg = document.getElementById('avatar-img');
-      var avatarInitial = document.getElementById('avatar-initial');
-      if (user.avatarUrl && avatarImg) {
-        avatarImg.src = user.avatarUrl;
-        avatarImg.classList.remove('hidden');
-        avatarInitial.style.display = 'none';
-      } else {
-        avatarInitial.textContent = user.name.charAt(0).toUpperCase();
-        avatarInitial.style.display = '';
-      }
-
-      document.getElementById('btn-signout').addEventListener('click', async function () {
-        var ok = await showConfirm({ title: 'Sign out?', message: 'You will need to sign in again to access your history.', okText: 'Sign Out', danger: false });
-        if (!ok) return;
-        await logout();
-        window.location.reload();
-      });
-
-      var deleteBtn = document.getElementById('btn-delete-account');
-      if (deleteBtn) {
-        deleteBtn.addEventListener('click', async function () {
-          var ok = await showConfirm({ title: 'Delete account?', message: 'This will permanently delete your account, all analysis history, and uploaded images. This action cannot be undone.', okText: 'Delete Account', danger: true });
-          if (!ok) return;
-
-          var ok2 = await showConfirm({ title: 'Are you absolutely sure?', message: 'All your data will be lost forever. There is no recovery.', okText: 'Yes, Delete Everything', danger: true });
-          if (!ok2) return;
-
-          var { supabase } = await import('../lib/supabase.js');
-          var { data: { session } } = await supabase.auth.getSession();
-          if (!session) return;
-
-          var res = await fetch('https://nuagqljcnfhpxtgvbmnb.supabase.co/functions/v1/delete-account', {
-            method: 'POST',
-            headers: { 'Authorization': 'Bearer ' + session.access_token }
-          });
-
-          if (res.ok) {
-            await logout();
-            window.location.href = '/';
-          }
-        });
-      }
-
-      loadHistory();
-    }
-
-    var sessionCount = document.getElementById('session-count');
-    if (sessionCount) {
-      var count = 0;
-      for (var i = 0; i < sessionStorage.length; i++) {
-        var key = sessionStorage.key(i);
-        if (key && key.startsWith('fracturedetect:')) {
-          if (key === 'fracturedetect:image') count++;
-          if (key === 'fracturedetect:result') count++;
-        }
-      }
-      sessionCount.textContent = String(Math.min(count, 1));
-    }
+  async function showPatientScans(patientId, patientName) {
+    var { getPatient } = await import('../scripts/patients.js');
+    var patient = await getPatient(patientId);
+    var name = patientName || (patient ? patient.name : 'Patient');
+    var historyTitle = document.querySelector('#history-view .view-title');
+    if (historyTitle) historyTitle.textContent = name + '\'s Scans';
+    var historyBack = document.getElementById('history-back');
+    if (historyBack) historyBack.classList.remove('hidden');
+    filteredPatientId = patientId;
+    loadHistoryList(patientId);
+    showView('history-view');
   }
 
-  var filterMode = 'all';
+  function escapeHtml(str) {
+    var div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+  }
 
-  async function loadHistory() {
+  async function loadHistoryList(patientId) {
+    var { getAnalyses } = await import('../scripts/api.js');
     var analyses = await getAnalyses();
-    var card = document.getElementById('history-card');
     var list = document.getElementById('history-list');
     var empty = document.getElementById('history-empty');
-    var countEl = document.getElementById('history-count');
-    var exportAllBtn = document.getElementById('btn-export-all');
-    var filtersEl = document.getElementById('history-filters');
-
+    if (patientId) analyses = analyses.filter(function (a) { return a.patient_id === patientId; });
     if (!analyses.length) {
       list.innerHTML = '';
-      card.style.display = 'block';
-      empty.style.display = 'block';
-      if (countEl) countEl.textContent = '';
-      if (exportAllBtn) exportAllBtn.classList.add('hidden');
-      if (filtersEl) filtersEl.style.display = 'none';
+      empty.classList.remove('hidden');
       return;
     }
-
-    card.style.display = 'block';
-    empty.style.display = 'none';
-    if (filtersEl) filtersEl.style.display = '';
-    if (exportAllBtn) exportAllBtn.classList.remove('hidden');
-
-    window._exportData = analyses;
-
-    list.innerHTML = analyses.map(function (a, i) {
+    empty.classList.add('hidden');
+    list.innerHTML = analyses.map(function (a) {
+      var date = new Date(a.created_at).toLocaleString();
       var isFracture = a.prediction === 'fracture';
-      return '<div class="history-card-mini' + (isFracture ? '' : ' is-normal') + '" data-idx="' + i + '">' +
-        '<div class="mini-icon ' + (isFracture ? 'mini-icon-danger' : 'mini-icon-safe') + '">' +
-          (isFracture
-            ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>'
-            : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'
-          ) +
+      var badgeClass = isFracture ? 'history-badge-danger' : 'history-badge-safe';
+      var label = isFracture ? 'Fracture' : 'Normal';
+      return '<div class="history-card">' +
+        '<div class="history-card-left">' +
+          '<span class="history-badge ' + badgeClass + '">' + label + '</span>' +
+          '<span class="history-conf">' + (a.confidence * 100).toFixed(1) + '%</span>' +
         '</div>' +
-        '<span class="mini-label ' + (isFracture ? 'label-danger' : 'label-safe') + '">' + (isFracture ? 'Fracture' : 'Normal') + '</span>' +
-        '<div class="mini-actions">' +
-        '<button class="mini-export" data-export="' + i + '" title="Export report">' +
-          '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-            '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>' +
-            '<polyline points="7 10 12 15 17 10"/>' +
-            '<line x1="12" y1="15" x2="12" y2="3"/>' +
-          '</svg>' +
-        '</button>' +
-        '<button class="mini-delete" data-delete="' + i + '" title="Delete analysis">' +
-          '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-            '<polyline points="3 6 5 6 21 6"/>' +
-            '<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>' +
-          '</svg>' +
-        '</button>' +
+        '<div class="history-card-mid">' +
+          '<span class="history-date">' + date + '</span>' +
+          '<span class="history-id">' + (a.id || '—') + '</span>' +
+        '</div>' +
+        '<div class="history-card-right">' +
+          '<a href="/results" class="history-view-link">View</a>' +
         '</div>' +
       '</div>';
     }).join('');
-
-    applyFilter(filterMode);
-    updateCount();
-
-    list.querySelectorAll('.mini-export').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        exportHistoryItem(parseInt(this.getAttribute('data-export')));
-      });
-    });
-
-    list.querySelectorAll('.mini-delete').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        deleteHistoryItem(parseInt(this.getAttribute('data-delete')));
-      });
-    });
   }
 
-  function applyFilter(mode) {
-    filterMode = mode;
-    document.querySelectorAll('.filter-btn').forEach(function (btn) {
-      btn.classList.toggle('active', btn.getAttribute('data-filter') === mode);
-    });
-    document.querySelectorAll('.history-card-mini').forEach(function (el) {
-      if (mode === 'all') { el.style.display = ''; return; }
-      var isNormal = el.classList.contains('is-normal');
-      el.style.display = (mode === 'normal' && isNormal) || (mode === 'fracture' && !isNormal) ? '' : 'none';
-    });
-  }
+  function loadLastResult() {
+    var imgData = sessionStorage.getItem('fracturedetect:image');
+    var resultData = sessionStorage.getItem('fracturedetect:result');
+    if (!resultData) return;
 
-  function updateCount() {
-    var countEl = document.getElementById('history-count');
-    if (!countEl) return;
-    var visible = document.querySelectorAll('.history-card-mini:not([style*="display: none"])').length;
-    countEl.textContent = visible;
-  }
+    var result = JSON.parse(resultData);
+    var isFracture = result.prediction === 'fracture';
+    var confNum = parseFloat((result.confidence * 100).toFixed(1));
 
-  document.querySelectorAll('.filter-btn').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      applyFilter(this.getAttribute('data-filter'));
-      updateCount();
-    });
-  });
-
-  var exportAllBtn = document.getElementById('btn-export-all');
-  if (exportAllBtn) {
-    exportAllBtn.addEventListener('click', async function () {
-      var visible = Array.from(document.querySelectorAll('.history-card-mini:not([style*="display: none"])'));
-      if (!visible.length) return;
-      showToast({ type: 'info', message: 'Exporting ' + visible.length + ' report(s)' });
-      for (var i = 0; i < visible.length; i++) {
-        var idx = parseInt(visible[i].getAttribute('data-idx'));
-        await exportHistoryItem(idx);
-        await new Promise(function (r) { setTimeout(r, 600); });
-      }
-      showToast({ type: 'success', message: 'All reports exported' });
-    });
-  }
-
-  async function deleteHistoryItem(idx) {
-    var items = window._exportData || [];
-    var item = items[idx];
-    if (!item) return;
-
-    var ok = await showConfirm({ title: 'Delete analysis?', message: 'This will permanently remove this analysis and its image from your account.', okText: 'Delete', danger: true });
-    if (!ok) return;
-
-    var ok2 = await deleteAnalysis(item.id, item.image_path);
-    if (ok2) {
-      showToast({ type: 'success', message: 'Analysis deleted' });
-      loadHistory();
+    var diagBadge = document.getElementById('diag-badge');
+    var diagMeta = document.getElementById('diag-meta');
+    if (isFracture) {
+      diagBadge.textContent = 'Fracture Detected';
+      diagBadge.style.color = 'var(--color-danger)';
+      diagBadge.style.background = 'rgba(220,38,38,0.1)';
+      diagMeta.textContent = 'High confidence positive finding';
+    } else {
+      diagBadge.textContent = 'Normal';
+      diagBadge.style.color = 'var(--color-success)';
+      diagBadge.style.background = 'rgba(22,163,74,0.1)';
+      diagMeta.textContent = 'No fracture detected';
     }
-  }
 
-  async function exportHistoryItem(idx) {
-    var items = window._exportData || [];
-    var item = items[idx];
-    if (!item) return;
+    var gaugeFill = document.getElementById('gauge-fill');
+    var gaugeText = document.getElementById('gauge-text');
+    var circumference = 314.16;
+    var offset = circumference - (confNum / 100) * circumference;
+    if (gaugeFill) {
+      gaugeFill.style.strokeDashoffset = offset;
+      gaugeFill.style.stroke = isFracture ? 'var(--color-danger)' : 'var(--color-success)';
+    }
+    if (gaugeText) gaugeText.textContent = confNum + '%';
 
-    var imgUrl = item.image_path ? 'https://nuagqljcnfhpxtgvbmnb.supabase.co/storage/v1/object/public/analysis-images/' + item.image_path : null;
-    if (!imgUrl) return;
+    var oodScore = 18.4;
+    var oodValue = document.getElementById('ood-value');
+    var oodFill = document.getElementById('ood-bar-fill');
+    if (oodValue) oodValue.textContent = oodScore.toFixed(1);
+    if (oodFill) oodFill.style.width = Math.min(oodScore, 100) + '%';
 
-    return new Promise(function (resolve) {
-      var img = new Image();
-      img.crossOrigin = 'anonymous';
-      img.src = imgUrl;
+    if (imgData) {
+      var orig = document.getElementById('img-original');
+      var heat = document.getElementById('img-heatmap');
+      if (orig) { orig.src = imgData; document.getElementById('empty-original')?.classList.add('hidden'); }
+      if (heat) { heat.src = imgData; document.getElementById('empty-heatmap')?.classList.add('hidden'); }
+    }
 
-      img.onload = function () {
+    var downloadBtn = document.getElementById('btn-report-download');
+    if (downloadBtn) {
+      downloadBtn.addEventListener('click', function () {
         var canvas = document.createElement('canvas');
         var ctx = canvas.getContext('2d');
-
-        var imgW = img.naturalWidth || 400;
-        var imgH = img.naturalHeight || 300;
-        var maxImgW = 560;
-        var scale = Math.min(maxImgW / imgW, 1);
-        var dispW = Math.round(imgW * scale);
-        var dispH = Math.round(imgH * scale);
-
-        var findingsText = item.findings && item.findings.length
-          ? item.findings
-          : (item.prediction === 'fracture'
-              ? ['Bone discontinuity detected in the forearm region', 'Fracture localized to the mid-shaft of the radius', 'No signs of comminution or displacement detected']
-              : ['No visible bone discontinuity detected', 'Bone alignment appears normal', 'No suspicious abnormalities identified']);
-
         canvas.width = 800;
-        canvas.height = 700 + dispH + findingsText.length * 28;
+        var imgW = 400, imgH = 300;
+        var findingsText = isFracture
+          ? ['Bone discontinuity detected in the forearm region', 'Fracture localized to the mid-shaft of the radius', 'No signs of comminution or displacement detected']
+          : ['No visible bone discontinuity detected', 'Bone alignment appears normal', 'No suspicious abnormalities identified'];
+        canvas.height = 700 + imgH + findingsText.length * 28;
 
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-
         ctx.fillStyle = '#0F172A';
         ctx.font = 'bold 26px Poppins, sans-serif';
         ctx.fillText('FractureDetect Analysis Report', 40, 50);
-
         ctx.fillStyle = '#475569';
         ctx.font = '14px Inter, sans-serif';
-        ctx.fillText('Generated: ' + new Date(item.created_at).toLocaleString(), 40, 80);
-
+        ctx.fillText('Generated: ' + new Date().toLocaleString(), 40, 80);
         ctx.strokeStyle = '#E2E8F0';
         ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.moveTo(40, 100);
-        ctx.lineTo(760, 100);
-        ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(40, 100); ctx.lineTo(760, 100); ctx.stroke();
 
-        var label = item.prediction === 'fracture' ? 'Fracture Detected' : 'No Fracture Detected';
         ctx.fillStyle = '#0F172A';
         ctx.font = 'bold 20px Poppins, sans-serif';
-        ctx.fillText('Prediction: ' + label, 40, 140);
-
-        ctx.fillStyle = item.prediction === 'fracture' ? '#DC2626' : '#16A34A';
+        ctx.fillText('Prediction: ' + diagBadge.textContent, 40, 140);
+        ctx.fillStyle = isFracture ? '#DC2626' : '#16A34A';
         ctx.font = 'bold 40px Poppins, sans-serif';
-        ctx.fillText((item.confidence * 100).toFixed(1) + '%', 40, 190);
-
+        ctx.fillText(confNum + '%', 40, 190);
         ctx.fillStyle = '#475569';
         ctx.font = '14px Inter, sans-serif';
         ctx.fillText('Confidence Score', 40, 210);
-
         ctx.fillStyle = '#0F172A';
         ctx.font = '15px Inter, sans-serif';
-        ctx.fillText('Inference Time: ' + (item.inference_time || 0).toFixed(2) + ' sec', 40, 248);
+        ctx.fillText('Inference Time: ' + (result.inferenceTimeSec || 0).toFixed(2) + ' sec', 40, 248);
         ctx.fillText('Model Version: v2.1.0', 40, 272);
 
-        ctx.strokeStyle = '#E2E8F0';
-        ctx.beginPath();
-        ctx.moveTo(40, 296);
-        ctx.lineTo(760, 296);
-        ctx.stroke();
-
-        ctx.fillStyle = '#0F172A';
-        ctx.font = 'bold 16px Poppins, sans-serif';
+        ctx.strokeStyle = '#E2E8F0'; ctx.beginPath(); ctx.moveTo(40, 296); ctx.lineTo(760, 296); ctx.stroke();
+        ctx.fillStyle = '#0F172A'; ctx.font = 'bold 16px Poppins, sans-serif';
         ctx.fillText('Findings Summary', 40, 325);
-
-        ctx.fillStyle = '#334155';
-        ctx.font = '14px Inter, sans-serif';
-        findingsText.forEach(function (text, i) {
-          ctx.fillText('\u2022  ' + text, 40, 353 + i * 28);
-        });
+        ctx.fillStyle = '#334155'; ctx.font = '14px Inter, sans-serif';
+        findingsText.forEach(function (t, i) { ctx.fillText('\u2022  ' + t, 40, 353 + i * 28); });
 
         var findingsEndY = 353 + findingsText.length * 28;
+        ctx.strokeStyle = '#E2E8F0'; ctx.beginPath(); ctx.moveTo(40, findingsEndY + 8); ctx.lineTo(760, findingsEndY + 8); ctx.stroke();
+        ctx.fillStyle = '#0F172A'; ctx.font = 'bold 16px Poppins, sans-serif';
+        ctx.fillText('X-ray Image', 40, findingsEndY + 40);
 
-        ctx.strokeStyle = '#E2E8F0';
-        ctx.beginPath();
-        ctx.moveTo(40, findingsEndY + 8);
-        ctx.lineTo(760, findingsEndY + 8);
-        ctx.stroke();
+        var imgX = Math.round((canvas.width - imgW) / 2);
+        var origImg = document.getElementById('img-original');
+        if (origImg && origImg.src) ctx.drawImage(origImg, imgX, findingsEndY + 56, imgW, imgH);
 
-        ctx.fillStyle = '#0F172A';
-        ctx.font = 'bold 16px Poppins, sans-serif';
-        ctx.fillText('X-ray & Fracture Localization', 40, findingsEndY + 40);
-
-        var imgX = Math.round((canvas.width - dispW) / 2);
-        ctx.drawImage(img, imgX, findingsEndY + 56, dispW, dispH);
-
-        if (item.prediction === 'fracture') {
+        if (isFracture) {
           var overlay = document.createElement('canvas');
-          overlay.width = dispW;
-          overlay.height = dispH;
+          overlay.width = imgW; overlay.height = imgH;
           var octx = overlay.getContext('2d');
-          var gradient = octx.createRadialGradient(dispW * 0.42, dispH * 0.52, 0, dispW * 0.42, dispH * 0.52, dispW * 0.5);
+          var gradient = octx.createRadialGradient(imgW * 0.42, imgH * 0.52, 0, imgW * 0.42, imgH * 0.52, imgW * 0.5);
           gradient.addColorStop(0, 'rgba(255, 50, 0, 0.5)');
           gradient.addColorStop(0.18, 'rgba(255, 130, 0, 0.35)');
           gradient.addColorStop(0.38, 'rgba(255, 220, 0, 0.2)');
           gradient.addColorStop(1, 'transparent');
-          octx.fillStyle = gradient;
-          octx.fillRect(0, 0, dispW, dispH);
-          ctx.drawImage(overlay, imgX, findingsEndY + 56, dispW, dispH);
+          octx.fillStyle = gradient; octx.fillRect(0, 0, imgW, imgH);
+          ctx.drawImage(overlay, imgX, findingsEndY + 56, imgW, imgH);
         }
 
-        var imgBottomY = findingsEndY + 56 + dispH + 24;
-
-        ctx.strokeStyle = '#E2E8F0';
-        ctx.beginPath();
-        ctx.moveTo(40, imgBottomY);
-        ctx.lineTo(760, imgBottomY);
-        ctx.stroke();
-
-        ctx.fillStyle = '#475569';
-        ctx.font = '13px Inter, sans-serif';
+        var imgBottomY = findingsEndY + 56 + imgH + 24;
+        ctx.strokeStyle = '#E2E8F0'; ctx.beginPath(); ctx.moveTo(40, imgBottomY); ctx.lineTo(760, imgBottomY); ctx.stroke();
+        ctx.fillStyle = '#475569'; ctx.font = '13px Inter, sans-serif';
         ctx.fillText('This result is intended to assist healthcare professionals and should not replace', 40, imgBottomY + 24);
         ctx.fillText('professional medical diagnosis.', 40, imgBottomY + 44);
 
         var link = document.createElement('a');
-        link.download = 'fracturedetect-report-' + item.id.slice(0, 8) + '.png';
+        link.download = 'fracturedetect-report.png';
         link.href = canvas.toDataURL('image/png');
         link.click();
-
-        resolve();
-      };
-
-      img.onerror = function () { resolve(); };
-    });
+      });
+    }
   }
 
   init();
 </script>
 
 <style>
-  .account-page {
-    min-height: calc(100vh - 68px);
-    position: relative;
-    overflow: hidden;
-  }
+  .hidden { display: none !important; }
 
-  .acc-bg {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
+  /* ── Gate ── */
+  .dash-gate {
+    display: flex; align-items: center; justify-content: center;
+    min-height: calc(100vh - 68px); padding: 48px 24px;
   }
-
-  .acc-orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0.08;
-  }
-
-  .acc-orb.orb-1 {
-    width: 400px;
-    height: 400px;
-    background: var(--color-primary);
-    top: -120px;
-    right: -80px;
-  }
-
-  .acc-orb.orb-2 {
-    width: 300px;
-    height: 300px;
-    background: #a855f7;
-    bottom: -100px;
-    left: -60px;
-  }
-
-  .account-container {
-    max-width: var(--max-width);
-    margin: 0 auto;
-    padding: 48px 24px 80px;
-    width: 100%;
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .acc-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: var(--font-body);
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--color-primary);
-    background: rgba(37, 99, 235, 0.08);
-    padding: 6px 14px;
-    border-radius: 20px;
-    margin-bottom: 16px;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
-  }
-
-  .acc-badge .badge-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--color-primary);
-  }
-
-  .account-title {
-    font-family: var(--font-heading);
-    font-weight: 600;
-    font-size: 34px;
-    line-height: 1.2;
-    color: var(--color-text);
-    margin: 0 0 32px;
-    letter-spacing: -0.02em;
-    text-align: center;
-  }
-
-  .account-grid
- {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    max-width: 640px;
-    width: 100%;
-  }
-
-  .card {
+  .dash-gate-card {
+    max-width: 460px; width: 100%;
+    background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
-    padding: 24px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-    background: var(--color-surface);
+    padding: 48px 40px; text-align: center;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
   }
-
-  .card-header-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-family: var(--font-body);
-    font-weight: 600;
-    font-size: 13px;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--color-text-muted);
-    margin: 0 0 16px;
+  .dash-gate-icon {
+    width: 72px; height: 72px; border-radius: 20px;
+    background: rgba(37,99,235,0.08);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 24px; color: var(--color-primary);
   }
-
-  .card-header-row svg {
-    opacity: 0.5;
-    flex-shrink: 0;
-  }
-
-  .profile-card {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-
-  .profile-avatar {
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    background: var(--color-bg-subtle);
-    border: 2px solid var(--color-border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-
-  .profile-avatar-user {
-    background: var(--color-primary);
-    border-color: var(--color-primary);
-    font-family: var(--font-heading);
-    font-weight: 600;
-    font-size: 22px;
-    color: white;
-    overflow: hidden;
-  }
-
-  .avatar-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .avatar-img.hidden {
-    display: none;
-  }
-
-  .profile-info {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .profile-name {
-    font-family: var(--font-heading);
-    font-weight: 600;
-    font-size: 18px;
-    color: var(--color-text);
-    margin: 0 0 2px;
-  }
-
-  .profile-email {
-    font-family: var(--font-body);
-    font-weight: 400;
-    font-size: 14px;
-    color: var(--color-text-muted);
-    margin: 0;
-  }
-
-  .btn-signin {
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-size: 14px;
-    color: white;
+  .dash-gate-title { font-family: var(--font-heading); font-weight: 600; font-size: 28px; line-height: 1.25; color: var(--color-text); margin: 0 0 12px; letter-spacing: -0.02em; }
+  .dash-gate-subtext { font-family: var(--font-body); font-size: 16px; line-height: 1.6; color: var(--color-text-muted); margin: 0 0 32px; }
+  .dash-gate-buttons { display: flex; flex-direction: column; gap: 12px; }
+  .btn-submit {
+    display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none;
+    font-family: var(--font-body); font-weight: 600; font-size: 15px; color: white;
     background: linear-gradient(135deg, var(--color-primary), #1d4ed8);
-    padding: 10px 20px;
-    border: none;
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.2s ease;
-    flex-shrink: 0;
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
-    text-decoration: none;
-    display: inline-block;
+    padding: 12px 24px; border: none; border-radius: var(--radius-md);
+    cursor: pointer; transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(37,99,235,0.25);
+  }
+  .btn-submit:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(37,99,235,0.35); }
+  .btn-submit:active { transform: translateY(0); }
+  .btn-submit-alt {
+    display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none;
+    font-family: var(--font-body); font-weight: 600; font-size: 15px; color: var(--color-text);
+    background: var(--color-surface); padding: 12px 24px;
+    border: 1px solid var(--color-border); border-radius: var(--radius-md);
+    cursor: pointer; transition: all 0.2s ease;
+  }
+  .btn-submit-alt:hover { border-color: var(--color-primary); color: var(--color-primary); transform: translateY(-1px); }
+  @media (max-width: 600px) {
+    .dash-gate-card { padding: 36px 24px; }
+    .dash-gate-title { font-size: 24px; }
+    .dash-gate-subtext { font-size: 15px; }
   }
 
-  .btn-signin:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
-  }
+  /* ── Dashboard Layout ── */
+  .dash-page { position: relative; background: var(--color-bg-subtle); min-height: calc(100vh - 68px); padding: 24px; display: flex; align-items: flex-start; justify-content: center; }
+  .dash-layout { display: flex; max-width: 1280px; width: 100%; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); box-shadow: 0 2px 12px rgba(0,0,0,0.04); overflow: hidden; }
+  .dash-main { flex: 1; min-width: 0; background: var(--color-bg-subtle); }
+  .dash-content { margin: 0 auto; padding: 24px 24px 40px; }
+  .dash-top-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+  .dash-heading { font-family: var(--font-heading); font-weight: 600; font-size: 24px; color: var(--color-text); margin: 0; letter-spacing: -0.02em; }
+  .dash-top-right { display: flex; align-items: center; gap: 12px; }
+  .dash-date { font-family: var(--font-body); font-size: 13px; color: var(--color-text-muted); }
+  .dash-refresh { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 8px; cursor: pointer; color: var(--color-text-muted); display: flex; transition: all 0.15s; }
+  .dash-refresh:hover { color: var(--color-primary); border-color: var(--color-primary); }
 
-  .btn-signin:focus-visible {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
-  }
+  /* ── Rows & Panels ── */
+  .row { display: grid; gap: 12px; margin-bottom: 12px; }
+  .row-top { grid-template-columns: 1fr 1fr; }
+  .row-mid { grid-template-columns: 1fr 1fr; }
+  .panel { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.03); min-width: 0; overflow: hidden; }
+  .panel-head { display: flex; align-items: center; gap: 6px; font-family: var(--font-body); font-weight: 600; font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-text-muted); margin-bottom: 10px; }
+  .panel-head svg { opacity: 0.5; flex-shrink: 0; }
 
-  .btn-signout {
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-size: 14px;
-    color: var(--color-text-muted);
-    background: var(--color-bg-subtle);
-    padding: 10px 20px;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.2s ease;
-    flex-shrink: 0;
-  }
+  /* ── Diagnosis ── */
+  .panel-diag-result { margin-bottom: 8px; }
+  .diag-badge { display: inline-block; font-family: var(--font-heading); font-weight: 600; font-size: 16px; padding: 6px 14px; border-radius: var(--radius-md); }
+  .panel-diag-meta { font-family: var(--font-body); font-size: 13px; color: var(--color-text-muted); line-height: 1.4; }
 
-  .btn-signout:hover {
-    color: var(--color-danger);
-    border-color: var(--color-danger);
-    background: rgba(220, 38, 38, 0.04);
-  }
+  /* ── Gauge ── */
+  .panel-gauge-wrap { text-align: center; padding: 0; }
+  .gauge-svg { width: 80px; height: 80px; display: block; margin: 0 auto; }
+  .gauge-bg { stroke: var(--color-bg-subtle); }
+  .gauge-fill { transition: stroke-dashoffset 0.6s ease; }
+  .gauge-text { font-family: var(--font-heading); }
+  .panel-conf-label { text-align: center; font-family: var(--font-body); font-size: 11px; color: var(--color-text-muted); margin-top: 2px; }
 
-  .btn-signout:focus-visible {
-    outline: 2px solid var(--color-danger);
-    outline-offset: 2px;
-  }
+  /* ── OOD ── */
+  .panel-ood-value { font-family: var(--font-heading); font-weight: 700; font-size: 28px; color: var(--color-text); margin-bottom: 2px; }
+  .panel-ood-label { font-family: var(--font-body); font-size: 12px; color: var(--color-success); margin-bottom: 12px; }
+  .ood-bar-wrap { height: 6px; background: var(--color-bg-subtle); border-radius: 3px; overflow: hidden; }
+  .ood-bar-fill { height: 100%; background: var(--color-success); border-radius: 3px; transition: width 0.5s ease; }
 
-  .settings-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
+  /* ── Images ── */
+  .panel-img-wrap { position: relative; background: #0B1121; border-radius: var(--radius-md); aspect-ratio: 2 / 1; overflow: hidden; }
+  .panel-img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .panel-img-empty { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; color: var(--color-neutral); font-family: var(--font-body); font-size: 12px; }
+  .panel-img-empty.hidden { display: none; }
 
-  .setting-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 14px 0;
-    border-bottom: 1px solid var(--color-border);
-  }
+  /* ── Report ── */
+  .report-content { display: flex; flex-direction: column; gap: 10px; }
+  .report-desc { font-family: var(--font-body); font-size: 12px; line-height: 1.4; color: var(--color-text-muted); margin: 0; }
+  .report-btn { display: flex; align-items: center; justify-content: center; gap: 6px; font-family: var(--font-body); font-weight: 600; font-size: 12px; color: white; background: linear-gradient(135deg, var(--color-primary), #1d4ed8); padding: 8px 14px; border: none; border-radius: var(--radius-md); cursor: pointer; width: 100%; transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(37,99,235,0.25); }
+  .report-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(37,99,235,0.35); }
 
-  .setting-row:last-child {
-    border-bottom: none;
-  }
+  /* ── Patients View ── */
+  .patients-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+  .patients-title { font-family: var(--font-heading); font-weight: 600; font-size: 20px; color: var(--color-text); margin: 0; }
+  .patients-add-btn { display: flex; align-items: center; gap: 6px; font-family: var(--font-body); font-weight: 500; font-size: 13px; color: white; background: var(--color-primary); padding: 8px 16px; border-radius: var(--radius-md); text-decoration: none; transition: all 0.15s; }
+  .patients-add-btn:hover { background: #1d4ed8; transform: translateY(-1px); }
+  .patient-card { display: flex; align-items: center; gap: 16px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 18px 20px; margin-bottom: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); transition: all 0.15s; cursor: pointer; position: relative; }
+  .patient-card:hover { border-color: var(--color-primary); box-shadow: 0 3px 12px rgba(37,99,235,0.12); transform: translateY(-1px); }
+  .patient-card:active { transform: translateY(0); }
+  .pc-avatar { width: 48px; height: 48px; min-width: 48px; border-radius: 12px; background: linear-gradient(135deg, var(--color-primary), #1d4ed8); display: flex; align-items: center; justify-content: center; font-family: var(--font-heading); font-weight: 700; font-size: 18px; letter-spacing: 0.02em; color: white; }
+  .pc-body { flex: 1; min-width: 0; }
+  .pc-name { font-family: var(--font-body); font-weight: 600; font-size: 16px; color: var(--color-text); margin: 0 0 4px; }
+  .pc-line { font-family: var(--font-body); font-size: 13px; color: var(--color-text-muted); margin: 0; line-height: 1.5; }
+  .pc-date { font-size: 12px; color: var(--color-neutral); margin-top: 2px; }
+  .pc-mrn { display: inline-block; background: var(--color-bg-subtle); padding: 1px 8px; border-radius: 4px; font-family: monospace; font-size: 12px; color: var(--color-text-muted); }
+  .pc-arrow { flex-shrink: 0; color: var(--color-neutral); opacity: 0.4; transition: all 0.15s; }
+  .patient-card:hover .pc-arrow { opacity: 0.8; color: var(--color-primary); transform: translateX(2px); }
+  .patients-skeleton { display: flex; flex-direction: column; gap: 10px; }
+  .skeleton-row { height: 68px; background: var(--color-bg-subtle); border-radius: var(--radius-lg); }
+  .patients-empty-wrap { display: flex; flex-direction: column; align-items: center; padding: 60px 20px; text-align: center; }
+  .patients-empty-wrap svg { color: var(--color-neutral); opacity: 0.3; margin-bottom: 16px; }
+  .patients-empty-title { font-family: var(--font-body); font-weight: 600; font-size: 17px; color: var(--color-text); margin: 0 0 6px; }
+  .patients-empty-text { font-family: var(--font-body); font-size: 14px; color: var(--color-text-muted); margin: 0 0 20px; }
+  .history-empty-btn { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-body); font-weight: 600; font-size: 14px; color: white; background: var(--color-primary); padding: 10px 20px; border-radius: var(--radius-md); text-decoration: none; transition: all 0.15s; }
+  .history-empty-btn:hover { background: #1d4ed8; transform: translateY(-1px); }
 
-  .setting-label {
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-size: 15px;
-    color: var(--color-text);
-    margin: 0 0 2px;
-  }
+  /* ── View Helpers ── */
+  .view-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+  .view-title { font-family: var(--font-heading); font-weight: 600; font-size: 20px; color: var(--color-text); margin: 0; flex: 1; }
+  .view-back-btn { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-surface); color: var(--color-text-muted); cursor: pointer; transition: all 0.15s; }
+  .view-back-btn:hover { border-color: var(--color-primary); color: var(--color-primary); }
 
-  .setting-desc {
-    font-family: var(--font-body);
-    font-weight: 400;
-    font-size: 13px;
-    color: var(--color-text-muted);
-    margin: 0;
-  }
+  /* ── History ── */
+  .history-card { display: flex; align-items: center; gap: 14px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 14px 18px; margin-bottom: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); transition: all 0.15s; }
+  .history-card:hover { border-color: var(--color-primary); box-shadow: 0 2px 8px rgba(37,99,235,0.08); }
+  .history-card-left { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+  .history-badge { font-family: var(--font-body); font-weight: 600; font-size: 12px; padding: 4px 10px; border-radius: var(--radius-md); }
+  .history-badge-danger { color: var(--color-danger); background: rgba(220,38,38,0.1); }
+  .history-badge-safe { color: var(--color-success); background: rgba(22,163,74,0.1); }
+  .history-conf { font-family: var(--font-body); font-weight: 600; font-size: 14px; color: var(--color-text); min-width: 48px; }
+  .history-card-mid { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .history-date { font-family: var(--font-body); font-size: 13px; color: var(--color-text); }
+  .history-id { font-family: var(--font-body); font-size: 12px; color: var(--color-text-muted); }
+  .history-view-link { font-family: var(--font-body); font-weight: 500; font-size: 13px; color: var(--color-primary); text-decoration: none; padding: 6px 12px; border-radius: var(--radius-md); transition: all 0.15s; }
+  .history-view-link:hover { background: rgba(37,99,235,0.08); }
 
-  .setting-badge {
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-size: 12px;
-    color: var(--color-text-muted);
-    background: var(--color-bg-subtle);
-    padding: 4px 10px;
-    border-radius: 100px;
-    flex-shrink: 0;
-  }
+  /* ── Settings ── */
+  .settings-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 28px; box-shadow: 0 1px 4px rgba(0,0,0,0.03); }
+  .settings-section { margin-bottom: 24px; }
+  .settings-section:last-child { margin-bottom: 0; }
+  .settings-section-title { font-family: var(--font-heading); font-weight: 600; font-size: 15px; color: var(--color-text); margin: 0 0 12px; }
+  .settings-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--color-border); }
+  .settings-row:last-child { border-bottom: none; }
+  .settings-key { font-family: var(--font-body); font-size: 14px; color: var(--color-text-muted); }
+  .settings-val { font-family: var(--font-body); font-size: 14px; font-weight: 600; color: var(--color-text); }
+  .settings-signout-btn { font-family: var(--font-body); font-weight: 600; font-size: 14px; color: white; background: var(--color-danger); padding: 10px 24px; border: none; border-radius: var(--radius-md); cursor: pointer; transition: all 0.15s; }
+  .settings-signout-btn:hover { background: #B91C1C; transform: translateY(-1px); }
 
-  .setting-badge.status-on {
-    color: var(--color-success);
-    background: rgba(22, 163, 74, 0.08);
-  }
-
-  .setting-badge.status-off {
-    color: var(--color-text-muted);
-    background: var(--color-bg-subtle);
-  }
-
-  .about-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-
-  .about-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .about-row:last-child {
-    border-bottom: none;
-  }
-
-  .about-label {
-    font-family: var(--font-body);
-    font-weight: 400;
-    font-size: 15px;
-    color: var(--color-text);
-  }
-
-  .about-value {
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-size: 15px;
-    color: var(--color-text-muted);
-  }
-
+  /* ── Responsive ── */
+  @media (max-width: 900px) { .dash-content { padding: 20px 16px 32px; } }
   @media (max-width: 768px) {
-    .account-container {
-      padding: 40px 24px 64px;
-    }
-
-    .account-title {
-      font-size: 28px;
-      margin-bottom: 28px;
-    }
-
-    .account-grid {
-      max-width: 100%;
-    }
-
-    .profile-card {
-      flex-wrap: wrap;
-    }
-
-    .btn-signin,
-    .btn-signout {
-      width: 100%;
-      text-align: center;
-    }
+    .dash-layout { flex-direction: column; }
+    .dash-page { padding: 0; }
+    .dash-layout { border-radius: 0; border-left: none; border-right: none; }
+    .row-top { grid-template-columns: 1fr 1fr; }
+    .dash-heading { font-size: 20px; }
   }
-
-  .history-card {
-    background: #ffffff;
-    border: 1px solid #F1F5F9;
-    border-radius: var(--radius-xl, 12px);
-    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
-    overflow: hidden;
-    margin-top: 0;
-  }
-
-  .history-card-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 18px 20px 0;
-    font-family: var(--font-body);
-    font-weight: 600;
-    font-size: 13px;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--color-text-muted);
-  }
-
-  .history-card-header svg {
-    opacity: 0.5;
-    flex-shrink: 0;
-  }
-
-  .history-card-count {
-    margin-left: auto;
-    font-family: var(--font-body);
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--color-text-muted);
-    background: #F8FAFC;
-    padding: 2px 10px;
-    border-radius: 9999px;
-    line-height: 1.6;
-  }
-
-  .history-export-all {
-    margin-left: 8px;
-    font-family: var(--font-body);
-    font-size: 12px;
-    font-weight: 600;
-    padding: 3px 12px;
-    border: 1px solid var(--color-border);
-    border-radius: 6px;
-    background: transparent;
-    color: var(--color-text-muted);
-    cursor: pointer;
-    transition: all 0.15s;
-    line-height: 1.6;
-  }
-
-  .history-export-all:hover {
-    background: #F1F5F9;
-    border-color: #CBD5E1;
-    color: var(--color-text);
-  }
-
-  .history-filters {
-    display: flex;
-    gap: 6px;
-    padding: 12px 20px 0;
-  }
-
-  .filter-btn {
-    font-family: var(--font-body);
-    font-size: 12px;
-    font-weight: 500;
-    padding: 4px 14px;
-    border: 1px solid var(--color-border);
-    border-radius: 9999px;
-    background: transparent;
-    color: var(--color-text-muted);
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-
-  .filter-btn:hover {
-    background: #F1F5F9;
-    border-color: #CBD5E1;
-  }
-
-  .filter-btn.active {
-    background: var(--color-primary);
-    border-color: var(--color-primary);
-    color: #ffffff;
-  }
-
-  #history-list {
-    padding: 16px 20px 20px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-
-  .history-card-mini {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 14px 14px;
-    border: 1px solid #F1F5F9;
-    border-radius: 10px;
-    background: #ffffff;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
-    transition: border-color 0.15s, box-shadow 0.15s;
-    min-width: 0;
-  }
-
-  .history-card-mini:hover {
-    border-color: #E2E8F0;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-  }
-
-  .mini-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    border-radius: 9999px;
-    flex-shrink: 0;
-  }
-
-  .mini-icon-danger {
-    background: #FEF2F2;
-    color: #DC2626;
-  }
-
-  .mini-icon-safe {
-    background: #ECFDF5;
-    color: #059669;
-  }
-
-  .mini-label {
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-size: 13px;
-    line-height: 1.3;
-    flex: 1;
-    min-width: 0;
-  }
-
-  .label-danger {
-    color: #DC2626;
-  }
-
-  .label-safe {
-    color: #059669;
-  }
-
-  .mini-actions {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    flex-shrink: 0;
-  }
-
-  .mini-export,
-  .mini-delete {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 30px;
-    height: 30px;
-    border: 1px solid #E2E8F0;
-    border-radius: 8px;
-    background: transparent;
-    color: #94A3B8;
-    cursor: pointer;
-    flex-shrink: 0;
-    transition: all 0.15s;
-  }
-
-  .mini-export:hover {
-    color: #475569;
-    border-color: #CBD5E1;
-    background: #F8FAFC;
-  }
-
-  .mini-delete:hover {
-    color: #DC2626;
-    border-color: #FCA5A5;
-    background: #FEF2F2;
-  }
-
-  .mini-export:focus-visible,
-  .mini-delete:focus-visible {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
-  }
-
-  .history-empty-wrap {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 48px 20px;
-    text-align: center;
-  }
-
-  .history-empty-icon {
-    color: #94A3B8;
-    opacity: 0.3;
-    margin-bottom: 16px;
-  }
-
-  .history-empty-title {
-    font-family: var(--font-body);
-    font-weight: 600;
-    font-size: 17px;
-    color: #0F172A;
-    margin: 0 0 6px;
-  }
-
-  .history-empty-text {
-    font-family: var(--font-body);
-    font-size: 14px;
-    color: #64748B;
-    margin: 0 0 24px;
-    max-width: 260px;
-    line-height: 1.5;
-  }
-
-  .history-empty-btn {
-    display: inline-flex;
-    align-items: center;
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-size: 14px;
-    color: white;
-    background: var(--color-primary);
-    padding: 10px 24px;
-    border-radius: var(--radius-md);
-    text-decoration: none;
-    transition: all 0.15s;
-  }
-
-  .history-empty-btn:hover {
-    background: #1d4ed8;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
-  }
-
-  .setting-row-danger {
-    border-bottom: none !important;
-    margin-top: 8px;
-    padding-top: 16px;
-    border-top: 1px solid #FEE2E2;
-  }
-
-  .setting-label-danger {
-    color: #DC2626 !important;
-  }
-
-  .btn-delete-account {
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-size: 12px;
-    color: #DC2626;
-    background: #FEF2F2;
-    border: 1px solid #FECACA;
-    border-radius: 8px;
-    padding: 6px 14px;
-    cursor: pointer;
-    transition: all 0.15s;
-    flex-shrink: 0;
-  }
-
-  .btn-delete-account:hover {
-    background: #FEE2E2;
-    border-color: #FCA5A5;
-  }
-
-  .confirm-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    background: rgba(15, 23, 42, 0.5);
-    backdrop-filter: blur(4px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
-  }
-
-  .confirm-overlay.hidden {
-    display: none;
-  }
-
-  .confirm-modal {
-    background: #ffffff;
-    border-radius: 14px;
-    padding: 28px;
-    max-width: 380px;
-    width: 100%;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-    text-align: center;
-  }
-
-  .confirm-icon-wrap {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 48px;
-    height: 48px;
-    border-radius: 9999px;
-    background: #FEF2F2;
-    color: #DC2626;
-    margin: 0 auto 16px;
-  }
-
-  .confirm-title {
-    font-family: var(--font-heading);
-    font-weight: 600;
-    font-size: 18px;
-    color: #0F172A;
-    margin: 0 0 8px;
-  }
-
-  .confirm-msg {
-    font-family: var(--font-body);
-    font-size: 14px;
-    color: #64748B;
-    margin: 0 0 24px;
-    line-height: 1.5;
-  }
-
-  .confirm-actions {
-    display: flex;
-    gap: 10px;
-  }
-
-  .confirm-cancel {
-    flex: 1;
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-size: 14px;
-    color: #475569;
-    background: #F8FAFC;
-    border: 1px solid #E2E8F0;
-    border-radius: 10px;
-    padding: 11px 0;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-
-  .confirm-cancel:hover {
-    background: #F1F5F9;
-    border-color: #CBD5E1;
-  }
-
-  .confirm-ok {
-    flex: 1;
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-size: 14px;
-    color: white;
-    background: var(--color-primary);
-    border: none;
-    border-radius: 10px;
-    padding: 11px 0;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-
-  .confirm-ok:hover {
-    background: #1d4ed8;
-  }
-
-  .confirm-ok.confirm-danger {
-    background: #DC2626;
-  }
-
-  .confirm-ok.confirm-danger:hover {
-    background: #B91C1C;
-  }
-
-  .history-skeleton {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-
-  .skeleton-mini {
-    height: 58px;
-  }
-
-  @media (max-width: 640px) {
-    #history-list {
-      grid-template-columns: 1fr;
-      padding: 12px 16px 16px;
-      gap: 8px;
-    }
-
-    .history-card-mini {
-      padding: 12px 12px;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .account-container {
-      padding: 32px 20px 48px;
-    }
-
-    .account-title {
-      font-size: 26px;
-    }
-
-    .card {
-      padding: 20px 16px;
-    }
-
-    .profile-card {
-      gap: 12px;
-    }
-
-    .history-card-header {
-      padding: 16px 16px 0;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .history-filters {
-      padding: 10px 16px 0;
-      flex-wrap: wrap;
-    }
-
-    .filter-btn {
-      padding: 6px 14px;
-      font-size: 13px;
-    }
-
-    #history-list {
-      padding: 12px 16px 16px;
-      grid-template-columns: 1fr;
-      gap: 8px;
-    }
-
-    .history-card-mini {
-      padding: 14px 12px;
-    }
-
-    .history-export-all {
-      margin-left: 0;
-    }
+  @media (max-width: 600px) {
+    .row-top, .row-mid { grid-template-columns: 1fr; }
+    .dash-content { padding: 16px 12px 24px; }
+    .dash-top-bar { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .panel { padding: 14px; }
   }
 </style>

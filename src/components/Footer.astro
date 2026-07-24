@@ -1,0 +1,93 @@
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          </svg>
+          <span>FractureDetect</span>
+        </div>
+        <p class="footer-desc">AI-powered bone fracture detection for healthcare professionals.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4 class="footer-col-title">Product</h4>
+          <a href="/about">How It Works</a>
+          <a href="/analyze">Analyze X-ray</a>
+          <a href="/about">Model Info</a>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-col-title">Account</h4>
+          <a href="/signup">Sign Up</a>
+          <a href="/signin">Sign In</a>
+          <a href="/account">Dashboard</a>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-col-title">Company</h4>
+          <a href="/about">About</a>
+          <a href="/about">Contact</a>
+          <a href="/about">Privacy</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 FractureDetect. All rights reserved.</span>
+      <span class="footer-disclaimer">This tool is for educational and research purposes only. Not a substitute for professional medical diagnosis.</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: #0F172A;
+    color: rgba(255,255,255,0.7);
+    font-family: var(--font-body);
+    padding: 48px 24px 24px;
+    position: relative;
+    z-index: 1;
+  }
+  .footer-container { max-width: var(--max-width); margin: 0 auto; }
+  .footer-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 48px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .footer-brand { max-width: 260px; }
+  .footer-logo {
+    display: flex; align-items: center; gap: 8px;
+    font-family: var(--font-heading); font-weight: 600; font-size: 16px;
+    color: white; margin-bottom: 10px;
+  }
+  .footer-logo svg { color: var(--color-primary); flex-shrink: 0; }
+  .footer-desc { font-size: 14px; line-height: 1.6; margin: 0; }
+  .footer-links { display: flex; gap: 48px; }
+  .footer-col { display: flex; flex-direction: column; gap: 8px; }
+  .footer-col-title {
+    font-family: var(--font-heading); font-weight: 600; font-size: 13px;
+    color: white; margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .footer-col a {
+    color: rgba(255,255,255,0.55); text-decoration: none;
+    font-size: 14px; transition: color 0.15s;
+  }
+  .footer-col a:hover { color: white; }
+  .footer-bottom {
+    display: flex; flex-direction: column; gap: 6px;
+    padding-top: 20px;
+    font-size: 13px; color: rgba(255,255,255,0.35);
+  }
+  .footer-disclaimer { font-style: italic; }
+
+  @media (max-width: 768px) {
+    .footer { padding: 36px 20px 20px; }
+    .footer-top { flex-direction: column; gap: 32px; }
+    .footer-links { gap: 32px; flex-wrap: wrap; }
+  }
+  @media (max-width: 480px) {
+    .footer-links { flex-direction: column; gap: 24px; }
+    .footer-bottom { font-size: 12px; }
+  }
+</style>

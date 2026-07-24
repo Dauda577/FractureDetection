@@ -1,84 +1,288 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Footer from '../components/Footer.astro';
 ---
-
 <Layout title="Upload" description="Upload an X-ray image for AI-powered fracture analysis" active="analyze" variant="app">
   <main class="analyze-page page-enter">
     <div class="analyze-bg">
       <div class="analyze-orb orb-left fd-orb-drift" style="--float-duration:20s"></div>
       <div class="analyze-orb orb-right fd-orb-drift" style="--float-duration:16s;--float-delay:-5s"></div>
     </div>
-    <div class="analyze-container">
-      <div class="upload-section">
-        <div class="upload-badge">
-          <span class="badge-dot"></span>
-          AI Analysis
-        </div>
-        <h1 class="upload-title">Upload X-ray Image</h1>
-        <p class="upload-subtext">Upload a clear X-ray image and let our model detect fractures in seconds.</p>
 
-        <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Upload an X-ray image file">
-          <input type="file" id="file-input" accept="image/png,image/jpeg" hidden aria-label="Choose an X-ray image file" />
-          <div class="dropzone-graphic">
-            <svg class="dropzone-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" />
-              <line x1="12" y1="13" x2="12" y2="19" />
-              <polyline points="9 16 12 13 15 16" />
-            </svg>
+    <div id="auth-gate" class="auth-gate">
+      <div class="auth-gate-inner">
+        <div class="auth-gate-steps">
+          <div class="gate-step gate-step-1">
+            <div class="gate-step-num">1</div>
+            <div class="gate-step-content">
+              <h3 class="gate-step-title">Create an Account</h3>
+              <p class="gate-step-text">Sign up or sign in to save patient records and track your analysis history.</p>
+            </div>
           </div>
-          <p class="dropzone-text">Drag and drop your image here</p>
-          <p class="dropzone-link">or <span class="dropzone-link-text">click to browse</span></p>
-          <p class="dropzone-caption">PNG, JPG, JPEG &middot; Max 10MB</p>
+          <div class="gate-step gate-step-2">
+            <div class="gate-step-num">2</div>
+            <div class="gate-step-content">
+              <h3 class="gate-step-title">Enter Patient Info</h3>
+              <p class="gate-step-text">Provide patient details before each X-ray analysis for organized record-keeping.</p>
+            </div>
+          </div>
+          <div class="gate-step gate-step-3">
+            <div class="gate-step-num">3</div>
+            <div class="gate-step-content">
+              <h3 class="gate-step-title">Upload &amp; Detect</h3>
+              <p class="gate-step-text">Upload an X-ray and let AI detect fractures with confidence scores and heatmaps.</p>
+            </div>
+          </div>
         </div>
-
-        <p class="error-message" id="error-message"></p>
-
-        <button class="btn-analyze" id="btn-analyze" data-ripple disabled>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-          </svg>
-          Analyze Image
-        </button>
+        <div class="auth-gate-cta">
+          <a href="/signup" class="btn-submit fd-magnetic" data-ripple>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+              <circle cx="8.5" cy="7" r="4" />
+              <line x1="20" y1="8" x2="20" y2="14" />
+              <line x1="23" y1="11" x2="17" y2="11" />
+            </svg>
+            Get Started
+          </a>
+          <a href="/signin" class="btn-submit-alt fd-magnetic" data-ripple>I have an account</a>
+        </div>
       </div>
+    </div>
 
-      <div class="preview-section">
-        <div class="preview-card">
-          <div class="preview-card-header">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-              <circle cx="8.5" cy="8.5" r="1.5" />
-              <polyline points="21 15 16 10 5 21" />
-            </svg>
-            Preview
+    <div id="patient-ui" class="hidden">
+      <div class="patient-container">
+        <div class="patient-card">
+          <div class="upload-badge">
+            <span class="badge-dot"></span>
+            Patient Information
+          </div>
+          <h1 class="upload-title">Enter Patient Details</h1>
+          <p class="upload-subtext">Provide patient information before proceeding with the X-ray analysis.</p>
+          <form id="patient-form" class="patient-form" novalidate>
+            <div class="patient-field">
+              <label class="patient-label" for="patient-name">Full Name <span class="required">*</span></label>
+              <input class="patient-input" id="patient-name" name="name" type="text" placeholder="e.g. John Doe" required />
+            </div>
+            <div class="patient-row">
+              <div class="patient-field">
+                <label class="patient-label" for="patient-age">Age</label>
+                <input class="patient-input" id="patient-age" name="age" type="number" min="0" max="150" placeholder="e.g. 45" />
+              </div>
+              <div class="patient-field">
+                <label class="patient-label" for="patient-gender">Gender</label>
+                <select class="patient-input patient-select" id="patient-gender" name="gender">
+                  <option value="">Select</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+            </div>
+            <div class="patient-field">
+              <label class="patient-label" for="patient-mrn">Medical Record ID</label>
+              <input class="patient-input" id="patient-mrn" name="mrn" type="text" placeholder="e.g. MRN-12345" />
+            </div>
+            <div class="patient-field">
+              <label class="patient-label" for="patient-notes">Notes (optional)</label>
+              <textarea class="patient-input patient-textarea" id="patient-notes" name="notes" rows="2" placeholder="Any additional notes..."></textarea>
+            </div>
+            <p class="error-message" id="patient-error"></p>
+            <button class="btn-analyze" id="btn-patient-continue" type="submit" data-ripple>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+              Continue to Upload
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div id="upload-ui" class="hidden">
+      <div class="analyze-container">
+        <div class="upload-section">
+          <div class="upload-badge">
+            <span class="badge-dot"></span>
+            AI Analysis
+          </div>
+          <h1 class="upload-title">Upload X-ray Image</h1>
+          <div class="patient-badge" id="patient-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
+            <span id="patient-badge-name">Patient</span>
+            <button class="patient-change-btn" id="btn-change-patient">Change</button>
+          </div>
+          <p class="upload-subtext">Upload a clear X-ray image and let our model detect fractures in seconds.</p>
+
+          <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Upload an X-ray image file">
+            <input type="file" id="file-input" accept="image/png,image/jpeg" hidden aria-label="Choose an X-ray image file" />
+            <div class="dropzone-graphic">
+              <svg class="dropzone-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" />
+                <line x1="12" y1="13" x2="12" y2="19" />
+                <polyline points="9 16 12 13 15 16" />
+              </svg>
+            </div>
+            <p class="dropzone-text">Drag and drop your image here</p>
+            <p class="dropzone-link">or <span class="dropzone-link-text">click to browse</span></p>
+            <p class="dropzone-caption">PNG, JPG, JPEG &middot; Max 10MB</p>
           </div>
 
-          <div class="preview-empty" id="preview-empty">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-              <circle cx="8.5" cy="8.5" r="1.5" />
-              <polyline points="21 15 16 10 5 21" />
-            </svg>
-            <p class="preview-empty-text">No image selected yet</p>
-          </div>
+          <p class="error-message" id="error-message"></p>
 
-          <div class="preview-filled hidden" id="preview-filled">
-            <div class="preview-image-wrapper">
-              <img id="preview-image" alt="Uploaded X-ray image" />
-              <button class="btn-delete" id="btn-delete" aria-label="Remove image">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="3 6 5 6 21 6" />
-                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                </svg>
-              </button>
+          <button class="btn-analyze" id="btn-analyze" data-ripple disabled>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+            </svg>
+            Analyze Image
+          </button>
+        </div>
+
+        <div class="preview-section">
+          <div class="preview-card">
+            <div class="preview-card-header">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                <circle cx="8.5" cy="8.5" r="1.5" />
+                <polyline points="21 15 16 10 5 21" />
+              </svg>
+              Preview
+            </div>
+
+            <div class="preview-empty" id="preview-empty">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                <circle cx="8.5" cy="8.5" r="1.5" />
+                <polyline points="21 15 16 10 5 21" />
+              </svg>
+              <p class="preview-empty-text">No image selected yet</p>
+            </div>
+
+            <div class="preview-filled hidden" id="preview-filled">
+              <div class="preview-image-wrapper">
+                <img id="preview-image" alt="Uploaded X-ray image" />
+                <button class="btn-delete" id="btn-delete" aria-label="Remove image">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="3 6 5 6 21 6" />
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </main>
+  <Footer />
 </Layout>
 
 <script>
+  import { isSignedIn } from '../scripts/auth.js';
+  import { savePatient, getPatient } from '../scripts/patients.js';
+
+  var currentPatientId = sessionStorage.getItem('fracturedetect:patient_id');
+
+  function animateIn(el) {
+    el.classList.remove('hidden');
+    el.classList.remove('fade-out');
+    el.classList.add('fade-in');
+  }
+
+  function animateOut(el) {
+    el.classList.remove('fade-in');
+    el.classList.add('fade-out');
+    return new Promise(function (r) {
+      el.addEventListener('animationend', function handler() {
+        el.classList.add('hidden');
+        el.classList.remove('fade-out');
+        el.removeEventListener('animationend', handler);
+        r();
+      });
+    });
+  }
+
+  (async function () {
+    var signedIn = await isSignedIn();
+    var gate = document.getElementById('auth-gate');
+    var patientUi = document.getElementById('patient-ui');
+    var upload = document.getElementById('upload-ui');
+
+    if (!signedIn) {
+      if (gate) { gate.classList.remove('hidden'); }
+      return;
+    }
+
+    if (gate) { gate.classList.add('hidden'); }
+
+    if (currentPatientId) {
+      if (patientUi) patientUi.classList.add('hidden');
+      if (upload) { upload.classList.remove('hidden'); animateIn(upload); loadPatientBadge(); }
+    } else {
+      if (patientUi) { patientUi.classList.remove('hidden'); animateIn(patientUi); }
+    }
+  })();
+
+  async function loadPatientBadge() {
+    if (!currentPatientId) return;
+    var p = await getPatient(currentPatientId);
+    var el = document.getElementById('patient-badge-name');
+    if (el && p) el.textContent = p.name;
+  }
+
+  var patientForm = document.getElementById('patient-form');
+  var patientError = document.getElementById('patient-error');
+  var patientContinue = document.getElementById('btn-patient-continue');
+
+  if (patientForm) {
+    patientForm.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      if (patientContinue) patientContinue.disabled = true;
+
+      var name = document.getElementById('patient-name').value.trim();
+      var age = document.getElementById('patient-age').value ? parseInt(document.getElementById('patient-age').value) : null;
+      var gender = document.getElementById('patient-gender').value || null;
+      var mrn = document.getElementById('patient-mrn').value.trim() || null;
+      var notes = document.getElementById('patient-notes').value.trim() || null;
+
+      if (!name) {
+        if (patientError) {
+          patientError.textContent = 'Please enter the patient name.';
+          patientError.classList.add('visible');
+        }
+        if (patientContinue) patientContinue.disabled = false;
+        return;
+      }
+
+      if (patientError) patientError.classList.remove('visible');
+
+      if (patientContinue) patientContinue.textContent = 'Saving…';
+      var patientId = await savePatient(name, age, gender, mrn, notes);
+      if (patientId) {
+        try { sessionStorage.setItem('fracturedetect:patient_id', patientId); } catch (err) {}
+        currentPatientId = patientId;
+        var pu = document.getElementById('patient-ui');
+        var up = document.getElementById('upload-ui');
+        if (pu) await animateOut(pu);
+        if (up) { up.classList.remove('hidden'); animateIn(up); loadPatientBadge(); }
+        if (patientContinue) { patientContinue.textContent = 'Continue to Upload'; patientContinue.disabled = false; }
+      } else {
+        if (patientError) {
+          patientError.textContent = 'Failed to save patient info. Please try again.';
+          patientError.classList.add('visible');
+        }
+        if (patientContinue) patientContinue.disabled = false;
+      }
+    });
+  }
+
+  var changeBtn = document.getElementById('btn-change-patient');
+  if (changeBtn) {
+    changeBtn.addEventListener('click', function () {
+      try { sessionStorage.removeItem('fracturedetect:patient_id'); } catch (e) {}
+      window.location.reload();
+    });
+  }
+
   const dropzone = document.getElementById('dropzone');
   const fileInput = document.getElementById('file-input');
   const errorMsg = document.getElementById('error-message');
@@ -159,6 +363,7 @@ import Layout from '../layouts/Layout.astro';
     reader.onload = (e) => {
       try {
         sessionStorage.setItem('fracturedetect:image', e.target.result);
+        sessionStorage.removeItem('fracturedetect:patient_id');
       } catch (err) {
         console.warn('Failed to store image in sessionStorage:', err);
       }
@@ -237,6 +442,224 @@ import Layout from '../layouts/Layout.astro';
 </script>
 
 <style>
+  .hidden {
+    display: none !important;
+  }
+
+  .fade-in {
+    animation: fdFadeIn 0.4s ease-out forwards;
+  }
+  .fade-out {
+    animation: fdFadeOut 0.3s ease-in forwards;
+  }
+
+  @keyframes fdFadeIn {
+    0% { opacity: 0; transform: translateY(12px) scale(0.98); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  @keyframes fdFadeOut {
+    0% { opacity: 1; transform: translateY(0) scale(1); }
+    100% { opacity: 0; transform: translateY(-8px) scale(0.98); }
+  }
+
+  .auth-gate {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 68px);
+    padding: 48px 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .auth-gate-inner {
+    max-width: 560px;
+    width: 100%;
+  }
+
+  .auth-gate-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .gate-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 20px 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+
+  .gate-step.gate-step-1 { animation: gateSlideIn 0.4s ease-out 0.1s forwards; }
+  .gate-step.gate-step-2 { animation: gateSlideIn 0.4s ease-out 0.25s forwards; }
+  .gate-step.gate-step-3 { animation: gateSlideIn 0.4s ease-out 0.4s forwards; }
+
+  @keyframes gateSlideIn {
+    0% { opacity: 0; transform: translateX(-20px); }
+    100% { opacity: 1; transform: translateX(0); }
+  }
+
+  .gate-step-num {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 14px;
+    color: white;
+    background: var(--color-primary);
+    margin-top: 1px;
+  }
+
+  .gate-step-content { flex: 1; }
+  .gate-step-title {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--color-text);
+    margin: 0 0 4px;
+  }
+  .gate-step-text {
+    font-family: var(--font-body);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  .auth-gate-cta {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    opacity: 0;
+    animation: gateFadeIn 0.5s ease-out 0.6s forwards;
+  }
+
+  @keyframes gateFadeIn {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  .btn-submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-decoration: none;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 15px;
+    color: white;
+    background: linear-gradient(135deg, var(--color-primary), #1d4ed8);
+    padding: 12px 24px;
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+  }
+
+  .btn-submit:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+  }
+
+  .btn-submit:active {
+    transform: translateY(0);
+  }
+
+  .btn-submit:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  .btn-submit-alt {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-decoration: none;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--color-text);
+    background: var(--color-surface);
+    padding: 12px 24px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .btn-submit-alt:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+    transform: translateY(-1px);
+  }
+
+  .btn-submit-alt:active {
+    transform: translateY(0);
+  }
+
+  .btn-submit-alt:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  /* ── Patient Info Form ── */
+  .patient-container { display: flex; align-items: center; justify-content: center; min-height: calc(100vh - 68px); padding: 48px 24px; position: relative; z-index: 1; }
+  .patient-card {
+    max-width: 520px; width: 100%;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 40px 36px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+  }
+  .patient-form { display: flex; flex-direction: column; gap: 18px; }
+  .patient-field { display: flex; flex-direction: column; gap: 5px; }
+  .patient-label { font-family: var(--font-body); font-weight: 500; font-size: 14px; color: var(--color-text); }
+  .patient-label .required { color: var(--color-danger); margin-left: 2px; }
+  .patient-input {
+    font-family: var(--font-body); font-size: 14px; color: var(--color-text);
+    background: var(--color-bg-subtle); border: 1px solid var(--color-border);
+    border-radius: var(--radius-md); padding: 10px 14px;
+    outline: none; transition: all 0.15s; width: 100%; box-sizing: border-box;
+  }
+  .patient-input:focus { border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+  .patient-select { cursor: pointer; }
+  .patient-textarea { resize: vertical; min-height: 60px; }
+  .patient-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .patient-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--font-body); font-size: 13px; color: var(--color-text);
+    background: rgba(37,99,235,0.06);
+    border: 1px solid rgba(37,99,235,0.12);
+    border-radius: var(--radius-md);
+    padding: 6px 12px; margin-bottom: 16px;
+  }
+  .patient-badge svg { color: var(--color-primary); flex-shrink: 0; }
+  .patient-change-btn {
+    font-family: var(--font-body); font-size: 12px; font-weight: 500;
+    color: var(--color-primary); background: none; border: none;
+    cursor: pointer; padding: 2px 6px; border-radius: 4px;
+    transition: all 0.15s; margin-left: 4px;
+  }
+  .patient-change-btn:hover { background: rgba(37,99,235,0.1); }
+  .error-message { display: none; font-family: var(--font-body); font-weight: 500; font-size: 14px; color: var(--color-danger); margin: 0; }
+  .error-message.visible { display: block; }
+
   .analyze-page {
     min-height: calc(100vh - 68px);
     position: relative;

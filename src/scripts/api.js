@@ -1,6 +1,6 @@
 import { supabase } from '../lib/supabase.js'
 
-export async function saveAnalysis(imageData, prediction, confidence, inferenceTime, findings) {
+export async function saveAnalysis(imageData, prediction, confidence, inferenceTime, findings, patientId) {
   const { data: { session } } = await supabase.auth.getSession()
   if (!session) return null
 
@@ -13,14 +13,17 @@ export async function saveAnalysis(imageData, prediction, confidence, inferenceT
     .upload(fileName, blob, { contentType: 'image/png', upsert: false })
   if (uploadError) return null
 
-  const { data, error } = await supabase.from('analyses').insert({
+  const record = {
     user_id: userId,
     image_path: fileName,
     prediction: prediction,
     confidence: confidence,
     inference_time: inferenceTime,
     findings: findings || []
-  }).select('id').single()
+  }
+  if (patientId) record.patient_id = patientId
+
+  const { data, error } = await supabase.from('analyses').insert(record).select('id').single()
 
   if (error) return null
   return data.id
@@ -32,7 +35,7 @@ export async function getAnalyses() {
 
   const { data, error } = await supabase
     .from('analyses')
-    .select('id, image_path, prediction, confidence, inference_time, created_at, findings')
+    .select('id, image_path, prediction, confidence, inference_time, created_at, findings, patient_id')
     .order('created_at', { ascending: false })
     .limit(20)
 

@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Footer from '../components/Footer.astro';
 ---
-
 <Layout title="About" description="Learn about FractureDetect AI-powered bone fracture detection for healthcare professionals" active="about" variant="marketing">
   <main class="about-page page-enter">
     <div class="about-bg">
@@ -21,8 +21,9 @@ import Layout from '../layouts/Layout.astro';
         <p class="about-description">
           FractureDetect is an AI-powered tool that analyzes X-ray images to help
           healthcare professionals spot bone fractures faster and more accurately.
-          Our deep learning model detects fracture regions and provides clear,
-          actionable predictions to support clinical decision-making.
+          Our deep learning model detects fracture regions with confidence scoring,
+          out-of-distribution analysis, and heatmap localization. Manage patients,
+          review history, and export reports from your personal dashboard.
         </p>
       </div>
     </section>
@@ -36,26 +37,26 @@ import Layout from '../layouts/Layout.astro';
               <div class="step-number">1</div>
               <div class="step-icon">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" />
-                  <line x1="12" y1="13" x2="12" y2="19" />
-                  <polyline points="9 16 12 13 15 16" />
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" />
                 </svg>
               </div>
             </div>
-            <h3 class="step-heading">Upload</h3>
-            <p class="step-text">Upload a clear X-ray image in PNG or JPEG format. We accept files up to 10MB.</p>
+            <h3 class="step-heading">Register Patient</h3>
+            <p class="step-text">Enter patient name and optional details before each analysis. Your patient records are saved securely to your account.</p>
           </div>
           <div class="step-card">
             <div class="step-icon-wrapper">
               <div class="step-number">2</div>
               <div class="step-icon">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                  <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" />
+                  <line x1="12" y1="13" x2="12" y2="19" />
+                  <polyline points="9 16 12 13 15 16" />
                 </svg>
               </div>
             </div>
-            <h3 class="step-heading">AI Analysis</h3>
-            <p class="step-text">Our deep learning model analyzes the image and highlights any detected fracture regions with a heatmap overlay.</p>
+            <h3 class="step-heading">Upload &amp; Analyze</h3>
+            <p class="step-text">Upload a clear X-ray image. Our model detects fractures and highlights affected regions with a heatmap overlay.</p>
           </div>
           <div class="step-card">
             <div class="step-icon-wrapper">
@@ -66,8 +67,8 @@ import Layout from '../layouts/Layout.astro';
                 </svg>
               </div>
             </div>
-            <h3 class="step-heading">Results</h3>
-            <p class="step-text">Review the prediction, confidence score, and localized fracture region. Export a report for your records.</p>
+            <h3 class="step-heading">Review &amp; Export</h3>
+            <p class="step-text">View confidence scores, OOD analysis, and the localized fracture region. Download a detailed report from your dashboard.</p>
           </div>
         </div>
       </div>
@@ -112,27 +113,20 @@ import Layout from '../layouts/Layout.astro';
     </section>
 
     <div class="about-container">
-      <div class="disclaimer-banner">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10" />
-          <line x1="12" y1="16" x2="12" y2="12" />
-          <line x1="12" y1="8" x2="12.01" y2="8" />
-        </svg>
-        <span class="disclaimer-text">This tool is intended to assist healthcare professionals and should not replace professional medical diagnosis.</span>
-      </div>
-    </div>
-
-    <div class="about-container">
       <div class="cta-row">
-        <a href="/analyze" class="btn-try">
+        <a href="/signup" class="btn-try">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+            <circle cx="8.5" cy="7" r="4" />
+            <line x1="20" y1="8" x2="20" y2="14" />
+            <line x1="23" y1="11" x2="17" y2="11" />
           </svg>
-          Try It Now
+          Get Started
         </a>
       </div>
     </div>
   </main>
+  <Footer />
 </Layout>
 
 <style>
@@ -375,30 +369,6 @@ import Layout from '../layouts/Layout.astro';
     margin: 0;
   }
 
-  .disclaimer-banner {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 16px 20px;
-    background: var(--color-warning-bg);
-    border: 1px solid var(--color-warning-border);
-    border-radius: var(--radius-md);
-    margin-bottom: 32px;
-    color: var(--color-warning-text);
-  }
-
-  .disclaimer-banner svg {
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
-
-  .disclaimer-text {
-    font-family: var(--font-body);
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 1.5;
-  }
-
   .cta-row {
     text-align: center;
   }
@@ -475,9 +445,6 @@ import Layout from '../layouts/Layout.astro';
       padding: 24px 20px;
     }
 
-    .disclaimer-banner {
-      margin-bottom: 28px;
-    }
   }
 
   @media (max-width: 480px) {
