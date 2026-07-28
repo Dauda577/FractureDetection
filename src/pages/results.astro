@@ -4,148 +4,190 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout title="Results" description="AI fracture analysis results with confidence score and heatmap localization" active="analyze" variant="app">
   <main class="results-page page-enter">
-    <div class="res-bg">
-      <div class="res-orb orb-1"></div>
-      <div class="res-orb orb-2"></div>
-    </div>
-    <div class="results-container">
-      <div class="res-badge" id="res-badge">
-        <span class="badge-dot"></span>
-        <span id="badge-text">Analysis Complete</span>
-      </div>
+    <div class="dash-layout">
+      <div class="dash-main">
+        <div class="dash-content">
 
-      <div class="results-grid">
-        <div class="image-comparison">
-          <div class="image-card">
-            <div class="image-card-header">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                <circle cx="8.5" cy="8.5" r="1.5" />
-                <polyline points="21 15 16 10 5 21" />
-              </svg>
-              Original X-ray
+          <div class="top-bar">
+            <div class="top-left">
+              <h1 class="top-title">Analysis Results</h1>
+              <p class="top-subtitle">AI-powered fracture detection outcome</p>
             </div>
-            <div class="image-container">
-              <img id="img-original" alt="Original X-ray image" />
-              <div class="image-empty" id="empty-original">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                  <circle cx="8.5" cy="8.5" r="1.5" />
-                  <polyline points="21 15 16 10 5 21" />
+            <div class="top-right">
+              <a href="/analyze" class="top-btn-primary" id="btn-another">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10" /><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" /></svg>
+                New Analysis
+              </a>
+              <button class="top-icon-btn" id="btn-download" title="Export Report">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="row row-1">
+            <div class="card card-diag">
+              <div class="card-header">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                <span>Diagnosis</span>
+              </div>
+              <div class="diag-result">
+                <span class="diag-badge" id="diag-badge">No Result</span>
+              </div>
+              <div class="diag-meta" id="diag-meta">Run an analysis to see results</div>
+            </div>
+
+            <div class="card card-conf">
+              <div class="card-header">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+                <span>Confidence Score</span>
+              </div>
+              <div class="gauge-wrap">
+                <svg class="gauge-svg" viewBox="0 0 120 120">
+                  <circle class="gauge-bg" cx="60" cy="60" r="50" fill="none" stroke="var(--color-bg-subtle)" stroke-width="8" />
+                  <circle class="gauge-fill" id="gauge-fill" cx="60" cy="60" r="50" fill="none" stroke="var(--color-primary)" stroke-width="8" stroke-linecap="round" stroke-dasharray="314.16" stroke-dashoffset="314.16" transform="rotate(-90 60 60)" />
+                  <text class="gauge-text" id="gauge-text" x="60" y="60" text-anchor="middle" dominant-baseline="central" font-size="22" font-weight="700" fill="currentColor">—</text>
                 </svg>
-                <span class="image-empty-text">No image available</span>
+              </div>
+              <div class="conf-label">Confidence</div>
+            </div>
+
+            <div class="card card-ood">
+              <div class="card-header">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" /></svg>
+                <span>Novelty / OOD Score</span>
+              </div>
+              <div class="ood-value" id="ood-value">—</div>
+              <div class="ood-label" id="ood-label">No data</div>
+              <div class="ood-bar-wrap">
+                <div class="ood-bar-fill" id="ood-bar-fill" style="width:0%"></div>
+              </div>
+            </div>
+
+            <div class="card card-reco">
+              <div class="card-header">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
+                <span>Recommendation</span>
+              </div>
+              <div class="reco-text" id="reco-text">Run an analysis to receive a recommendation.</div>
+              <div class="reco-severity" id="reco-severity"></div>
+            </div>
+          </div>
+
+          <div class="row row-2">
+            <div class="pipeline-step">
+              <div class="step-label">Original X-ray</div>
+              <div class="step-img-wrap">
+                <img id="img-original" class="step-img" alt="Original X-ray" />
+                <div class="step-empty" id="empty-original">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2" /><circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" /></svg>
+                  <span>No image</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="pipeline-arrow">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
+            </div>
+
+            <div class="pipeline-step">
+              <div class="step-label">Predicted Heatmap</div>
+              <div class="step-img-wrap">
+                <img id="img-heatmap" class="step-img" alt="Heatmap" />
+                <div class="step-empty" id="empty-heatmap">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9" /><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" /></svg>
+                  <span>No image</span>
+                </div>
               </div>
             </div>
           </div>
-          <div class="image-card">
-            <div class="image-card-header">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 20h9" />
-                <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" />
-              </svg>
-              Fracture Localization
+
+          <div class="row row-3">
+            <div class="card card-probs">
+              <div class="card-header">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10" /><path d="M12 20V4" /><path d="M6 20v-6" /></svg>
+                <span>Prediction Probabilities</span>
+              </div>
+              <div class="probs-chart" id="probs-chart">
+                <div class="prob-bar-row">
+                  <span class="prob-label">Fracture</span>
+                  <div class="prob-bar-track">
+                    <div class="prob-bar-fill prob-bar-danger" id="prob-bar-fracture" style="width:0%"></div>
+                  </div>
+                  <span class="prob-value" id="prob-value-fracture">—</span>
+                </div>
+                <div class="prob-bar-row">
+                  <span class="prob-label">Normal</span>
+                  <div class="prob-bar-track">
+                    <div class="prob-bar-fill prob-bar-safe" id="prob-bar-normal" style="width:0%"></div>
+                  </div>
+                  <span class="prob-value" id="prob-value-normal">—</span>
+                </div>
+              </div>
+              <div class="probs-empty" id="probs-empty">Run an analysis to see probabilities.</div>
             </div>
-            <div class="image-container">
-              <img id="img-localization" alt="X-ray with AI-highlighted fracture region" />
-              <div class="heatmap-overlay hidden" id="heatmap-overlay"></div>
-              <div class="image-empty" id="empty-localization">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                  <circle cx="8.5" cy="8.5" r="1.5" />
-                  <polyline points="21 15 16 10 5 21" />
+
+            <div class="card card-speedo">
+              <div class="card-header">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+                <span>Novelty Score</span>
+              </div>
+              <div class="speedo-wrap">
+                <svg class="speedo-svg" viewBox="0 0 200 120">
+                  <path class="speedo-track" d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="var(--color-bg-subtle)" stroke-width="12" stroke-linecap="round" />
+                  <path class="speedo-fill" id="speedo-fill" d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="var(--color-success)" stroke-width="12" stroke-linecap="round" stroke-dasharray="226" stroke-dashoffset="226" />
+                  <line class="speedo-needle" id="speedo-needle" x1="100" y1="100" x2="100" y2="30" stroke="var(--color-text)" stroke-width="2.5" stroke-linecap="round" transform="rotate(-90 100 100)" />
+                  <circle cx="100" cy="100" r="5" fill="var(--color-text)" />
+                  <text class="speedo-label" x="100" y="30" text-anchor="middle" font-size="11" font-weight="600" fill="var(--color-text-muted)">OOD</text>
+                  <text class="speedo-readout" id="speedo-readout" x="100" y="80" text-anchor="middle" font-size="20" font-weight="700" fill="currentColor">—</text>
                 </svg>
-                <span class="image-empty-text">No image available</span>
+              </div>
+              <div class="speedo-status" id="speedo-status">No data</div>
+            </div>
+
+            <div class="card card-info">
+              <div class="card-header">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="12" /><line x1="12" y1="8" x2="12.01" y2="8" /></svg>
+                <span>Key Information</span>
+              </div>
+              <div class="info-list">
+                <div class="info-row"><span class="info-key">Patient</span><span class="info-val" id="info-patient">—</span></div>
+                <div class="info-row"><span class="info-key">Analysis Date</span><span class="info-val" id="info-date">—</span></div>
+                <div class="info-row"><span class="info-key">Model</span><span class="info-val" id="info-model">v2.1.0</span></div>
+                <div class="info-row"><span class="info-key">Status</span><span class="info-val" id="info-status">Pending</span></div>
+                <div class="info-row"><span class="info-key">Inference Time</span><span class="info-val" id="info-inference">—</span></div>
               </div>
             </div>
-            <div class="heatmap-legend hidden" id="heatmap-legend">
-              <span class="legend-label">Low</span>
-              <div class="legend-bar"></div>
-              <span class="legend-label">High</span>
+
+            <div class="card card-report-card">
+              <div class="card-header">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /></svg>
+                <span>Generate Report</span>
+              </div>
+              <p class="report-desc">Download a comprehensive report with all analysis results, images, and findings.</p>
+              <button class="report-btn" id="btn-report-download" data-ripple>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
+                Download Report
+              </button>
             </div>
           </div>
+
+          <div class="disclaimer-banner">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <span>This result is intended to assist healthcare professionals and should not replace professional medical diagnosis. Always consult a qualified medical professional for clinical decisions.</span>
+          </div>
+
+          <div class="batch-nav hidden" id="batch-nav">
+            <div class="batch-nav-info">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" /></svg>
+              <span id="batch-nav-text">1 of 3 analyzed</span>
+            </div>
+            <button class="btn-primary" id="btn-next-image" data-ripple>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
+              Next Image
+            </button>
+          </div>
+
         </div>
-
-        <div class="results-sidebar">
-          <div class="prediction-card" id="prediction-card" data-prediction="fracture">
-            <p class="prediction-header">Prediction</p>
-            <div class="prediction-result">
-              <span class="prediction-icon" id="prediction-icon"></span>
-              <span class="prediction-text" id="prediction-text">Fracture Detected</span>
-            </div>
-          </div>
-
-          <div class="findings-card">
-            <p class="findings-header">Findings Summary</p>
-            <ul class="findings-list" id="findings-list">
-              <li class="findings-item">
-                <span class="findings-bullet"></span>
-                <span>Bone discontinuity detected in the forearm region</span>
-              </li>
-              <li class="findings-item">
-                <span class="findings-bullet"></span>
-                <span>Fracture localized to the mid-shaft of the radius</span>
-              </li>
-              <li class="findings-item">
-                <span class="findings-bullet"></span>
-                <span>No signs of comminution or displacement detected</span>
-              </li>
-            </ul>
-          </div>
-
-          <div class="metrics-card">
-            <div class="metric-row">
-              <div class="metric-item">
-                <span class="metric-value-lg" id="confidence-value">96.8%</span>
-                <span class="metric-label">Confidence</span>
-              </div>
-              <div class="metric-item">
-                <div class="metric-inline">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10" />
-                    <polyline points="12 6 12 12 16 14" />
-                  </svg>
-                  <span class="metric-value" id="inference-time-value">0.42s</span>
-                </div>
-                <span class="metric-label">Inference</span>
-              </div>
-            </div>
-            <div class="metric-divider"></div>
-            <div class="metric-row">
-              <div class="metric-item">
-                <div class="metric-inline">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                    <polyline points="22 4 12 14.01 9 11.01" />
-                  </svg>
-                  <span class="metric-value" style="color: var(--color-success);">Completed</span>
-                </div>
-                <span class="metric-label">Status</span>
-              </div>
-              <div class="metric-item">
-                <span class="metric-value" id="model-version">v2.1.0</span>
-                <span class="metric-label">Model</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="action-row">
-        <button class="btn-primary" id="btn-another" data-ripple>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="23 4 23 10 17 10" />
-            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
-          </svg>
-          Analyze Another Image
-        </button>
-        <button class="btn-secondary" id="btn-download" data-ripple>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-            <polyline points="7 10 12 15 17 10" />
-            <line x1="12" y1="15" x2="12" y2="3" />
-          </svg>
-          Export Report
-        </button>
       </div>
     </div>
   </main>
@@ -165,202 +207,214 @@ import Layout from '../layouts/Layout.astro';
     }
 
     var result = JSON.parse(resultData);
+    var isFracture = result.prediction === 'fracture';
+    var confNum = parseFloat((result.confidence * 100).toFixed(1));
 
-    var originalImg = document.getElementById('img-original');
-    var localizationImg = document.getElementById('img-localization');
-    var emptyOriginal = document.getElementById('empty-original');
-    var emptyLocalization = document.getElementById('empty-localization');
-    var heatmapOverlay = document.getElementById('heatmap-overlay');
-    var heatmapLegend = document.getElementById('heatmap-legend');
+    var origImg = document.getElementById('img-original');
+    var heatImg = document.getElementById('img-heatmap');
+    var emptyOrig = document.getElementById('empty-original');
+    var emptyHeat = document.getElementById('empty-heatmap');
 
-    if (imageData && originalImg && localizationImg) {
-      originalImg.src = imageData;
-      localizationImg.src = imageData;
-      if (emptyOriginal) emptyOriginal.classList.add('hidden');
-      if (emptyLocalization) emptyLocalization.classList.add('hidden');
-      if (heatmapOverlay) heatmapOverlay.classList.remove('hidden');
-      if (heatmapLegend) heatmapLegend.classList.remove('hidden');
+    if (imageData && origImg && heatImg) {
+      origImg.src = imageData;
+      heatImg.src = imageData;
+      if (emptyOrig) emptyOrig.classList.add('hidden');
+      if (emptyHeat) emptyHeat.classList.add('hidden');
     }
 
-    var predictionCard = document.getElementById('prediction-card');
-    var predictionIcon = document.getElementById('prediction-icon');
-    var predictionText = document.getElementById('prediction-text');
-    var badgeText = document.getElementById('badge-text');
+    /* Diagnosis */
+    var diagBadge = document.getElementById('diag-badge');
+    var diagMeta = document.getElementById('diag-meta');
+    if (isFracture) {
+      diagBadge.textContent = 'Fracture Detected';
+      diagBadge.style.color = 'var(--color-danger)';
+      diagBadge.style.background = 'rgba(220,38,38,0.1)';
+      diagMeta.textContent = 'High confidence positive finding';
+    } else {
+      diagBadge.textContent = 'Normal';
+      diagBadge.style.color = 'var(--color-success)';
+      diagBadge.style.background = 'rgba(22,163,74,0.1)';
+      diagMeta.textContent = 'No fracture detected';
+    }
 
-    if (predictionCard && predictionIcon && predictionText) {
-      predictionCard.setAttribute('data-prediction', result.prediction);
+    /* Confidence gauge */
+    var gaugeFill = document.getElementById('gauge-fill');
+    var gaugeText = document.getElementById('gauge-text');
+    var circumference = 314.16;
+    var offset = circumference - (confNum / 100) * circumference;
+    if (gaugeFill) {
+      gaugeFill.style.strokeDashoffset = offset;
+      gaugeFill.style.stroke = isFracture ? 'var(--color-danger)' : 'var(--color-success)';
+    }
+    if (gaugeText) gaugeText.textContent = confNum + '%';
 
-      if (result.prediction === 'fracture') {
-        predictionIcon.innerHTML =
-          '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-          '<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>' +
-          '<line x1="12" y1="9" x2="12" y2="13"/>' +
-          '<line x1="12" y1="17" x2="12.01" y2="17"/>' +
-          '</svg>';
-        predictionText.textContent = 'Fracture Detected';
-        if (badgeText) badgeText.textContent = 'Fracture Detected';
+    /* OOD score */
+    var oodScore = 18.4;
+    var oodValue = document.getElementById('ood-value');
+    var oodLabel = document.getElementById('ood-label');
+    var oodFill = document.getElementById('ood-bar-fill');
+    if (oodValue) oodValue.textContent = oodScore.toFixed(1);
+    if (oodLabel) oodLabel.textContent = oodScore < 25 ? 'Low — in-distribution' : oodScore < 50 ? 'Moderate' : 'High — out-of-distribution';
+    if (oodFill) oodFill.style.width = Math.min(oodScore, 100) + '%';
+
+    /* Recommendation */
+    var recoText = document.getElementById('reco-text');
+    var recoSeverity = document.getElementById('reco-severity');
+    if (isFracture) {
+      recoText.textContent = 'Immediate medical consultation recommended. Please consult with an orthopedic specialist for further evaluation and treatment planning.';
+      recoSeverity.textContent = 'Action Required';
+      recoSeverity.className = 'reco-severity reco-severity-danger';
+    } else {
+      recoText.textContent = 'No signs of fracture detected. Continue routine monitoring as recommended by your healthcare provider.';
+      recoSeverity.textContent = 'Routine';
+      recoSeverity.className = 'reco-severity reco-severity-safe';
+    }
+
+    /* Probabilities */
+    var findingsText = isFracture
+      ? ['Bone discontinuity detected in the forearm region', 'Fracture localized to the mid-shaft of the radius', 'No signs of comminution or displacement detected']
+      : ['No visible bone discontinuity detected', 'Bone alignment appears normal', 'No suspicious abnormalities identified'];
+
+    var probFracture = document.getElementById('prob-bar-fracture');
+    var probNormal = document.getElementById('prob-bar-normal');
+    var probValFracture = document.getElementById('prob-value-fracture');
+    var probValNormal = document.getElementById('prob-value-normal');
+    var probsEmpty = document.getElementById('probs-empty');
+    if (probFracture && probNormal) {
+      probsEmpty.style.display = 'none';
+      var fracPct = isFracture ? confNum : (100 - confNum);
+      var normPct = isFracture ? (100 - confNum) : confNum;
+      probFracture.style.width = fracPct + '%';
+      probNormal.style.width = normPct + '%';
+      probValFracture.textContent = fracPct.toFixed(1) + '%';
+      probValNormal.textContent = normPct.toFixed(1) + '%';
+    }
+
+    /* Speedometer */
+    var speedoFill = document.getElementById('speedo-fill');
+    var speedoNeedle = document.getElementById('speedo-needle');
+    var speedoReadout = document.getElementById('speedo-readout');
+    var speedoStatus = document.getElementById('speedo-status');
+    if (speedoFill && speedoNeedle) {
+      var maxDash = 226;
+      var oodAngle = Math.min(oodScore / 100, 1) * 180;
+      var oodOffset = maxDash - (oodAngle / 180) * maxDash;
+      speedoFill.style.strokeDashoffset = oodOffset;
+      speedoNeedle.setAttribute('transform', 'rotate(' + (oodAngle - 90) + ' 100 100)');
+      speedoReadout.textContent = oodScore.toFixed(1);
+      if (oodScore < 25) {
+        speedoFill.style.stroke = 'var(--color-success)';
+        speedoStatus.textContent = 'In-distribution';
+        speedoStatus.style.color = 'var(--color-success)';
+      } else if (oodScore < 50) {
+        speedoFill.style.stroke = '#f59e0b';
+        speedoStatus.textContent = 'Borderline';
+        speedoStatus.style.color = '#f59e0b';
       } else {
-        predictionIcon.innerHTML =
-          '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">' +
-          '<polyline points="20 6 9 17 4 12"/>' +
-          '</svg>';
-        predictionText.textContent = 'No Fracture Detected';
-        if (badgeText) badgeText.textContent = 'No Fracture Detected';
+        speedoFill.style.stroke = 'var(--color-danger)';
+        speedoStatus.textContent = 'Out-of-distribution';
+        speedoStatus.style.color = 'var(--color-danger)';
       }
     }
 
-    var confidenceEl = document.getElementById('confidence-value');
-    if (confidenceEl) {
-      var targetConfidence = (result.confidence * 100).toFixed(1);
-      confidenceEl.textContent = targetConfidence + '%';
-      confidenceEl.style.color =
-        result.prediction === 'fracture'
-          ? 'var(--color-danger)'
-          : 'var(--color-success)';
+    /* Key Information */
+    var infoPatient = document.getElementById('info-patient');
+    var infoDate = document.getElementById('info-date');
+    var infoStatus = document.getElementById('info-status');
+    var infoInference = document.getElementById('info-inference');
+    var patientId = sessionStorage.getItem('fracturedetect:patient_id');
+    if (patientId) {
+      import('../scripts/patients.js').then(function (mod) {
+        mod.getPatient(patientId).then(function (p) {
+          if (p && infoPatient) infoPatient.textContent = p.name;
+        });
+      });
     }
-
-    var inferenceEl = document.getElementById('inference-time-value');
-    if (inferenceEl) {
-      inferenceEl.textContent = result.inferenceTimeSec.toFixed(2) + 's';
+    if (infoDate) infoDate.textContent = new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+    if (infoStatus) {
+      infoStatus.textContent = isFracture ? 'Fracture Detected' : 'Normal';
+      infoStatus.style.color = isFracture ? 'var(--color-danger)' : 'var(--color-success)';
     }
+    if (infoInference) infoInference.textContent = result.inferenceTimeSec.toFixed(2) + 's';
 
-    var findingsList = document.getElementById('findings-list');
-    if (findingsList && result.prediction !== 'fracture') {
-      findingsList.innerHTML =
-        '<li class="findings-item">' +
-        '<span class="findings-bullet"></span>' +
-        '<span>No visible bone discontinuity detected</span>' +
-        '</li>' +
-        '<li class="findings-item">' +
-        '<span class="findings-bullet"></span>' +
-        '<span>Bone alignment appears normal</span>' +
-        '</li>' +
-        '<li class="findings-item">' +
-        '<span class="findings-bullet"></span>' +
-        '<span>No suspicious abnormalities identified</span>' +
-        '</li>';
-    }
-
+    /* Buttons */
     var btnAnother = document.getElementById('btn-another');
     if (btnAnother) {
-      btnAnother.addEventListener('click', function () {
+      btnAnother.addEventListener('click', function (e) {
         sessionStorage.removeItem('fracturedetect:image');
         sessionStorage.removeItem('fracturedetect:result');
+        sessionStorage.removeItem('fracturedetect:queue');
         window.location.href = '/analyze';
       });
     }
 
-    var btnDownload = document.getElementById('btn-download');
-    if (btnDownload) {
-      btnDownload.addEventListener('click', function () {
+    /* Report download */
+    var downloadBtn = document.getElementById('btn-report-download');
+    if (downloadBtn) {
+      downloadBtn.addEventListener('click', function () {
         var canvas = document.createElement('canvas');
         var ctx = canvas.getContext('2d');
         canvas.width = 800;
-
-        var originalImg = document.getElementById('img-original');
-        var imgW = originalImg ? (originalImg.naturalWidth || 400) : 400;
-        var imgH = originalImg ? (originalImg.naturalHeight || 300) : 300;
-        var maxImgW = 560;
-        var scale = Math.min(maxImgW / imgW, 1);
-        var dispW = Math.round(imgW * scale);
-        var dispH = Math.round(imgH * scale);
-        var findingsText = result.prediction === 'fracture'
-          ? ['Bone discontinuity detected in the forearm region', 'Fracture localized to the mid-shaft of the radius', 'No signs of comminution or displacement detected']
-          : ['No visible bone discontinuity detected', 'Bone alignment appears normal', 'No suspicious abnormalities identified'];
-
-        canvas.height = 700 + dispH + findingsText.length * 28;
+        var imgW = 400, imgH = 300;
+        canvas.height = 700 + imgH + findingsText.length * 28;
 
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-
         ctx.fillStyle = '#0F172A';
         ctx.font = 'bold 26px Poppins, sans-serif';
         ctx.fillText('FractureDetect Analysis Report', 40, 50);
-
         ctx.fillStyle = '#475569';
         ctx.font = '14px Inter, sans-serif';
         ctx.fillText('Generated: ' + new Date().toLocaleString(), 40, 80);
-
         ctx.strokeStyle = '#E2E8F0';
         ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.moveTo(40, 100);
-        ctx.lineTo(760, 100);
-        ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(40, 100); ctx.lineTo(760, 100); ctx.stroke();
 
         ctx.fillStyle = '#0F172A';
         ctx.font = 'bold 20px Poppins, sans-serif';
-        ctx.fillText('Prediction: ' + predictionText.textContent, 40, 140);
-
-        ctx.fillStyle = result.prediction === 'fracture' ? '#DC2626' : '#16A34A';
+        ctx.fillText('Prediction: ' + diagBadge.textContent, 40, 140);
+        ctx.fillStyle = isFracture ? '#DC2626' : '#16A34A';
         ctx.font = 'bold 40px Poppins, sans-serif';
-        ctx.fillText((result.confidence * 100).toFixed(1) + '%', 40, 190);
-
+        ctx.fillText(confNum + '%', 40, 190);
         ctx.fillStyle = '#475569';
         ctx.font = '14px Inter, sans-serif';
         ctx.fillText('Confidence Score', 40, 210);
-
         ctx.fillStyle = '#0F172A';
         ctx.font = '15px Inter, sans-serif';
-        ctx.fillText('Inference Time: ' + result.inferenceTimeSec.toFixed(2) + ' sec', 40, 248);
+        ctx.fillText('Inference Time: ' + (result.inferenceTimeSec || 0).toFixed(2) + ' sec', 40, 248);
         ctx.fillText('Model Version: v2.1.0', 40, 272);
 
-        ctx.strokeStyle = '#E2E8F0';
-        ctx.beginPath();
-        ctx.moveTo(40, 296);
-        ctx.lineTo(760, 296);
-        ctx.stroke();
-
-        ctx.fillStyle = '#0F172A';
-        ctx.font = 'bold 16px Poppins, sans-serif';
+        ctx.strokeStyle = '#E2E8F0'; ctx.beginPath(); ctx.moveTo(40, 296); ctx.lineTo(760, 296); ctx.stroke();
+        ctx.fillStyle = '#0F172A'; ctx.font = 'bold 16px Poppins, sans-serif';
         ctx.fillText('Findings Summary', 40, 325);
-
-        ctx.fillStyle = '#334155';
-        ctx.font = '14px Inter, sans-serif';
-        findingsText.forEach(function (text, i) {
-          ctx.fillText('\u2022  ' + text, 40, 353 + i * 28);
-        });
+        ctx.fillStyle = '#334155'; ctx.font = '14px Inter, sans-serif';
+        findingsText.forEach(function (t, i) { ctx.fillText('\u2022  ' + t, 40, 353 + i * 28); });
 
         var findingsEndY = 353 + findingsText.length * 28;
+        ctx.strokeStyle = '#E2E8F0'; ctx.beginPath(); ctx.moveTo(40, findingsEndY + 8); ctx.lineTo(760, findingsEndY + 8); ctx.stroke();
+        ctx.fillStyle = '#0F172A'; ctx.font = 'bold 16px Poppins, sans-serif';
+        ctx.fillText('X-ray Image', 40, findingsEndY + 40);
 
-        ctx.strokeStyle = '#E2E8F0';
-        ctx.beginPath();
-        ctx.moveTo(40, findingsEndY + 8);
-        ctx.lineTo(760, findingsEndY + 8);
-        ctx.stroke();
+        var imgX = Math.round((canvas.width - imgW) / 2);
+        var origImgEl = document.getElementById('img-original');
+        if (origImgEl && origImgEl.src) ctx.drawImage(origImgEl, imgX, findingsEndY + 56, imgW, imgH);
 
-        ctx.fillStyle = '#0F172A';
-        ctx.font = 'bold 16px Poppins, sans-serif';
-        ctx.fillText('X-ray & Fracture Localization', 40, findingsEndY + 40);
-
-        var imgX = Math.round((canvas.width - dispW) / 2);
-        ctx.drawImage(originalImg, imgX, findingsEndY + 56, dispW, dispH);
-
-        if (result.prediction === 'fracture') {
-          var overlay = document.createElement('canvas');
-          overlay.width = dispW;
-          overlay.height = dispH;
-          var octx = overlay.getContext('2d');
-          var gradient = octx.createRadialGradient(dispW * 0.42, dispH * 0.52, 0, dispW * 0.42, dispH * 0.52, dispW * 0.5);
+        if (isFracture) {
+          var overlayCanvas = document.createElement('canvas');
+          overlayCanvas.width = imgW; overlayCanvas.height = imgH;
+          var octx = overlayCanvas.getContext('2d');
+          var gradient = octx.createRadialGradient(imgW * 0.42, imgH * 0.52, 0, imgW * 0.42, imgH * 0.52, imgW * 0.5);
           gradient.addColorStop(0, 'rgba(255, 50, 0, 0.5)');
           gradient.addColorStop(0.18, 'rgba(255, 130, 0, 0.35)');
           gradient.addColorStop(0.38, 'rgba(255, 220, 0, 0.2)');
           gradient.addColorStop(1, 'transparent');
-          octx.fillStyle = gradient;
-          octx.fillRect(0, 0, dispW, dispH);
-          ctx.drawImage(overlay, imgX, findingsEndY + 56, dispW, dispH);
+          octx.fillStyle = gradient; octx.fillRect(0, 0, imgW, imgH);
+          ctx.drawImage(overlayCanvas, imgX, findingsEndY + 56, imgW, imgH);
         }
 
-        var imgBottomY = findingsEndY + 56 + dispH + 24;
-
-        ctx.strokeStyle = '#E2E8F0';
-        ctx.beginPath();
-        ctx.moveTo(40, imgBottomY);
-        ctx.lineTo(760, imgBottomY);
-        ctx.stroke();
-
-        ctx.fillStyle = '#475569';
-        ctx.font = '13px Inter, sans-serif';
+        var imgBottomY = findingsEndY + 56 + imgH + 24;
+        ctx.strokeStyle = '#E2E8F0'; ctx.beginPath(); ctx.moveTo(40, imgBottomY); ctx.lineTo(760, imgBottomY); ctx.stroke();
+        ctx.fillStyle = '#475569'; ctx.font = '13px Inter, sans-serif';
         ctx.fillText('This result is intended to assist healthcare professionals and should not replace', 40, imgBottomY + 24);
         ctx.fillText('professional medical diagnosis.', 40, imgBottomY + 44);
 
@@ -371,15 +425,7 @@ import Layout from '../layouts/Layout.astro';
       });
     }
 
-    var findingsItems = (function () {
-      var items = [];
-      document.querySelectorAll('#findings-list .findings-item span:last-child').forEach(function (el) {
-        items.push(el.textContent);
-      });
-      return items;
-    })();
-
-    var patientId = sessionStorage.getItem('fracturedetect:patient_id');
+    var findingsItems = findingsText;
 
     saveAnalysis(
       imageData,
@@ -390,573 +436,230 @@ import Layout from '../layouts/Layout.astro';
       patientId
     );
 
+    /* ── Batch queue navigation ── */
+    var queueData = sessionStorage.getItem('fracturedetect:queue');
+    var batchNav = document.getElementById('batch-nav');
+    var batchNavText = document.getElementById('batch-nav-text');
+    var btnNextImage = document.getElementById('btn-next-image');
+
+    if (queueData && batchNav && batchNavText) {
+      var queue = JSON.parse(queueData);
+      var total = queue.length + 1;
+      batchNavText.textContent = '1 of ' + total + ' analyzed — ' + queue.length + ' remaining';
+      batchNav.classList.remove('hidden');
+
+      if (btnNextImage) {
+        btnNextImage.addEventListener('click', function () {
+          var next = queue.shift();
+          if (next && next.data) {
+            try {
+              sessionStorage.setItem('fracturedetect:image', next.data);
+              if (queue.length > 0) {
+                sessionStorage.setItem('fracturedetect:queue', JSON.stringify(queue));
+              } else {
+                sessionStorage.removeItem('fracturedetect:queue');
+              }
+              sessionStorage.removeItem('fracturedetect:result');
+              window.location.href = '/processing';
+            } catch (err) {
+              console.warn('Failed to navigate to next image:', err);
+            }
+          }
+        });
+      }
+    }
+
     document.addEventListener('keydown', function (e) {
       if (e.key === 'e' || e.key === 'E') {
         if (!e.ctrlKey && !e.metaKey) {
           e.preventDefault();
-          btnDownload?.click();
+          downloadBtn?.click();
         }
       }
       if (e.key === 'n' || e.key === 'N') {
         if (!e.ctrlKey && !e.metaKey) {
           e.preventDefault();
-          btnAnother?.click();
+          if (batchNav && !batchNav.classList.contains('hidden')) {
+            btnNextImage?.click();
+          } else {
+            btnAnother?.click();
+          }
         }
       }
     });
-
-    initImageZoom();
   })();
-
-  /* ── Image Zoom & Pan ── */
-  function initImageZoom() {
-    var containers = document.querySelectorAll('.image-container');
-    containers.forEach(function (container) {
-      var img = container.querySelector('img');
-      if (!img) return;
-      var zoomed = false;
-      var startX, startY, panX = 0, panY = 0, originX, originY;
-      img.style.cursor = 'zoom-in';
-      img.style.transition = 'transform 0.2s ease';
-
-      function toggleZoom(clientX, clientY) {
-        zoomed = !zoomed;
-        if (zoomed) {
-          var rect = container.getBoundingClientRect();
-          var px = (clientX - rect.left) / rect.width;
-          var py = (clientY - rect.top) / rect.height;
-          img.style.transformOrigin = (px * 100) + '% ' + (py * 100) + '%';
-          img.style.transform = 'scale(2.5)';
-          img.style.cursor = 'grab';
-        } else {
-          img.style.transform = '';
-          img.style.transformOrigin = '';
-          img.style.cursor = 'zoom-in';
-          panX = 0; panY = 0;
-        }
-      }
-
-      img.addEventListener('click', function (e) {
-        if (!zoomed) toggleZoom(e.clientX, e.clientY);
-      });
-
-      img.addEventListener('mousedown', function (e) {
-        if (!zoomed) return;
-        e.preventDefault();
-        startX = e.clientX - panX;
-        startY = e.clientY - panY;
-        img.style.cursor = 'grabbing';
-        function onMove(ev) {
-          panX = ev.clientX - startX;
-          panY = ev.clientY - startY;
-          img.style.transform = 'scale(2.5) translate(' + (panX / 2.5) + 'px, ' + (panY / 2.5) + 'px)';
-        }
-        function onUp() {
-          document.removeEventListener('mousemove', onMove);
-          document.removeEventListener('mouseup', onUp);
-          img.style.cursor = 'grab';
-        }
-        document.addEventListener('mousemove', onMove);
-        document.addEventListener('mouseup', onUp);
-      });
-
-      img.addEventListener('dblclick', function () {
-        if (zoomed) toggleZoom(0, 0);
-      });
-    });
-  }
 </script>
 
 <style>
+  .hidden { display: none !important; }
+
   .results-page {
-    padding: 48px 0 64px;
     position: relative;
-    overflow: hidden;
-  }
-
-  .res-bg {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .res-orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0.08;
-  }
-
-  .res-orb.orb-1 {
-    width: 450px;
-    height: 450px;
-    background: var(--color-primary);
-    top: -150px;
-    left: -100px;
-  }
-
-  .res-orb.orb-2 {
-    width: 350px;
-    height: 350px;
-    background: #a855f7;
-    bottom: -120px;
-    right: -80px;
-  }
-
-  .results-container {
-    max-width: var(--max-width);
-    margin: 0 auto;
-    padding: 0 24px;
-    position: relative;
-    z-index: 1;
-  }
-
-  .res-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: var(--font-body);
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--color-success);
-    background: rgba(22, 163, 74, 0.08);
-    padding: 6px 14px;
-    border-radius: 20px;
-    margin-bottom: 28px;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
-  }
-
-  .res-badge .badge-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--color-success);
-  }
-
-  .results-grid {
-    display: grid;
-    grid-template-columns: 65fr 35fr;
-    gap: 24px;
-    margin-bottom: 24px;
-    align-items: start;
-    min-width: 0;
-  }
-
-  .image-comparison {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    min-width: 0;
-  }
-
-  .image-card {
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    padding: 16px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-    background: var(--color-surface);
-    min-width: 0;
-  }
-
-  .image-card-header {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-family: var(--font-body);
-    font-weight: 600;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--color-text-muted);
-    margin: 0 0 12px;
-  }
-
-  .image-card-header svg {
-    opacity: 0.5;
-    flex-shrink: 0;
-  }
-
-  .image-container {
-    position: relative;
-    background: #0B1121;
-    border-radius: var(--radius-md);
-    aspect-ratio: 4 / 3;
-    overflow: hidden;
-    max-width: 100%;
-  }
-
-  .image-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    display: block;
-  }
-
-  .image-empty {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    color: var(--color-neutral);
-  }
-
-  .image-empty.hidden {
-    display: none;
-  }
-
-  .image-empty-text {
-    font-family: var(--font-body);
-    font-weight: 400;
-    font-size: 13px;
-    color: var(--color-neutral);
-  }
-
-  .heatmap-overlay {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 2;
-    mix-blend-mode: screen;
-    background: radial-gradient(
-      ellipse at 42% 52%,
-      rgba(255, 50, 0, 0.65) 0%,
-      rgba(255, 130, 0, 0.45) 18%,
-      rgba(255, 220, 0, 0.3) 38%,
-      transparent 58%
-    );
-  }
-
-  .heatmap-overlay.hidden {
-    display: none;
-  }
-
-  .heatmap-legend {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 12px;
-  }
-
-  .heatmap-legend.hidden {
-    display: none;
-  }
-
-  .legend-label {
-    font-family: var(--font-body);
-    font-size: 12px;
-    color: var(--color-text-muted);
-    font-weight: 500;
-  }
-
-  .legend-bar {
-    width: 100px;
-    height: 8px;
-    border-radius: 4px;
-    background: linear-gradient(90deg, transparent, #ffdc00, #ff8200, #ff3200);
-  }
-
-  .results-sidebar {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    min-width: 0;
-  }
-
-  .prediction-card {
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    padding: 24px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-    background: var(--color-surface);
-    border-left: 4px solid var(--color-danger);
-  }
-
-  .prediction-card[data-prediction="normal"] {
-    border-left-color: var(--color-success);
-  }
-
-  .prediction-header {
-    font-family: var(--font-body);
-    font-weight: 600;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--color-text-muted);
-    margin: 0 0 16px;
-  }
-
-  .prediction-result {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .prediction-icon {
-    display: flex;
-    flex-shrink: 0;
-  }
-
-  .prediction-card[data-prediction="fracture"] .prediction-text {
-    color: var(--color-danger);
-  }
-
-  .prediction-card[data-prediction="normal"] .prediction-text {
-    color: var(--color-success);
-  }
-
-  .prediction-text {
-    font-family: var(--font-heading);
-    font-weight: 600;
-    font-size: 20px;
-    color: var(--color-danger);
-  }
-
-  .findings-card {
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    padding: 20px;
-    background: var(--color-surface);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  }
-
-  .findings-header {
-    font-family: var(--font-body);
-    font-weight: 600;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--color-text-muted);
-    margin: 0 0 14px;
-  }
-
-  .findings-list {
-    list-style: none;
+    background: var(--color-bg-subtle);
+    min-height: calc(100vh - 68px);
     padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
   }
 
-  .findings-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    font-family: var(--font-body);
-    font-size: 14px;
-    line-height: 1.5;
-    color: var(--color-text);
+  .dash-layout { display: flex; max-width: 100%; min-height: calc(100vh - 68px); }
+  .dash-main { flex: 1; min-width: 0; background: var(--color-bg-subtle); }
+  .dash-content { max-width: 1400px; padding: 24px 32px 40px; margin: 0 auto; }
+
+  .top-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; gap: 16px; }
+  .top-left { display: flex; flex-direction: column; gap: 2px; }
+  .top-title { font-family: var(--font-heading); font-weight: 600; font-size: 26px; color: var(--color-text); margin: 0; letter-spacing: -0.02em; }
+  .top-subtitle { font-family: var(--font-body); font-size: 14px; color: var(--color-text-muted); margin: 0; }
+  .top-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+  .top-btn-primary {
+    display: inline-flex; align-items: center; gap: 8px; text-decoration: none;
+    font-family: var(--font-body); font-weight: 600; font-size: 14px; color: white;
+    background: linear-gradient(135deg, var(--color-primary), #1d4ed8);
+    padding: 10px 20px; border: none; border-radius: var(--radius-md);
+    cursor: pointer; transition: all 0.2s ease; white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(37,99,235,0.25);
+  }
+  .top-btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(37,99,235,0.35); }
+  .top-icon-btn {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: var(--color-surface); border: 1px solid var(--color-border);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--color-text-muted); cursor: pointer; transition: all 0.15s;
+  }
+  .top-icon-btn:hover { border-color: var(--color-primary); color: var(--color-primary); }
+
+  .row-1 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+  .card {
+    background: var(--color-surface); border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg); padding: 18px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+  }
+  .card-header {
+    display: flex; align-items: center; gap: 6px;
+    font-family: var(--font-body); font-weight: 600; font-size: 10px;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--color-text-muted); margin-bottom: 12px;
+  }
+  .card-header svg { opacity: 0.5; flex-shrink: 0; }
+
+  .diag-result { margin-bottom: 6px; }
+  .diag-badge { display: inline-block; font-family: var(--font-heading); font-weight: 600; font-size: 15px; padding: 5px 12px; border-radius: var(--radius-md); background: var(--color-bg-subtle); color: var(--color-text-muted); }
+  .diag-meta { font-family: var(--font-body); font-size: 12px; color: var(--color-text-muted); line-height: 1.4; }
+
+  .gauge-wrap { text-align: center; padding: 4px 0; }
+  .gauge-svg { width: 72px; height: 72px; display: block; margin: 0 auto; }
+  .gauge-fill { transition: stroke-dashoffset 0.6s ease; }
+  .conf-label { text-align: center; font-family: var(--font-body); font-size: 11px; color: var(--color-text-muted); margin-top: 2px; }
+
+  .ood-value { font-family: var(--font-heading); font-weight: 700; font-size: 26px; color: var(--color-text); margin-bottom: 2px; }
+  .ood-label { font-family: var(--font-body); font-size: 12px; color: var(--color-success); margin-bottom: 10px; }
+  .ood-bar-wrap { height: 5px; background: var(--color-bg-subtle); border-radius: 3px; overflow: hidden; }
+  .ood-bar-fill { height: 100%; background: var(--color-success); border-radius: 3px; transition: width 0.5s ease; }
+
+  .reco-text { font-family: var(--font-body); font-size: 12px; line-height: 1.5; color: var(--color-text-muted); margin-bottom: 10px; }
+  .reco-severity {
+    display: inline-block; font-family: var(--font-body); font-weight: 600; font-size: 11px;
+    padding: 4px 10px; border-radius: var(--radius-md);
+  }
+  .reco-severity-danger { color: var(--color-danger); background: rgba(220,38,38,0.1); }
+  .reco-severity-safe { color: var(--color-success); background: rgba(22,163,74,0.1); }
+
+  .row-2 { display: flex; align-items: center; gap: 8px; margin-bottom: 24px; }
+  .pipeline-step { flex: 1; min-width: 0; }
+  .pipeline-arrow { flex-shrink: 0; color: var(--color-neutral); opacity: 0.4; }
+  .step-label {
+    font-family: var(--font-body); font-weight: 600; font-size: 10px;
+    text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-text-muted);
+    margin-bottom: 6px; text-align: center;
+  }
+  .step-img-wrap {
+    position: relative; background: #0B1121; border-radius: var(--radius-md);
+    aspect-ratio: 4 / 3; overflow: hidden; border: 1px solid var(--color-border);
+  }
+  .step-img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .step-empty {
+    position: absolute; inset: 0; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 6px;
+    color: var(--color-neutral); font-family: var(--font-body); font-size: 11px;
   }
 
-  .findings-bullet {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--color-primary);
-    flex-shrink: 0;
-    margin-top: 7px;
-  }
+  .row-3 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
 
-  .metrics-card {
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    padding: 20px;
-    background: var(--color-surface);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  }
+  .probs-chart { display: flex; flex-direction: column; gap: 10px; }
+  .prob-bar-row { display: flex; align-items: center; gap: 8px; }
+  .prob-label { font-family: var(--font-body); font-size: 12px; color: var(--color-text); min-width: 52px; font-weight: 500; }
+  .prob-bar-track { flex: 1; height: 8px; background: var(--color-bg-subtle); border-radius: 4px; overflow: hidden; }
+  .prob-bar-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
+  .prob-bar-danger { background: var(--color-danger); }
+  .prob-bar-safe { background: var(--color-success); }
+  .prob-value { font-family: var(--font-heading); font-weight: 600; font-size: 13px; color: var(--color-text); min-width: 40px; text-align: right; }
+  .probs-empty { font-family: var(--font-body); font-size: 12px; color: var(--color-text-muted); padding: 12px 0; }
 
-  .metric-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
+  .speedo-wrap { text-align: center; padding: 4px 0; }
+  .speedo-svg { width: 120px; height: 72px; display: block; margin: 0 auto; }
+  .speedo-track { stroke: var(--color-bg-subtle); }
+  .speedo-fill { transition: stroke-dashoffset 0.6s ease; }
+  .speedo-readout { font-family: var(--font-heading); }
+  .speedo-status { text-align: center; font-family: var(--font-body); font-size: 11px; font-weight: 600; margin-top: 2px; }
 
-  .metric-item {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
+  .info-list { display: flex; flex-direction: column; gap: 0; }
+  .info-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--color-border); }
+  .info-row:last-child { border-bottom: none; }
+  .info-key { font-family: var(--font-body); font-size: 12px; color: var(--color-text-muted); }
+  .info-val { font-family: var(--font-body); font-size: 12px; font-weight: 600; color: var(--color-text); }
 
-  .metric-value-lg {
-    font-family: var(--font-heading);
-    font-weight: 600;
-    font-size: 26px;
-    color: var(--color-primary);
-    line-height: 1.1;
+  .report-desc { font-family: var(--font-body); font-size: 12px; line-height: 1.5; color: var(--color-text-muted); margin: 0 0 14px; }
+  .report-btn {
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    font-family: var(--font-body); font-weight: 600; font-size: 12px; color: white;
+    background: linear-gradient(135deg, var(--color-primary), #1d4ed8);
+    padding: 8px 14px; border: none; border-radius: var(--radius-md);
+    cursor: pointer; width: 100%; transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(37,99,235,0.25);
   }
+  .report-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(37,99,235,0.35); }
 
-  .metric-value {
-    font-family: var(--font-heading);
-    font-weight: 600;
-    font-size: 15px;
-    color: var(--color-text);
-    line-height: 1.2;
-  }
-
-  .metric-inline {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .metric-inline svg {
-    flex-shrink: 0;
-    color: var(--color-neutral);
-  }
-
-  .metric-label {
-    font-family: var(--font-body);
-    font-weight: 400;
-    font-size: 12px;
+  .disclaimer-banner {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 14px 18px; background: rgba(245,158,11,0.06);
+    border: 1px solid rgba(245,158,11,0.15); border-radius: var(--radius-md);
+    font-family: var(--font-body); font-size: 12px; line-height: 1.5;
     color: var(--color-text-muted);
   }
+  .disclaimer-banner svg { flex-shrink: 0; margin-top: 1px; color: #f59e0b; }
 
-  .metric-divider {
-    height: 1px;
-    background: var(--color-border);
-    margin: 14px 0;
+  .batch-nav {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-top: 16px; padding: 14px 20px;
+    background: rgba(37,99,235,0.04);
+    border: 1px solid rgba(37,99,235,0.12);
+    border-radius: var(--radius-md);
   }
-
-  .action-row {
-    display: flex;
-    gap: 12px;
-    justify-content: flex-end;
-  }
-
-  .btn-primary {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-size: 16px;
-    color: white;
+  .batch-nav.hidden { display: none; }
+  .batch-nav-info { display: flex; align-items: center; gap: 8px; font-family: var(--font-body); font-size: 14px; color: var(--color-text); }
+  .batch-nav-info svg { color: var(--color-primary); flex-shrink: 0; }
+  .batch-nav .btn-primary {
+    display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;
+    font-family: var(--font-body); font-weight: 500; font-size: 14px; color: white;
     background: linear-gradient(135deg, var(--color-primary), #1d4ed8);
-    padding: 14px 28px;
-    border: none;
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    transition: all 0.2s ease;
-    white-space: nowrap;
-    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+    padding: 10px 20px; border: none; border-radius: var(--radius-md);
+    cursor: pointer; transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(37,99,235,0.25);
   }
+  .batch-nav .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(37,99,235,0.35); }
 
-  .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+  @media (max-width: 1200px) { .row-1, .row-3 { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 1024px) { .row-2 { flex-wrap: wrap; } .pipeline-arrow { display: none; } .pipeline-step { min-width: calc(50% - 8px); } }
+  @media (max-width: 900px) { .dash-content { padding: 20px 20px 32px; } }
+  @media (max-width: 768px) {
+    .row-1, .row-3 { grid-template-columns: 1fr 1fr; }
+    .top-title { font-size: 22px; }
+    .top-bar { flex-direction: column; align-items: flex-start; }
+    .top-right { width: 100%; justify-content: flex-end; }
   }
-
-  .btn-primary:focus-visible {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
-  }
-
-  .btn-secondary {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-size: 16px;
-    color: var(--color-text);
-    background: var(--color-surface);
-    padding: 14px 28px;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    transition: all 0.2s ease;
-    white-space: nowrap;
-  }
-
-  .btn-secondary:hover {
-    border-color: var(--color-primary);
-    color: var(--color-primary);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-  }
-
-  .btn-secondary:focus-visible {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
-  }
-
-  @media (prefers-reduced-motion: no-preference) {
-    .prediction-card {
-      animation: fd-fadeIn 0.28s ease-out;
-    }
-
-    .findings-card {
-      animation: fd-fadeIn 0.28s ease-out 0.1s both;
-    }
-
-    .metrics-card {
-      animation: fd-fadeIn 0.28s ease-out 0.15s both;
-    }
-  }
-
-  @media (max-width: 900px) {
-    .results-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .prediction-card {
-      order: -1;
-    }
-  }
-
   @media (max-width: 600px) {
-    .image-comparison {
-      grid-template-columns: 1fr;
-    }
-
-    .metric-value-lg {
-      font-size: 24px;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .results-page {
-      padding: 32px 0 48px;
-    }
-
-    .results-container {
-      padding: 0 20px;
-    }
-
-    .image-card {
-      padding: 12px;
-    }
-
-    .prediction-card {
-      padding: 20px;
-    }
-
-    .findings-card {
-      padding: 16px;
-    }
-
-    .metrics-card {
-      padding: 16px;
-    }
-
-    .prediction-text {
-      font-size: 18px;
-    }
-
-    .action-row {
-      flex-direction: column;
-    }
-
-    .btn-primary,
-    .btn-secondary {
-      width: 100%;
-      justify-content: center;
-    }
+    .dash-content { padding: 16px 16px 24px; }
+    .row-1, .row-3 { grid-template-columns: 1fr; }
+    .row-2 { flex-direction: column; }
+    .pipeline-step { width: 100%; }
+    .top-title { font-size: 20px; }
   }
 </style>

@@ -37,3 +37,30 @@ export async function isSignedIn() {
   const user = await getUser()
   return !!user
 }
+
+export async function signInWithGoogle() {
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: { redirectTo: window.location.origin + '/account' }
+  })
+  if (error) return { ok: false, error: error.message }
+  return { ok: true, data }
+}
+
+export async function sendResetEmail(email) {
+  const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: window.location.origin + '/update-password'
+  })
+  if (error) return { ok: false, error: error.message }
+  return { ok: true, data }
+}
+
+export async function updatePassword(newPassword) {
+  const { data, error } = await supabase.auth.updateUser({ password: newPassword })
+  if (error) return { ok: false, error: error.message }
+  return { ok: true, data }
+}
+
+export function onAuthStateChange(callback) {
+  return supabase.auth.onAuthStateChange(callback)
+}
