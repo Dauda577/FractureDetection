@@ -9,42 +9,171 @@ import Footer from '../components/Footer.astro';
       <div class="analyze-orb orb-right fd-orb-drift" style="--float-duration:16s;--float-delay:-5s"></div>
     </div>
 
-    <div id="auth-gate" class="auth-gate">
-      <div class="auth-gate-inner">
-        <div class="auth-gate-steps">
-          <div class="gate-step gate-step-1">
-            <div class="gate-step-num">1</div>
-            <div class="gate-step-content">
-              <h3 class="gate-step-title">Create an Account</h3>
-              <p class="gate-step-text">Sign up or sign in to save patient records and track your analysis history.</p>
+    <div id="auth-demo" class="auth-demo">
+      <div class="demo-container">
+        <div class="demo-left">
+          <div class="demo-badge">
+            <span class="badge-dot"></span>
+            See It In Action
+          </div>
+          <h2 class="demo-title">See how AI detects fractures<br />in real X-ray images</h2>
+          <p class="demo-desc">Swipe through sample results showing original X-rays with AI-powered fracture detection overlays.</p>
+          <div class="demo-gallery" id="demo-gallery">
+            <div class="demo-card">
+              <div class="demo-card-img-wrap">
+                <img class="demo-card-img" src="/WhatsApp%20Image%202026-07-19%20at%205.09.45%20PM.jpeg" alt="Sample X-ray" />
+                <div class="demo-card-heatmap" style="background:radial-gradient(ellipse at 38% 48%, rgba(255,50,0,0.55) 0%, rgba(255,130,0,0.35) 20%, rgba(255,220,0,0.2) 40%, transparent 60%)"></div>
+              </div>
+              <div class="demo-card-body">
+                <div class="demo-card-tags">
+                  <span class="demo-tag demo-tag-red">Fracture</span>
+                  <span class="demo-tag">Distal Radius</span>
+                </div>
+                <div class="demo-card-meta">
+                  <span class="demo-card-conf">98.5% confidence</span>
+                  <span class="demo-card-time">Forearm X-ray</span>
+                </div>
+              </div>
+            </div>
+            <div class="demo-card">
+              <div class="demo-card-img-wrap">
+                <img class="demo-card-img" src="/WhatsApp%20Image%202026-07-19%20at%205.09.45%20PM.jpeg" alt="Sample X-ray" />
+                <div class="demo-card-heatmap" style="background:radial-gradient(ellipse at 55% 42%, rgba(255,50,0,0.5) 0%, rgba(255,130,0,0.3) 22%, rgba(255,220,0,0.18) 42%, transparent 62%)"></div>
+              </div>
+              <div class="demo-card-body">
+                <div class="demo-card-tags">
+                  <span class="demo-tag demo-tag-red">Fracture</span>
+                  <span class="demo-tag">Femoral Neck</span>
+                </div>
+                <div class="demo-card-meta">
+                  <span class="demo-card-conf">96.2% confidence</span>
+                  <span class="demo-card-time">Hip X-ray</span>
+                </div>
+              </div>
+            </div>
+            <div class="demo-card">
+              <div class="demo-card-img-wrap">
+                <img class="demo-card-img" src="/WhatsApp%20Image%202026-07-19%20at%205.09.45%20PM.jpeg" alt="Sample X-ray" />
+                <div class="demo-card-heatmap" style="background:radial-gradient(ellipse at 45% 55%, rgba(255,50,0,0.5) 0%, rgba(255,130,0,0.32) 20%, rgba(255,220,0,0.18) 38%, transparent 58%)"></div>
+              </div>
+              <div class="demo-card-body">
+                <div class="demo-card-tags">
+                  <span class="demo-tag">Normal</span>
+                  <span class="demo-tag">No Fracture</span>
+                </div>
+                <div class="demo-card-meta">
+                  <span class="demo-card-conf">99.1% confidence</span>
+                  <span class="demo-card-time">Chest X-ray</span>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="gate-step gate-step-2">
-            <div class="gate-step-num">2</div>
-            <div class="gate-step-content">
-              <h3 class="gate-step-title">Enter Patient Info</h3>
-              <p class="gate-step-text">Provide patient details before each X-ray analysis for organized record-keeping.</p>
+          <div class="demo-dots" id="demo-dots">
+            <button class="demo-dot demo-dot-active" data-index="0" aria-label="Sample 1"></button>
+            <button class="demo-dot" data-index="1" aria-label="Sample 2"></button>
+            <button class="demo-dot" data-index="2" aria-label="Sample 3"></button>
+          </div>
+        </div>
+        <div class="demo-right">
+          <div class="demo-steps-preview">
+            <div class="dsp-header">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              <span>How it works</span>
+            </div>
+            <div class="dsp-track" id="dsp-track">
+              <div class="dsp-step dsp-step-active">
+                <div class="dsp-step-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/><line x1="12" y1="13" x2="12" y2="19"/><polyline points="9 16 12 13 15 16"/></svg>
+                </div>
+                <div class="dsp-step-body">
+                  <span class="dsp-step-title">Upload X-ray</span>
+                  <span class="dsp-step-desc">Drag & drop or browse DICOM / standard images</span>
+                </div>
+                <div class="dsp-step-check">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+              </div>
+              <div class="dsp-connector"></div>
+              <div class="dsp-step">
+                <div class="dsp-step-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                </div>
+                <div class="dsp-step-body">
+                  <span class="dsp-step-title">AI Analysis</span>
+                  <span class="dsp-step-desc">Deep learning model processes in under 5 seconds</span>
+                </div>
+              </div>
+              <div class="dsp-connector"></div>
+              <div class="dsp-step">
+                <div class="dsp-step-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+                </div>
+                <div class="dsp-step-body">
+                  <span class="dsp-step-title">Review Results</span>
+                  <span class="dsp-step-desc">Confidence scores, heatmaps, and exportable reports</span>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="gate-step gate-step-3">
-            <div class="gate-step-num">3</div>
-            <div class="gate-step-content">
-              <h3 class="gate-step-title">Upload &amp; Detect</h3>
-              <p class="gate-step-text">Upload X-rays and let AI detect fractures with confidence scores and heatmaps.</p>
+          <div class="demo-cta">
+            <a href="/signup" class="btn-demo-primary fd-magnetic" data-ripple id="btn-get-started">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Get Started Free
+            </a>
+            <a href="/signin" class="btn-demo-alt fd-magnetic" data-ripple>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+              Sign In
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="welcome-signedin" class="hidden">
+      <div class="welcome-container">
+        <div class="welcome-header">
+          <div class="wh-top">
+            <div class="wh-avatar" id="wh-avatar">U</div>
+            <div class="wh-text">
+              <h2 class="wh-greeting">Welcome back, <span id="welcome-name">User</span></h2>
+              <p class="wh-sub">Start a new analysis or pick up where you left off.</p>
             </div>
           </div>
         </div>
-        <div class="auth-gate-cta">
-          <a href="/signup" class="btn-submit fd-magnetic" data-ripple id="btn-get-started">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-              <circle cx="8.5" cy="7" r="4" />
-              <line x1="20" y1="8" x2="20" y2="14" />
-              <line x1="23" y1="11" x2="17" y2="11" />
-            </svg>
-            Get Started
+        <div class="welcome-cards">
+          <button class="wc-card" id="btn-new-analysis" data-ripple>
+            <div class="wc-card-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/><line x1="12" y1="13" x2="12" y2="19"/><polyline points="9 16 12 13 15 16"/></svg>
+            </div>
+            <div class="wc-card-body">
+              <h3 class="wc-card-title">New Analysis</h3>
+              <p class="wc-card-desc">Upload X-ray images for AI-powered fracture detection with confidence scoring and heatmaps.</p>
+            </div>
+            <div class="wc-card-arrow">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+          </button>
+          <a href="/account" class="wc-card" data-ripple>
+            <div class="wc-card-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            </div>
+            <div class="wc-card-body">
+              <h3 class="wc-card-title">View History</h3>
+              <p class="wc-card-desc">Review past analyses, patient records, and downloaded reports from your dashboard.</p>
+            </div>
+            <div class="wc-card-arrow">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
           </a>
-          <a href="/signin" class="btn-submit-alt fd-magnetic" data-ripple>I have an account</a>
+        </div>
+        <div class="recent-patients" id="recent-patients">
+          <div class="rp-header">
+            <h4 class="rp-title">Recent Patients</h4>
+            <span class="rp-count" id="rp-count">0</span>
+          </div>
+          <div class="rp-grid" id="rp-grid">
+            <div class="rp-empty" id="rp-empty">No previous patients yet. Start a new analysis to begin.</div>
+          </div>
         </div>
       </div>
     </div>
@@ -234,8 +363,8 @@ import Footer from '../components/Footer.astro';
 </Layout>
 
 <script>
-  import { isSignedIn } from '../scripts/auth.js';
-  import { savePatient, getPatient } from '../scripts/patients.js';
+  import { isSignedIn, getUser } from '../scripts/auth.js';
+  import { savePatient, getPatient, getPatients } from '../scripts/patients.js';
 
   var currentPatientId = sessionStorage.getItem('fracturedetect:patient_id');
 
@@ -258,38 +387,134 @@ import Footer from '../components/Footer.astro';
     });
   }
 
+  /* ── Demo gallery carousel (unauth) ── */
+  function initDemoGallery() {
+    var track = document.getElementById('demo-gallery');
+    var dots = document.querySelectorAll('.demo-dot');
+    var currentSlide = 0;
+    var totalSlides = dots.length;
+
+    function goToSlide(index) {
+      if (!track) return;
+      currentSlide = index;
+      track.style.transform = 'translateX(-' + (index * 100) + '%)';
+      dots.forEach(function (d, i) {
+        d.classList.toggle('demo-dot-active', i === index);
+      });
+    }
+
+    dots.forEach(function (dot) {
+      dot.addEventListener('click', function () {
+        goToSlide(parseInt(this.getAttribute('data-index')));
+      });
+    });
+
+    var autoSlide = setInterval(function () {
+      goToSlide((currentSlide + 1) % totalSlides);
+    }, 4000);
+
+    track.addEventListener('mouseenter', function () { clearInterval(autoSlide); });
+    track.addEventListener('mouseleave', function () {
+      autoSlide = setInterval(function () {
+        goToSlide((currentSlide + 1) % totalSlides);
+      }, 4000);
+    });
+  }
+
+  /* ── Step animation for demo (unauth) ── */
+  function initStepAnimation() {
+    var steps = document.querySelectorAll('.dsp-step');
+    var connectors = document.querySelectorAll('.dsp-connector');
+    var current = 0;
+
+    function activateStep(index) {
+      steps.forEach(function (s, i) {
+        s.classList.toggle('dsp-step-active', i <= index);
+      });
+      connectors.forEach(function (c, i) {
+        c.classList.toggle('dsp-connector-active', i < index);
+      });
+    }
+
+    var stepInterval = setInterval(function () {
+      current = (current + 1) % steps.length;
+      activateStep(current);
+    }, 2800);
+  }
+
+  /* ── Welcome dashboard (auth) ── */
+  async function loadWelcomeDashboard() {
+    var user = await getUser();
+    var nameEl = document.getElementById('welcome-name');
+    var avatarEl = document.getElementById('wh-avatar');
+    if (nameEl && user?.name) nameEl.textContent = user.name;
+    if (avatarEl && user?.name) avatarEl.textContent = user.name.charAt(0).toUpperCase();
+
+    // Load recent patients
+    var patients = await getPatients();
+    var rpGrid = document.getElementById('rp-grid');
+    var rpEmpty = document.getElementById('rp-empty');
+    var rpCount = document.getElementById('rp-count');
+    if (rpCount) rpCount.textContent = patients.length + ' patient' + (patients.length !== 1 ? 's' : '');
+
+    if (patients.length === 0) {
+      if (rpEmpty) rpEmpty.style.display = 'block';
+      return;
+    }
+    if (rpEmpty) rpEmpty.style.display = 'none';
+
+    var recent = patients.slice(0, 5);
+    rpGrid.innerHTML = '';
+    recent.forEach(function (p) {
+      var chip = document.createElement('button');
+      chip.className = 'rp-chip';
+      chip.setAttribute('data-patient-id', p.id);
+      chip.innerHTML =
+        '<span class="rp-chip-name">' + (p.name || 'Unnamed') + '</span>' +
+        '<span class="rp-chip-meta">' + (p.age ? p.age + 'y ' : '') + (p.gender ? p.gender.charAt(0).toUpperCase() : '') + (p.medical_record_id ? ' · ' + p.medical_record_id : '') + '</span>';
+      chip.addEventListener('click', function () {
+        sessionStorage.setItem('fracturedetect:patient_id', p.id);
+        window.location.reload();
+      });
+      rpGrid.appendChild(chip);
+    });
+  }
+
+  /* ── Main init ── */
   (async function () {
     var signedIn = await isSignedIn();
-    var gate = document.getElementById('auth-gate');
+    var demo = document.getElementById('auth-demo');
+    var welcome = document.getElementById('welcome-signedin');
     var patientUi = document.getElementById('patient-ui');
     var upload = document.getElementById('upload-ui');
 
     if (!signedIn) {
-      if (gate) { gate.classList.remove('hidden'); }
+      if (demo) { demo.classList.remove('hidden'); animateIn(demo); }
+      initDemoGallery();
+      initStepAnimation();
       return;
     }
 
-    if (gate) { gate.classList.add('hidden'); }
+    if (demo) { demo.classList.add('hidden'); }
 
     if (currentPatientId) {
+      if (welcome) welcome.classList.add('hidden');
       if (patientUi) patientUi.classList.add('hidden');
       if (upload) { upload.classList.remove('hidden'); animateIn(upload); loadPatientBadge(); }
     } else {
-      if (patientUi) { patientUi.classList.remove('hidden'); animateIn(patientUi); }
+      if (welcome) { welcome.classList.remove('hidden'); animateIn(welcome); loadWelcomeDashboard(); }
+      if (patientUi) patientUi.classList.add('hidden');
     }
   })();
 
-  var getStartedBtn = document.getElementById('btn-get-started');
-  if (getStartedBtn) {
-    getStartedBtn.addEventListener('click', async function (e) {
-      var signedIn = await isSignedIn();
-      if (signedIn) {
-        e.preventDefault();
-        var gate = document.getElementById('auth-gate');
-        var patientUi = document.getElementById('patient-ui');
-        if (gate) gate.classList.add('hidden');
-        if (patientUi) { patientUi.classList.remove('hidden'); animateIn(patientUi); }
-      }
+  /* ── New Analysis button on welcome ── */
+  var newAnalysisBtn = document.getElementById('btn-new-analysis');
+  if (newAnalysisBtn) {
+    newAnalysisBtn.addEventListener('click', function () {
+      var welcome = document.getElementById('welcome-signedin');
+      var patientUi = document.getElementById('patient-ui');
+      if (welcome) animateOut(welcome).then(function () { welcome.classList.add('hidden'); });
+      if (patientUi) { patientUi.classList.remove('hidden'); animateIn(patientUi); }
     });
   }
 
@@ -946,5 +1171,258 @@ import Footer from '../components/Footer.astro';
     .preview-card { padding: 16px; }
     .preview-empty { padding: 36px 16px; }
     .btn-analyze { font-size: 15px; padding: 12px 24px; }
+    .auth-demo { padding: 40px 20px; }
+    .demo-container { flex-direction: column; gap: 32px; }
+    .demo-left { order: 2; }
+    .demo-right { order: 1; }
+    .dsp-track { grid-template-columns: 1fr; gap: 16px; }
+    .dsp-connector { display: none; }
+    .welcome-cards { flex-direction: column; }
+    .wc-card { justify-content: flex-start; }
+    .rp-grid { gap: 8px; }
+  }
+
+  /* ── Auth Demo (Unauthenticated) ── */
+  .auth-demo {
+    display: flex; align-items: center; justify-content: center;
+    min-height: calc(100vh - 68px); padding: 56px 24px; position: relative; z-index: 1;
+  }
+  .demo-container {
+    max-width: var(--max-width); margin: 0 auto; width: 100%;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start;
+  }
+  .demo-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--font-body); font-size: 13px; font-weight: 500;
+    color: var(--color-primary); background: rgba(37,99,235,0.08);
+    padding: 6px 14px; border-radius: 20px; margin-bottom: 16px;
+    letter-spacing: 0.02em; text-transform: uppercase;
+  }
+  .demo-badge .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--color-primary); animation: pulse-dot 2s ease-in-out infinite; }
+  @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+  .demo-title { font-family: var(--font-heading); font-weight: 600; font-size: 34px; line-height: 1.2; color: var(--color-text); margin: 0 0 12px; letter-spacing: -0.02em; }
+  .demo-desc { font-family: var(--font-body); font-weight: 400; font-size: 16px; line-height: 1.65; color: var(--color-text-muted); margin: 0 0 28px; max-width: 480px; }
+  .demo-gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px; }
+  .demo-card {
+    background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg);
+    overflow: hidden; transition: all 0.25s ease; cursor: pointer;
+  }
+  .demo-card:hover { border-color: rgba(37,99,235,0.3); box-shadow: 0 8px 32px rgba(37,99,235,0.12); transform: translateY(-2px); }
+  .demo-card-img-wrap { position: relative; aspect-ratio: 4 / 3; overflow: hidden; }
+  .demo-card-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease; }
+  .demo-card:hover .demo-card-img { transform: scale(1.03); }
+  .demo-card-heatmap { position: absolute; inset: 0; z-index: 2; pointer-events: none; mix-blend-mode: screen; opacity: 0; transition: opacity 0.3s ease; }
+  .demo-card:hover .demo-card-heatmap { opacity: 1; }
+  .demo-card-body { padding: 14px 16px; }
+  .demo-card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+  .demo-tag { font-family: var(--font-body); font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 12px; text-transform: uppercase; letter-spacing: 0.03em; }
+  .demo-tag-red { background: rgba(239,68,68,0.15); color: #ef4444; }
+  .demo-tag { background: rgba(37,99,235,0.12); color: var(--color-primary); }
+  .demo-card-meta { display: flex; justify-content: space-between; font-family: var(--font-body); font-size: 12px; }
+  .demo-card-conf { color: var(--color-primary); font-weight: 600; }
+  .demo-card-time { color: var(--color-neutral); }
+  .demo-dots { display: flex; justify-content: center; gap: 8px; }
+  .demo-dot { width: 10px; height: 10px; border-radius: 50%; border: none; background: var(--color-border); cursor: pointer; transition: all 0.2s; }
+  .demo-dot-active { background: var(--color-primary); width: 28px; border-radius: 5px; }
+  .demo-dot:hover { opacity: 0.7; }
+
+  .demo-steps-preview { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 28px; box-shadow: 0 4px 24px rgba(0,0,0,0.04); height: fit-content; }
+  .dsp-header { display: flex; align-items: center; gap: 8px; font-family: var(--font-body); font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-text-muted); margin-bottom: 20px; }
+  .dsp-header svg { color: var(--color-primary); }
+  .dsp-track { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; align-items: start; }
+  .dsp-step { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; position: relative; }
+  .dsp-step::before { content: ''; position: absolute; top: 18px; left: 50%; right: 50%; height: 2px; background: var(--color-border); z-index: -1; }
+  .dsp-step:last-child::before { display: none; }
+  .dsp-step-icon { width: 36px; height: 36px; border-radius: 50%; background: var(--color-bg-subtle); display: flex; align-items: center; justify-content: center; color: var(--color-neutral); transition: all 0.3s ease; }
+  .dsp-step-active .dsp-step-icon { background: linear-gradient(135deg, var(--color-primary), #1d4ed8); color: white; box-shadow: 0 0 0 4px rgba(37,99,235,0.15); animation: stepPulse 2s ease-in-out infinite; }
+  @keyframes stepPulse { 0%, 100% { box-shadow: 0 0 0 4px rgba(37,99,235,0.15); } 50% { box-shadow: 0 0 0 8px rgba(37,99,235,0.08); } }
+  .dsp-step-body { display: flex; flex-direction: column; gap: 2px; }
+  .dsp-step-title { font-family: var(--font-heading); font-weight: 600; font-size: 13px; color: var(--color-text); }
+  .dsp-step-desc { font-family: var(--font-body); font-size: 11px; color: var(--color-text-muted); }
+  .dsp-step-check { opacity: 0; transform: scale(0.5); transition: all 0.3s ease; }
+  .dsp-step-active .dsp-step-check { opacity: 1; transform: scale(1); color: var(--color-success); }
+
+  .demo-cta { display: flex; flex-direction: column; gap: 10px; margin-top: 24px; }
+  .btn-demo-primary {
+    display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none;
+    font-family: var(--font-body); font-weight: 600; font-size: 15px; color: white;
+    background: linear-gradient(135deg, var(--color-primary), #1d4ed8);
+    padding: 14px 28px; border: none; border-radius: var(--radius-md);
+    cursor: pointer; transition: all 0.2s ease;
+    box-shadow: 0 4px 14px rgba(37,99,235,0.3);
+  }
+  .btn-demo-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37,99,235,0.4); }
+  .btn-demo-primary:active { transform: translateY(0); }
+  .btn-demo-alt {
+    display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none;
+    font-family: var(--font-body); font-weight: 600; font-size: 15px; color: var(--color-text);
+    background: var(--color-surface); padding: 14px 28px;
+    border: 1px solid var(--color-border); border-radius: var(--radius-md);
+    cursor: pointer; transition: all 0.2s ease;
+  }
+  .btn-demo-alt:hover { border-color: var(--color-primary); color: var(--color-primary); transform: translateY(-1px); }
+  .btn-demo-alt:active { transform: translateY(0); }
+
+  /* ── Welcome Signed In (Authenticated) ── */
+  .welcome-container { max-width: 640px; margin: 0 auto; padding: 48px 24px; position: relative; z-index: 1; }
+  .wh-top { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 32px; }
+  .wh-avatar { width: 56px; height: 56px; min-width: 56px; border-radius: 50%; background: linear-gradient(135deg, var(--color-primary), #1d4ed8); display: flex; align-items: center; justify-content: center; font-family: var(--font-heading); font-weight: 700; font-size: 22px; color: white; }
+  .wh-text { flex: 1; }
+  .wh-greeting { font-family: var(--font-heading); font-weight: 600; font-size: 28px; line-height: 1.3; color: var(--color-text); margin: 0 0 6px; }
+  .wh-greeting span { background: linear-gradient(135deg, var(--color-primary), #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .wh-sub { font-family: var(--font-body); font-size: 16px; color: var(--color-text-muted); margin: 0; line-height: 1.5; }
+  .welcome-cards { display: flex; gap: 16px; margin-bottom: 32px; }
+  .wc-card {
+    flex: 1; display: flex; align-items: center; gap: 14px;
+    background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg);
+    padding: 24px; cursor: pointer; transition: all 0.2s ease; text-decoration: none; color: inherit;
+  }
+  .wc-card:hover { border-color: rgba(37,99,235,0.3); box-shadow: 0 8px 32px rgba(37,99,235,0.12); transform: translateY(-2px); }
+  .wc-card:active { transform: translateY(0); }
+  .wc-card:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+  .wc-card-icon { width: 48px; height: 48px; min-width: 48px; border-radius: 14px; background: rgba(37,99,235,0.1); display: flex; align-items: center; justify-content: center; color: var(--color-primary); transition: all 0.2s; }
+  .wc-card:hover .wc-card-icon { background: linear-gradient(135deg, var(--color-primary), #1d4ed8); color: white; }
+  .wc-card-body { flex: 1; }
+  .wc-card-title { font-family: var(--font-heading); font-weight: 600; font-size: 16px; color: var(--color-text); margin: 0 0 4px; }
+  .wc-card-desc { font-family: var(--font-body); font-size: 13px; color: var(--color-text-muted); margin: 0; line-height: 1.5; }
+  .wc-card-arrow { color: var(--color-neutral); opacity: 0; transform: translateX(-8px); transition: all 0.2s; }
+  .wc-card:hover .wc-card-arrow { opacity: 1; transform: translateX(0); color: var(--color-primary); }
+
+  .recent-patients { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 24px; }
+  .rp-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  .rp-title { font-family: var(--font-heading); font-weight: 600; font-size: 15px; color: var(--color-text); margin: 0; text-transform: uppercase; letter-spacing: 0.05em; }
+  .rp-count { font-family: var(--font-body); font-size: 12px; color: var(--color-text-muted); background: var(--color-bg-subtle); padding: 2px 8px; border-radius: 10px; }
+  .rp-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+  .rp-empty { flex: 1 1 100%; text-align: center; font-family: var(--font-body); font-size: 14px; color: var(--color-neutral); padding: 16px; }
+  .rp-chip { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; background: var(--color-bg-subtle); border: 1px solid var(--color-border); border-radius: var(--radius-md); font-family: var(--font-body); font-size: 13px; color: var(--color-text); cursor: pointer; transition: all 0.15s; }
+  .rp-chip:hover { background: rgba(37,99,235,0.08); border-color: var(--color-primary); color: var(--color-primary); }
+  .rp-chip-avatar { width: 24px; height: 24px; border-radius: 50%; background: linear-gradient(135deg, var(--color-primary), #1d4ed8); display: flex; align-items: center; justify-content: center; font-family: var(--font-heading); font-weight: 700; font-size: 11px; color: white; }
+  .rp-chip-info { display: flex; flex-direction: column; gap: 1px; }
+  .rp-chip-name { font-weight: 600; }
+  .rp-chip-meta { font-size: 11px; color: var(--color-text-muted); }
+
+  /* ── Auth Demo (Unauthenticated) ── */
+  .auth-demo {
+    display: flex; align-items: center; justify-content: center;
+    min-height: calc(100vh - 68px); padding: 48px 24px; position: relative; z-index: 1;
+  }
+  .demo-container {
+    max-width: 1120px; width: 100%;
+    display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; align-items: start;
+  }
+  .demo-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--font-body); font-size: 13px; font-weight: 500; color: var(--color-primary);
+    background: rgba(37,99,235,0.08); padding: 6px 14px; border-radius: 20px;
+    margin-bottom: 16px; letter-spacing: 0.02em; text-transform: uppercase;
+  }
+  .demo-badge .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--color-primary); animation: pulse-dot 2s ease-in-out infinite; }
+  @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+  .demo-title { font-family: var(--font-heading); font-weight: 600; font-size: 34px; line-height: 1.2; color: var(--color-text); margin: 0 0 12px; letter-spacing: -0.02em; }
+  .demo-desc { font-family: var(--font-body); font-size: 16px; line-height: 1.6; color: var(--color-text-muted); margin: 0 0 28px; max-width: 480px; }
+
+  .demo-gallery { position: relative; width: 100%; overflow: hidden; margin-bottom: 16px; }
+  .demo-gallery-inner { display: flex; transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+  .demo-card {
+    flex: 0 0 100%; box-sizing: border-box;
+    background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg);
+    overflow: hidden; transition: all 0.2s ease;
+  }
+  .demo-card:hover { border-color: rgba(37,99,235,0.3); box-shadow: 0 8px 32px rgba(37,99,235,0.1); }
+  .demo-card-img-wrap { position: relative; width: 100%; aspect-ratio: 4 / 3; background: #0B1121; overflow: hidden; }
+  .demo-card-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
+  .demo-card:hover .demo-card-img { transform: scale(1.02); }
+  .demo-card-heatmap { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: screen; opacity: 0.9; }
+  .demo-card-body { padding: 16px 20px; }
+  .demo-card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+  .demo-tag { font-family: var(--font-body); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 3px 8px; border-radius: 4px; }
+  .demo-tag-red { background: rgba(239,68,68,0.15); color: #ef4444; border: 1px solid rgba(239,68,68,0.3); }
+  .demo-tag { background: rgba(37,99,235,0.1); color: var(--color-primary); border: 1px solid rgba(37,99,235,0.2); }
+  .demo-card-meta { display: flex; gap: 16px; }
+  .demo-card-conf { font-family: var(--font-heading); font-weight: 600; font-size: 13px; color: var(--color-primary); }
+  .demo-card-time { font-family: var(--font-body); font-size: 13px; color: var(--color-text-muted); }
+
+  .demo-dots { display: flex; justify-content: center; gap: 8px; }
+  .demo-dot { width: 10px; height: 10px; border-radius: 50%; border: none; background: var(--color-border); cursor: pointer; padding: 0; transition: all 0.2s; }
+  .demo-dot-active { background: var(--color-primary); width: 28px; border-radius: 5px; }
+  .demo-dot:hover { background: var(--color-primary); }
+
+  .demo-right { display: flex; flex-direction: column; }
+  .demo-steps-preview {
+    background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg);
+    padding: 28px 24px; flex: 1;
+  }
+  .dsp-header { display: flex; align-items: center; gap: 8px; font-family: var(--font-body); font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-text-muted); margin-bottom: 24px; }
+  .dsp-header svg { color: var(--color-primary); flex-shrink: 0; }
+  .dsp-track { display: flex; align-items: flex-start; gap: 0; }
+  .dsp-step { flex: 1; display: flex; align-items: flex-start; gap: 12px; padding-right: 24px; position: relative; }
+  .dsp-step:last-child { padding-right: 0; }
+  .dsp-step-icon { width: 40px; height: 40px; min-width: 40px; border-radius: 12px; background: var(--color-bg-subtle); border: 1px solid var(--color-border); display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); transition: all 0.3s ease; }
+  .dsp-step-active .dsp-step-icon { background: linear-gradient(135deg, var(--color-primary), #1d4ed8); border-color: var(--color-primary); color: white; transform: scale(1.05); }
+  .dsp-step-body { flex: 1; }
+  .dsp-step-title { font-family: var(--font-heading); font-weight: 600; font-size: 14px; color: var(--color-text); display: block; margin-bottom: 3px; }
+  .dsp-step-desc { font-family: var(--font-body); font-size: 12px; color: var(--color-text-muted); display: block; }
+  .dsp-step-check { width: 24px; height: 24px; min-width: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; opacity: 0; transform: scale(0.5); transition: all 0.3s ease; color: var(--color-primary); background: rgba(37,99,235,0.1); }
+  .dsp-step-active .dsp-step-check { opacity: 1; transform: scale(1); }
+  .dsp-connector { position: relative; width: 24px; height: 40px; }
+  .dsp-connector::before { content: ''; position: absolute; top: 20px; left: 50%; transform: translateX(-50%); width: 2px; height: 100%; background: var(--color-border); }
+  .dsp-connector-active::before { background: linear-gradient(180deg, var(--color-primary), var(--color-primary) 50%, var(--color-border) 50%); }
+  .dsp-connector-active { position: relative; }
+
+  .demo-cta { display: flex; flex-direction: column; gap: 10px; margin-top: 24px; }
+  .btn-demo-primary {
+    display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none;
+    font-family: var(--font-body); font-weight: 600; font-size: 15px; color: white;
+    background: linear-gradient(135deg, var(--color-primary), #1d4ed8);
+    padding: 14px 28px; border: none; border-radius: var(--radius-md);
+    cursor: pointer; transition: all 0.2s ease;
+    box-shadow: 0 4px 14px rgba(37,99,235,0.3);
+  }
+  .btn-demo-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37,99,235,0.4); }
+  .btn-demo-primary:active { transform: translateY(0); }
+  .btn-demo-alt {
+    display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none;
+    font-family: var(--font-body); font-weight: 600; font-size: 15px; color: var(--color-text);
+    background: var(--color-surface); padding: 14px 28px;
+    border: 1px solid var(--color-border); border-radius: var(--radius-md);
+    cursor: pointer; transition: all 0.2s ease;
+  }
+  .btn-demo-alt:hover { border-color: var(--color-primary); color: var(--color-primary); transform: translateY(-1px); }
+  .btn-demo-alt:active { transform: translateY(0); }
+
+  /* Shared fade animations */
+  .fade-in { animation: fdFadeIn 0.4s ease-out forwards; }
+  .fade-out { animation: fdFadeOut 0.3s ease-in forwards; }
+  @keyframes fdFadeIn { 0% { opacity: 0; transform: translateY(12px) scale(0.98); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
+  @keyframes fdFadeOut { 0% { opacity: 1; transform: translateY(0) scale(1); } 100% { opacity: 0; transform: translateY(-8px) scale(0.98); } }
+
+  /* Responsive for auth-demo */
+  @media (max-width: 900px) {
+    .demo-container { grid-template-columns: 1fr; gap: 32px; }
+    .demo-right { order: -1; }
+    .dsp-track { flex-wrap: wrap; }
+    .dsp-step { flex: 1 1 calc(50% - 12px); padding-right: 16px; }
+    .dsp-step:nth-child(2) { padding-right: 0; }
+    .dsp-connector { width: 100%; height: 24px; order: 10; }
+    .dsp-connector::before { top: 50%; left: 0; right: 0; width: auto; height: 2px; background: var(--color-border); }
+    .dsp-connector-active::before { background: linear-gradient(90deg, var(--color-primary), var(--color-primary) 50%, var(--color-border) 50%); }
+  }
+  @media (max-width: 768px) {
+    .auth-demo { min-height: auto; padding: 40px 20px; }
+    .demo-title { font-size: 28px; }
+    .welcome-container { padding: 40px 20px; }
+    .wh-greeting { font-size: 24px; }
+    .welcome-cards { flex-direction: column; }
+    .wc-card { flex-direction: column; text-align: center; }
+    .wc-card-arrow { display: none; }
+    .demo-cta { flex-direction: column; }
+  }
+  @media (max-width: 480px) {
+    .demo-title { font-size: 24px; }
+    .demo-badge { font-size: 12px; padding: 5px 12px; }
+    .demo-desc { font-size: 15px; }
+    .demo-steps-preview { padding: 20px 16px; }
+    .dsp-step-icon { width: 36px; height: 36px; }
+    .btn-demo-primary, .btn-demo-alt { padding: 12px 20px; font-size: 14px; }
   }
 </style>
