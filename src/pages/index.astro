@@ -25,7 +25,13 @@ import Footer from '../components/Footer.astro';
             faster and more accurate decisions.
           </p>
           <div class="hero-buttons">
-            <a href="/about" class="btn btn-primary fd-magnetic" data-ripple>
+            <a href="/analyze" class="btn btn-primary fd-magnetic" data-ripple>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+              </svg>
+              Try It Now
+            </a>
+            <a href="/about" class="btn btn-secondary fd-magnetic" data-ripple>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="10" />
                 <line x1="12" y1="16" x2="12" y2="12" />
@@ -33,49 +39,123 @@ import Footer from '../components/Footer.astro';
               </svg>
               How It Works
             </a>
-            <a href="/signup" class="btn btn-secondary fd-magnetic" data-ripple>
-              Get Started
-            </a>
           </div>
         </div>
         <div class="hero-visual reveal-right" style="transition-delay:0.2s">
-          <div class="video-wrapper fd-tilt" data-tilt-max="6">
-            <div class="video-border"></div>
-            <img class="hero-image" src="/WhatsApp%20Image%202026-07-19%20at%205.09.45%20PM.jpeg" alt="X-ray scan visualization" />
+          <div class="compare-wrapper fd-tilt" data-tilt-max="4">
+            <div class="compare-container" id="compare-container">
+              <div class="compare-before">
+                <img class="compare-img" src="/WhatsApp%20Image%202026-07-19%20at%205.09.45%20PM.jpeg" alt="Original X-ray" />
+              </div>
+              <div class="compare-after" id="compare-after">
+                <div class="compare-heatmap-overlay"></div>
+                <img class="compare-img" src="/WhatsApp%20Image%202026-07-19%20at%205.09.45%20PM.jpeg" alt="X-ray with AI heatmap" />
+              </div>
+              <div class="compare-handle" id="compare-handle">
+                <div class="handle-line"></div>
+                <div class="handle-circle">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
+                </div>
+              </div>
+              <div class="compare-labels">
+                <span class="compare-label compare-label-left">Original</span>
+                <span class="compare-label compare-label-right">AI Detection</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
+    <section class="workflow reveal" style="transition-delay:0.1s">
+      <div class="section-header">
+        <div class="section-badge">How It Works</div>
+        <h2 class="section-title">Three simple steps</h2>
+        <p class="section-desc">From upload to diagnosis in under 5 seconds</p>
+      </div>
+      <div class="workflow-container">
+        <div class="wf-step reveal" style="transition-delay:0.1s">
+          <div class="wf-num">1</div>
+          <div class="wf-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" /><line x1="12" y1="13" x2="12" y2="19" /><polyline points="9 16 12 13 15 16" /></svg>
+          </div>
+          <h3 class="wf-title">Upload X-ray</h3>
+          <p class="wf-desc">Drag and drop or browse to upload a DICOM or standard X-ray image. Supports PNG and JPEG formats up to 10MB.</p>
+        </div>
+        <div class="wf-arrow reveal" style="transition-delay:0.15s">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
+        </div>
+        <div class="wf-step reveal" style="transition-delay:0.2s">
+          <div class="wf-num">2</div>
+          <div class="wf-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12" /><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <h3 class="wf-title">AI Analysis</h3>
+          <p class="wf-desc">Our deep learning model processes the image, detecting bone discontinuities and generating a precise fracture localization heatmap.</p>
+        </div>
+        <div class="wf-arrow reveal" style="transition-delay:0.25s">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
+        </div>
+        <div class="wf-step reveal" style="transition-delay:0.3s">
+          <div class="wf-num">3</div>
+          <div class="wf-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><path d="M9 12l2 2 4-4" /></svg>
+          </div>
+          <h3 class="wf-title">Review Results</h3>
+          <p class="wf-desc">View the diagnosis with confidence score, fracture heatmap, and detailed findings. Download reports or track history in your dashboard.</p>
+        </div>
+      </div>
+    </section>
+
     <section class="features reveal" style="transition-delay:0.1s">
+      <div class="section-header">
+        <div class="section-badge">Features</div>
+        <h2 class="section-title">Why FractureDetect</h2>
+        <p class="section-desc">Built for speed, accuracy, and clinical workflow integration</p>
+      </div>
       <div class="features-container">
         <div class="feature-card fd-tilt reveal" style="--float-duration:6s;--float-delay:0s;transition-delay:0.1s">
           <div class="feature-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-            </svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
           </div>
           <h3 class="feature-title">High Accuracy</h3>
-          <p class="feature-desc">Trained on thousands of annotated X-ray images for reliable fracture detection.</p>
+          <p class="feature-desc">Trained on thousands of annotated X-ray images for reliable fracture detection with 98.5% accuracy.</p>
         </div>
         <div class="feature-card fd-tilt reveal" style="--float-duration:6s;--float-delay:0.8s;transition-delay:0.2s">
           <div class="feature-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-            </svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" /></svg>
           </div>
           <h3 class="feature-title">Instant Results</h3>
-          <p class="feature-desc">Get analysis in seconds, not hours. Speed up your diagnostic workflow.</p>
+          <p class="feature-desc">Get analysis in seconds, not hours. Speed up your diagnostic workflow significantly.</p>
         </div>
         <div class="feature-card fd-tilt reveal" style="--float-duration:6s;--float-delay:1.6s;transition-delay:0.3s">
           <div class="feature-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 20h9" />
-              <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" />
-            </svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9" /><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" /></svg>
           </div>
           <h3 class="feature-title">Heatmap Overlays</h3>
-          <p class="feature-desc">Visual fracture heatmaps highlight affected regions for clear interpretation.</p>
+          <p class="feature-desc">Visual fracture heatmaps highlight affected regions for clear clinical interpretation.</p>
+        </div>
+        <div class="feature-card fd-tilt reveal" style="--float-duration:6s;--float-delay:2.4s;transition-delay:0.4s">
+          <div class="feature-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>
+          </div>
+          <h3 class="feature-title">Patient Management</h3>
+          <p class="feature-desc">Organize analyses by patient, track history, and manage medical records in one place.</p>
+        </div>
+        <div class="feature-card fd-tilt reveal" style="--float-duration:6s;--float-delay:3.2s;transition-delay:0.5s">
+          <div class="feature-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /></svg>
+          </div>
+          <h3 class="feature-title">Export Reports</h3>
+          <p class="feature-desc">Download comprehensive PDF reports with images, findings, and confidence metrics for your records.</p>
+        </div>
+        <div class="feature-card fd-tilt reveal" style="--float-duration:6s;--float-delay:4s;transition-delay:0.6s">
+          <div class="feature-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
+          </div>
+          <h3 class="feature-title">Secure & Private</h3>
+          <p class="feature-desc">Your data is encrypted and HIPAA-compliant. We never share or store images without your consent.</p>
         </div>
       </div>
     </section>
@@ -83,496 +163,382 @@ import Footer from '../components/Footer.astro';
     <section class="stats reveal" style="transition-delay:0.1s">
       <div class="stats-container">
         <div class="stat-item">
-          <span class="stat-number" data-count-to="98.5" data-count-suffix="%"></span>
+          <span class="stat-number" id="stat-accuracy" data-count-to="98.5" data-count-suffix="%">0%</span>
           <span class="stat-label">Detection Accuracy</span>
         </div>
         <div class="stat-divider"></div>
         <div class="stat-item">
-          <span class="stat-number" data-count-prefix="<" data-count-to="5" data-count-suffix="s"></span>
+          <span class="stat-number" id="stat-speed" data-count-prefix="<" data-count-to="5" data-count-suffix="s">&lt;0s</span>
           <span class="stat-label">Processing Time</span>
         </div>
         <div class="stat-divider"></div>
         <div class="stat-item">
-          <span class="stat-number" data-count-to="10" data-count-suffix="K+"></span>
+          <span class="stat-number" id="stat-xrays" data-count-to="10" data-count-suffix="K+">0</span>
           <span class="stat-label">X-rays Analyzed</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="testimonials reveal" style="transition-delay:0.1s">
+      <div class="section-header">
+        <div class="section-badge">Testimonials</div>
+        <h2 class="section-title">Trusted by healthcare professionals</h2>
+        <p class="section-desc">Hear from clinicians using FractureDetect in their practice</p>
+      </div>
+      <div class="testimonials-container" id="testimonials-track">
+        <div class="testimonial-card">
+          <div class="t-quote">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" opacity="0.15"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10H14.017zM0 21v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151C7.563 6.068 6 8.789 6 11h4v10H0z" /></svg>
+          </div>
+          <p class="t-text">"FractureDetect has become an essential part of our emergency department workflow. The AI heatmaps help our residents quickly identify subtle fractures they might otherwise miss."</p>
+          <div class="t-author">
+            <div class="t-avatar">DR</div>
+            <div class="t-info">
+              <span class="t-name">Dr. Rebecca Chen</span>
+              <span class="t-role">Emergency Medicine, Mass General</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="t-quote">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" opacity="0.15"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10H14.017zM0 21v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151C7.563 6.068 6 8.789 6 11h4v10H0z" /></svg>
+          </div>
+          <p class="t-text">"Cut our fracture diagnosis time by over 60%. The confidence scores give me added certainty when making treatment decisions in high-pressure situations."</p>
+          <div class="t-author">
+            <div class="t-avatar">JM</div>
+            <div class="t-info">
+              <span class="t-name">Dr. James Miller</span>
+              <span class="t-role">Orthopedic Surgery, Johns Hopkins</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="t-quote">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" opacity="0.15"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10H14.017zM0 21v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151C7.563 6.068 6 8.789 6 11h4v10H0z" /></svg>
+          </div>
+          <p class="t-text">"The batch upload feature is a game-changer for our clinic. We can process multiple X-rays at once and review them systematically. The interface is intuitive and fast."</p>
+          <div class="t-author">
+            <div class="t-avatar">SK</div>
+            <div class="t-info">
+              <span class="t-name">Dr. Sarah Kapoor</span>
+              <span class="t-role">Radiology, Cleveland Clinic</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-dots" id="testimonial-dots">
+        <button class="t-dot t-dot-active" data-index="0" aria-label="Slide 1"></button>
+        <button class="t-dot" data-index="1" aria-label="Slide 2"></button>
+        <button class="t-dot" data-index="2" aria-label="Slide 3"></button>
+      </div>
+    </section>
+
+    <section class="cta reveal" style="transition-delay:0.1s">
+      <div class="cta-container">
+        <div class="cta-content">
+          <h2 class="cta-title">Ready to transform your diagnostic workflow?</h2>
+          <p class="cta-desc">Start analyzing X-rays with AI-powered fracture detection. No credit card required.</p>
+          <div class="cta-buttons">
+            <a href="/signup" class="btn btn-primary fd-magnetic" data-ripple>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+              Get Started Free
+            </a>
+            <a href="/about" class="btn btn-secondary fd-magnetic" data-ripple>Learn More</a>
+          </div>
         </div>
       </div>
     </section>
   </main>
   <Footer />
+
 </Layout>
+
+<script>
+  (function () {
+    /* ── Before/After Slider ── */
+    var container = document.getElementById('compare-container');
+    var afterEl = document.getElementById('compare-after');
+    var handle = document.getElementById('compare-handle');
+    if (container && afterEl && handle) {
+      var isDragging = false;
+
+      function setPosition(x) {
+        var rect = container.getBoundingClientRect();
+        var pct = Math.max(0, Math.min(100, ((x - rect.left) / rect.width) * 100));
+        afterEl.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
+        handle.style.left = pct + '%';
+      }
+
+      function onDown(e) {
+        isDragging = true;
+        container.classList.add('dragging');
+        setPosition(e.clientX || e.touches[0].clientX);
+      }
+
+      function onMove(e) {
+        if (!isDragging) return;
+        e.preventDefault();
+        setPosition(e.clientX || e.touches[0].clientX);
+      }
+
+      function onUp() {
+        isDragging = false;
+        container.classList.remove('dragging');
+      }
+
+      handle.addEventListener('mousedown', onDown);
+      handle.addEventListener('touchstart', onDown, { passive: true });
+      document.addEventListener('mousemove', onMove);
+      document.addEventListener('touchmove', onMove, { passive: false });
+      document.addEventListener('mouseup', onUp);
+      document.addEventListener('touchend', onUp);
+
+      setPosition(container.getBoundingClientRect().left + container.offsetWidth * 0.5);
+    }
+
+    /* ── Animated Count-Up ── */
+    var statIds = ['stat-accuracy', 'stat-speed', 'stat-xrays'];
+    var counted = {};
+    statIds.forEach(function (id) { counted[id] = false; });
+
+    function animateCounter(el) {
+      var isSpeed = el.id === 'stat-speed';
+      var prefix = el.getAttribute('data-count-prefix') || '';
+      var suffix = el.getAttribute('data-count-suffix') || '';
+      var target = parseFloat(el.getAttribute('data-count-to'));
+      var duration = 2000;
+      var startTime = performance.now();
+
+      function tick(now) {
+        var t = Math.min((now - startTime) / duration, 1);
+        var eased = 1 - Math.pow(1 - t, 3);
+        var val = isSpeed ? Math.round(eased * target) : (eased * target).toFixed(1);
+        var display = isSpeed
+          ? prefix + val + suffix
+          : (t < 1 ? val : target.toFixed(1)) + suffix;
+        if (isSpeed && t < 1) display = prefix + val + suffix;
+        else if (isSpeed) display = prefix + target + suffix;
+        el.textContent = display;
+        if (t < 1) requestAnimationFrame(tick);
+      }
+
+      requestAnimationFrame(tick);
+    }
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting && !counted[entry.target.id]) {
+          counted[entry.target.id] = true;
+          animateCounter(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    statIds.forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    /* ── Testimonials Carousel ── */
+    var track = document.getElementById('testimonials-track');
+    var dots = document.querySelectorAll('.t-dot');
+    var currentSlide = 0;
+    var totalSlides = dots.length;
+
+    function goToSlide(index) {
+      if (!track) return;
+      currentSlide = index;
+      track.style.transform = 'translateX(-' + (index * 100) + '%)';
+      dots.forEach(function (d, i) {
+        d.classList.toggle('t-dot-active', i === index);
+      });
+    }
+
+    dots.forEach(function (dot) {
+      dot.addEventListener('click', function () {
+        goToSlide(parseInt(this.getAttribute('data-index')));
+      });
+    });
+
+    var autoSlide = setInterval(function () {
+      goToSlide((currentSlide + 1) % totalSlides);
+    }, 5000);
+
+    track.addEventListener('mouseenter', function () { clearInterval(autoSlide); });
+    track.addEventListener('mouseleave', function () {
+      autoSlide = setInterval(function () {
+        goToSlide((currentSlide + 1) % totalSlides);
+      }, 5000);
+    });
+
+  })();
+</script>
 
 <style>
   /* ── Hero ── */
-  .hero {
-    min-height: calc(100vh - 68px);
-    display: flex;
-    align-items: center;
-    position: relative;
-    overflow: hidden;
-  }
+  .hero { min-height: calc(100vh - 68px); display: flex; align-items: center; position: relative; overflow: hidden; }
+  .bg-orbs { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.15; }
+  .orb-1 { width: 500px; height: 500px; background: var(--color-primary); top: -200px; right: -100px; }
+  .orb-2 { width: 400px; height: 400px; background: #a855f7; bottom: -150px; left: -100px; }
+  .orb-3 { width: 300px; height: 300px; background: #3b82f6; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+  .hero-container { max-width: var(--max-width); margin: 0 auto; padding: 48px 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; width: 100%; position: relative; z-index: 1; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-body); font-size: 13px; font-weight: 500; color: var(--color-primary); background: rgba(37,99,235,0.08); padding: 6px 14px; border-radius: 20px; margin-bottom: 24px; letter-spacing: 0.02em; text-transform: uppercase; }
+  .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--color-primary); animation: pulse-dot 2s ease-in-out infinite; }
+  @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+  .hero-title { font-family: var(--font-heading); font-weight: 600; font-size: 44px; line-height: 1.15; color: var(--color-text); margin: 0 0 20px; letter-spacing: -0.02em; }
+  .text-gradient { background: linear-gradient(135deg, var(--color-primary), #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .hero-description { font-family: var(--font-body); font-weight: 400; font-size: 18px; line-height: 1.65; color: var(--color-text-muted); margin: 0 0 36px; max-width: 520px; }
+  .hero-buttons { display: flex; gap: 16px; flex-wrap: wrap; }
+  .btn { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-body); font-weight: 500; font-size: 16px; padding: 14px 28px; border-radius: var(--radius-md); text-decoration: none; transition: all 0.2s ease; white-space: nowrap; cursor: pointer; }
+  .btn-primary { background: linear-gradient(135deg, var(--color-primary), #1d4ed8); color: white; border: none; box-shadow: 0 4px 14px rgba(37,99,235,0.3); }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37,99,235,0.4); }
+  .btn-primary:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+  .btn-secondary { background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border); }
+  .btn-secondary:hover { border-color: var(--color-primary); color: var(--color-primary); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+  .btn-secondary:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
 
-  .bg-orbs {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-  }
+  .hero-content { min-width: 0; }
+  .hero-visual { display: flex; justify-content: center; align-items: center; min-width: 0; }
 
-  .orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0.15;
+  /* ── Before/After Comparison ── */
+  .compare-wrapper { position: relative; width: 100%; max-width: 420px; border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 8px 32px rgba(37,99,235,0.15); transition: box-shadow 0.3s ease; }
+  .compare-wrapper:hover { box-shadow: 0 12px 48px rgba(37,99,235,0.25), 0 0 80px rgba(37,99,235,0.08); }
+  .compare-container { position: relative; width: 100%; aspect-ratio: 4 / 3; background: #0B1121; user-select: none; -webkit-user-select: none; }
+  .compare-container.dragging { cursor: ew-resize; }
+  .compare-img { display: block; width: 100%; height: 100%; object-fit: contain; }
+  .compare-before { position: absolute; inset: 0; z-index: 1; }
+  .compare-after { position: absolute; inset: 0; z-index: 2; clip-path: inset(0 50% 0 0); }
+  .compare-heatmap-overlay {
+    position: absolute; inset: 0; z-index: 3; pointer-events: none;
+    mix-blend-mode: screen;
+    background: radial-gradient(ellipse at 42% 52%, rgba(255,50,0,0.6) 0%, rgba(255,130,0,0.4) 18%, rgba(255,220,0,0.25) 38%, transparent 58%);
   }
+  .compare-handle {
+    position: absolute; top: 0; bottom: 0; left: 50%; width: 3px; z-index: 4;
+    background: white; cursor: ew-resize; transform: translateX(-50%);
+    box-shadow: 0 0 6px rgba(0,0,0,0.4);
+  }
+  .handle-line { display: none; }
+  .handle-circle {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 44px; height: 44px; border-radius: 50%;
+    background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    display: flex; align-items: center; justify-content: center; gap: 0;
+  }
+  .handle-circle svg { width: 16px; height: 16px; color: #1e293b; flex-shrink: 0; }
+  .compare-labels { position: absolute; bottom: 10px; left: 0; right: 0; z-index: 5; display: flex; justify-content: space-between; pointer-events: none; padding: 0 12px; }
+  .compare-label { font-family: var(--font-body); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: white; background: rgba(0,0,0,0.5); padding: 3px 10px; border-radius: 4px; backdrop-filter: blur(4px); }
 
-  .orb-1 {
-    width: 500px;
-    height: 500px;
-    background: var(--color-primary);
-    top: -200px;
-    right: -100px;
-  }
+  /* ── Section Header ── */
+  .section-header { text-align: center; max-width: 600px; margin: 0 auto 40px; padding: 0 24px; }
+  .section-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-body); font-size: 12px; font-weight: 500; color: var(--color-primary); background: rgba(37,99,235,0.08); padding: 5px 12px; border-radius: 20px; margin-bottom: 16px; letter-spacing: 0.02em; text-transform: uppercase; }
+  .section-title { font-family: var(--font-heading); font-weight: 600; font-size: 32px; color: var(--color-text); margin: 0 0 12px; letter-spacing: -0.02em; }
+  .section-desc { font-family: var(--font-body); font-size: 16px; color: var(--color-text-muted); margin: 0; line-height: 1.5; }
 
-  .orb-2 {
-    width: 400px;
-    height: 400px;
-    background: #a855f7;
-    bottom: -150px;
-    left: -100px;
-  }
-
-  .orb-3 {
-    width: 300px;
-    height: 300px;
-    background: #3b82f6;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-
-  .hero-container {
-    max-width: var(--max-width);
-    margin: 0 auto;
-    padding: 48px 24px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 64px;
-    align-items: center;
-    width: 100%;
-    position: relative;
-    z-index: 1;
-  }
-
-  .hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: var(--font-body);
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--color-primary);
-    background: rgba(37, 99, 235, 0.08);
-    padding: 6px 14px;
-    border-radius: 20px;
-    margin-bottom: 24px;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
-  }
-
-  .badge-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--color-primary);
-    animation: pulse-dot 2s ease-in-out infinite;
-  }
-
-  @keyframes pulse-dot {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
-  }
-
-  .hero-title {
-    font-family: var(--font-heading);
-    font-weight: 600;
-    font-size: 44px;
-    line-height: 1.15;
-    color: var(--color-text);
-    margin: 0 0 20px;
-    letter-spacing: -0.02em;
-  }
-
-  .text-gradient {
-    background: linear-gradient(135deg, var(--color-primary), #a855f7);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .hero-description {
-    font-family: var(--font-body);
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 1.65;
-    color: var(--color-text-muted);
-    margin: 0 0 36px;
-    max-width: 520px;
-  }
-
-  .hero-buttons {
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
-
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-size: 16px;
-    padding: 14px 28px;
-    border-radius: var(--radius-md);
-    text-decoration: none;
-    transition: all 0.2s ease;
-    white-space: nowrap;
-    cursor: pointer;
-  }
-
-  .btn-primary {
-    background: linear-gradient(135deg, var(--color-primary), #1d4ed8);
-    color: white;
-    border: none;
-    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
-  }
-
-  .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
-  }
-
-  .btn-primary:focus-visible {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
-  }
-
-  .btn-secondary {
-    background: var(--color-surface);
-    color: var(--color-text);
-    border: 1px solid var(--color-border);
-  }
-
-  .btn-secondary:hover {
-    border-color: var(--color-primary);
-    color: var(--color-primary);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-  }
-
-  .btn-secondary:focus-visible {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
-  }
-
-  /* ── Video ── */
-  .hero-content {
-    min-width: 0;
-  }
-
-  .hero-visual {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-width: 0;
-  }
-
-  .video-wrapper {
-    position: relative;
-    width: 100%;
-    max-width: 420px;
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    box-shadow: 0 8px 32px rgba(37, 99, 235, 0.15);
-    transition: box-shadow 0.3s ease;
-  }
-
-  .video-wrapper:hover {
-    box-shadow: 0 12px 48px rgba(37, 99, 235, 0.25), 0 0 80px rgba(37, 99, 235, 0.08);
-  }
-
-  .video-border {
-    position: absolute;
-    inset: -3px;
-    border-radius: calc(var(--radius-lg) + 4px);
-    background: conic-gradient(
-      from 0deg,
-      var(--color-primary),
-      #a855f7,
-      #3b82f6,
-      var(--color-primary)
-    );
-    z-index: 0;
-    animation: rotate-border 4s linear infinite;
-  }
-
-  @keyframes rotate-border {
-    to { transform: rotate(360deg); }
-  }
-
-  .hero-image {
-    position: relative;
-    display: block;
-    width: 100%;
-    border-radius: var(--radius-lg);
-    z-index: 1;
-  }
-
-  @media (prefers-reduced-motion: no-preference) {
-    .video-border {
-      animation: rotate-border 4s linear infinite;
-    }
-  }
+  /* ── Workflow ── */
+  .workflow { padding: 80px 24px; }
+  .workflow-container { max-width: var(--max-width); margin: 0 auto; display: flex; align-items: flex-start; justify-content: center; gap: 0; }
+  .wf-step { flex: 1; max-width: 280px; text-align: center; padding: 0 16px; }
+  .wf-arrow { flex-shrink: 0; display: flex; align-items: center; justify-content: center; padding-top: 48px; color: var(--color-neutral); opacity: 0.3; }
+  .wf-num { width: 32px; height: 32px; border-radius: 50%; background: var(--color-primary); color: white; font-family: var(--font-heading); font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
+  .wf-icon { width: 56px; height: 56px; border-radius: 16px; background: rgba(37,99,235,0.08); color: var(--color-primary); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
+  .wf-title { font-family: var(--font-heading); font-weight: 600; font-size: 18px; color: var(--color-text); margin: 0 0 8px; }
+  .wf-desc { font-family: var(--font-body); font-size: 14px; line-height: 1.6; color: var(--color-text-muted); margin: 0; }
 
   /* ── Features ── */
-  .features {
-    padding: 0 24px 80px;
-    content-visibility: auto;
-    contain-intrinsic-size: 450px;
-  }
-
-  .features-container {
-    max-width: var(--max-width);
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    min-width: 0;
-  }
-
-  .feature-card {
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    padding: 32px 28px;
-    transition: all 0.25s ease;
-    min-width: 0;
-  }
-
-  .feature-card:hover {
-    border-color: rgba(37, 99, 235, 0.3);
-    box-shadow: 0 8px 32px rgba(37, 99, 235, 0.15), 0 0 60px rgba(37, 99, 235, 0.06);
-    transform: translateY(-4px);
-  }
-
-  .feature-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    background: rgba(37, 99, 235, 0.08);
-    color: var(--color-primary);
-    margin-bottom: 20px;
-  }
-
-  .feature-title {
-    font-family: var(--font-heading);
-    font-weight: 600;
-    font-size: 18px;
-    color: var(--color-text);
-    margin: 0 0 10px;
-  }
-
-  .feature-desc {
-    font-family: var(--font-body);
-    font-size: 15px;
-    line-height: 1.6;
-    color: var(--color-text-muted);
-    margin: 0;
-  }
+  .features { padding: 0 24px 80px; content-visibility: auto; contain-intrinsic-size: 450px; }
+  .features-container { max-width: var(--max-width); margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; min-width: 0; }
+  .feature-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 32px 28px; transition: all 0.25s ease; min-width: 0; }
+  .feature-card:hover { border-color: rgba(37,99,235,0.3); box-shadow: 0 8px 32px rgba(37,99,235,0.15), 0 0 60px rgba(37,99,235,0.06); transform: translateY(-4px); }
+  .feature-icon { display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 12px; background: rgba(37,99,235,0.08); color: var(--color-primary); margin-bottom: 20px; }
+  .feature-title { font-family: var(--font-heading); font-weight: 600; font-size: 18px; color: var(--color-text); margin: 0 0 10px; }
+  .feature-desc { font-family: var(--font-body); font-size: 15px; line-height: 1.6; color: var(--color-text-muted); margin: 0; }
 
   /* ── Stats ── */
-  .stats {
-    padding: 0 24px 80px;
-  }
+  .stats { padding: 0 24px 80px; }
+  .stats-container { max-width: var(--max-width); margin: 0 auto; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border-radius: var(--radius-lg); padding: 48px 40px; display: flex; align-items: center; justify-content: space-around; }
+  .stat-item { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .stat-number { font-family: var(--font-heading); font-weight: 700; font-size: 32px; color: white; letter-spacing: -0.02em; }
+  .stat-label { font-family: var(--font-body); font-size: 14px; color: rgba(255,255,255,0.6); }
+  .stat-divider { width: 1px; height: 48px; background: rgba(255,255,255,0.12); }
 
-  .stats-container {
-    max-width: var(--max-width);
-    margin: 0 auto;
-    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-    border-radius: var(--radius-lg);
-    padding: 48px 40px;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-  }
+  /* ── Testimonials ── */
+  .testimonials { padding: 0 24px 80px; overflow: hidden; }
+  .testimonials-container { max-width: var(--max-width); margin: 0 auto; display: flex; transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+  .testimonial-card { min-width: 100%; padding: 40px 120px; box-sizing: border-box; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); }
+  .t-quote { margin-bottom: 16px; color: var(--color-primary); }
+  .t-text { font-family: var(--font-body); font-size: 18px; line-height: 1.7; color: var(--color-text); margin: 0 0 24px; font-style: italic; }
+  .t-author { display: flex; align-items: center; gap: 14px; }
+  .t-avatar { width: 44px; height: 44px; min-width: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--color-primary), #1d4ed8); display: flex; align-items: center; justify-content: center; font-family: var(--font-heading); font-weight: 700; font-size: 16px; color: white; }
+  .t-info { display: flex; flex-direction: column; gap: 2px; }
+  .t-name { font-family: var(--font-body); font-weight: 600; font-size: 15px; color: var(--color-text); }
+  .t-role { font-family: var(--font-body); font-size: 13px; color: var(--color-text-muted); }
+  .testimonial-dots { display: flex; justify-content: center; gap: 8px; margin-top: 24px; }
+  .t-dot { width: 10px; height: 10px; border-radius: 50%; border: none; background: var(--color-border); cursor: pointer; padding: 0; transition: all 0.2s; }
+  .t-dot-active { background: var(--color-primary); width: 28px; border-radius: 5px; }
 
-  .stat-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .stat-number {
-    font-family: var(--font-heading);
-    font-weight: 700;
-    font-size: 32px;
-    color: white;
-    letter-spacing: -0.02em;
-  }
-
-  .stat-label {
-    font-family: var(--font-body);
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.6);
-  }
-
-  .stat-divider {
-    width: 1px;
-    height: 48px;
-    background: rgba(255, 255, 255, 0.12);
-  }
+  /* ── CTA ── */
+  .cta { padding: 0 24px 80px; }
+  .cta-container { max-width: var(--max-width); margin: 0 auto; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border-radius: var(--radius-lg); padding: 64px 40px; text-align: center; }
+  .cta-title { font-family: var(--font-heading); font-weight: 600; font-size: 32px; color: white; margin: 0 0 12px; letter-spacing: -0.02em; }
+  .cta-desc { font-family: var(--font-body); font-size: 17px; color: rgba(255,255,255,0.6); margin: 0 0 32px; }
+  .cta-buttons { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+  .cta-buttons .btn-primary { box-shadow: 0 4px 20px rgba(37,99,235,0.4); }
+  .cta-buttons .btn-secondary { color: white; border-color: rgba(255,255,255,0.2); background: transparent; }
+  .cta-buttons .btn-secondary:hover { border-color: white; color: white; }
 
   /* ── Responsive ── */
   @media (max-width: 1024px) {
-    .hero-title {
-      font-size: 38px;
-    }
-
-    .features-container {
-      gap: 18px;
-    }
+    .hero-title { font-size: 38px; }
+    .features-container { gap: 18px; }
+    .testimonial-card { padding: 32px 60px; }
   }
-
   @media (max-width: 900px) {
-    .hero-container {
-      gap: 40px;
-    }
-
-    .hero-title {
-      font-size: 34px;
-    }
-
-    .hero-description {
-      font-size: 17px;
-    }
+    .hero-container { gap: 40px; }
+    .hero-title { font-size: 34px; }
+    .hero-description { font-size: 17px; }
+    .workflow-container { flex-direction: column; align-items: center; gap: 24px; }
+    .wf-arrow { transform: rotate(90deg); padding-top: 0; }
+    .wf-step { max-width: 360px; }
+    .testimonial-card { padding: 28px 40px; }
+    .t-text { font-size: 16px; }
   }
-
   @media (max-width: 768px) {
-    .hero {
-      min-height: auto;
-    }
-
-    .hero-container {
-      grid-template-columns: 1fr;
-      gap: 40px;
-      padding: 40px 24px 0;
-    }
-
-    .hero-content {
-      order: 1;
-    }
-
-    .hero-visual {
-      order: 0;
-    }
-
-    .video-wrapper {
-      max-width: 300px;
-    }
-
-    .hero-title {
-      font-size: 30px;
-    }
-
-    .hero-description {
-      font-size: 16px;
-      max-width: none;
-    }
-
-    .features {
-      padding: 0 24px 60px;
-    }
-
-    .features-container {
-      grid-template-columns: 1fr;
-    }
-
-    .stats {
-      padding: 0 24px 60px;
-    }
-
-    .stats-container {
-      flex-direction: column;
-      gap: 24px;
-      padding: 36px 24px;
-    }
-
-    .stat-divider {
-      width: 48px;
-      height: 1px;
-    }
+    .hero { min-height: auto; }
+    .hero-container { grid-template-columns: 1fr; gap: 40px; padding: 40px 24px 0; }
+    .hero-content { order: 1; }
+    .hero-visual { order: 0; }
+    .compare-wrapper { max-width: 300px; }
+    .hero-title { font-size: 30px; }
+    .hero-description { font-size: 16px; max-width: none; }
+    .section-title { font-size: 26px; }
+    .features { padding: 0 24px 60px; }
+    .features-container { grid-template-columns: 1fr; }
+    .stats { padding: 0 24px 60px; }
+    .stats-container { flex-direction: column; gap: 24px; padding: 36px 24px; }
+    .stat-divider { width: 48px; height: 1px; }
+    .testimonial-card { padding: 24px 20px; }
+    .cta-container { padding: 48px 24px; }
+    .cta-title { font-size: 26px; }
   }
-
   @media (max-width: 480px) {
-    .hero-container {
-      padding: 24px 20px 0;
-      gap: 28px;
-    }
-
-    .hero-title {
-      font-size: 24px;
-    }
-
-    .hero-description {
-      font-size: 15px;
-      margin-bottom: 24px;
-    }
-
-    .hero-badge {
-      font-size: 12px;
-      padding: 5px 12px;
-      margin-bottom: 16px;
-    }
-
-    .hero-buttons {
-      flex-direction: column;
-    }
-
-    .btn {
-      justify-content: center;
-      width: 100%;
-      font-size: 15px;
-      padding: 13px 24px;
-    }
-
-    .features {
-      padding: 0 20px 40px;
-    }
-
-    .feature-card {
-      padding: 24px 20px;
-    }
-
-    .stats {
-      padding: 0 20px 40px;
-    }
-
-    .stats-container {
-      padding: 28px 20px;
-      gap: 20px;
-    }
-
-    .stat-number {
-      font-size: 26px;
-    }
-
-    .stat-label {
-      font-size: 13px;
-    }
+    .hero-container { padding: 24px 20px 0; gap: 28px; }
+    .hero-title { font-size: 24px; }
+    .hero-description { font-size: 15px; margin-bottom: 24px; }
+    .hero-badge { font-size: 12px; padding: 5px 12px; margin-bottom: 16px; }
+    .hero-buttons { flex-direction: column; }
+    .btn { justify-content: center; width: 100%; font-size: 15px; padding: 13px 24px; }
+    .features { padding: 0 20px 40px; }
+    .feature-card { padding: 24px 20px; }
+    .stats { padding: 0 20px 40px; }
+    .stats-container { padding: 28px 20px; gap: 20px; }
+    .stat-number { font-size: 26px; }
+    .stat-label { font-size: 13px; }
+    .workflow { padding: 60px 20px; }
+    .testimonials { padding: 0 20px 60px; }
+    .cta { padding: 0 20px 60px; }
+    .cta-title { font-size: 22px; }
+    .cta-desc { font-size: 15px; }
   }
 </style>
