@@ -1,0 +1,347 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Footer from '../components/Footer.astro';
+---
+<Layout title="Contact Us" description="Get in touch with the FractureDetect team" active="contact" variant="marketing">
+  <main class="page-enter">
+    <section class="hero contact-hero">
+      <div class="hero-container">
+        <div class="hero-content reveal" style="transition-delay:0.1s">
+          <div class="hero-badge">
+            <span class="badge-dot"></span>
+            Contact Us
+          </div>
+          <h1 class="hero-title">Get in <span class="text-gradient">touch</span></h1>
+          <p class="hero-description">
+            Have questions about FractureDetect? We'd love to hear from you. Whether you're a clinician, researcher, or healthcare administrator, our team is here to help.
+          </p>
+        </div>
+        <div class="hero-visual reveal-right" style="transition-delay:0.2s">
+          <div class="contact-visual fd-tilt" data-tilt-max="4">
+            <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="20" y="20" width="360" height="260" rx="16" fill="#0B1121" stroke="rgba(37,99,235,0.2)" stroke-width="1"/>
+              <g transform="translate(40, 50)">
+                <rect x="0" y="0" width="320" height="48" rx="8" fill="rgba(37,99,235,0.08)" stroke="rgba(37,99,235,0.2)" stroke-width="1"/>
+                <text x="160" y="30" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="#2563eb">Name</text>
+              </g>
+              <g transform="translate(40, 110)">
+                <rect x="0" y="0" width="320" height="48" rx="8" fill="rgba(37,99,235,0.08)" stroke="rgba(37,99,235,0.2)" stroke-width="1"/>
+                <text x="160" y="30" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="#2563eb">Email</text>
+              </g>
+              <g transform="translate(40, 170)">
+                <rect x="0" y="0" width="320" height="88" rx="8" fill="rgba(37,99,235,0.08)" stroke="rgba(37,99,235,0.2)" stroke-width="1"/>
+                <text x="160" y="50" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="#2563eb">Message</text>
+              </g>
+              <g transform="translate(40, 240)">
+                <rect x="0" y="0" width="140" height="44" rx="8" fill="linear-gradient(135deg, #2563eb, #1d4ed8)"/>
+                <text x="70" y="28" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="white">Send</text>
+              </g>
+              <g transform="translate(200, 240)">
+                <rect x="0" y="0" width="160" height="44" rx="8" fill="transparent" stroke="rgba(37,99,235,0.3)"/>
+                <text x="80" y="28" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#2563eb">Clear</text>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact-methods reveal" style="transition-delay:0.1s">
+      <div class="section-header">
+        <div class="section-badge">Contact Methods</div>
+        <h2 class="section-title">How to reach us</h2>
+        <p class="section-desc">Choose the method that works best for you</p>
+      </div>
+      <div class="methods-grid">
+        <a href="mailto:hello@fracturedetect.ai" class="method-card">
+          <div class="method-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <h3>General Inquiries</h3>
+          <p>hello@fracturedetect.ai</p>
+          <span class="method-sub">We respond within 24 hours</span>
+        </a>
+        <a href="mailto:support@fracturedetect.ai" class="method-card">
+          <div class="method-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <h3>Technical Support</h3>
+          <p>support@fracturedetect.ai</p>
+          <span class="method-sub">Available Mon-Fri, 9am-6pm PST</span>
+        </a>
+        <a href="mailto:partnerships@fracturedetect.ai" class="method-card">
+          <div class="method-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <h3>Partnerships</h3>
+          <p>partnerships@fracturedetect.ai</p>
+          <span class="method-sub">Enterprise & research collaborations</span>
+        </a>
+        <a href="mailto:press@fracturedetect.ai" class="method-card">
+          <div class="method-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-6z"/><path d="M15 4h4"/><path d="M7 8h10"/><path d="M7 12h10"/><path d="M7 16h10"/></svg>
+          </div>
+          <h3>Press & Media</h3>
+          <p>press@fracturedetect.ai</p>
+          <span class="method-sub">Media inquiries & interviews</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="contact-form-section reveal" style="transition-delay:0.2s">
+      <div class="form-container">
+        <div class="form-header">
+          <div class="form-badge">
+            <span class="badge-dot"></span>
+            Send a Message
+          </div>
+          <h2 class="form-title">We'll get back to you within 24 hours</h2>
+        </div>
+        <form class="contact-form" id="contact-form" onsubmit="return handleSubmit(event)">
+          <div class="form-row">
+            <div class="form-field">
+              <label for="name" class="form-label">Full Name <span class="required">*</span></label>
+              <input type="text" id="name" name="name" class="form-input" placeholder="Your name" required />
+            </div>
+            <div class="form-field">
+              <label for="email" class="form-label">Email <span class="required">*</span></label>
+              <input type="email" id="email" name="email" class="form-input" placeholder="your@email.com" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label for="organization" class="form-label">Organization</label>
+              <input type="text" id="organization" name="organization" class="form-input" placeholder="Hospital, clinic, or company" />
+            </div>
+            <div class="form-field">
+              <label for="subject" class="form-label">Subject</label>
+              <select id="subject" name="subject" class="form-input form-select" required>
+                <option value="">Select a topic</option>
+                <option value="general">General Inquiry</option>
+                <option value="demo">Request a Demo</option>
+                <option value="partnership">Partnership Opportunity</option>
+                <option value="support">Technical Support</option>
+                <option value="press">Press / Media</option>
+                <option value="careers">Careers</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-field">
+            <label for="message" class="form-label">Message <span class="required">*</span></label>
+            <textarea id="message" name="message" class="form-input form-textarea" rows="5" placeholder="Tell us how we can help..." required></textarea>
+          </div>
+          <div class="form-field checkbox-field">
+            <input type="checkbox" id="consent" name="consent" class="form-checkbox" required />
+            <label for="consent" class="checkbox-label">I agree to the <a href="/privacy">Privacy Policy</a> and consent to FractureDetect storing my submitted information to respond to my inquiry. <span class="required">*</span></label>
+          </div>
+          <button type="submit" class="btn-submit fd-magnetic" data-ripple>
+            <span class="btn-text">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polyline points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              Send Message
+            </span>
+            <span class="btn-loading hidden">
+              <svg class="spinner" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10" stroke-opacity="0.25"/><path d="M12 2a10 10 0 0 1 10 10" stroke-opacity="1"/></svg>
+              Sending...
+            </span>
+          </button>
+          <p class="form-note">By submitting, you agree to our <a href="/privacy">Privacy Policy</a> and <a href="/terms">Terms of Service</a>.</p>
+        </form>
+        <div class="form-success hidden" id="form-success">
+          <div class="success-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h3>Message sent!</h3>
+          <p>Thank you for reaching out. We'll get back to you at <strong id="success-email"></strong> within 24 hours.</p>
+          <button type="button" class="btn-secondary" id="btn-send-another" data-ripple>Send another message</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="faq reveal" style="transition-delay:0.2s">
+      <div class="section-header">
+        <div class="section-badge">FAQ</div>
+        <h2 class="section-title">Quick Answers</h2>
+        <p class="section-desc">Common questions we get asked</p>
+      </div>
+      <div class="faq-grid">
+        <details class="faq-item">
+          <summary class="faq-question">How accurate is FractureDetect?</summary>
+          <div class="faq-answer">Our model achieves 98.5% detection accuracy on standard benchmark datasets, validated across multiple institutions and anatomical sites.</div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">What image formats are supported?</summary>
+          <div class="faq-answer">PNG, JPEG, and DICOM files up to 10MB each. Batch upload of multiple images is supported.</div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">Is patient data secure?</summary>
+          <div class="faq-answer">Yes. All data is encrypted in transit (TLS 1.3) and at rest (AES-256). We are HIPAA compliant and never share data without consent.</div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">Can I try it before committing?</summary>
+          <div class="faq-answer">Absolutely. Sign up for a free trial — no credit card required. You'll get full access to test with your own images.</div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">Does it integrate with PACS?</summary>
+          <div class="faq-answer">Enterprise plans include PACS integration via DICOMweb and HL7 FHIR APIs. Contact our partnerships team for details.</div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">What about FDA clearance?</summary>
+          <div class="faq-answer">FractureDetect is currently for research and educational use. We are actively pursuing FDA 510(k) clearance for clinical deployment.</div>
+        </details>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<script>
+  function handleSubmit(e) {
+    e.preventDefault();
+    var form = e.target;
+    var btn = form.querySelector('.btn-submit');
+    var btnText = btn.querySelector('.btn-text');
+    var btnLoading = btn.querySelector('.btn-loading');
+
+    btn.disabled = true;
+    btnText.classList.add('hidden');
+    btnLoading.classList.remove('hidden');
+
+    // Simulate API call
+    setTimeout(function() {
+      var email = form.querySelector('#email').value;
+      btnText.classList.remove('hidden');
+      btnLoading.classList.add('hidden');
+      btn.disabled = false;
+
+      form.classList.add('hidden');
+      var success = document.getElementById('form-success');
+      success.classList.remove('hidden');
+      document.getElementById('success-email').textContent = email;
+      form.reset();
+    }, 1200);
+
+    return false;
+  }
+
+  document.getElementById('btn-send-another')?.addEventListener('click', function() {
+    document.getElementById('form-success').classList.add('hidden');
+    document.getElementById('contact-form').classList.remove('hidden');
+  });
+</script>
+
+<style>
+  .contact-hero { min-height: calc(100vh - 68px); display: flex; align-items: center; position: relative; overflow: hidden; padding: 48px 24px; }
+  .hero-container { max-width: var(--max-width); margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; width: 100%; position: relative; z-index: 1; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-body); font-size: 13px; font-weight: 500; color: var(--color-primary); background: rgba(37,99,235,0.08); padding: 6px 14px; border-radius: 20px; margin-bottom: 24px; letter-spacing: 0.02em; text-transform: uppercase; }
+  .hero-title { font-family: var(--font-heading); font-weight: 600; font-size: 44px; line-height: 1.15; color: var(--color-text); margin: 0 0 20px; letter-spacing: -0.02em; }
+  .hero-description { font-family: var(--font-body); font-weight: 400; font-size: 18px; line-height: 1.65; color: var(--color-text-muted); margin: 0 0 36px; max-width: 520px; }
+  .contact-visual { position: relative; width: 100%; max-width: 480px; border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 8px 32px rgba(37,99,235,0.15); background: var(--color-surface); border: 1px solid var(--color-border); }
+  .contact-visual svg { display: block; width: 100%; height: auto; }
+
+  .contact-methods { padding: 0 24px 80px; }
+  .methods-grid { max-width: var(--max-width); margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  .method-card {
+    display: flex; flex-direction: column; gap: 14px; text-decoration: none; color: inherit;
+    background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg);
+    padding: 28px 24px; transition: all 0.25s ease;
+  }
+  .method-card:hover { border-color: rgba(37,99,235,0.3); box-shadow: 0 8px 32px rgba(37,99,235,0.15); transform: translateY(-4px); }
+  .method-icon { width: 48px; height: 48px; border-radius: 14px; background: rgba(37,99,235,0.08); display: flex; align-items: center; justify-content: center; color: var(--color-primary); }
+  .method-card:hover .method-icon { background: linear-gradient(135deg, var(--color-primary), #1d4ed8); color: white; }
+  .method-card h3 { font-family: var(--font-heading); font-weight: 600; font-size: 16px; color: var(--color-text); margin: 0; }
+  .method-card p { font-family: var(--font-body); font-size: 14px; color: var(--color-text-muted); margin: 0; }
+  .method-sub { font-family: var(--font-body); font-size: 12px; color: var(--color-primary); font-weight: 500; margin-top: 4px; }
+
+  .contact-form-section { padding: 0 24px 80px; }
+  .form-container { max-width: 640px; margin: 0 auto; }
+  .form-header { text-align: center; margin-bottom: 32px; }
+  .form-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-body); font-size: 13px; font-weight: 500; color: var(--color-primary); background: rgba(37,99,235,0.08); padding: 6px 14px; border-radius: 20px; margin-bottom: 16px; letter-spacing: 0.02em; text-transform: uppercase; }
+  .form-title { font-family: var(--font-heading); font-weight: 600; font-size: 28px; color: var(--color-text); margin: 0; }
+  .contact-form { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 32px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .form-field { display: flex; flex-direction: column; gap: 6px; }
+  .form-label { font-family: var(--font-body); font-weight: 500; font-size: 14px; color: var(--color-text); }
+  .form-label .required { color: var(--color-danger); margin-left: 2px; }
+  .form-input {
+    font-family: var(--font-body); font-size: 14px; color: var(--color-text);
+    background: var(--color-bg-subtle); border: 1px solid var(--color-border);
+    border-radius: var(--radius-md); padding: 11px 14px; outline: none;
+    transition: all 0.15s; width: 100%; box-sizing: border-box;
+  }
+  .form-input:focus { border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+  .form-select { cursor: pointer; }
+  .form-textarea { resize: vertical; min-height: 100px; }
+  .checkbox-field { flex-direction: row; align-items: flex-start; gap: 10px; }
+  .form-checkbox { width: 18px; height: 18px; min-width: 18px; margin-top: 2px; accent-color: var(--color-primary); cursor: pointer; }
+  .checkbox-label { font-family: var(--font-body); font-size: 13px; color: var(--color-text-muted); line-height: 1.5; margin: 0; cursor: pointer; }
+  .checkbox-label a { color: var(--color-primary); text-decoration: underline; text-underline-offset: 2px; }
+  .checkbox-label a:hover { color: var(--color-primary); }
+  .btn-submit {
+    display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%;
+    font-family: var(--font-body); font-weight: 600; font-size: 15px; color: white;
+    background: linear-gradient(135deg, var(--color-primary), #1d4ed8); border: none;
+    border-radius: var(--radius-md); padding: 14px 28px; cursor: pointer;
+    transition: all 0.2s ease; margin-top: 8px;
+    box-shadow: 0 4px 14px rgba(37,99,235,0.3);
+  }
+  .btn-submit:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(37,99,235,0.4); }
+  .btn-submit:disabled { opacity: 0.7; cursor: not-allowed; }
+  .btn-loading { display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .spinner { animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .form-note { text-align: center; font-family: var(--font-body); font-size: 12px; color: var(--color-text-muted); margin: 16px 0 0; }
+  .form-note a { color: var(--color-primary); text-decoration: underline; text-underline-offset: 2px; }
+
+  .form-success { text-align: center; padding: 40px 20px; }
+  .success-icon { width: 64px; height: 64px; border-radius: 50%; background: rgba(22,163,74,0.15); display: flex; align-items: center; justify-content: center; color: #16a34a; margin: 0 auto 20px; }
+  .form-success h3 { font-family: var(--font-heading); font-weight: 600; font-size: 22px; color: var(--color-text); margin: 0 0 8px; }
+  .form-success p { font-family: var(--font-body); font-size: 15px; color: var(--color-text-muted); margin: 0 0 20px; line-height: 1.5; }
+  .form-success .btn-secondary { margin-top: 8px; }
+
+  .faq { padding: 0 24px 80px; background: var(--color-bg-subtle); }
+  .faq-grid { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
+  .faq-item { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); overflow: hidden; }
+  .faq-question {
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    font-family: var(--font-heading); font-weight: 600; font-size: 15px; color: var(--color-text);
+    padding: 18px 24px; cursor: pointer; list-style: none;
+  }
+  .faq-question::-webkit-details-marker { display: none; }
+  .faq-question::after { content: ''; width: 20px; height: 20px; flex-shrink: 0; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") center/contain no-repeat; transition: transform 0.2s; }
+  .faq-item[open] .faq-question::after { transform: rotate(180deg); }
+  .faq-answer { font-family: var(--font-body); font-size: 14px; line-height: 1.6; color: var(--color-text-muted); padding: 0 24px 18px; margin: 0; }
+
+  @media (max-width: 1024px) {
+    .methods-grid { gap: 18px; }
+    .hero-title { font-size: 38px; }
+  }
+  @media (max-width: 900px) {
+    .hero-container { gap: 40px; }
+    .hero-title { font-size: 34px; }
+    .hero-description { font-size: 17px; }
+    .methods-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 768px) {
+    .contact-hero { min-height: auto; }
+    .hero-container { grid-template-columns: 1fr; gap: 40px; padding: 40px 24px 0; }
+    .hero-content { order: 1; }
+    .hero-visual { order: 0; }
+    .contact-visual { max-width: 360px; }
+    .hero-title { font-size: 30px; }
+    .hero-description { font-size: 16px; max-width: none; }
+    .form-row { grid-template-columns: 1fr; }
+    .contact-form { padding: 24px 20px; }
+    .faq-question { font-size: 14px; padding: 16px 20px; }
+  }
+  @media (max-width: 480px) {
+    .hero-container { padding: 24px 20px 0; gap: 28px; }
+    .hero-title { font-size: 24px; }
+    .hero-description { font-size: 15px; margin-bottom: 24px; }
+    .hero-badge { font-size: 12px; padding: 5px 12px; margin-bottom: 16px; }
+    .methods-grid { grid-template-columns: 1fr; }
+    .contact-form { padding: 20px 16px; }
+    .form-title { font-size: 22px; }
+    .btn-submit { padding: 13px 24px; font-size: 15px; }
+  }
+</style>

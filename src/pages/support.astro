@@ -1,0 +1,274 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Footer from '../components/Footer.astro';
+---
+<Layout title="Support" description="Get help with FractureDetect - FAQs, documentation, and contact support" active="support" variant="marketing">
+  <main class="page-enter">
+    <section class="hero support-hero">
+      <div class="hero-container">
+        <div class="hero-content reveal" style="transition-delay:0.1s">
+          <div class="hero-badge">
+            <span class="badge-dot"></span>
+            Help Center
+          </div>
+          <h1 class="hero-title">How can we <span class="text-gradient">help</span> you?</h1>
+          <p class="hero-description">
+            Find answers to common questions, explore our documentation, or reach out to our support team.
+          </p>
+          <div class="hero-actions">
+            <a href="#contact-support" class="btn btn-primary fd-magnetic" data-ripple>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              Contact Support
+            </a>
+            <a href="mailto:support@fracturedetect.ai" class="btn btn-secondary fd-magnetic" data-ripple>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              Email Us
+            </a>
+          </div>
+        </div>
+        <div class="hero-visual reveal-right" style="transition-delay:0.2s">
+          <div class="support-visual fd-tilt" data-tilt-max="4">
+            <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="20" y="20" width="360" height="260" rx="16" fill="#0B1121" stroke="rgba(37,99,235,0.2)" stroke-width="1"/>
+              <g transform="translate(40, 50)">
+                <circle cx="40" cy="40" r="30" fill="rgba(37,99,235,0.1)" stroke="#2563eb" stroke-width="2"/>
+                <text x="40" y="45" text-anchor="middle" font-family="Inter, sans-serif" font-size="20" font-weight="700" fill="#2563eb">?</text>
+              </g>
+              <g transform="translate(100, 50)">
+                <text x="0" y="5" font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="#2563eb">Quick Help</text>
+                <text x="0" y="30" font-family="Inter, sans-serif" font-size="12" fill="#64748b">How to upload images</text>
+                <text x="0" y="50" font-family="Inter, sans-serif" font-size="12" fill="#64748b">Understanding results</text>
+                <text x="0" y="70" font-family="Inter, sans-serif" font-size="12" fill="#64748b">Batch processing guide</text>
+                <text x="0" y="90" font-family="Inter, sans-serif" font-size="12" fill="#64748b">Patient management</text>
+              </g>
+              <g transform="translate(40, 140)">
+                <circle cx="40" cy="40" r="30" fill="rgba(168,85,247,0.1)" stroke="#a855f7" stroke-width="2"/>
+                <text x="40" y="45" text-anchor="middle" font-family="Inter, sans-serif" font-size="20" font-weight="700" fill="#a855f7">📚</text>
+              </g>
+              <g transform="translate(100, 140)">
+                <text x="0" y="5" font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="#a855f7">Documentation</text>
+                <text x="0" y="30" font-family="Inter, sans-serif" font-size="12" fill="#64748b">API reference</text>
+                <text x="0" y="50" font-family="Inter, sans-serif" font-size="12" fill="#64748b">Integration guide</text>
+                <text x="0" y="70" font-family="Inter, sans-serif" font-size="12" fill="#64748b">Webhook setup</text>
+              </g>
+              <g transform="translate(40, 230)">
+                <circle cx="40" cy="40" r="30" fill="rgba(34,197,94,0.1)" stroke="#22c55e" stroke-width="2"/>
+                <text x="40" y="48" text-anchor="middle" font-family="Inter, sans-serif" font-size="20" font-weight="700" fill="#22c55e">✓</text>
+              </g>
+              <g transform="translate(100, 230)">
+                <text x="0" y="5" font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="#22c55e">Status</text>
+                <text x="0" y="30" font-family="Inter, sans-serif" font-size="12" fill="#64748b">All systems operational</text>
+                <text x="0" y="50" font-family="Inter, sans-serif" font-size="12" fill="#64748b">Last incident: 47 days ago</text>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="status-bar reveal" style="transition-delay:0.1s">
+      <div class="status-container">
+        <div class="status-overall">
+          <div class="status-indicator status-healthy"></div>
+          <span class="status-text">All Systems Operational</span>
+        </div>
+        <div class="status-components">
+          <div class="status-item">
+            <span class="status-dot status-healthy"></span>
+            <span>API</span>
+          </div>
+          <div class="status-item">
+            <span class="status-dot status-healthy"></span>
+            <span>Dashboard</span>
+          </div>
+          <div class="status-item">
+            <span class="status-dot status-healthy"></span>
+            <span>Analysis Engine</span>
+          </div>
+          <div class="status-item">
+            <span class="status-dot status-healthy"></span>
+            <span>Storage</span>
+          </div>
+          <div class="status-item">
+            <span class="status-dot status-healthy"></span>
+            <span>Authentication</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="faq-section reveal" style="transition-delay:0.1s">
+      <div class="section-header">
+        <div class="section-badge">FAQ</div>
+        <h2 class="section-title">Common Questions</h2>
+        <p class="section-desc">Quick answers to the questions we hear most often</p>
+      </div>
+      <div class="faq-grid">
+        <details class="faq-item">
+          <summary class="faq-question">What file formats are supported?</summary>
+          <div class="faq-answer">We support PNG, JPEG, and JPG files up to 10MB each. DICOM support is available on enterprise plans.</div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">How long does analysis take?</summary>
+          <div class="faq-answer">Typically under 5 seconds per image. Batch processing time scales linearly with the number of images.</div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">Can I analyze multiple images at once?</summary>
+          <div class="faq-answer">Yes! Our batch upload feature lets you queue multiple X-rays. Each is analyzed sequentially with progress tracking.</div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">Is my data HIPAA compliant?</summary>
+          <div class="faq-answer">Yes. We use AES-256 encryption, SOC 2 Type II infrastructure, and sign BAAs. Patient data never leaves your control.</div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">What does the confidence score mean?</summary>
+          <div class="faq-answer">The score (0-100%) represents the model's calibrated probability that a fracture is present in the highlighted region.</div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">Can I export results?</summary>
+          <div class="faq-answer">Yes. Generate PDF reports with images, heatmaps, confidence scores, and patient details. API export also available.</div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">What anatomical sites are covered?</summary>
+          <div class="faq-answer">Currently 12+ sites including distal radius, femoral neck, scaphoid, vertebral bodies, and more. Expanding monthly.</div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">How do I reset my password?</summary>
+          <div class="faq-answer">Click "Forgot password?" on the sign-in page. You'll receive a secure reset link valid for 1 hour.</div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">Is there an API for integration?</summary>
+          <div class="faq-answer">Yes, enterprise plans include REST API access with webhook support for async batch processing. Contact sales for details.</div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">What if the AI misses a fracture?</summary>
+          <div class="faq-answer">FractureDetect is an assistive tool, not a replacement for radiologist interpretation. Always correlate with clinical findings.</div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">How do I delete my account?</summary>
+          <div class="faq-answer">Go to Account Settings → Danger Zone → Delete Account. This permanently removes all your data within 30 days.</div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">Can I use this for clinical diagnosis?</summary>
+          <div class="faq-answer">FractureDetect is an assistive tool for educational and research purposes. Final diagnosis must be made by a qualified radiologist or physician.</div>
+        </details>
+      </div>
+    </section>
+
+    <section class="contact-support reveal" id="contact-support" style="transition-delay:0.1s">
+      <div class="section-header">
+        <div class="section-badge">Contact</div>
+        <h2 class="section-title">Still need help?</h2>
+        <p class="section-desc">Our support team typically responds within 4 hours during business hours</p>
+      </div>
+      <div class="support-options">
+        <a href="mailto:support@fracturedetect.ai" class="support-card">
+          <div class="support-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <h3>Email Support</h3>
+          <p>support@fracturedetect.ai</p>
+          <span class="support-meta">Typical response: <4 hours</span>
+        </a>
+        <a href="mailto:support@fracturedetect.ai?subject=Bug%20Report" class="support-card">
+          <div class="support-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+          </div>
+          <h3>Report a Bug</h3>
+          <p>Include steps to reproduce</p>
+          <span class="support-meta">Priority triage within 1 hour</span>
+        </a>
+        <a href="mailto:support@fracturedetect.ai?subject=Feature%20Request" class="support-card">
+          <div class="support-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <h3>Feature Request</h3>
+          <p>Suggest improvements</p>
+          <span class="support-meta">Reviewed monthly</span>
+        </a>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<script>
+  (function() {
+    var statusDots = document.querySelectorAll('.status-dot');
+    statusDots.forEach(function(dot) {
+      dot.style.animation = 'pulse 2s ease-in-out infinite';
+    });
+  })();
+</script>
+
+<style>
+  .support-hero { min-height: calc(100vh - 68px); display: flex; align-items: center; position: relative; overflow: hidden; padding: 48px 24px; }
+  .hero-container { max-width: var(--max-width); margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; width: 100%; position: relative; z-index: 1; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-body); font-size: 13px; font-weight: 500; color: var(--color-primary); background: rgba(37,99,235,0.08); padding: 6px 14px; border-radius: 20px; margin-bottom: 24px; letter-spacing: 0.02em; text-transform: uppercase; }
+  .hero-title { font-family: var(--font-heading); font-weight: 600; font-size: 44px; line-height: 1.15; color: var(--color-text); margin: 0 0 20px; letter-spacing: -0.02em; }
+  .hero-description { font-family: var(--font-body); font-weight: 400; font-size: 18px; line-height: 1.65; color: var(--color-text-muted); margin: 0 0 36px; max-width: 520px; }
+  .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+  .hero-visual { display: flex; justify-content: center; align-items: center; min-width: 0; }
+  .support-visual { position: relative; width: 100%; max-width: 480px; border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 8px 32px rgba(37,99,235,0.15); background: var(--color-surface); border: 1px solid var(--color-border); }
+  .support-visual svg { display: block; width: 100%; height: auto; }
+
+  .status-bar { background: var(--color-bg-subtle); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); }
+  .status-container { max-width: var(--max-width); margin: 0 auto; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  .status-overall { display: flex; align-items: center; gap: 8px; font-family: var(--font-heading); font-weight: 600; font-size: 14px; color: var(--color-success); }
+  .status-indicator { width: 10px; height: 10px; border-radius: 50%; }
+  .status-healthy { background: #22c55e; box-shadow: 0 0 12px #22c55e; }
+  .status-components { display: flex; gap: 16px; flex-wrap: wrap; }
+  .status-item { display: flex; align-items: center; gap: 6px; font-family: var(--font-body); font-size: 12px; color: var(--color-text-muted); }
+  .status-dot { width: 8px; height: 8px; border-radius: 50%; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+  .faq-section { padding: 0 24px 80px; }
+  .faq-grid { max-width: var(--max-width); margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+  .faq-item { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); overflow: hidden; }
+  .faq-question { font-family: var(--font-body); font-weight: 500; font-size: 15px; color: var(--color-text); padding: 18px 24px; cursor: pointer; list-style: none; display: flex; align-items: center; justify-content: space-between; }
+  .faq-question::-webkit-details-marker { display: none; }
+  .faq-question::after { content: ''; width: 20px; height: 20px; border-radius: 50%; border: 1px solid var(--color-border); background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='9 18 15 12 9 6'/%3E%3C/svg%3E") center/14px no-repeat; transition: transform 0.2s; }
+  .faq-item[open] .faq-question::after { transform: rotate(180deg); }
+  .faq-answer { font-family: var(--font-body); font-size: 14px; line-height: 1.6; color: var(--color-text-muted); padding: 0 24px 20px; border-top: 1px solid var(--color-border); }
+
+  .contact-support { padding: 0 24px 80px; }
+  .support-options { max-width: var(--max-width); margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .support-card { display: block; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 28px 24px; text-align: center; text-decoration: none; color: inherit; transition: all 0.25s ease; }
+  .support-card:hover { border-color: rgba(37,99,235,0.3); box-shadow: 0 8px 32px rgba(37,99,235,0.12); transform: translateY(-4px); }
+  .support-icon { width: 56px; height: 56px; border-radius: 16px; background: rgba(37,99,235,0.1); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; color: var(--color-primary); transition: all 0.2s; }
+  .support-card:hover .support-icon { background: linear-gradient(135deg, var(--color-primary), #1d4ed8); color: white; }
+  .support-card h3 { font-family: var(--font-heading); font-weight: 600; font-size: 17px; color: var(--color-text); margin: 0 0 6px; }
+  .support-card p { font-family: var(--font-body); font-size: 14px; color: var(--color-text-muted); margin: 0 0 8px; }
+  .support-meta { font-family: var(--font-body); font-size: 12px; color: var(--color-primary); font-weight: 500; display: inline-block; padding: 2px 8px; background: rgba(37,99,235,0.1); border-radius: 10px; }
+
+  @media (max-width: 1024px) {
+    .hero-container { gap: 40px; }
+    .hero-title { font-size: 38px; }
+  }
+  @media (max-width: 900px) {
+    .hero-container { grid-template-columns: 1fr; gap: 40px; }
+    .hero-title { font-size: 34px; }
+    .hero-description { font-size: 17px; }
+    .support-options { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 768px) {
+    .hero-container { grid-template-columns: 1fr; gap: 40px; padding: 40px 24px 0; }
+    .hero-content { order: 1; }
+    .hero-visual { order: 0; }
+    .support-visual { max-width: 360px; }
+    .hero-title { font-size: 30px; }
+    .hero-description { font-size: 16px; max-width: none; }
+    .hero-actions { flex-direction: column; }
+    .btn { justify-content: center; width: 100%; font-size: 15px; padding: 13px 24px; }
+    .status-components { gap: 12px; }
+    .support-options { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) {
+    .hero-container { padding: 24px 20px 0; gap: 28px; }
+    .hero-title { font-size: 24px; }
+    .hero-description { font-size: 15px; margin-bottom: 24px; }
+    .hero-badge { font-size: 12px; padding: 5px 12px; margin-bottom: 16px; }
+    .hero-actions { gap: 12px; }
+    .btn { font-size: 15px; padding: 13px 24px; }
+  }
+</style>

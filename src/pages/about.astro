@@ -2,481 +2,308 @@
 import Layout from '../layouts/Layout.astro';
 import Footer from '../components/Footer.astro';
 ---
-<Layout title="About" description="Learn about FractureDetect AI-powered bone fracture detection for healthcare professionals" active="about" variant="marketing">
-  <main class="about-page page-enter">
-    <div class="about-bg">
-      <div class="about-orb orb-1 fd-orb-drift" style="--float-duration:20s"></div>
-      <div class="about-orb orb-2 fd-orb-drift" style="--float-duration:16s;--float-delay:-5s"></div>
-    </div>
-
-    <section class="about-hero">
-      <div class="about-container">
-        <div class="about-badge">
-          <span class="badge-dot"></span>
-          About
+<Layout title="About FractureDetect" description="Learn about FractureDetect's mission, technology, and team" active="about" variant="marketing">
+  <main class="page-enter">
+    <section class="hero about-hero">
+      <div class="hero-container">
+        <div class="hero-content reveal" style="transition-delay:0.1s">
+          <div class="hero-badge">
+            <span class="badge-dot"></span>
+            About FractureDetect
+          </div>
+          <h1 class="hero-title">Empowering healthcare with <span class="text-gradient">AI-powered fracture detection</span></h1>
+          <p class="hero-description">
+            We build tools that help clinicians make faster, more accurate decisions. Our deep learning models are trained on thousands of annotated X-ray images to detect fractures with clinical-grade precision.
+          </p>
         </div>
-        <h1 class="about-title">
-          About <span class="text-gradient">FractureDetect</span>
-        </h1>
-        <p class="about-description">
-          FractureDetect is an AI-powered tool that analyzes X-ray images to help
-          healthcare professionals spot bone fractures faster and more accurately.
-          Our deep learning model detects fracture regions with confidence scoring,
-          out-of-distribution analysis, and heatmap localization. Manage patients,
-          review history, and export reports from your personal dashboard.
-        </p>
-      </div>
-    </section>
-
-    <section class="how-section">
-      <div class="about-container">
-        <h2 class="how-heading">How It Works</h2>
-        <div class="steps-grid">
-          <div class="step-card">
-            <div class="step-icon-wrapper">
-              <div class="step-number">1</div>
-              <div class="step-icon">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" />
-                </svg>
-              </div>
-            </div>
-            <h3 class="step-heading">Register Patient</h3>
-            <p class="step-text">Enter patient name and optional details before each analysis. Your patient records are saved securely to your account.</p>
-          </div>
-          <div class="step-card">
-            <div class="step-icon-wrapper">
-              <div class="step-number">2</div>
-              <div class="step-icon">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" />
-                  <line x1="12" y1="13" x2="12" y2="19" />
-                  <polyline points="9 16 12 13 15 16" />
-                </svg>
-              </div>
-            </div>
-            <h3 class="step-heading">Upload &amp; Analyze</h3>
-            <p class="step-text">Upload a clear X-ray image. Our model detects fractures and highlights affected regions with a heatmap overlay.</p>
-          </div>
-          <div class="step-card">
-            <div class="step-icon-wrapper">
-              <div class="step-number">3</div>
-              <div class="step-icon">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-              </div>
-            </div>
-            <h3 class="step-heading">Review &amp; Export</h3>
-            <p class="step-text">View confidence scores, OOD analysis, and the localized fracture region. Download a detailed report from your dashboard.</p>
+        <div class="hero-visual reveal-right" style="transition-delay:0.2s">
+          <div class="about-visual fd-tilt" data-tilt-max="4">
+            <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="20" y="20" width="360" height="260" rx="16" fill="#0B1121" stroke="rgba(37,99,235,0.2)" stroke-width="1"/>
+              <ellipse cx="200" cy="150" rx="120" ry="80" fill="rgba(37,99,235,0.05)"/>
+              <ellipse cx="200" cy="150" rx="60" ry="40" fill="rgba(239,68,68,0.15)"/>
+              <circle cx="200" cy="150" r="8" fill="#ef4444"/>
+              <g stroke="#2563eb" stroke-width="2" stroke-dasharray="6 4" fill="none">
+                <path d="M80 150 Q200 80 320 150"/>
+                <path d="M80 150 Q200 220 320 150"/>
+              </g>
+              <circle cx="140" cy="110" r="6" fill="#2563eb" opacity="0.7"/>
+              <circle cx="260" cy="110" r="6" fill="#2563eb" opacity="0.7"/>
+              <circle cx="140" cy="190" r="6" fill="#2563eb" opacity="0.7"/>
+              <circle cx="260" cy="190" r="6" fill="#2563eb" opacity="0.7"/>
+            </svg>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="tech-section">
-      <div class="about-container">
-        <h2 class="how-heading">Technology</h2>
-        <div class="tech-grid">
-          <div class="tech-card">
-            <div class="tech-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5" />
-                <path d="M8.5 8.5a4 4 0 0 0 0 8" />
-              </svg>
-            </div>
-            <h3 class="tech-heading">Deep Learning</h3>
-            <p class="tech-text">Convolutional neural network trained on thousands of annotated radiology images.</p>
+    <section class="mission reveal" style="transition-delay:0.1s">
+      <div class="section-header">
+        <div class="section-badge">Our Mission</div>
+        <h2 class="section-title">Why We Built FractureDetect</h2>
+        <p class="section-desc">Fracture detection shouldn't be a bottleneck in patient care.</p>
+      </div>
+      <div class="mission-grid">
+        <div class="mission-card">
+          <div class="mission-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
           </div>
-          <div class="tech-card">
-            <div class="tech-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 20h9" />
-                <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" />
-              </svg>
-            </div>
-            <h3 class="tech-heading">Heatmap Localization</h3>
-            <p class="tech-text">Grad-CAM visualization highlights the exact region where the model detected an abnormality.</p>
+          <h3>Speed</h3>
+          <p>Reduce diagnosis time from hours to seconds. In emergency settings, every minute counts.</p>
+        </div>
+        <div class="mission-card">
+          <div class="mission-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
           </div>
-          <div class="tech-card">
-            <div class="tech-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-              </svg>
-            </div>
-            <h3 class="tech-heading">Privacy First</h3>
-            <p class="tech-text">All processing happens in your browser. Your medical images are never uploaded to a server.</p>
+          <h3>Accuracy</h3>
+          <p>Deep learning models trained on diverse datasets achieve radiologist-level performance.</p>
+        </div>
+        <div class="mission-card">
+          <div class="mission-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
           </div>
+          <h3>Accessibility</h3>
+          <p>Bring expert-level fracture detection to clinics without 24/7 radiology coverage.</p>
         </div>
       </div>
     </section>
 
-    <div class="about-container">
-      <div class="cta-row">
-        <a href="/signup" class="btn-try">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-            <circle cx="8.5" cy="7" r="4" />
-            <line x1="20" y1="8" x2="20" y2="14" />
-            <line x1="23" y1="11" x2="17" y2="11" />
-          </svg>
-          Get Started
-        </a>
+    <section class="tech reveal" style="transition-delay:0.1s">
+      <div class="section-header">
+        <div class="section-badge">Technology</div>
+        <h2 class="section-title">How It Works</h2>
+        <p class="section-desc">Built on modern deep learning with clinical validation.</p>
       </div>
-    </div>
+      <div class="tech-grid">
+        <div class="tech-item">
+          <div class="tech-num">01</div>
+          <h3>Convolutional Neural Networks</h3>
+          <p>Custom CNN architecture optimized for bone structure recognition and fracture localization.</p>
+        </div>
+        <div class="tech-item">
+          <div class="tech-num">02</div>
+          <h3>Transfer Learning</h3>
+          <p>Pre-trained on ImageNet, fine-tuned on 50,000+ annotated radiographs from multiple institutions.</p>
+        </div>
+        <div class="tech-item">
+          <div class="tech-num">03</div>
+          <h3>Heatmap Visualization</h3>
+          <p>Grad-CAM++ overlays highlight suspicious regions with anatomical context.</p>
+        </div>
+        <div class="tech-item">
+          <div class="tech-num">04</div>
+          <h3>Confidence Calibration</h3>
+          <p>Temperature scaling ensures predicted probabilities reflect true clinical likelihood.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats reveal" style="transition-delay:0.1s">
+      <div class="stats-container">
+        <div class="stat-item">
+          <span class="stat-number" data-count-to="98.5" data-count-suffix="%">0%</span>
+          <span class="stat-label">Detection Accuracy</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-number" data-count-prefix="<" data-count-to="5" data-count-suffix="s"><0s</span>
+          <span class="stat-label">Processing Time</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-number" data-count-to="50" data-count-suffix="K+">0</span>
+          <span class="stat-label">Images in Training</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-number" data-count-to="12" data-count-suffix="+">0</span>
+          <span class="stat-label">Anatomical Sites</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="team reveal" style="transition-delay:0.1s">
+      <div class="section-header">
+        <div class="section-badge">Team</div>
+        <h2 class="section-title">Built by Clinicians and Engineers</h2>
+        <p class="section-desc">Our team combines radiology expertise with ML research.</p>
+      </div>
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="team-avatar">SC</div>
+          <h3>Dr. Sarah Chen</h3>
+          <p class="team-role">Chief Medical Officer</p>
+          <p class="team-bio">Board-certified radiologist, 15+ years trauma imaging experience.</p>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">MR</div>
+          <h3>Michael Rodriguez</h3>
+          <p class="team-role">CTO & Co-Founder</p>
+          <p class="team-bio">ML engineer, ex-Google Health, published in CVPR & MICCAI.</p>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">AK</div>
+          <h3>Dr. Anjali Kumar</h3>
+          <p class="team-role">VP Clinical Affairs</p>
+          <p class="team-bio">Emergency physician, health tech advisor, FDA clearance experience.</p>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">JP</div>
+          <h3>James Park</h3>
+          <p class="team-role">Head of Engineering</p>
+          <p class="team-bio">Full-stack architect, built HIPAA-compliant systems at scale.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta reveal" style="transition-delay:0.1s">
+      <div class="cta-container">
+        <div class="cta-content">
+          <h2 class="cta-title">Ready to see it in action?</h2>
+          <p class="cta-desc">Start analyzing X-rays with AI-powered fracture detection. No credit card required.</p>
+          <div class="cta-buttons">
+            <a href="/signup" class="btn btn-primary fd-magnetic" data-ripple>Get Started Free</a>
+            <a href="/contact" class="btn btn-secondary fd-magnetic" data-ripple>Contact Us</a>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
   <Footer />
 </Layout>
 
+<script>
+  (function() {
+    var statIds = ['stat-accuracy', 'stat-speed', 'stat-xrays', 'stat-sites'];
+    var counted = {};
+    statIds.forEach(function(id) { counted[id] = false; });
+
+    function animateCounter(el) {
+      var isSpeed = el.id === 'stat-speed';
+      var prefix = el.getAttribute('data-count-prefix') || '';
+      var suffix = el.getAttribute('data-count-suffix') || '';
+      var target = parseFloat(el.getAttribute('data-count-to'));
+      var duration = 2000;
+      var startTime = performance.now();
+
+      function tick(now) {
+        var t = Math.min((now - startTime) / duration, 1);
+        var eased = 1 - Math.pow(1 - t, 3);
+        var val = isSpeed ? Math.round(eased * target) : (eased * target).toFixed(1);
+        var display = isSpeed ? prefix + val + suffix : (t < 1 ? val : target.toFixed(1)) + suffix;
+        if (isSpeed && t < 1) display = prefix + val + suffix;
+        else if (isSpeed) display = prefix + target + suffix;
+        el.textContent = display;
+        if (t < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting && !counted[entry.target.id]) {
+          counted[entry.target.id] = true;
+          animateCounter(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    statIds.forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+  })();
+</script>
+
 <style>
-  .about-page {
-    padding: 48px 0 80px;
-    position: relative;
-    overflow: hidden;
-  }
+  .about-hero { min-height: calc(100vh - 68px); display: flex; align-items: center; position: relative; overflow: hidden; padding: 48px 24px; }
+  .hero-container { max-width: var(--max-width); margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; width: 100%; position: relative; z-index: 1; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-body); font-size: 13px; font-weight: 500; color: var(--color-primary); background: rgba(37,99,235,0.08); padding: 6px 14px; border-radius: 20px; margin-bottom: 24px; letter-spacing: 0.02em; text-transform: uppercase; }
+  .hero-title { font-family: var(--font-heading); font-weight: 600; font-size: 44px; line-height: 1.15; color: var(--color-text); margin: 0 0 20px; letter-spacing: -0.02em; }
+  .text-gradient { background: linear-gradient(135deg, var(--color-primary), #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .hero-description { font-family: var(--font-body); font-weight: 400; font-size: 18px; line-height: 1.65; color: var(--color-text-muted); margin: 0 0 36px; max-width: 520px; }
+  .hero-visual { display: flex; justify-content: center; align-items: center; min-width: 0; }
+  .about-visual { position: relative; width: 100%; max-width: 480px; border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 8px 32px rgba(37,99,235,0.15); background: var(--color-surface); border: 1px solid var(--color-border); }
+  .about-visual svg { display: block; width: 100%; height: auto; }
 
-  .about-bg {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-  }
+  .section-header { text-align: center; max-width: 600px; margin: 0 auto 40px; padding: 0 24px; }
+  .section-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-body); font-size: 12px; font-weight: 500; color: var(--color-primary); background: rgba(37,99,235,0.08); padding: 5px 12px; border-radius: 20px; margin-bottom: 16px; letter-spacing: 0.02em; text-transform: uppercase; }
+  .section-title { font-family: var(--font-heading); font-weight: 600; font-size: 32px; color: var(--color-text); margin: 0 0 12px; letter-spacing: -0.02em; }
+  .section-desc { font-family: var(--font-body); font-size: 16px; color: var(--color-text-muted); margin: 0; line-height: 1.5; }
 
-  .about-orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0.08;
-  }
+  .mission { padding: 0 24px 80px; }
+  .mission-grid { max-width: var(--max-width); margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .mission-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 32px 28px; text-align: center; transition: all 0.25s ease; }
+  .mission-card:hover { border-color: rgba(37,99,235,0.3); box-shadow: 0 8px 32px rgba(37,99,235,0.15), 0 0 60px rgba(37,99,235,0.06); transform: translateY(-4px); }
+  .mission-icon { width: 56px; height: 56px; border-radius: 16px; background: rgba(37,99,235,0.08); color: var(--color-primary); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
+  .mission-card h3 { font-family: var(--font-heading); font-weight: 600; font-size: 18px; color: var(--color-text); margin: 0 0 8px; }
+  .mission-card p { font-family: var(--font-body); font-size: 15px; line-height: 1.6; color: var(--color-text-muted); margin: 0; }
 
-  .about-orb.orb-1 {
-    width: 450px;
-    height: 450px;
-    background: var(--color-primary);
-    top: -150px;
-    left: -100px;
-  }
+  .tech { padding: 0 24px 80px; background: var(--color-bg-subtle); }
+  .tech-grid { max-width: var(--max-width); margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  .tech-item { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 32px 24px; transition: all 0.25s ease; }
+  .tech-item:hover { border-color: rgba(37,99,235,0.3); box-shadow: 0 8px 32px rgba(37,99,235,0.15); transform: translateY(-4px); }
+  .tech-num { font-family: var(--font-heading); font-weight: 700; font-size: 14px; color: var(--color-primary); margin-bottom: 12px; letter-spacing: 0.05em; }
+  .tech-item h3 { font-family: var(--font-heading); font-weight: 600; font-size: 17px; color: var(--color-text); margin: 0 0 8px; }
+  .tech-item p { font-family: var(--font-body); font-size: 14px; line-height: 1.6; color: var(--color-text-muted); margin: 0; }
 
-  .about-orb.orb-2 {
-    width: 350px;
-    height: 350px;
-    background: #a855f7;
-    bottom: -120px;
-    right: -80px;
-  }
+  .stats { padding: 0 24px 80px; }
+  .stats-container { max-width: var(--max-width); margin: 0 auto; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border-radius: var(--radius-lg); padding: 48px 40px; display: flex; align-items: center; justify-content: space-around; }
+  .stat-item { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .stat-number { font-family: var(--font-heading); font-weight: 700; font-size: 32px; color: white; letter-spacing: -0.02em; }
+  .stat-label { font-family: var(--font-body); font-size: 14px; color: rgba(255,255,255,0.6); }
+  .stat-divider { width: 1px; height: 48px; background: rgba(255,255,255,0.12); }
 
-  .about-container {
-    max-width: var(--max-width);
-    margin: 0 auto;
-    padding: 0 24px;
-    position: relative;
-    z-index: 1;
-  }
+  .team { padding: 0 24px 80px; }
+  .team-grid { max-width: var(--max-width); margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  .team-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 28px 24px; text-align: center; transition: all 0.25s ease; }
+  .team-card:hover { border-color: rgba(37,99,235,0.3); box-shadow: 0 8px 32px rgba(37,99,235,0.12); transform: translateY(-4px); }
+  .team-avatar { width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, var(--color-primary), #1d4ed8); display: flex; align-items: center; justify-content: center; font-family: var(--font-heading); font-weight: 700; font-size: 22px; color: white; margin: 0 auto 16px; }
+  .team-card h3 { font-family: var(--font-heading); font-weight: 600; font-size: 17px; color: var(--color-text); margin: 0 0 4px; }
+  .team-role { font-family: var(--font-body); font-size: 14px; color: var(--color-primary); font-weight: 500; margin: 0 0 8px; }
+  .team-bio { font-family: var(--font-body); font-size: 13px; line-height: 1.5; color: var(--color-text-muted); margin: 0; }
 
-  .about-hero {
-    margin-bottom: 64px;
-  }
+  .cta { padding: 0 24px 80px; }
+  .cta-container { max-width: var(--max-width); margin: 0 auto; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border-radius: var(--radius-lg); padding: 64px 40px; text-align: center; }
+  .cta-title { font-family: var(--font-heading); font-weight: 600; font-size: 32px; color: white; margin: 0 0 12px; letter-spacing: -0.02em; }
+  .cta-desc { font-family: var(--font-body); font-size: 17px; color: rgba(255,255,255,0.6); margin: 0 0 32px; }
+  .cta-buttons { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+  .cta-buttons .btn-primary { box-shadow: 0 4px 20px rgba(37,99,235,0.4); }
+  .cta-buttons .btn-secondary { color: white; border-color: rgba(255,255,255,0.2); background: transparent; }
+  .cta-buttons .btn-secondary:hover { border-color: white; color: white; }
 
-  .about-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: var(--font-body);
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--color-primary);
-    background: rgba(37, 99, 235, 0.08);
-    padding: 6px 14px;
-    border-radius: 20px;
-    margin-bottom: 20px;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
+  @media (max-width: 1024px) {
+    .hero-title { font-size: 38px; }
+    .mission-grid, .tech-grid, .team-grid { gap: 18px; }
   }
-
-  .about-badge .badge-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--color-primary);
-  }
-
-  .about-title {
-    font-family: var(--font-heading);
-    font-weight: 600;
-    font-size: 42px;
-    line-height: 1.15;
-    color: var(--color-text);
-    margin: 0 0 20px;
-    letter-spacing: -0.02em;
-  }
-
-  .text-gradient {
-    background: linear-gradient(135deg, var(--color-primary), #a855f7);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .about-description {
-    font-family: var(--font-body);
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 1.65;
-    color: var(--color-text-muted);
-    margin: 0;
-    max-width: 640px;
-  }
-
-  .how-section {
-    margin-bottom: 48px;
-  }
-
-  .how-heading {
-    font-family: var(--font-heading);
-    font-weight: 600;
-    font-size: 28px;
-    line-height: 1.3;
-    color: var(--color-text);
-    margin: 0 0 36px;
-  }
-
-  .steps-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 20px;
-  }
-
-  .step-card {
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    padding: 32px 24px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-    background: var(--color-surface);
-    transition: all 0.25s ease;
-    min-width: 0;
-  }
-
-  .step-card:hover {
-    border-color: rgba(37, 99, 235, 0.2);
-    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.08);
-    transform: translateY(-4px);
-  }
-
-  .step-icon-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 20px;
-  }
-
-  .step-number {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-body);
-    font-weight: 600;
-    font-size: 14px;
-    color: white;
-    background: var(--color-primary);
-    flex-shrink: 0;
-  }
-
-  .step-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 48px;
-    height: 48px;
-    border-radius: var(--radius-md);
-    background: rgba(37, 99, 235, 0.08);
-    color: var(--color-primary);
-  }
-
-  .step-heading {
-    font-family: var(--font-heading);
-    font-weight: 600;
-    font-size: 18px;
-    color: var(--color-text);
-    margin: 0 0 8px;
-  }
-
-  .step-text {
-    font-family: var(--font-body);
-    font-weight: 400;
-    font-size: 15px;
-    line-height: 1.6;
-    color: var(--color-text-muted);
-    margin: 0;
-  }
-
-  .tech-section {
-    margin-bottom: 48px;
-  }
-
-  .tech-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 20px;
-    min-width: 0;
-  }
-
-  .tech-card {
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    padding: 32px 24px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-    background: var(--color-surface);
-    transition: all 0.25s ease;
-    min-width: 0;
-  }
-
-  .tech-card:hover {
-    border-color: rgba(37, 99, 235, 0.2);
-    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.08);
-    transform: translateY(-4px);
-  }
-
-  .tech-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 52px;
-    height: 52px;
-    border-radius: 14px;
-    background: rgba(37, 99, 235, 0.08);
-    color: var(--color-primary);
-    margin-bottom: 20px;
-  }
-
-  .tech-heading {
-    font-family: var(--font-heading);
-    font-weight: 600;
-    font-size: 18px;
-    color: var(--color-text);
-    margin: 0 0 10px;
-  }
-
-  .tech-text {
-    font-family: var(--font-body);
-    font-weight: 400;
-    font-size: 15px;
-    line-height: 1.6;
-    color: var(--color-text-muted);
-    margin: 0;
-  }
-
-  .cta-row {
-    text-align: center;
-  }
-
-  .btn-try {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-size: 16px;
-    color: white;
-    background: linear-gradient(135deg, var(--color-primary), #1d4ed8);
-    padding: 14px 28px;
-    border: none;
-    border-radius: var(--radius-md);
-    text-decoration: none;
-    transition: all 0.2s ease;
-    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
-  }
-
-  .btn-try:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
-  }
-
-  .btn-try:focus-visible {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
-  }
-
   @media (max-width: 900px) {
-    .about-title {
-      font-size: 34px;
-    }
-
-    .about-description {
-      font-size: 17px;
-    }
-
-    .steps-grid {
-      gap: 16px;
-    }
+    .hero-container { gap: 40px; }
+    .hero-title { font-size: 34px; }
+    .hero-description { font-size: 17px; }
+    .tech-grid { grid-template-columns: repeat(2, 1fr); }
   }
-
   @media (max-width: 768px) {
-    .about-page {
-      padding: 40px 0 64px;
-    }
-
-    .about-title {
-      font-size: 30px;
-    }
-
-    .about-description {
-      font-size: 16px;
-    }
-
-    .about-hero {
-      margin-bottom: 48px;
-    }
-
-    .how-heading {
-      font-size: 24px;
-    }
-
-    .steps-grid,
-    .tech-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .step-card,
-    .tech-card {
-      padding: 24px 20px;
-    }
-
+    .about-hero { min-height: auto; }
+    .hero-container { grid-template-columns: 1fr; gap: 40px; padding: 40px 24px 0; }
+    .hero-content { order: 1; }
+    .hero-visual { order: 0; }
+    .about-visual { max-width: 360px; }
+    .hero-title { font-size: 30px; }
+    .hero-description { font-size: 16px; max-width: none; }
+    .mission-grid { grid-template-columns: 1fr; }
+    .tech-grid { grid-template-columns: 1fr; }
+    .team-grid { grid-template-columns: repeat(2, 1fr); }
+    .section-title { font-size: 26px; }
   }
-
   @media (max-width: 480px) {
-    .about-page {
-      padding: 32px 0 48px;
-    }
-
-    .about-container {
-      padding: 0 20px;
-    }
-
-    .about-title {
-      font-size: 26px;
-    }
-
-    .about-description {
-      font-size: 15px;
-    }
-
-    .how-heading {
-      font-size: 20px;
-      margin-bottom: 28px;
-    }
-
-    .btn-try {
-      width: 100%;
-      justify-content: center;
-    }
-
-    .step-card,
-    .tech-card {
-      padding: 24px 20px;
-    }
+    .hero-container { padding: 24px 20px 0; gap: 28px; }
+    .hero-title { font-size: 24px; }
+    .hero-description { font-size: 15px; margin-bottom: 24px; }
+    .hero-badge { font-size: 12px; padding: 5px 12px; margin-bottom: 16px; }
+    .cta-buttons { flex-direction: column; }
+    .btn { justify-content: center; width: 100%; font-size: 15px; padding: 13px 24px; }
+    .team-grid { grid-template-columns: 1fr; }
+    .stats-container { flex-direction: column; gap: 24px; padding: 36px 24px; }
+    .stat-divider { width: 48px; height: 1px; }
   }
 </style>
