@@ -464,6 +464,13 @@ import Sidebar from '../components/Sidebar.astro';
 
     var avatarInput = document.getElementById('avatar-input');
     var settingsAvatar = document.getElementById('settings-avatar');
+    var storedAvatar = localStorage.getItem('fracturedetect:avatar');
+    if (storedAvatar) {
+      settingsAvatar.style.backgroundImage = 'url(' + storedAvatar + ')';
+      settingsAvatar.style.backgroundSize = 'cover';
+      settingsAvatar.style.backgroundPosition = 'center';
+      settingsAvatar.textContent = '';
+    }
     document.getElementById('btn-change-avatar').addEventListener('click', function () {
       avatarInput.click();
     });
@@ -476,6 +483,7 @@ import Sidebar from '../components/Sidebar.astro';
         settingsAvatar.style.backgroundSize = 'cover';
         settingsAvatar.style.backgroundPosition = 'center';
         settingsAvatar.textContent = '';
+        try { localStorage.setItem('fracturedetect:avatar', e.target.result); } catch (err) {}
         if (window.showToast) window.showToast({ type: 'success', message: 'Photo updated.' });
       };
       reader.readAsDataURL(file);
@@ -863,8 +871,9 @@ import Sidebar from '../components/Sidebar.astro';
   .reco-severity-safe { color: var(--color-success); background: rgba(22,163,74,0.1); }
 
   /* ── Row 2: Image Pipeline ── */
-  .row-2 { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; }
-  .pipeline-step { flex: 1; min-width: 0; }
+  #analysis-view { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+  .row-2 { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; flex: 1; }
+  .pipeline-step { flex: 1; min-width: 0; display: flex; flex-direction: column; height: 100%; }
   .pipeline-arrow { flex-shrink: 0; color: var(--color-neutral); opacity: 0.4; }
   .step-label {
     font-family: var(--font-body); font-weight: 600; font-size: 10px;
@@ -874,7 +883,7 @@ import Sidebar from '../components/Sidebar.astro';
   .step-img-wrap {
     position: relative; background: #0B1121; border-radius: var(--radius-md);
     aspect-ratio: 16 / 9; overflow: hidden; border: 1px solid var(--color-border);
-    max-height: 200px;
+    flex: 1;
   }
   .step-img { width: 100%; height: 100%; object-fit: contain; display: block; transition: transform 0.2s ease; }
   .step-empty {
