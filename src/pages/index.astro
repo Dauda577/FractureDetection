@@ -44,28 +44,28 @@ import Footer from '../components/Footer.astro';
         <div class="hero-visual reveal-right" style="transition-delay:0.2s">
           <div class="xray-grid">
             <div class="xray-card xc-1">
-              <img src="https://images.unsplash.com/photo-1559757175-5700dde675bc?w=400&h=300&fit=crop" alt="Skull X-ray" loading="lazy" />
-              <span class="xc-label">Skull</span>
-            </div>
-            <div class="xray-card xc-2">
-              <img src="https://images.unsplash.com/photo-1579154204846-bf6fbfad2b3c?w=400&h=300&fit=crop" alt="Knee X-ray" loading="lazy" />
-              <span class="xc-label">Knee</span>
-            </div>
-            <div class="xray-card xc-3">
-              <img src="https://images.unsplash.com/photo-1516069677019-9b6b6952b58c?w=400&h=300&fit=crop" alt="Chest X-ray" loading="lazy" />
+              <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Chest_X-ray_12.jpg" alt="Chest X-ray" loading="lazy" />
               <span class="xc-label">Chest</span>
             </div>
-            <div class="xray-card xc-4">
-              <img src="https://images.unsplash.com/photo-1530026405186-ed1f139313f8?w=400&h=300&fit=crop" alt="Hand X-ray" loading="lazy" />
+            <div class="xray-card xc-2">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Normal_posteroanterior_%28PA%29_chest_radiograph_%28X-ray%29.jpg" alt="Chest PA X-ray" loading="lazy" />
+              <span class="xc-label">Chest PA</span>
+            </div>
+            <div class="xray-card xc-3">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Fracture_of_the_5th_metacarpal_%28boxer%27s_fracture%29.jpg" alt="Hand fracture X-ray" loading="lazy" />
               <span class="xc-label">Hand</span>
             </div>
-            <div class="xray-card xc-5">
-              <img src="https://images.unsplash.com/photo-1576110598656-096a5e1e9f18?w=400&h=300&fit=crop" alt="Hip X-ray" loading="lazy" />
+            <div class="xray-card xc-4">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/8/8c/Hip_fracture_X-ray.jpg" alt="Hip fracture X-ray" loading="lazy" />
               <span class="xc-label">Hip</span>
             </div>
+            <div class="xray-card xc-5">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/d/d7/Wrist_fracture_X-ray.jpg" alt="Wrist fracture X-ray" loading="lazy" />
+              <span class="xc-label">Wrist</span>
+            </div>
             <div class="xray-card xc-6">
-              <img src="https://images.unsplash.com/photo-1581595219315-a187dd40c329?w=400&h=300&fit=crop" alt="Spine X-ray" loading="lazy" />
-              <span class="xc-label">Spine</span>
+              <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Knee_X-ray_of_a_fracture.jpg" alt="Knee fracture X-ray" loading="lazy" />
+              <span class="xc-label">Knee</span>
             </div>
           </div>
         </div>
@@ -369,13 +369,13 @@ import Footer from '../components/Footer.astro';
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(2, 1fr);
-    gap: 12px;
+    gap: 10px;
     width: 100%;
-    max-width: 520px;
+    max-width: 620px;
   }
   .xray-card {
     position: relative; border-radius: 12px; overflow: hidden;
-    aspect-ratio: 4 / 3; background: #0B1121;
+    aspect-ratio: 1 / 1; background: #0B1121;
     box-shadow: 0 4px 16px rgba(37,99,235,0.12);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     opacity: 0; animation: xrayFadeIn 0.5s ease-out forwards;
