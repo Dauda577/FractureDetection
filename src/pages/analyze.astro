@@ -18,62 +18,55 @@ import Footer from '../components/Footer.astro';
           </div>
           <h2 class="demo-title">See how AI detects fractures<br />in real X-ray images</h2>
           <p class="demo-desc">Swipe through sample results showing original X-rays with AI-powered fracture detection overlays.</p>
-          <div class="demo-gallery" id="demo-gallery">
-            <div class="demo-gallery-inner" id="demo-gallery-inner">
-              <div class="demo-card">
-                <div class="demo-card-img-wrap">
-                  <img class="demo-card-img" src="https://upload.wikimedia.org/wikipedia/commons/8/88/Wrist_fracture_-_Scaphoid_fracture_--_Smart-Servier.jpg" alt="Wrist fracture X-ray" loading="lazy" />
-                  <div class="demo-card-heatmap" style="background:radial-gradient(ellipse at 38% 48%, rgba(255,50,0,0.55) 0%, rgba(255,130,0,0.35) 20%, rgba(255,220,0,0.2) 40%, transparent 60%)"></div>
-                </div>
-                <div class="demo-card-body">
-                  <div class="demo-card-tags">
-                    <span class="demo-tag demo-tag-red">Fracture</span>
-                    <span class="demo-tag">Distal Radius</span>
-                  </div>
-                  <div class="demo-card-meta">
-                    <span class="demo-card-conf">98.5% confidence</span>
-                    <span class="demo-card-time">Forearm X-ray</span>
-                  </div>
-                </div>
+          <div class="demo-gallery">
+            <div class="demo-card">
+              <div class="demo-card-img-wrap">
+                <img class="demo-card-img" src="https://upload.wikimedia.org/wikipedia/commons/8/88/Wrist_fracture_-_Scaphoid_fracture_--_Smart-Servier.jpg" alt="Wrist fracture X-ray" loading="lazy" />
+                <div class="demo-card-heatmap" style="background:radial-gradient(ellipse at 38% 48%, rgba(255,50,0,0.55) 0%, rgba(255,130,0,0.35) 20%, rgba(255,220,0,0.2) 40%, transparent 60%)"></div>
               </div>
-              <div class="demo-card">
-                <div class="demo-card-img-wrap">
-                  <img class="demo-card-img" src="https://upload.wikimedia.org/wikipedia/commons/d/d3/X-ray_of_a_comminuted_hip_fracture.jpg" alt="Hip fracture X-ray" loading="lazy" />
-                  <div class="demo-card-heatmap" style="background:radial-gradient(ellipse at 55% 42%, rgba(255,50,0,0.5) 0%, rgba(255,130,0,0.3) 22%, rgba(255,220,0,0.18) 42%, transparent 62%)"></div>
+              <div class="demo-card-body">
+                <div class="demo-card-tags">
+                  <span class="demo-tag demo-tag-red">Fracture</span>
+                  <span class="demo-tag">Distal Radius</span>
                 </div>
-                <div class="demo-card-body">
-                  <div class="demo-card-tags">
-                    <span class="demo-tag demo-tag-red">Fracture</span>
-                    <span class="demo-tag">Femoral Neck</span>
-                  </div>
-                  <div class="demo-card-meta">
-                    <span class="demo-card-conf">96.2% confidence</span>
-                    <span class="demo-card-time">Hip X-ray</span>
-                  </div>
-                </div>
-              </div>
-              <div class="demo-card">
-                <div class="demo-card-img-wrap">
-                  <img class="demo-card-img" src="https://upload.wikimedia.org/wikipedia/commons/a/a1/Normal_posteroanterior_%28PA%29_chest_radiograph_%28X-ray%29.jpg" alt="Chest X-ray" loading="lazy" />
-                  <div class="demo-card-heatmap" style="background:radial-gradient(ellipse at 45% 55%, rgba(255,50,0,0.5) 0%, rgba(255,130,0,0.32) 20%, rgba(255,220,0,0.18) 38%, transparent 58%)"></div>
-                </div>
-                <div class="demo-card-body">
-                  <div class="demo-card-tags">
-                    <span class="demo-tag">Normal</span>
-                    <span class="demo-tag">No Fracture</span>
-                  </div>
-                  <div class="demo-card-meta">
-                    <span class="demo-card-conf">99.1% confidence</span>
-                    <span class="demo-card-time">Chest X-ray</span>
-                  </div>
+                <div class="demo-card-meta">
+                  <span class="demo-card-conf">98.5% confidence</span>
+                  <span class="demo-card-time">Forearm X-ray</span>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="demo-dots" id="demo-dots">
-            <button class="demo-dot demo-dot-active" data-index="0" aria-label="Sample 1"></button>
-            <button class="demo-dot" data-index="1" aria-label="Sample 2"></button>
-            <button class="demo-dot" data-index="2" aria-label="Sample 3"></button>
+            <div class="demo-card">
+              <div class="demo-card-img-wrap">
+                <img class="demo-card-img" src="https://upload.wikimedia.org/wikipedia/commons/d/d3/X-ray_of_a_comminuted_hip_fracture.jpg" alt="Hip fracture X-ray" loading="lazy" />
+                <div class="demo-card-heatmap" style="background:radial-gradient(ellipse at 55% 42%, rgba(255,50,0,0.5) 0%, rgba(255,130,0,0.3) 22%, rgba(255,220,0,0.18) 42%, transparent 62%)"></div>
+              </div>
+              <div class="demo-card-body">
+                <div class="demo-card-tags">
+                  <span class="demo-tag demo-tag-red">Fracture</span>
+                  <span class="demo-tag">Femoral Neck</span>
+                </div>
+                <div class="demo-card-meta">
+                  <span class="demo-card-conf">96.2% confidence</span>
+                  <span class="demo-card-time">Hip X-ray</span>
+                </div>
+              </div>
+            </div>
+            <div class="demo-card">
+              <div class="demo-card-img-wrap">
+                <img class="demo-card-img" src="https://upload.wikimedia.org/wikipedia/commons/a/a1/Normal_posteroanterior_%28PA%29_chest_radiograph_%28X-ray%29.jpg" alt="Chest X-ray" loading="lazy" />
+                <div class="demo-card-heatmap" style="background:radial-gradient(ellipse at 45% 55%, rgba(255,50,0,0.5) 0%, rgba(255,130,0,0.32) 20%, rgba(255,220,0,0.18) 38%, transparent 58%)"></div>
+              </div>
+              <div class="demo-card-body">
+                <div class="demo-card-tags">
+                  <span class="demo-tag">Normal</span>
+                  <span class="demo-tag">No Fracture</span>
+                </div>
+                <div class="demo-card-meta">
+                  <span class="demo-card-conf">99.1% confidence</span>
+                  <span class="demo-card-time">Chest X-ray</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="demo-right">
@@ -389,40 +382,7 @@ import Footer from '../components/Footer.astro';
     });
   }
 
-  /* ── Demo gallery carousel (unauth) ── */
-  function initDemoGallery() {
-    var track = document.getElementById('demo-gallery');
-    var inner = document.getElementById('demo-gallery-inner');
-    var dots = document.querySelectorAll('.demo-dot');
-    var currentSlide = 0;
-    var totalSlides = dots.length;
-
-    function goToSlide(index) {
-      if (!inner) return;
-      currentSlide = index;
-      inner.style.transform = 'translateX(-' + (index * 100) + '%)';
-      dots.forEach(function (d, i) {
-        d.classList.toggle('demo-dot-active', i === index);
-      });
-    }
-
-    dots.forEach(function (dot) {
-      dot.addEventListener('click', function () {
-        goToSlide(parseInt(this.getAttribute('data-index')));
-      });
-    });
-
-    var autoSlide = setInterval(function () {
-      goToSlide((currentSlide + 1) % totalSlides);
-    }, 4000);
-
-    track.addEventListener('mouseenter', function () { clearInterval(autoSlide); });
-    track.addEventListener('mouseleave', function () {
-      autoSlide = setInterval(function () {
-        goToSlide((currentSlide + 1) % totalSlides);
-      }, 4000);
-    });
-  }
+  /* ── Demo gallery static (unauth) ── */
 
   /* ── Step animation for demo (unauth) ── */
   function initStepAnimation() {
@@ -493,7 +453,6 @@ import Footer from '../components/Footer.astro';
 
     if (!signedIn) {
       if (demo) { demo.classList.remove('hidden'); animateIn(demo); }
-      initDemoGallery();
       initStepAnimation();
       return;
     }
@@ -1256,31 +1215,25 @@ import Footer from '../components/Footer.astro';
   .demo-title { font-family: var(--font-heading); font-weight: 600; font-size: 34px; line-height: 1.2; color: var(--color-text); margin: 0 0 12px; letter-spacing: -0.02em; }
   .demo-desc { font-family: var(--font-body); font-size: 16px; line-height: 1.6; color: var(--color-text-muted); margin: 0 0 28px; max-width: 480px; }
 
-  .demo-gallery { position: relative; width: 100%; overflow: hidden; margin-bottom: 16px; }
-  .demo-gallery-inner { display: flex; transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+  .demo-gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px; }
   .demo-card {
-    flex: 0 0 100%; box-sizing: border-box;
     background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg);
-    overflow: hidden; transition: all 0.2s ease;
+    overflow: hidden; transition: all 0.25s ease; cursor: pointer;
   }
-  .demo-card:hover { border-color: rgba(37,99,235,0.3); box-shadow: 0 8px 32px rgba(37,99,235,0.1); }
-  .demo-card-img-wrap { position: relative; width: 100%; aspect-ratio: 4 / 3; background: #0B1121; overflow: hidden; }
-  .demo-card-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
-  .demo-card:hover .demo-card-img { transform: scale(1.02); }
-  .demo-card-heatmap { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: screen; opacity: 0.9; }
-  .demo-card-body { padding: 16px 20px; }
-  .demo-card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
-  .demo-tag { font-family: var(--font-body); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 3px 8px; border-radius: 4px; }
-  .demo-tag-red { background: rgba(239,68,68,0.15); color: #ef4444; border: 1px solid rgba(239,68,68,0.3); }
-  .demo-tag { background: rgba(37,99,235,0.1); color: var(--color-primary); border: 1px solid rgba(37,99,235,0.2); }
-  .demo-card-meta { display: flex; gap: 16px; }
-  .demo-card-conf { font-family: var(--font-heading); font-weight: 600; font-size: 13px; color: var(--color-primary); }
-  .demo-card-time { font-family: var(--font-body); font-size: 13px; color: var(--color-text-muted); }
-
-  .demo-dots { display: flex; justify-content: center; gap: 8px; }
-  .demo-dot { width: 10px; height: 10px; border-radius: 50%; border: none; background: var(--color-border); cursor: pointer; padding: 0; transition: all 0.2s; }
-  .demo-dot-active { background: var(--color-primary); width: 28px; border-radius: 5px; }
-  .demo-dot:hover { background: var(--color-primary); }
+  .demo-card:hover { border-color: rgba(37,99,235,0.3); box-shadow: 0 8px 32px rgba(37,99,235,0.12); transform: translateY(-2px); }
+  .demo-card-img-wrap { position: relative; aspect-ratio: 4 / 3; overflow: hidden; }
+  .demo-card-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease; }
+  .demo-card:hover .demo-card-img { transform: scale(1.03); }
+  .demo-card-heatmap { position: absolute; inset: 0; z-index: 2; pointer-events: none; mix-blend-mode: screen; opacity: 0; transition: opacity 0.3s ease; }
+  .demo-card:hover .demo-card-heatmap { opacity: 1; }
+  .demo-card-body { padding: 14px 16px; }
+  .demo-card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+  .demo-tag { font-family: var(--font-body); font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 12px; text-transform: uppercase; letter-spacing: 0.03em; }
+  .demo-tag-red { background: rgba(239,68,68,0.15); color: #ef4444; }
+  .demo-tag { background: rgba(37,99,235,0.12); color: var(--color-primary); }
+  .demo-card-meta { display: flex; justify-content: space-between; font-family: var(--font-body); font-size: 12px; }
+  .demo-card-conf { color: var(--color-primary); font-weight: 600; }
+  .demo-card-time { color: var(--color-neutral); }
 
   .demo-right { display: flex; flex-direction: column; }
   .demo-steps-preview {
@@ -1334,6 +1287,7 @@ import Footer from '../components/Footer.astro';
   /* Responsive for auth-demo */
   @media (max-width: 900px) {
     .demo-container { grid-template-columns: 1fr; gap: 32px; }
+    .demo-gallery { grid-template-columns: 1fr; }
     .demo-right { order: -1; }
     .dsp-track { flex-wrap: wrap; }
     .dsp-step { flex: 1 1 calc(50% - 12px); padding-right: 16px; }
