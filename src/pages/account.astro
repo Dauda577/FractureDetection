@@ -1234,9 +1234,9 @@ import Sidebar from '../components/Sidebar.astro';
   @media (max-width: 900px) { .dash-content { padding: 20px 20px 32px; } }
   @media (max-width: 768px) {
     .dash-layout { flex-direction: column; padding: 0; }
-    .dash-wrapper { max-width: 100%; border-radius: 0; border: none; }
+    .dash-wrapper { max-width: 100%; border-radius: 0; border: none; height: auto; min-height: calc(100vh - 68px); }
     .dash-sidebar { border-radius: 0; }
-    .dash-main { margin-left: 0; }
+    .dash-main { margin-left: 0; overflow-y: auto; }
     .dash-page { padding: 0; }
     .row-1, .row-3 { grid-template-columns: 1fr 1fr; }
     .top-title { font-size: 22px; }
