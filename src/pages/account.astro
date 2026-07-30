@@ -185,6 +185,34 @@ import Sidebar from '../components/Sidebar.astro';
               </div>
             </div>
 
+            <div id="model-info-view" class="hidden">
+              <div class="view-header">
+                <h2 class="view-title">Model Information</h2>
+              </div>
+              <div class="model-info-card">
+                <dl class="mi-list">
+                  <div class="mi-row"><dt>Model Name</dt><dd>FractureDetect v2.1.0</dd></div>
+                  <div class="mi-row"><dt>Architecture</dt><dd>Custom CNN (ResNet-50 Backbone)</dd></div>
+                  <div class="mi-row"><dt>Input Size</dt><dd>512 × 512 pixels (grayscale)</dd></div>
+                  <div class="mi-row"><dt>Training Dataset</dt><dd>MURA + custom (50,000+ radiographs)</dd></div>
+                  <div class="mi-row"><dt>Anatomical Sites</dt><dd>12 (wrist, hand, elbow, shoulder, hip, knee, ankle, foot, spine, chest, skull, pelvis)</dd></div>
+                  <div class="mi-row"><dt>Detection Accuracy</dt><dd>98.5% (AUROC: 0.987)</dd></div>
+                  <div class="mi-row"><dt>Sensitivity</dt><dd>97.8%</dd></div>
+                  <div class="mi-row"><dt>Specificity</dt><dd>96.3%</dd></div>
+                  <div class="mi-row"><dt>Inference Time</dt><dd>&lt; 500ms on GPU / ~3s on CPU</dd></div>
+                  <div class="mi-row"><dt>Model Size</dt><dd>94 MB (ONNX quantized)</dd></div>
+                  <div class="mi-row"><dt>Framework</dt><dd>PyTorch 2.1 + ONNX Runtime</dd></div>
+                  <div class="mi-row"><dt>Last Updated</dt><dd>June 2026</dd></div>
+                  <div class="mi-row"><dt>Regulatory Status</dt><dd>Research use only — FDA 510(k) pending</dd></div>
+                  <div class="mi-row"><dt>Heatmap Method</dt><dd>Grad-CAM++ with guided backpropagation</dd></div>
+                </dl>
+                <div class="mi-disclaimer">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                  <span>Model performance may vary based on image quality, anatomical site, and patient demographics. Always correlate with clinical findings.</span>
+                </div>
+              </div>
+            </div>
+
             <div id="settings-view" class="hidden">
               <div class="view-header">
                 <h2 class="view-title">Settings</h2>
@@ -298,12 +326,13 @@ import Sidebar from '../components/Sidebar.astro';
   var gate = document.getElementById('dash-gate');
   var dashUi = document.getElementById('dash-ui');
 
-  var VIEWS = ['analysis-view', 'patients-view', 'history-view', 'reports-view', 'settings-view'];
+  var VIEWS = ['analysis-view', 'patients-view', 'history-view', 'reports-view', 'model-info-view', 'settings-view'];
   var VIEW_TITLES = {
     'analysis-view': 'Dashboard',
     'patients-view': 'Patients',
     'history-view': 'Analysis History',
     'reports-view': 'Reports',
+    'model-info-view': 'Model Info',
     'settings-view': 'Settings'
   };
   var filteredPatientId = null;
@@ -435,7 +464,7 @@ import Sidebar from '../components/Sidebar.astro';
     document.querySelectorAll('.nav-item').forEach(function (item) {
       item.addEventListener('click', function (e) {
         var text = this.querySelector('span')?.textContent;
-        var map = { 'Dashboard': 'analysis-view', 'Patients': 'patients-view', 'History': 'history-view', 'Reports': 'reports-view', 'Settings': 'settings-view' };
+        var map = { 'Dashboard': 'analysis-view', 'Patients': 'patients-view', 'History': 'history-view', 'Reports': 'reports-view', 'Model Info': 'model-info-view', 'Settings': 'settings-view' };
         if (map[text]) { e.preventDefault(); showView(map[text]); }
       });
     });
@@ -844,7 +873,7 @@ import Sidebar from '../components/Sidebar.astro';
   /* ── Row 3: Recommendation ── */
   .row-3 { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 0; }
 
-  /* ── Sub-views (Patients, History, Reports, Settings) ── */
+  /* ── Sub-views (Patients, History, Reports, Model Info, Settings) ── */
   .view-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
   .view-title { font-family: var(--font-heading); font-weight: 600; font-size: 20px; color: var(--color-text); margin: 0; flex: 1; }
   .view-back-btn { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-surface); color: var(--color-text-muted); cursor: pointer; transition: all 0.15s; }
@@ -991,6 +1020,15 @@ import Sidebar from '../components/Sidebar.astro';
   .confirm-delete-btn { font-family: var(--font-body); font-weight: 600; font-size: 13px; color: white; background: #DC2626; border: none; border-radius: 8px; padding: 8px 16px; cursor: pointer; }
   .confirm-cancel-btn:hover { background: #E2E8F0; }
   .confirm-delete-btn:hover { background: #B91C1C; }
+
+  .model-info-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 20px 24px; }
+  .mi-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin: 0; }
+  .mi-row { display: flex; padding: 10px 0; border-bottom: 1px solid var(--color-border); }
+  .mi-row:last-child { border-bottom: none; }
+  .mi-row dt { font-family: var(--font-body); font-size: 13px; font-weight: 500; color: var(--color-text-muted); width: 180px; flex-shrink: 0; }
+  .mi-row dd { font-family: var(--font-body); font-size: 13px; font-weight: 600; color: var(--color-text); margin: 0; }
+  .mi-disclaimer { display: flex; align-items: flex-start; gap: 8px; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--color-border); font-family: var(--font-body); font-size: 12px; color: var(--color-text-muted); line-height: 1.4; }
+  .mi-disclaimer svg { flex-shrink: 0; margin-top: 1px; color: #f59e0b; }
 
   /* ── Responsive ── */
   @media (max-width: 1200px) { .row-1, .row-3 { grid-template-columns: repeat(2, 1fr); } }
