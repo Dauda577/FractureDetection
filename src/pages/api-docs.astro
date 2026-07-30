@@ -1,0 +1,244 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Footer from '../components/Footer.astro';
+
+const codeAnalyze = `{
+  "image": "<binary X-ray file>",
+  "patient_id": "uuid (optional)",
+  "anatomical_site": "auto | wrist | hand | elbow | shoulder | hip | knee | ankle | spine | chest"
+}`;
+
+const codeResponse = `{
+  "id": "a1b2c3d4-...",
+  "prediction": "fracture",
+  "confidence": 0.973,
+  "inference_time": 0.42,
+  "ood_score": 18.4,
+  "heatmap_url": "https://...",
+  "findings": ["Bone discontinuity detected in the distal radius"],
+  "created_at": "2026-07-28T14:30:00Z"
+}`;
+
+const codeBatchRequest = `{
+  "images": ["<binary>", "<binary>", "..."],
+  "patient_id": "uuid (optional)",
+  "webhook_url": "https://your-server.com/webhook (optional)"
+}`;
+
+const codeBatchResponse = `{
+  "batch_id": "b1c2d3e4-...",
+  "status": "processing",
+  "image_count": 3,
+  "estimated_completion": "2026-07-28T14:30:12Z"
+}`;
+
+const codePatient = `{
+  "name": "John Doe",
+  "age": 45,
+  "gender": "male",
+  "medical_record_id": "MRN-12345",
+  "notes": "Previous wrist fracture in 2023"
+}`;
+
+const codeWebhook = `POST /your-webhook-url
+{
+  "event": "analysis.completed",
+  "analysis_id": "a1b2c3d4-...",
+  "prediction": "fracture",
+  "confidence": 0.973,
+  "timestamp": "2026-07-28T14:30:05Z"
+}`;
+
+const codeQueryParams = `?include_heatmap=true     # Include heatmap image URL
+?include_image=true      # Include original image URL`;
+---
+
+<Layout title="API Docs" description="FractureDetect API Documentation - Integrate AI fracture detection into your workflow" active="api-docs" variant="marketing">
+  <main class="page-enter">
+    <section class="hero api-hero">
+      <div class="hero-container">
+        <div class="hero-content reveal" style="transition-delay:0.1s">
+          <div class="hero-badge">
+            <span class="badge-dot"></span>
+            API Reference
+          </div>
+          <h1 class="hero-title">Integrate <span class="text-gradient">FractureDetect</span> into your workflow</h1>
+          <p class="hero-description">
+            REST API for programmatic X-ray analysis. Upload images, retrieve predictions with confidence scores and heatmaps, and manage patients.
+          </p>
+          <div class="hero-actions">
+            <a href="#endpoints" class="btn btn-primary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              View Endpoints
+            </a>
+            <a href="/signup" class="btn btn-secondary">Get API Key</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="api-content reveal" style="transition-delay:0.1s">
+      <div class="api-grid">
+        <nav class="api-nav" aria-label="API navigation">
+          <h3>Endpoints</h3>
+          <a href="#auth" class="api-nav-link">Authentication</a>
+          <a href="#analyze" class="api-nav-link">Analyze X-ray</a>
+          <a href="#batch" class="api-nav-link">Batch Analysis</a>
+          <a href="#patients" class="api-nav-link">Patients</a>
+          <a href="#results" class="api-nav-link">Retrieve Results</a>
+          <a href="#webhooks" class="api-nav-link">Webhooks</a>
+          <a href="#errors" class="api-nav-link">Error Codes</a>
+          <a href="#rate-limits" class="api-nav-link">Rate Limits</a>
+        </nav>
+
+        <div class="api-sections">
+          <section id="auth" class="api-section">
+            <h2>Authentication</h2>
+            <p>All API requests require a Bearer token in the Authorization header.</p>
+            <div class="code-block">
+              <pre><code>Authorization: Bearer YOUR_API_KEY</code></pre>
+            </div>
+            <p>Get your API key from the <a href="/account">Account Dashboard</a> under Settings &rarr; API Keys. Keep it secret and never expose it client-side.</p>
+          </section>
+
+          <section id="analyze" class="api-section">
+            <h2>Analyze X-ray</h2>
+            <p>Submit a single X-ray image for fracture detection analysis.</p>
+            <div class="api-method"><span class="method-post">POST</span><code>/v1/analyze</code></div>
+            <h4>Request Body (multipart/form-data)</h4>
+            <div class="code-block"><pre><code>{codeAnalyze}</code></pre></div>
+            <h4>Response</h4>
+            <div class="code-block"><pre><code>{codeResponse}</code></pre></div>
+          </section>
+
+          <section id="batch" class="api-section">
+            <h2>Batch Analysis</h2>
+            <p>Submit multiple X-ray images for sequential analysis.</p>
+            <div class="api-method"><span class="method-post">POST</span><code>/v1/analyze/batch</code></div>
+            <h4>Request Body (multipart/form-data)</h4>
+            <div class="code-block"><pre><code>{codeBatchRequest}</code></pre></div>
+            <h4>Response</h4>
+            <div class="code-block"><pre><code>{codeBatchResponse}</code></pre></div>
+          </section>
+
+          <section id="patients" class="api-section">
+            <h2>Patients</h2>
+            <div class="api-method"><span class="method-post">POST</span><code>/v1/patients</code></div>
+            <h4>Request Body</h4>
+            <div class="code-block"><pre><code>{codePatient}</code></pre></div>
+            <div class="api-method"><span class="method-get">GET</span><code>/v1/patients</code></div>
+            <p>List all patients for the authenticated user. Returns paginated results.</p>
+            <div class="api-method"><span class="method-get">GET</span><code>/v1/patients/:id</code></div>
+            <p>Retrieve a single patient by ID, including linked analyses.</p>
+          </section>
+
+          <section id="results" class="api-section">
+            <h2>Retrieve Results</h2>
+            <div class="api-method"><span class="method-get">GET</span><code>/v1/analyze/:id</code></div>
+            <p>Retrieve the results of a completed or in-progress analysis by its ID.</p>
+            <h4>Query Parameters</h4>
+            <div class="code-block"><pre><code>{codeQueryParams}</code></pre></div>
+            <div class="api-method"><span class="method-get">GET</span><code>/v1/analyze/history</code></div>
+            <p>List all analyses for the authenticated user. Supports <code>?patient_id=</code> and <code>?prediction=</code> filters. Paginated with <code>?page=</code> and <code>?limit=</code> (max 100).</p>
+          </section>
+
+          <section id="webhooks" class="api-section">
+            <h2>Webhooks</h2>
+            <p>Receive real-time notifications when analysis completes. Register a webhook URL in your account settings.</p>
+            <h4>Event Payload</h4>
+            <div class="code-block"><pre><code>{codeWebhook}</code></pre></div>
+            <p>We retry failed deliveries up to 5 times with exponential backoff. Webhooks must respond with HTTP 200 within 10 seconds.</p>
+          </section>
+
+          <section id="errors" class="api-section">
+            <h2>Error Codes</h2>
+            <table class="error-table">
+              <tr><th>Status</th><th>Code</th><th>Description</th></tr>
+              <tr><td>400</td><td><code>invalid_image</code></td><td>Image format not supported or file corrupted</td></tr>
+              <tr><td>400</td><td><code>image_too_large</code></td><td>Image exceeds 10MB limit</td></tr>
+              <tr><td>401</td><td><code>unauthorized</code></td><td>Missing or invalid API key</td></tr>
+              <tr><td>404</td><td><code>not_found</code></td><td>Analysis or patient not found</td></tr>
+              <tr><td>429</td><td><code>rate_limited</code></td><td>Too many requests &mdash; slow down</td></tr>
+              <tr><td>500</td><td><code>inference_failed</code></td><td>Model processing error &mdash; retry</td></tr>
+            </table>
+          </section>
+
+          <section id="rate-limits" class="api-section">
+            <h2>Rate Limits</h2>
+            <table class="error-table">
+              <tr><th>Plan</th><th>Requests/min</th><th>Batch size</th><th>Concurrency</th></tr>
+              <tr><td>Free</td><td>10</td><td>3 images</td><td>1</td></tr>
+              <tr><td>Pro</td><td>60</td><td>20 images</td><td>3</td></tr>
+              <tr><td>Enterprise</td><td>Custom</td><td>Unlimited</td><td>Custom</td></tr>
+            </table>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .api-hero { padding: 80px 24px 48px; text-align: center; }
+  .hero-container { max-width: var(--max-width); margin: 0 auto; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-body); font-size: 13px; font-weight: 500; color: var(--color-primary); background: rgba(37,99,235,0.08); padding: 6px 14px; border-radius: 20px; margin-bottom: 24px; letter-spacing: 0.02em; text-transform: uppercase; }
+  .hero-title { font-family: var(--font-heading); font-weight: 600; font-size: 44px; line-height: 1.15; color: var(--color-text); margin: 0 0 16px; letter-spacing: -0.02em; }
+  .text-gradient { background: linear-gradient(135deg, var(--color-primary), #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .hero-description { font-family: var(--font-body); font-size: 18px; line-height: 1.65; color: var(--color-text-muted); margin: 0 auto 28px; max-width: 600px; }
+  .hero-actions { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+  .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--color-primary); animation: pulse-dot 2s ease-in-out infinite; }
+  @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  .api-content { padding: 0 24px 80px; }
+  .api-grid { max-width: var(--max-width); margin: 0 auto; display: grid; grid-template-columns: 220px 1fr; gap: 48px; align-items: start; }
+  .api-nav { position: sticky; top: 88px; display: flex; flex-direction: column; gap: 4px; }
+  .api-nav h3 { font-family: var(--font-heading); font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-text-muted); margin: 0 0 12px; }
+  .api-nav-link { font-family: var(--font-body); font-size: 14px; color: var(--color-text-muted); text-decoration: none; padding: 6px 12px; border-radius: 6px; transition: all 0.15s; }
+  .api-nav-link:hover { color: var(--color-primary); background: rgba(37,99,235,0.06); }
+
+  .api-sections { display: flex; flex-direction: column; gap: 48px; }
+  .api-section { scroll-margin-top: 88px; padding-bottom: 36px; border-bottom: 1px solid var(--color-border); }
+  .api-section:last-child { border-bottom: none; }
+  .api-section h2 { font-family: var(--font-heading); font-weight: 600; font-size: 24px; color: var(--color-text); margin: 0 0 12px; letter-spacing: -0.01em; }
+  .api-section h4 { font-family: var(--font-heading); font-weight: 600; font-size: 14px; color: var(--color-text); margin: 24px 0 10px; }
+  .api-section p { font-family: var(--font-body); font-size: 15px; line-height: 1.65; color: var(--color-text-muted); margin: 0 0 14px; }
+  .api-section a { color: var(--color-primary); text-decoration: underline; text-underline-offset: 2px; }
+
+  .api-method { display: flex; align-items: center; gap: 10px; font-size: 14px; margin: 16px 0 12px; }
+  .api-method code { font-family: Consolas, Monaco, 'Courier New', monospace; font-weight: 600; color: var(--color-text); }
+  .method-post, .method-get { display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-body); font-weight: 700; font-size: 11px; padding: 3px 10px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.04em; min-width: 44px; }
+  .method-post { color: #16a34a; background: rgba(22,163,74,0.1); }
+  .method-get { color: #2563eb; background: rgba(37,99,235,0.1); }
+
+  .code-block { background: #0B1121; border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius-md); padding: 18px 20px; overflow-x: auto; margin: 12px 0 16px; }
+  .code-block pre { margin: 0; }
+  .code-block code { font-family: Consolas, Monaco, 'Courier New', monospace; font-size: 13px; line-height: 1.7; color: #e2e8f0; white-space: pre; display: block; }
+
+  .error-table { width: 100%; border-collapse: collapse; font-family: var(--font-body); font-size: 14px; margin-top: 8px; }
+  .error-table th { text-align: left; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-text-muted); padding: 10px 12px 8px; border-bottom: 2px solid var(--color-border); }
+  .error-table td { padding: 10px 12px; border-bottom: 1px solid var(--color-border); color: var(--color-text-muted); }
+  .error-table td:first-child, .error-table th:first-child { padding-left: 0; }
+  .error-table td:last-child, .error-table th:last-child { padding-right: 0; }
+  .error-table code { font-family: Consolas, Monaco, monospace; font-size: 13px; background: var(--color-bg-subtle); padding: 2px 6px; border-radius: 4px; color: var(--color-text); }
+
+  @media (max-width: 1024px) {
+    .hero-title { font-size: 38px; }
+  }
+  @media (max-width: 900px) {
+    .api-grid { grid-template-columns: 1fr; gap: 0; }
+    .api-nav { position: static; flex-direction: row; flex-wrap: wrap; gap: 6px; margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid var(--color-border); }
+    .api-nav h3 { display: none; }
+    .api-nav-link { font-size: 13px; padding: 5px 10px; border: 1px solid var(--color-border); border-radius: 6px; }
+  }
+  @media (max-width: 768px) {
+    .api-hero { padding: 60px 20px 40px; }
+    .hero-title { font-size: 30px; }
+    .hero-description { font-size: 16px; }
+  }
+  @media (max-width: 480px) {
+    .hero-title { font-size: 24px; }
+    .hero-description { font-size: 15px; }
+    .api-section h2 { font-size: 20px; }
+  }
+</style>
