@@ -1,0 +1,413 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Footer from '../components/Footer.astro';
+---
+<Layout title="Careers" description="Join FractureDetect - Help us build the future of AI-powered medical imaging" active="careers" variant="marketing">
+  <main class="page-enter">
+    <section class="hero careers-hero">
+      <div class="hero-container">
+        <div class="hero-content reveal" style="transition-delay:0.1s">
+          <div class="hero-badge">
+            <span class="badge-dot"></span>
+            Careers
+          </div>
+          <h1 class="hero-title">Build the future of <span class="text-gradient">AI in healthcare</span></h1>
+          <p class="hero-description">
+            We're looking for passionate engineers, researchers, and clinicians who want to make medical imaging faster, smarter, and more accessible.
+          </p>
+          <div class="hero-actions">
+            <a href="#openings" class="btn btn-primary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              View Openings
+            </a>
+            <a href="/contact" class="btn btn-secondary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              Contact Us
+            </a>
+          </div>
+        </div>
+        <div class="hero-visual reveal-right" style="transition-delay:0.2s">
+          <div class="careers-visual fd-tilt" data-tilt-max="4">
+            <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="20" y="20" width="360" height="260" rx="16" fill="#0B1121" stroke="rgba(37,99,235,0.2)" stroke-width="1"/>
+              <ellipse cx="200" cy="150" rx="100" ry="70" fill="rgba(37,99,235,0.05)"/>
+              <g transform="translate(80, 60)">
+                <circle cx="0" cy="0" r="30" fill="rgba(37,99,235,0.15)" stroke="#2563eb" stroke-width="2"/>
+                <text x="0" y="5" text-anchor="middle" font-family="Inter, sans-serif" font-size="16" font-weight="700" fill="#2563eb">ML</text>
+              </g>
+              <g transform="translate(180, 40)">
+                <circle cx="0" cy="0" r="28" fill="rgba(168,85,247,0.15)" stroke="#a855f7" stroke-width="2"/>
+                <text x="0" y="5" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#a855f7">Eng</text>
+              </g>
+              <g transform="translate(60, 140)">
+                <circle cx="0" cy="0" r="26" fill="rgba(34,197,94,0.15)" stroke="#22c55e" stroke-width="2"/>
+                <text x="0" y="5" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="#22c55e">Clin</text>
+              </g>
+              <g transform="translate(180, 160)">
+                <circle cx="0" cy="0" r="30" fill="rgba(245,158,11,0.15)" stroke="#f59e0b" stroke-width="2"/>
+                <text x="0" y="5" text-anchor="middle" font-family="Inter, sans-serif" font-size="16" font-weight="700" fill="#f59e0b">UX</text>
+              </g>
+              <g transform="translate(120, 90)">
+                <circle cx="0" cy="0" r="22" fill="rgba(239,68,68,0.12)" stroke="#ef4444" stroke-width="2"/>
+                <text x="0" y="6" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="#ef4444">QA</text>
+              </g>
+              <g transform="translate(260, 100)">
+                <circle cx="0" cy="0" r="25" fill="rgba(37,99,235,0.12)" stroke="#2563eb" stroke-width="2"/>
+                <text x="0" y="5" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#2563eb">Dev</text>
+              </g>
+              <line x1="80" y1="30" x2="120" y2="90" stroke="rgba(37,99,235,0.15)" stroke-width="1"/>
+              <line x1="180" y1="40" x2="120" y2="90" stroke="rgba(168,85,247,0.15)" stroke-width="1"/>
+              <line x1="60" y1="140" x2="120" y2="90" stroke="rgba(34,197,94,0.15)" stroke-width="1"/>
+              <line x1="180" y1="160" x2="120" y2="90" stroke="rgba(245,158,11,0.15)" stroke-width="1"/>
+              <line x1="260" y1="100" x2="120" y2="90" stroke="rgba(37,99,235,0.15)" stroke-width="1"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="why-fd reveal" style="transition-delay:0.1s">
+      <div class="section-header">
+        <div class="section-badge">Why FractureDetect</div>
+        <h2 class="section-title">Work that saves lives</h2>
+        <p class="section-desc">Every line of code you write helps clinicians detect fractures faster and more accurately.</p>
+      </div>
+      <div class="why-grid">
+        <div class="why-card">
+          <div class="why-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h3>Mission-Driven</h3>
+          <p>Your work directly improves patient outcomes. We're building tools that emergency rooms and clinics rely on every day.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </div>
+          <h3>Cutting-Edge Tech</h3>
+          <p>Work with state-of-the-art deep learning models, computer vision pipelines, and medical imaging standards like DICOM and HL7 FHIR.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <h3>Inclusive Culture</h3>
+          <p>We hire from diverse backgrounds — clinicians, engineers, researchers — and value different perspectives on healthcare challenges.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="perks reveal" style="transition-delay:0.1s">
+      <div class="section-header">
+        <div class="section-badge">Benefits</div>
+        <h2 class="section-title">What we offer</h2>
+        <p class="section-desc">Comprehensive benefits to support you and your family</p>
+      </div>
+      <div class="perks-grid">
+        <div class="perk-item">
+          <div class="perk-icon-wrap">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          </div>
+          <h3>Remote-First</h3>
+          <p>Work from anywhere in the world. We have hubs in SF, NYC, and London if you prefer an office.</p>
+        </div>
+        <div class="perk-item">
+          <div class="perk-icon-wrap">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          </div>
+          <h3>Health & Wellness</h3>
+          <p>Full medical, dental, and vision coverage. Mental health support and annual wellness stipend.</p>
+        </div>
+        <div class="perk-item">
+          <div class="perk-icon-wrap">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+          </div>
+          <h3>Flexible PTO</h3>
+          <p>Take the time you need. We trust our team to manage their own schedules responsibly.</p>
+        </div>
+        <div class="perk-item">
+          <div class="perk-icon-wrap">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+          </div>
+          <h3>Learning Budget</h3>
+          <p>$5,000/year for conferences, courses, certifications, and professional development.</p>
+        </div>
+        <div class="perk-item">
+          <div class="perk-icon-wrap">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-6z"/><path d="M15 4h4"/><path d="M7 8h10"/><path d="M7 12h10"/><path d="M7 16h10"/></svg>
+          </div>
+          <h3>Home Office Setup</h3>
+          <p>$2,000 equipment budget plus monthly internet and coworking space reimbursement.</p>
+        </div>
+        <div class="perk-item">
+          <div class="perk-icon-wrap">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <h3>Equity</h3>
+          <p>Meaningful stock options so you share in the growth you help create. Early-stage upside.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="openings reveal" id="openings" style="transition-delay:0.1s">
+      <div class="section-header">
+        <div class="section-badge">Open Positions</div>
+        <h2 class="section-title">Join our team</h2>
+        <p class="section-desc">We're growing fast and hiring across multiple disciplines</p>
+      </div>
+      <div class="openings-grid">
+        <div class="opening-department">
+          <h3 class="dept-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"/><path d="M8.5 8.5a4 4 0 0 0 0 8"/></svg>
+            Engineering
+          </h3>
+          <div class="opening-card">
+            <div class="oc-header">
+              <h4>Senior ML Engineer</h4>
+              <span class="oc-tag">Remote · Full-Time</span>
+            </div>
+            <p class="oc-desc">Build and deploy computer vision models for medical image analysis. Experience with PyTorch, segmentation models, and production ML pipelines.</p>
+            <a href="mailto:careers@fracturedetect.ai?subject=Senior%20ML%20Engineer" class="oc-apply">Apply <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></a>
+          </div>
+          <div class="opening-card">
+            <div class="oc-header">
+              <h4>Full-Stack Engineer</h4>
+              <span class="oc-tag">Remote · Full-Time</span>
+            </div>
+            <p class="oc-desc">Build and maintain our web platform. TypeScript, Node.js, React, and cloud infrastructure experience. Healthcare data experience is a plus.</p>
+            <a href="mailto:careers@fracturedetect.ai?subject=Full-Stack%20Engineer" class="oc-apply">Apply <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></a>
+          </div>
+        </div>
+
+        <div class="opening-department">
+          <h3 class="dept-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            Clinical & Research
+          </h3>
+          <div class="opening-card">
+            <div class="oc-header">
+              <h4>Clinical Research Scientist</h4>
+              <span class="oc-tag">Hybrid · Full-Time</span>
+            </div>
+            <p class="oc-desc">Lead clinical validation studies for our AI models. MD or PhD with experience in radiology research, IRB protocols, and FDA regulatory processes.</p>
+            <a href="mailto:careers@fracturedetect.ai?subject=Clinical%20Research%20Scientist" class="oc-apply">Apply <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></a>
+          </div>
+          <div class="opening-card">
+            <div class="oc-header">
+              <h4>Radiologist Consultant (Part-Time)</h4>
+              <span class="oc-tag">Remote · Contract</span>
+            </div>
+            <p class="oc-desc">Provide clinical expertise for model annotation, validation, and product guidance. Board-certified radiologist with active license.</p>
+            <a href="mailto:careers@fracturedetect.ai?subject=Radiologist%20Consultant" class="oc-apply">Apply <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></a>
+          </div>
+        </div>
+
+        <div class="opening-department">
+          <h3 class="dept-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            Design & Product
+          </h3>
+          <div class="opening-card">
+            <div class="oc-header">
+              <h4>Product Designer</h4>
+              <span class="oc-tag">Remote · Full-Time</span>
+            </div>
+            <p class="oc-desc">Design intuitive clinical workflows for radiologists and ER physicians. Figma, design systems, and experience with health tech UX preferred.</p>
+            <a href="mailto:careers@fracturedetect.ai?subject=Product%20Designer" class="oc-apply">Apply <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></a>
+          </div>
+        </div>
+
+        <div class="opening-department">
+          <h3 class="dept-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            Operations
+          </h3>
+          <div class="opening-card">
+            <div class="oc-header">
+              <h4>Regulatory Affairs Manager</h4>
+              <span class="oc-tag">Remote · Full-Time</span>
+            </div>
+            <p class="oc-desc">Lead FDA 510(k) clearance process for medical device software. Experience with SaMD, ISO 13485, and quality management systems required.</p>
+            <a href="mailto:careers@fracturedetect.ai?subject=Regulatory%20Affairs%20Manager" class="oc-apply">Apply <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></a>
+          </div>
+          <div class="opening-card">
+            <div class="oc-header">
+              <h4>Customer Success Lead</h4>
+              <span class="oc-tag">Remote · Full-Time</span>
+            </div>
+            <p class="oc-desc">Onboard and support clinical customers. Build scalable processes, gather product feedback, and help hospitals deploy AI tools effectively.</p>
+            <a href="mailto:careers@fracturedetect.ai?subject=Customer%20Success%20Lead" class="oc-apply">Apply <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></a>
+          </div>
+        </div>
+      </div>
+      <div class="openings-note">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <span>Don't see a role that fits? Send your resume to <a href="mailto:careers@fracturedetect.ai">careers@fracturedetect.ai</a> — we're always looking for exceptional people.</span>
+      </div>
+    </section>
+
+    <section class="values reveal" style="transition-delay:0.1s">
+      <div class="section-header">
+        <div class="section-badge">Our Values</div>
+        <h2 class="section-title">What we believe in</h2>
+        <p class="section-desc">The principles that guide every decision we make</p>
+      </div>
+      <div class="values-grid">
+        <div class="value-card">
+          <div class="value-num">01</div>
+          <h3>Patient-First Always</h3>
+          <p>Every decision, from architecture to pixel placement, starts with "Does this help patients?"</p>
+        </div>
+        <div class="value-card">
+          <div class="value-num">02</div>
+          <h3>Scientific Rigor</h3>
+          <p>We validate claims with evidence. No black boxes — our models are tested, peer-reviewed, and explainable.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-num">03</div>
+          <h3>Radical Transparency</h3>
+          <p>Open communication, honest feedback, and shared context across every level of the organization.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-num">04</div>
+          <h3>Bias to Action</h3>
+          <p>We ship, learn, and iterate. In healthcare, speed matters — a faster diagnosis means a faster path to treatment.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-num">05</div>
+          <h3>Diverse Perspectives</h3>
+          <p>AI for healthcare must represent the patients it serves. We build diverse teams to build fairer models.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-num">06</div>
+          <h3>Responsible AI</h3>
+          <p>We consider the ethical implications of every feature. AI is an assistive tool, never a replacement for clinical judgment.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta reveal" style="transition-delay:0.1s">
+      <div class="cta-container">
+        <div class="cta-content">
+          <h2 class="cta-title">Ready to make an impact?</h2>
+          <p class="cta-desc">Join a team of engineers, clinicians, and researchers building the future of AI-powered medical imaging.</p>
+          <div class="cta-buttons">
+            <a href="mailto:careers@fracturedetect.ai" class="btn btn-primary">Apply Now</a>
+            <a href="/contact" class="btn btn-secondary">Contact Us</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .careers-hero { min-height: calc(100vh - 68px); display: flex; align-items: center; position: relative; overflow: hidden; padding: 48px 24px; }
+  .hero-container { max-width: var(--max-width); margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; width: 100%; position: relative; z-index: 1; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-body); font-size: 13px; font-weight: 500; color: var(--color-primary); background: rgba(37,99,235,0.08); padding: 6px 14px; border-radius: 20px; margin-bottom: 24px; letter-spacing: 0.02em; text-transform: uppercase; }
+  .hero-title { font-family: var(--font-heading); font-weight: 600; font-size: 44px; line-height: 1.15; color: var(--color-text); margin: 0 0 20px; letter-spacing: -0.02em; }
+  .text-gradient { background: linear-gradient(135deg, var(--color-primary), #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .hero-description { font-family: var(--font-body); font-weight: 400; font-size: 18px; line-height: 1.65; color: var(--color-text-muted); margin: 0 0 36px; max-width: 520px; }
+  .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+  .hero-visual { display: flex; justify-content: center; align-items: center; min-width: 0; }
+  .careers-visual { position: relative; width: 100%; max-width: 480px; border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 8px 32px rgba(37,99,235,0.15); background: var(--color-surface); border: 1px solid var(--color-border); }
+  .careers-visual svg { display: block; width: 100%; height: auto; }
+
+  .section-header { text-align: center; max-width: 600px; margin: 0 auto 40px; padding: 0 24px; }
+  .section-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-body); font-size: 12px; font-weight: 500; color: var(--color-primary); background: rgba(37,99,235,0.08); padding: 5px 12px; border-radius: 20px; margin-bottom: 16px; letter-spacing: 0.02em; text-transform: uppercase; }
+  .section-title { font-family: var(--font-heading); font-weight: 600; font-size: 32px; color: var(--color-text); margin: 0 0 12px; letter-spacing: -0.02em; }
+  .section-desc { font-family: var(--font-body); font-size: 16px; color: var(--color-text-muted); margin: 0; line-height: 1.5; }
+
+  .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--color-primary); animation: pulse-dot 2s ease-in-out infinite; }
+  @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  .why-fd { padding: 0 24px 80px; }
+  .why-grid { max-width: var(--max-width); margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .why-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 32px 28px; text-align: center; transition: all 0.25s ease; }
+  .why-card:hover { border-color: rgba(37,99,235,0.3); box-shadow: 0 8px 32px rgba(37,99,235,0.15); transform: translateY(-4px); }
+  .why-icon { width: 56px; height: 56px; border-radius: 16px; background: rgba(37,99,235,0.08); color: var(--color-primary); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
+  .why-card h3 { font-family: var(--font-heading); font-weight: 600; font-size: 18px; color: var(--color-text); margin: 0 0 8px; }
+  .why-card p { font-family: var(--font-body); font-size: 15px; line-height: 1.6; color: var(--color-text-muted); margin: 0; }
+
+  .perks { padding: 0 24px 80px; background: var(--color-bg-subtle); }
+  .perks-grid { max-width: var(--max-width); margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .perk-item { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 32px 24px; text-align: center; transition: all 0.25s ease; }
+  .perk-item:hover { border-color: rgba(37,99,235,0.3); box-shadow: 0 8px 32px rgba(37,99,235,0.12); transform: translateY(-4px); }
+  .perk-icon-wrap { width: 48px; height: 48px; border-radius: 12px; background: rgba(37,99,235,0.08); color: var(--color-primary); display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; }
+  .perk-item h3 { font-family: var(--font-heading); font-weight: 600; font-size: 16px; color: var(--color-text); margin: 0 0 8px; }
+  .perk-item p { font-family: var(--font-body); font-size: 14px; line-height: 1.6; color: var(--color-text-muted); margin: 0; }
+
+  .openings { padding: 0 24px 80px; }
+  .openings-grid { max-width: var(--max-width); margin: 0 auto; display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; }
+  .opening-department { display: flex; flex-direction: column; gap: 16px; }
+  .dept-title { font-family: var(--font-heading); font-weight: 600; font-size: 18px; color: var(--color-text); margin: 0; display: flex; align-items: center; gap: 8px; padding-bottom: 12px; border-bottom: 1px solid var(--color-border); }
+  .dept-title svg { flex-shrink: 0; color: var(--color-primary); }
+  .opening-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 24px; transition: all 0.2s ease; }
+  .opening-card:hover { border-color: rgba(37,99,235,0.3); box-shadow: 0 4px 16px rgba(37,99,235,0.08); }
+  .oc-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+  .oc-header h4 { font-family: var(--font-heading); font-weight: 600; font-size: 16px; color: var(--color-text); margin: 0; }
+  .oc-tag { font-family: var(--font-body); font-size: 12px; color: var(--color-text-muted); background: var(--color-bg-subtle); padding: 4px 10px; border-radius: 6px; white-space: nowrap; flex-shrink: 0; }
+  .oc-desc { font-family: var(--font-body); font-size: 14px; line-height: 1.5; color: var(--color-text-muted); margin: 0 0 14px; }
+  .oc-apply {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-family: var(--font-body); font-weight: 600; font-size: 13px; color: var(--color-primary);
+    text-decoration: none; padding: 6px 0; transition: gap 0.15s;
+  }
+  .oc-apply:hover { gap: 8px; }
+  .openings-note { max-width: var(--max-width); margin: 40px auto 0; padding: 20px 24px; background: var(--color-bg-subtle); border-radius: var(--radius-md); display: flex; align-items: flex-start; gap: 10px; font-family: var(--font-body); font-size: 14px; color: var(--color-text-muted); line-height: 1.5; }
+  .openings-note svg { flex-shrink: 0; color: var(--color-primary); margin-top: 1px; }
+  .openings-note a { color: var(--color-primary); text-decoration: underline; text-underline-offset: 2px; font-weight: 500; }
+
+  .values { padding: 0 24px 80px; background: var(--color-bg-subtle); }
+  .values-grid { max-width: var(--max-width); margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .value-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 28px 24px; transition: all 0.25s ease; }
+  .value-card:hover { border-color: rgba(37,99,235,0.3); box-shadow: 0 8px 32px rgba(37,99,235,0.12); transform: translateY(-4px); }
+  .value-num { font-family: var(--font-heading); font-weight: 700; font-size: 14px; color: var(--color-primary); margin-bottom: 8px; letter-spacing: 0.05em; }
+  .value-card h3 { font-family: var(--font-heading); font-weight: 600; font-size: 17px; color: var(--color-text); margin: 0 0 8px; }
+  .value-card p { font-family: var(--font-body); font-size: 14px; line-height: 1.6; color: var(--color-text-muted); margin: 0; }
+
+  .cta { padding: 0 24px 80px; }
+  .cta-container { max-width: var(--max-width); margin: 0 auto; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border-radius: var(--radius-lg); padding: 64px 40px; text-align: center; }
+  .cta-title { font-family: var(--font-heading); font-weight: 600; font-size: 32px; color: white; margin: 0 0 12px; letter-spacing: -0.02em; }
+  .cta-desc { font-family: var(--font-body); font-size: 17px; color: rgba(255,255,255,0.6); margin: 0 0 32px; }
+  .cta-buttons { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+  .cta-buttons .btn-primary { box-shadow: 0 4px 20px rgba(37,99,235,0.4); }
+  .cta-buttons .btn-secondary { color: white; border-color: rgba(255,255,255,0.2); background: transparent; }
+  .cta-buttons .btn-secondary:hover { border-color: white; color: white; }
+
+  @media (max-width: 1024px) {
+    .hero-title { font-size: 38px; }
+    .why-grid, .perks-grid, .values-grid { gap: 18px; }
+  }
+  @media (max-width: 900px) {
+    .hero-container { gap: 40px; }
+    .hero-title { font-size: 34px; }
+    .hero-description { font-size: 17px; }
+    .openings-grid { grid-template-columns: 1fr; gap: 24px; }
+  }
+  @media (max-width: 768px) {
+    .careers-hero { min-height: auto; }
+    .hero-container { grid-template-columns: 1fr; gap: 40px; padding: 40px 24px 0; }
+    .hero-content { order: 1; }
+    .hero-visual { order: 0; }
+    .careers-visual { max-width: 360px; }
+    .hero-title { font-size: 30px; }
+    .hero-description { font-size: 16px; max-width: none; }
+    .hero-actions { flex-direction: column; }
+    .hero-actions .btn { justify-content: center; width: 100%; }
+    .why-grid, .perks-grid, .values-grid { grid-template-columns: 1fr; }
+    .section-title { font-size: 26px; }
+    .openings-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) {
+    .hero-container { padding: 24px 20px 0; gap: 28px; }
+    .hero-title { font-size: 24px; }
+    .hero-description { font-size: 15px; margin-bottom: 24px; }
+    .hero-badge { font-size: 12px; padding: 5px 12px; margin-bottom: 16px; }
+    .cta-buttons { flex-direction: column; }
+    .btn { justify-content: center; width: 100%; font-size: 15px; padding: 13px 24px; }
+    .openings-grid { grid-template-columns: 1fr; }
+    .oc-header { flex-direction: column; gap: 6px; }
+  }
+</style>
