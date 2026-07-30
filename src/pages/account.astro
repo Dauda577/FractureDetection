@@ -402,7 +402,16 @@ import Sidebar from '../components/Sidebar.astro';
       var settingsMemberSince = document.getElementById('settings-member-since');
       if (settingsNameInput) settingsNameInput.value = user.name;
       if (settingsEmailInput) settingsEmailInput.value = user.email;
-      if (settingsAvatar) settingsAvatar.textContent = user.name.charAt(0).toUpperCase();
+      if (settingsAvatar) {
+        if (user.avatarUrl) {
+          settingsAvatar.style.backgroundImage = 'url(' + user.avatarUrl + ')';
+          settingsAvatar.style.backgroundSize = 'cover';
+          settingsAvatar.style.backgroundPosition = 'center';
+          settingsAvatar.textContent = '';
+        } else {
+          settingsAvatar.textContent = user.name.charAt(0).toUpperCase();
+        }
+      }
       if (settingsMemberSince) {
         settingsMemberSince.textContent = new Date(user.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
       }
@@ -492,19 +501,6 @@ import Sidebar from '../components/Sidebar.astro';
 
     var avatarInput = document.getElementById('avatar-input');
     var avatarImg = document.getElementById('settings-avatar');
-    async function loadStoredAvatar() {
-      try {
-        var { getUser } = await import('../scripts/auth.js');
-        var user = await getUser();
-        if (user && user.avatarUrl) {
-          avatarImg.style.backgroundImage = 'url(' + user.avatarUrl + ')';
-          avatarImg.style.backgroundSize = 'cover';
-          avatarImg.style.backgroundPosition = 'center';
-          avatarImg.textContent = '';
-        }
-      } catch (err) {}
-    }
-    loadStoredAvatar();
     document.getElementById('btn-change-avatar').addEventListener('click', function () {
       avatarInput.click();
     });
