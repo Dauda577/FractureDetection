@@ -466,12 +466,11 @@ import Footer from '../components/Footer.astro';
     var recent = patients.slice(0, 5);
     rpGrid.innerHTML = '';
     recent.forEach(function (p) {
-      var initials = (p.name || 'U').split(' ').map(function(w){ return w.charAt(0); }).join('').toUpperCase().slice(0,2);
       var chip = document.createElement('button');
       chip.className = 'rp-chip';
       chip.setAttribute('data-patient-id', p.id);
       chip.innerHTML =
-        '<span class="rp-chip-avatar">' + initials + '</span>' +
+        '<svg class="rp-chip-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>' +
         '<span class="rp-chip-name">' + (p.name || 'Unnamed') + '</span>';
       chip.addEventListener('click', function () {
         sessionStorage.setItem('fracturedetect:patient_id', p.id);
@@ -1316,15 +1315,16 @@ import Footer from '../components/Footer.astro';
   .rp-grid { display: flex; flex-wrap: wrap; gap: 8px; }
   .rp-empty { flex: 1 1 100%; text-align: center; font-family: var(--font-body); font-size: 13px; color: var(--color-neutral); padding: 12px; }
   .rp-chip {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 6px 14px 6px 6px;
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 14px;
     background: var(--color-bg-subtle); border: 1px solid var(--color-border);
     border-radius: 100px; font-family: var(--font-body); font-size: 13px;
     color: var(--color-text); cursor: pointer; transition: all 0.15s;
   }
   .rp-chip:hover { background: rgba(37,99,235,0.08); border-color: var(--color-primary); box-shadow: 0 2px 8px rgba(37,99,235,0.1); transform: translateY(-1px); }
-  .rp-chip-avatar { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, var(--color-primary), #1d4ed8); display: flex; align-items: center; justify-content: center; font-family: var(--font-heading); font-weight: 700; font-size: 11px; color: white; flex-shrink: 0; }
-  .rp-chip-name { font-weight: 600; }
+  .rp-chip-icon { color: var(--color-text-muted); flex-shrink: 0; }
+  .rp-chip:hover .rp-chip-icon { color: var(--color-primary); }
+  .rp-chip-name { font-weight: 500; }
 
   /* ── Auth Demo (Unauthenticated) ── */
   .auth-demo {
