@@ -513,17 +513,46 @@ import Sidebar from '../components/Sidebar.astro';
       if (!file) return;
       var reader = new FileReader();
       reader.onload = function (e) {
-        avatarImg.style.backgroundImage = 'url(' + e.target.result + ')';
+        var imgUrl = e.target.result;
+        avatarImg.style.backgroundImage = 'url(' + imgUrl + ')';
         avatarImg.style.backgroundSize = 'cover';
         avatarImg.style.backgroundPosition = 'center';
         avatarImg.textContent = '';
+
+        var topAvatar = document.getElementById('top-avatar');
+        if (topAvatar) {
+          topAvatar.style.backgroundImage = 'url(' + imgUrl + ')';
+          topAvatar.style.backgroundSize = 'cover';
+          topAvatar.style.backgroundPosition = 'center';
+          var topInitial = document.getElementById('top-avatar-initial');
+          if (topInitial) topInitial.textContent = '';
+        }
+
+        var sidebarAv = document.getElementById('sidebar-avatar');
+        if (sidebarAv) {
+          sidebarAv.style.backgroundImage = 'url(' + imgUrl + ')';
+          sidebarAv.style.backgroundSize = 'cover';
+          sidebarAv.style.backgroundPosition = 'center';
+          var sidebarInitial = document.getElementById('sidebar-initial');
+          if (sidebarInitial) sidebarInitial.textContent = '';
+        }
+
+        var navAv = document.getElementById('nav-avatar-icon');
+        if (navAv) {
+          navAv.innerHTML = '';
+          navAv.style.backgroundImage = 'url(' + imgUrl + ')';
+          navAv.style.backgroundSize = 'cover';
+          navAv.style.backgroundPosition = 'center';
+        }
+
         import('../lib/supabase.js').then(function (m) {
           m.supabase.auth.getSession().then(function (res) {
             if (res.data.session) {
-              m.supabase.auth.updateUser({ data: { avatar_url: e.target.result } });
+              m.supabase.auth.updateUser({ data: { avatar_url: imgUrl } });
             }
           });
         });
+
         if (window.showToast) window.showToast({ type: 'success', message: 'Photo saved.' });
       };
       reader.readAsDataURL(file);
