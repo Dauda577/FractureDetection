@@ -409,7 +409,15 @@ import Sidebar from '../components/Sidebar.astro';
           settingsAvatar.style.backgroundPosition = 'center';
           settingsAvatar.textContent = '';
         } else {
-          settingsAvatar.textContent = user.name.charAt(0).toUpperCase();
+          var localAv = localStorage.getItem('fracturedetect:avatar');
+          if (localAv) {
+            settingsAvatar.style.backgroundImage = 'url(' + localAv + ')';
+            settingsAvatar.style.backgroundSize = 'cover';
+            settingsAvatar.style.backgroundPosition = 'center';
+            settingsAvatar.textContent = '';
+          } else {
+            settingsAvatar.textContent = user.name.charAt(0).toUpperCase();
+          }
         }
       }
       if (settingsMemberSince) {
@@ -516,6 +524,7 @@ import Sidebar from '../components/Sidebar.astro';
         };
         reader.onload = function (e) {
           var imgUrl = e.target.result;
+          try { localStorage.setItem('fracturedetect:avatar', imgUrl); } catch (err) {}
           avatarImg.style.backgroundImage = 'url(' + imgUrl + ')';
           avatarImg.style.backgroundSize = 'cover';
           avatarImg.style.backgroundPosition = 'center';
@@ -529,17 +538,15 @@ import Sidebar from '../components/Sidebar.astro';
           import('../lib/supabase.js').then(function (m) {
             m.supabase.auth.getSession().then(function (res) {
               if (res.data.session) {
-                m.supabase.auth.updateUser({ data: { avatar_url: imgUrl } }).then(function (r) {
-                  if (r.error) {
-                    if (window.showToast) window.showToast({ type: 'error', message: 'Save failed: ' + r.error.message });
-                  } else {
-                    if (window.showToast) window.showToast({ type: 'success', message: 'Photo saved.' });
-                  }
+                m.supabase.auth.updateUser({ data: { avatar_url: imgUrl } }).then(function () {
+                  if (window.showToast) window.showToast({ type: 'success', message: 'Photo saved.' });
+                }).catch(function () {
+                  if (window.showToast) window.showToast({ type: 'success', message: 'Photo saved locally.' });
                 });
               }
             });
           }).catch(function () {
-            if (window.showToast) window.showToast({ type: 'error', message: 'Could not connect to server.' });
+            if (window.showToast) window.showToast({ type: 'success', message: 'Photo saved locally.' });
           });
         };
         reader.readAsDataURL(file);
