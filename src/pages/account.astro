@@ -349,7 +349,7 @@ import Sidebar from '../components/Sidebar.astro';
                     </div>
                   </div>
 
-                  <div class="settings-section settings-danger">
+                  <div class="settings-section settings-section-full settings-danger">
                     <h3 class="settings-section-title settings-section-title-danger">Danger Zone</h3>
                     <p class="settings-danger-desc">Once you delete your account, there is no going back. All patient records, analyses, and uploaded images will be permanently removed.</p>
                     <button class="settings-danger-btn" id="btn-delete-account">
@@ -872,7 +872,7 @@ import Sidebar from '../components/Sidebar.astro';
   .dash-page { position: relative; background: var(--color-bg-subtle); min-height: calc(100vh - 68px); padding: 0; }
   .dash-layout { display: flex; max-width: 100%; min-height: calc(100vh - 68px); }
   .dash-main { flex: 1; min-width: 0; background: var(--color-bg-subtle); margin-left: 256px; }
-  .dash-content { max-width: 1400px; padding: 24px 32px 40px; margin: 0 auto; }
+  .dash-content { max-width: 960px; padding: 24px 32px 40px; margin: 0 auto; }
 
   /* ── Top Bar ── */
   .top-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; gap: 16px; }
@@ -1070,9 +1070,9 @@ import Sidebar from '../components/Sidebar.astro';
 
   /* ── Settings ── */
   .settings-grid { max-width: 640px; }
-  .settings-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 32px; box-shadow: 0 1px 4px rgba(0,0,0,0.03); }
-  .settings-section { margin-bottom: 32px; padding-bottom: 28px; border-bottom: 1px solid var(--color-border); }
-  .settings-section:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+  .settings-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 28px; box-shadow: 0 1px 4px rgba(0,0,0,0.03); display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+  .settings-section { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+  .settings-section.settings-section-full { grid-column: 1 / -1; }
   .settings-section-title { font-family: var(--font-heading); font-weight: 600; font-size: 16px; color: var(--color-text); margin: 0 0 16px; }
   .settings-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; gap: 16px; }
   .settings-key { font-family: var(--font-body); font-size: 14px; font-weight: 500; color: var(--color-text); }
@@ -1162,6 +1162,8 @@ import Sidebar from '../components/Sidebar.astro';
     .top-title { font-size: 22px; }
     .top-bar { flex-direction: column; align-items: flex-start; }
     .top-right { width: 100%; justify-content: flex-end; }
+    .settings-card { grid-template-columns: 1fr; }
+    .settings-grid { max-width: 100%; }
   }
   @media (max-width: 600px) {
     .dash-content { padding: 16px 16px 24px; }
