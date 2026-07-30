@@ -57,33 +57,8 @@ import Sidebar from '../components/Sidebar.astro';
                       <span>Notifications</span>
                       <button class="notif-clear-btn" id="btn-notif-clear">Clear all</button>
                     </div>
-                    <div class="notif-list">
-                      <div class="notif-item notif-unread">
-                        <span class="notif-dot-item"></span>
-                        <div class="notif-body">
-                          <p class="notif-text">Analysis complete: <strong>Left wrist X-ray</strong> — Fracture detected (97.3%)</p>
-                          <span class="notif-time">2 minutes ago</span>
-                        </div>
-                      </div>
-                      <div class="notif-item notif-unread">
-                        <span class="notif-dot-item"></span>
-                        <div class="notif-body">
-                          <p class="notif-text">Batch analysis finished: <strong>3 images</strong> processed successfully</p>
-                          <span class="notif-time">45 minutes ago</span>
-                        </div>
-                      </div>
-                      <div class="notif-item">
-                        <div class="notif-body">
-                          <p class="notif-text">New patient <strong>Jane Cooper</strong> registered by Dr. Miller</p>
-                          <span class="notif-time">3 hours ago</span>
-                        </div>
-                      </div>
-                      <div class="notif-item">
-                        <div class="notif-body">
-                          <p class="notif-text">Model updated to <strong>v2.1.0</strong> — improved hip detection accuracy</p>
-                          <span class="notif-time">2 days ago</span>
-                        </div>
-                      </div>
+                    <div class="notif-list" id="notif-list">
+                      <div class="notif-empty">Loading...</div>
                     </div>
                   </div>
                   <div class="top-avatar" id="top-avatar">
@@ -571,9 +546,78 @@ import Sidebar from '../components/Sidebar.astro';
 
   var btnNotif = document.getElementById('btn-notifications');
   var notifDropdown = document.getElementById('notif-dropdown');
+  var notifList = document.getElementById('notif-list');
+  var notifDot = document.querySelector('.notif-dot');
+
+  async function loadNotifications() {
+    var items = [];
+    try {
+      var { supabase } = await import('../lib/supabase.js');
+      var { data: { session } } = await supabase.auth.getSession();
+      if (!session) return;
+
+      var userId = session.user.id;
+      var [{ data: analyses }, { data: patients }] = await Promise.all([
+        supabase.from('analyses').select('id, prediction, confidence, created_at').eq('user_id', userId).order('created_at', { ascending: false }).limit(5),
+        supabase.from('patients').select('id, name, created_at').eq('user_id', userId).order('created_at', { ascending: false }).limit(3)
+      ]);
+
+      (analyses || []).forEach(function (a) {
+        var pred = a.prediction === 'fracture' ? 'Fracture detected' : 'Normal';
+        var conf = (a.confidence * 100).toFixed(1) + '%';
+        items.push({
+          text: 'Analysis complete — <strong>' + pred + '</strong> (' + conf + ' confidence)',
+          time: timeAgo(new Date(a.created_at)),
+          unread: true
+        });
+      });
+
+      (patients || []).forEach(function (p) {
+        items.push({
+          text: 'New patient registered: <strong>' + p.name + '</strong>',
+          time: timeAgo(new Date(p.created_at)),
+          unread: true
+        });
+      });
+
+      if (items.length === 0) {
+        items.push({ text: 'Model updated to <strong>v2.1.0</strong>', time: 'Recently', unread: false });
+        items.push({ text: 'Welcome to FractureDetect! Start by analyzing an X-ray.', time: 'Recently', unread: false });
+      }
+    } catch (err) {
+      items.push({ text: 'Could not load notifications.', time: '', unread: false });
+    }
+
+    renderNotifs(items);
+  }
+
+  function renderNotifs(items) {
+    if (!notifList) return;
+    notifList.innerHTML = items.length === 0
+      ? '<div class="notif-empty">No notifications</div>'
+      : items.map(function (n) {
+          return '<div class="notif-item' + (n.unread ? ' notif-unread' : '') + '">' +
+            '<span class="notif-dot-item"></span>' +
+            '<div class="notif-body"><p class="notif-text">' + n.text + '</p><span class="notif-time">' + n.time + '</span></div>' +
+            '</div>';
+        }).join('');
+    if (notifDot) notifDot.style.display = items.some(function (n) { return n.unread; }) ? 'block' : 'none';
+  }
+
+  function timeAgo(date) {
+    var diff = Math.floor((Date.now() - date.getTime()) / 1000);
+    if (diff < 60) return 'Just now';
+    if (diff < 3600) return Math.floor(diff / 60) + 'm ago';
+    if (diff < 86400) return Math.floor(diff / 3600) + 'h ago';
+    if (diff < 604800) return Math.floor(diff / 86400) + 'd ago';
+    return date.toLocaleDateString();
+  }
+
   if (btnNotif && notifDropdown) {
     btnNotif.addEventListener('click', function (e) {
       e.stopPropagation();
+      var hidden = notifDropdown.classList.contains('hidden');
+      if (hidden) loadNotifications();
       notifDropdown.classList.toggle('hidden');
     });
     document.addEventListener('click', function (e) {
@@ -582,8 +626,8 @@ import Sidebar from '../components/Sidebar.astro';
       }
     });
     document.getElementById('btn-notif-clear').addEventListener('click', function () {
-      notifDropdown.querySelector('.notif-list').innerHTML = '<div class="notif-empty">No notifications</div>';
-      document.getElementById('btn-notifications').querySelector('.notif-dot').style.display = 'none';
+      notifList.innerHTML = '<div class="notif-empty">No notifications</div>';
+      if (notifDot) notifDot.style.display = 'none';
       notifDropdown.classList.add('hidden');
     });
   }
