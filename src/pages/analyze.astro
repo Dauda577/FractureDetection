@@ -19,51 +19,53 @@ import Footer from '../components/Footer.astro';
           <h2 class="demo-title">See how AI detects fractures<br />in real X-ray images</h2>
           <p class="demo-desc">Swipe through sample results showing original X-rays with AI-powered fracture detection overlays.</p>
           <div class="demo-gallery" id="demo-gallery">
-            <div class="demo-card">
-              <div class="demo-card-img-wrap">
-                <img class="demo-card-img" src="/WhatsApp%20Image%202026-07-19%20at%205.09.45%20PM.jpeg" alt="Sample X-ray" />
-                <div class="demo-card-heatmap" style="background:radial-gradient(ellipse at 38% 48%, rgba(255,50,0,0.55) 0%, rgba(255,130,0,0.35) 20%, rgba(255,220,0,0.2) 40%, transparent 60%)"></div>
-              </div>
-              <div class="demo-card-body">
-                <div class="demo-card-tags">
-                  <span class="demo-tag demo-tag-red">Fracture</span>
-                  <span class="demo-tag">Distal Radius</span>
+            <div class="demo-gallery-inner" id="demo-gallery-inner">
+              <div class="demo-card">
+                <div class="demo-card-img-wrap">
+                  <img class="demo-card-img" src="https://upload.wikimedia.org/wikipedia/commons/8/88/Wrist_fracture_-_Scaphoid_fracture_--_Smart-Servier.jpg" alt="Wrist fracture X-ray" loading="lazy" />
+                  <div class="demo-card-heatmap" style="background:radial-gradient(ellipse at 38% 48%, rgba(255,50,0,0.55) 0%, rgba(255,130,0,0.35) 20%, rgba(255,220,0,0.2) 40%, transparent 60%)"></div>
                 </div>
-                <div class="demo-card-meta">
-                  <span class="demo-card-conf">98.5% confidence</span>
-                  <span class="demo-card-time">Forearm X-ray</span>
-                </div>
-              </div>
-            </div>
-            <div class="demo-card">
-              <div class="demo-card-img-wrap">
-                <img class="demo-card-img" src="/WhatsApp%20Image%202026-07-19%20at%205.09.45%20PM.jpeg" alt="Sample X-ray" />
-                <div class="demo-card-heatmap" style="background:radial-gradient(ellipse at 55% 42%, rgba(255,50,0,0.5) 0%, rgba(255,130,0,0.3) 22%, rgba(255,220,0,0.18) 42%, transparent 62%)"></div>
-              </div>
-              <div class="demo-card-body">
-                <div class="demo-card-tags">
-                  <span class="demo-tag demo-tag-red">Fracture</span>
-                  <span class="demo-tag">Femoral Neck</span>
-                </div>
-                <div class="demo-card-meta">
-                  <span class="demo-card-conf">96.2% confidence</span>
-                  <span class="demo-card-time">Hip X-ray</span>
+                <div class="demo-card-body">
+                  <div class="demo-card-tags">
+                    <span class="demo-tag demo-tag-red">Fracture</span>
+                    <span class="demo-tag">Distal Radius</span>
+                  </div>
+                  <div class="demo-card-meta">
+                    <span class="demo-card-conf">98.5% confidence</span>
+                    <span class="demo-card-time">Forearm X-ray</span>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="demo-card">
-              <div class="demo-card-img-wrap">
-                <img class="demo-card-img" src="/WhatsApp%20Image%202026-07-19%20at%205.09.45%20PM.jpeg" alt="Sample X-ray" />
-                <div class="demo-card-heatmap" style="background:radial-gradient(ellipse at 45% 55%, rgba(255,50,0,0.5) 0%, rgba(255,130,0,0.32) 20%, rgba(255,220,0,0.18) 38%, transparent 58%)"></div>
-              </div>
-              <div class="demo-card-body">
-                <div class="demo-card-tags">
-                  <span class="demo-tag">Normal</span>
-                  <span class="demo-tag">No Fracture</span>
+              <div class="demo-card">
+                <div class="demo-card-img-wrap">
+                  <img class="demo-card-img" src="https://upload.wikimedia.org/wikipedia/commons/d/d3/X-ray_of_a_comminuted_hip_fracture.jpg" alt="Hip fracture X-ray" loading="lazy" />
+                  <div class="demo-card-heatmap" style="background:radial-gradient(ellipse at 55% 42%, rgba(255,50,0,0.5) 0%, rgba(255,130,0,0.3) 22%, rgba(255,220,0,0.18) 42%, transparent 62%)"></div>
                 </div>
-                <div class="demo-card-meta">
-                  <span class="demo-card-conf">99.1% confidence</span>
-                  <span class="demo-card-time">Chest X-ray</span>
+                <div class="demo-card-body">
+                  <div class="demo-card-tags">
+                    <span class="demo-tag demo-tag-red">Fracture</span>
+                    <span class="demo-tag">Femoral Neck</span>
+                  </div>
+                  <div class="demo-card-meta">
+                    <span class="demo-card-conf">96.2% confidence</span>
+                    <span class="demo-card-time">Hip X-ray</span>
+                  </div>
+                </div>
+              </div>
+              <div class="demo-card">
+                <div class="demo-card-img-wrap">
+                  <img class="demo-card-img" src="https://upload.wikimedia.org/wikipedia/commons/a/a1/Normal_posteroanterior_%28PA%29_chest_radiograph_%28X-ray%29.jpg" alt="Chest X-ray" loading="lazy" />
+                  <div class="demo-card-heatmap" style="background:radial-gradient(ellipse at 45% 55%, rgba(255,50,0,0.5) 0%, rgba(255,130,0,0.32) 20%, rgba(255,220,0,0.18) 38%, transparent 58%)"></div>
+                </div>
+                <div class="demo-card-body">
+                  <div class="demo-card-tags">
+                    <span class="demo-tag">Normal</span>
+                    <span class="demo-tag">No Fracture</span>
+                  </div>
+                  <div class="demo-card-meta">
+                    <span class="demo-card-conf">99.1% confidence</span>
+                    <span class="demo-card-time">Chest X-ray</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -390,14 +392,15 @@ import Footer from '../components/Footer.astro';
   /* ── Demo gallery carousel (unauth) ── */
   function initDemoGallery() {
     var track = document.getElementById('demo-gallery');
+    var inner = document.getElementById('demo-gallery-inner');
     var dots = document.querySelectorAll('.demo-dot');
     var currentSlide = 0;
     var totalSlides = dots.length;
 
     function goToSlide(index) {
-      if (!track) return;
+      if (!inner) return;
       currentSlide = index;
-      track.style.transform = 'translateX(-' + (index * 100) + '%)';
+      inner.style.transform = 'translateX(-' + (index * 100) + '%)';
       dots.forEach(function (d, i) {
         d.classList.toggle('demo-dot-active', i === index);
       });
@@ -955,18 +958,6 @@ import Footer from '../components/Footer.astro';
 <style>
   .hidden { display: none !important; }
 
-  .fade-in { animation: fdFadeIn 0.4s ease-out forwards; }
-  .fade-out { animation: fdFadeOut 0.3s ease-in forwards; }
-
-  @keyframes fdFadeIn {
-    0% { opacity: 0; transform: translateY(12px) scale(0.98); }
-    100% { opacity: 1; transform: translateY(0) scale(1); }
-  }
-  @keyframes fdFadeOut {
-    0% { opacity: 1; transform: translateY(0) scale(1); }
-    100% { opacity: 0; transform: translateY(-8px) scale(0.98); }
-  }
-
   .auth-gate {
     display: flex; align-items: center; justify-content: center;
     min-height: calc(100vh - 68px); padding: 48px 24px; position: relative; z-index: 1;
@@ -1201,87 +1192,6 @@ import Footer from '../components/Footer.astro';
     .wc-card { justify-content: flex-start; }
     .rp-grid { gap: 8px; }
   }
-
-  /* ── Auth Demo (Unauthenticated) ── */
-  .auth-demo {
-    display: flex; align-items: center; justify-content: center;
-    min-height: calc(100vh - 68px); padding: 56px 24px; position: relative; z-index: 1;
-  }
-  .demo-container {
-    max-width: var(--max-width); margin: 0 auto; width: 100%;
-    display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start;
-  }
-  .demo-badge {
-    display: inline-flex; align-items: center; gap: 8px;
-    font-family: var(--font-body); font-size: 13px; font-weight: 500;
-    color: var(--color-primary); background: rgba(37,99,235,0.08);
-    padding: 6px 14px; border-radius: 20px; margin-bottom: 16px;
-    letter-spacing: 0.02em; text-transform: uppercase;
-  }
-  .demo-badge .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--color-primary); animation: pulse-dot 2s ease-in-out infinite; }
-  @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-  .demo-title { font-family: var(--font-heading); font-weight: 600; font-size: 34px; line-height: 1.2; color: var(--color-text); margin: 0 0 12px; letter-spacing: -0.02em; }
-  .demo-desc { font-family: var(--font-body); font-weight: 400; font-size: 16px; line-height: 1.65; color: var(--color-text-muted); margin: 0 0 28px; max-width: 480px; }
-  .demo-gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px; }
-  .demo-card {
-    background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg);
-    overflow: hidden; transition: all 0.25s ease; cursor: pointer;
-  }
-  .demo-card:hover { border-color: rgba(37,99,235,0.3); box-shadow: 0 8px 32px rgba(37,99,235,0.12); transform: translateY(-2px); }
-  .demo-card-img-wrap { position: relative; aspect-ratio: 4 / 3; overflow: hidden; }
-  .demo-card-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease; }
-  .demo-card:hover .demo-card-img { transform: scale(1.03); }
-  .demo-card-heatmap { position: absolute; inset: 0; z-index: 2; pointer-events: none; mix-blend-mode: screen; opacity: 0; transition: opacity 0.3s ease; }
-  .demo-card:hover .demo-card-heatmap { opacity: 1; }
-  .demo-card-body { padding: 14px 16px; }
-  .demo-card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
-  .demo-tag { font-family: var(--font-body); font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 12px; text-transform: uppercase; letter-spacing: 0.03em; }
-  .demo-tag-red { background: rgba(239,68,68,0.15); color: #ef4444; }
-  .demo-tag { background: rgba(37,99,235,0.12); color: var(--color-primary); }
-  .demo-card-meta { display: flex; justify-content: space-between; font-family: var(--font-body); font-size: 12px; }
-  .demo-card-conf { color: var(--color-primary); font-weight: 600; }
-  .demo-card-time { color: var(--color-neutral); }
-  .demo-dots { display: flex; justify-content: center; gap: 8px; }
-  .demo-dot { width: 10px; height: 10px; border-radius: 50%; border: none; background: var(--color-border); cursor: pointer; transition: all 0.2s; }
-  .demo-dot-active { background: var(--color-primary); width: 28px; border-radius: 5px; }
-  .demo-dot:hover { opacity: 0.7; }
-
-  .demo-steps-preview { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 28px; box-shadow: 0 4px 24px rgba(0,0,0,0.04); height: fit-content; }
-  .dsp-header { display: flex; align-items: center; gap: 8px; font-family: var(--font-body); font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-text-muted); margin-bottom: 20px; }
-  .dsp-header svg { color: var(--color-primary); }
-  .dsp-track { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; align-items: start; }
-  .dsp-step { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; position: relative; }
-  .dsp-step::before { content: ''; position: absolute; top: 18px; left: 50%; right: 50%; height: 2px; background: var(--color-border); z-index: -1; }
-  .dsp-step:last-child::before { display: none; }
-  .dsp-step-icon { width: 36px; height: 36px; border-radius: 50%; background: var(--color-bg-subtle); display: flex; align-items: center; justify-content: center; color: var(--color-neutral); transition: all 0.3s ease; }
-  .dsp-step-active .dsp-step-icon { background: linear-gradient(135deg, var(--color-primary), #1d4ed8); color: white; box-shadow: 0 0 0 4px rgba(37,99,235,0.15); animation: stepPulse 2s ease-in-out infinite; }
-  @keyframes stepPulse { 0%, 100% { box-shadow: 0 0 0 4px rgba(37,99,235,0.15); } 50% { box-shadow: 0 0 0 8px rgba(37,99,235,0.08); } }
-  .dsp-step-body { display: flex; flex-direction: column; gap: 2px; }
-  .dsp-step-title { font-family: var(--font-heading); font-weight: 600; font-size: 13px; color: var(--color-text); }
-  .dsp-step-desc { font-family: var(--font-body); font-size: 11px; color: var(--color-text-muted); }
-  .dsp-step-check { opacity: 0; transform: scale(0.5); transition: all 0.3s ease; }
-  .dsp-step-active .dsp-step-check { opacity: 1; transform: scale(1); color: var(--color-success); }
-
-  .demo-cta { display: flex; flex-direction: column; gap: 10px; margin-top: 24px; }
-  .btn-demo-primary {
-    display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none;
-    font-family: var(--font-body); font-weight: 600; font-size: 15px; color: white;
-    background: linear-gradient(135deg, var(--color-primary), #1d4ed8);
-    padding: 14px 28px; border: none; border-radius: var(--radius-md);
-    cursor: pointer; transition: all 0.2s ease;
-    box-shadow: 0 4px 14px rgba(37,99,235,0.3);
-  }
-  .btn-demo-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37,99,235,0.4); }
-  .btn-demo-primary:active { transform: translateY(0); }
-  .btn-demo-alt {
-    display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none;
-    font-family: var(--font-body); font-weight: 600; font-size: 15px; color: var(--color-text);
-    background: var(--color-surface); padding: 14px 28px;
-    border: 1px solid var(--color-border); border-radius: var(--radius-md);
-    cursor: pointer; transition: all 0.2s ease;
-  }
-  .btn-demo-alt:hover { border-color: var(--color-primary); color: var(--color-primary); transform: translateY(-1px); }
-  .btn-demo-alt:active { transform: translateY(0); }
 
   /* ── Welcome Signed In (Authenticated) ── */
   .welcome-container { max-width: 640px; margin: 0 auto; padding: 48px 24px; position: relative; z-index: 1; }
