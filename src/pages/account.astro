@@ -52,6 +52,40 @@ import Sidebar from '../components/Sidebar.astro';
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 0 1-3.46 0" /></svg>
                     <span class="notif-dot"></span>
                   </button>
+                  <div class="notif-dropdown hidden" id="notif-dropdown">
+                    <div class="notif-header">
+                      <span>Notifications</span>
+                      <button class="notif-clear-btn" id="btn-notif-clear">Clear all</button>
+                    </div>
+                    <div class="notif-list">
+                      <div class="notif-item notif-unread">
+                        <span class="notif-dot-item"></span>
+                        <div class="notif-body">
+                          <p class="notif-text">Analysis complete: <strong>Left wrist X-ray</strong> — Fracture detected (97.3%)</p>
+                          <span class="notif-time">2 minutes ago</span>
+                        </div>
+                      </div>
+                      <div class="notif-item notif-unread">
+                        <span class="notif-dot-item"></span>
+                        <div class="notif-body">
+                          <p class="notif-text">Batch analysis finished: <strong>3 images</strong> processed successfully</p>
+                          <span class="notif-time">45 minutes ago</span>
+                        </div>
+                      </div>
+                      <div class="notif-item">
+                        <div class="notif-body">
+                          <p class="notif-text">New patient <strong>Jane Cooper</strong> registered by Dr. Miller</p>
+                          <span class="notif-time">3 hours ago</span>
+                        </div>
+                      </div>
+                      <div class="notif-item">
+                        <div class="notif-body">
+                          <p class="notif-text">Model updated to <strong>v2.1.0</strong> — improved hip detection accuracy</p>
+                          <span class="notif-time">2 days ago</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                   <div class="top-avatar" id="top-avatar">
                     <span id="top-avatar-initial">U</span>
                   </div>
@@ -535,6 +569,25 @@ import Sidebar from '../components/Sidebar.astro';
     loadLastResult();
   }
 
+  var btnNotif = document.getElementById('btn-notifications');
+  var notifDropdown = document.getElementById('notif-dropdown');
+  if (btnNotif && notifDropdown) {
+    btnNotif.addEventListener('click', function (e) {
+      e.stopPropagation();
+      notifDropdown.classList.toggle('hidden');
+    });
+    document.addEventListener('click', function (e) {
+      if (!notifDropdown.contains(e.target) && e.target !== btnNotif) {
+        notifDropdown.classList.add('hidden');
+      }
+    });
+    document.getElementById('btn-notif-clear').addEventListener('click', function () {
+      notifDropdown.querySelector('.notif-list').innerHTML = '<div class="notif-empty">No notifications</div>';
+      document.getElementById('btn-notifications').querySelector('.notif-dot').style.display = 'none';
+      notifDropdown.classList.add('hidden');
+    });
+  }
+
   function applyTheme(theme) {
     document.documentElement.classList.remove('light', 'dark');
     if (theme === 'light' || theme === 'dark') document.documentElement.classList.add(theme);
@@ -835,7 +888,7 @@ import Sidebar from '../components/Sidebar.astro';
   .top-left { display: flex; flex-direction: column; gap: 2px; }
   .top-title { font-family: var(--font-heading); font-weight: 600; font-size: 20px; color: var(--color-text); margin: 0; letter-spacing: -0.02em; }
   .top-subtitle { font-family: var(--font-body); font-size: 13px; color: var(--color-text-muted); margin: 0; }
-  .top-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+  .top-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; position: relative; }
   .top-btn-primary {
     display: inline-flex; align-items: center; gap: 6px; text-decoration: none;
     font-family: var(--font-body); font-weight: 600; font-size: 12px; color: white;
@@ -861,8 +914,29 @@ import Sidebar from '../components/Sidebar.astro';
     background: var(--color-primary); border: 2px solid var(--color-border);
     display: flex; align-items: center; justify-content: center;
     font-family: var(--font-heading); font-weight: 600; font-size: 14px; color: white;
-    flex-shrink: 0; cursor: default;
+    flex-shrink: 0; cursor: default; position: relative;
   }
+
+  .notif-dropdown {
+    position: absolute; top: calc(100% + 8px); right: 0; width: 360px;
+    background: var(--color-surface); border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg); box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+    z-index: 200; overflow: hidden;
+  }
+  .notif-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-bottom: 1px solid var(--color-border); }
+  .notif-header span { font-family: var(--font-heading); font-weight: 600; font-size: 14px; color: var(--color-text); }
+  .notif-clear-btn { font-family: var(--font-body); font-weight: 500; font-size: 12px; color: var(--color-primary); background: none; border: none; cursor: pointer; }
+  .notif-clear-btn:hover { text-decoration: underline; }
+  .notif-list { max-height: 320px; overflow-y: auto; }
+  .notif-item { display: flex; gap: 10px; padding: 12px 18px; border-bottom: 1px solid var(--color-border); transition: background 0.15s; }
+  .notif-item:hover { background: var(--color-bg-subtle); }
+  .notif-dot-item { width: 8px; height: 8px; border-radius: 50%; background: var(--color-primary); margin-top: 6px; flex-shrink: 0; }
+  .notif-item:not(.notif-unread) .notif-dot-item { visibility: hidden; }
+  .notif-body { flex: 1; min-width: 0; }
+  .notif-text { font-family: var(--font-body); font-size: 13px; line-height: 1.4; color: var(--color-text); margin: 0; }
+  .notif-text strong { font-weight: 600; }
+  .notif-time { font-family: var(--font-body); font-size: 12px; color: var(--color-text-muted); margin-top: 4px; display: block; }
+  .notif-empty { padding: 24px; text-align: center; font-family: var(--font-body); font-size: 13px; color: var(--color-text-muted); }
 
   /* ── Row 1: Stat Cards ── */
   .row-1 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; }
