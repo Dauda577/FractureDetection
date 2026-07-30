@@ -127,10 +127,10 @@ const bottomItems: NavEntry[] = [
     signoutBtn.addEventListener('click', function () {
       var overlay = document.createElement('div');
       overlay.className = 'confirm-overlay';
-      overlay.innerHTML = '<div class="confirm-modal"><h3>Sign Out?</h3><p>You will need to sign in again to access your account.</p><div class="confirm-actions"><button class="confirm-cancel-btn">Cancel</button><button class="confirm-delete-btn">Sign Out</button></div></div>';
+      overlay.innerHTML = '<div class="confirm-modal"><h3>Sign Out?</h3><p>You will need to sign in again to access your account.</p><div class="confirm-actions"><button class="confirm-cancel-btn">Cancel</button><button class="confirm-primary-btn">Sign Out</button></div></div>';
       document.body.appendChild(overlay);
       overlay.querySelector('.confirm-cancel-btn').addEventListener('click', function () { overlay.remove(); });
-      overlay.querySelector('.confirm-delete-btn').addEventListener('click', async function () {
+      overlay.querySelector('.confirm-primary-btn').addEventListener('click', async function () {
         overlay.remove();
         await logout();
         window.location.reload();
