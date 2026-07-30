@@ -501,10 +501,12 @@ import Sidebar from '../components/Sidebar.astro';
 
     var avatarInput = document.getElementById('avatar-input');
     var avatarImg = document.getElementById('settings-avatar');
-    document.getElementById('btn-change-avatar').addEventListener('click', function () {
-      avatarInput.click();
-    });
-    avatarInput.addEventListener('change', function () {
+    var changeBtn = document.getElementById('btn-change-avatar');
+    if (changeBtn && avatarInput) {
+      changeBtn.addEventListener('click', function () {
+        avatarInput.click();
+      });
+      avatarInput.addEventListener('change', function () {
       var file = this.files[0];
       if (!file) return;
       var reader = new FileReader();
@@ -551,8 +553,9 @@ import Sidebar from '../components/Sidebar.astro';
 
         if (window.showToast) window.showToast({ type: 'success', message: 'Photo saved.' });
       };
-      reader.readAsDataURL(file);
-    });
+        reader.readAsDataURL(file);
+      });
+    }
 
     document.querySelectorAll('.nav-item').forEach(function (item) {
       item.addEventListener('click', function (e) {
