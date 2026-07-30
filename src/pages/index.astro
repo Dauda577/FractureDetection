@@ -42,26 +42,30 @@ import Footer from '../components/Footer.astro';
           </div>
         </div>
         <div class="hero-visual reveal-right" style="transition-delay:0.2s">
-          <div class="compare-wrapper">
-            <div class="compare-container" id="compare-container">
-              <div class="compare-before">
-                <img class="compare-img" src="/WhatsApp%20Image%202026-07-19%20at%205.09.45%20PM.jpeg" alt="Original X-ray" />
-              </div>
-              <div class="compare-after" id="compare-after">
-                <div class="compare-heatmap-overlay"></div>
-                <img class="compare-img" src="/WhatsApp%20Image%202026-07-19%20at%205.09.45%20PM.jpeg" alt="X-ray with AI heatmap" />
-              </div>
-              <div class="compare-handle" id="compare-handle">
-                <div class="handle-line"></div>
-                <div class="handle-circle">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
-                </div>
-              </div>
-              <div class="compare-labels">
-                <span class="compare-label compare-label-left">Original</span>
-                <span class="compare-label compare-label-right">AI Detection</span>
-              </div>
+          <div class="xray-grid">
+            <div class="xray-card xc-1">
+              <img src="https://images.unsplash.com/photo-1559757175-5700dde675bc?w=400&h=300&fit=crop" alt="Skull X-ray" loading="lazy" />
+              <span class="xc-label">Skull</span>
+            </div>
+            <div class="xray-card xc-2">
+              <img src="https://images.unsplash.com/photo-1579154204846-bf6fbfad2b3c?w=400&h=300&fit=crop" alt="Knee X-ray" loading="lazy" />
+              <span class="xc-label">Knee</span>
+            </div>
+            <div class="xray-card xc-3">
+              <img src="https://images.unsplash.com/photo-1516069677019-9b6b6952b58c?w=400&h=300&fit=crop" alt="Chest X-ray" loading="lazy" />
+              <span class="xc-label">Chest</span>
+            </div>
+            <div class="xray-card xc-4">
+              <img src="https://images.unsplash.com/photo-1530026405186-ed1f139313f8?w=400&h=300&fit=crop" alt="Hand X-ray" loading="lazy" />
+              <span class="xc-label">Hand</span>
+            </div>
+            <div class="xray-card xc-5">
+              <img src="https://images.unsplash.com/photo-1576110598656-096a5e1e9f18?w=400&h=300&fit=crop" alt="Hip X-ray" loading="lazy" />
+              <span class="xc-label">Hip</span>
+            </div>
+            <div class="xray-card xc-6">
+              <img src="https://images.unsplash.com/photo-1581595219315-a187dd40c329?w=400&h=300&fit=crop" alt="Spine X-ray" loading="lazy" />
+              <span class="xc-label">Spine</span>
             </div>
           </div>
         </div>
@@ -255,47 +259,6 @@ import Footer from '../components/Footer.astro';
 
 <script>
   (function () {
-    /* ── Before/After Slider ── */
-    var container = document.getElementById('compare-container');
-    var afterEl = document.getElementById('compare-after');
-    var handle = document.getElementById('compare-handle');
-    if (container && afterEl && handle) {
-      var isDragging = false;
-
-      function setPosition(x) {
-        var rect = container.getBoundingClientRect();
-        var pct = Math.max(0, Math.min(100, ((x - rect.left) / rect.width) * 100));
-        afterEl.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
-        handle.style.left = pct + '%';
-      }
-
-      function onDown(e) {
-        isDragging = true;
-        container.classList.add('dragging');
-        setPosition(e.clientX || e.touches[0].clientX);
-      }
-
-      function onMove(e) {
-        if (!isDragging) return;
-        e.preventDefault();
-        setPosition(e.clientX || e.touches[0].clientX);
-      }
-
-      function onUp() {
-        isDragging = false;
-        container.classList.remove('dragging');
-      }
-
-      handle.addEventListener('mousedown', onDown);
-      handle.addEventListener('touchstart', onDown, { passive: true });
-      document.addEventListener('mousemove', onMove);
-      document.addEventListener('touchmove', onMove, { passive: false });
-      document.addEventListener('mouseup', onUp);
-      document.addEventListener('touchend', onUp);
-
-      setPosition(container.getBoundingClientRect().left + container.offsetWidth * 0.5);
-    }
-
     /* ── Animated Count-Up ── */
     var statIds = ['stat-accuracy', 'stat-speed', 'stat-xrays'];
     var counted = {};
@@ -401,34 +364,41 @@ import Footer from '../components/Footer.astro';
   .hero-content { min-width: 0; }
   .hero-visual { display: flex; justify-content: center; align-items: center; min-width: 0; }
 
-  /* ── Before/After Comparison ── */
-  .compare-wrapper { position: relative; width: 100%; max-width: 420px; border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 8px 32px rgba(37,99,235,0.15); transition: box-shadow 0.3s ease; }
-  .compare-wrapper:hover { box-shadow: 0 12px 48px rgba(37,99,235,0.25), 0 0 80px rgba(37,99,235,0.08); }
-  .compare-container { position: relative; width: 100%; aspect-ratio: 4 / 3; background: #0B1121; user-select: none; -webkit-user-select: none; }
-  .compare-container.dragging { cursor: ew-resize; }
-  .compare-img { display: block; width: 100%; height: 100%; object-fit: contain; }
-  .compare-before { position: absolute; inset: 0; z-index: 1; }
-  .compare-after { position: absolute; inset: 0; z-index: 2; clip-path: inset(0 50% 0 0); }
-  .compare-heatmap-overlay {
-    position: absolute; inset: 0; z-index: 3; pointer-events: none;
-    mix-blend-mode: screen;
-    background: radial-gradient(ellipse at 42% 52%, rgba(255,50,0,0.6) 0%, rgba(255,130,0,0.4) 18%, rgba(255,220,0,0.25) 38%, transparent 58%);
+  /* ── X-ray Grid ── */
+  .xray-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 12px;
+    width: 100%;
+    max-width: 520px;
   }
-  .compare-handle {
-    position: absolute; top: 0; bottom: 0; left: 50%; width: 3px; z-index: 4;
-    background: white; cursor: ew-resize; transform: translateX(-50%);
-    box-shadow: 0 0 6px rgba(0,0,0,0.4);
+  .xray-card {
+    position: relative; border-radius: 12px; overflow: hidden;
+    aspect-ratio: 4 / 3; background: #0B1121;
+    box-shadow: 0 4px 16px rgba(37,99,235,0.12);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    opacity: 0; animation: xrayFadeIn 0.5s ease-out forwards;
   }
-  .handle-line { display: none; }
-  .handle-circle {
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    width: 44px; height: 44px; border-radius: 50%;
-    background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-    display: flex; align-items: center; justify-content: center; gap: 0;
+  .xray-card:nth-child(1) { animation-delay: 0.1s; }
+  .xray-card:nth-child(2) { animation-delay: 0.2s; }
+  .xray-card:nth-child(3) { animation-delay: 0.15s; }
+  .xray-card:nth-child(4) { animation-delay: 0.25s; }
+  .xray-card:nth-child(5) { animation-delay: 0.2s; }
+  .xray-card:nth-child(6) { animation-delay: 0.3s; }
+  .xray-card:hover { transform: scale(1.05); box-shadow: 0 8px 32px rgba(37,99,235,0.25); z-index: 2; }
+  .xray-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .xc-label {
+    position: absolute; bottom: 6px; left: 6px;
+    font-family: var(--font-body); font-size: 10px; font-weight: 600;
+    color: white; background: rgba(0,0,0,0.55);
+    padding: 2px 8px; border-radius: 4px;
+    text-transform: uppercase; letter-spacing: 0.04em;
   }
-  .handle-circle svg { width: 16px; height: 16px; color: #1e293b; flex-shrink: 0; }
-  .compare-labels { position: absolute; bottom: 10px; left: 0; right: 0; z-index: 5; display: flex; justify-content: space-between; pointer-events: none; padding: 0 12px; }
-  .compare-label { font-family: var(--font-body); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: white; background: rgba(0,0,0,0.5); padding: 3px 10px; border-radius: 4px; backdrop-filter: blur(4px); }
+  @keyframes xrayFadeIn {
+    from { opacity: 0; transform: translateY(12px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
 
   /* ── Section Header ── */
   .section-header { text-align: center; max-width: 600px; margin: 0 auto 40px; padding: 0 24px; }
@@ -512,6 +482,7 @@ import Footer from '../components/Footer.astro';
     .compare-wrapper { max-width: 300px; }
     .hero-title { font-size: 30px; }
     .hero-description { font-size: 16px; max-width: none; }
+    .xray-grid { max-width: 100%; }
     .section-title { font-size: 26px; }
     .features { padding: 0 24px 60px; }
     .features-container { grid-template-columns: 1fr; }
