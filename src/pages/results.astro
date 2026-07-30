@@ -425,32 +425,43 @@ import Layout from '../layouts/Layout.astro';
 
     /* ── Batch queue navigation ── */
     var queueData = sessionStorage.getItem('fracturedetect:queue');
+    var remainingCount = parseInt(sessionStorage.getItem('fracturedetect:remaining')) || 0;
     var batchNav = document.getElementById('batch-nav');
     var batchNavText = document.getElementById('batch-nav-text');
     var btnNextImage = document.getElementById('btn-next-image');
 
-    if (queueData && batchNav && batchNavText) {
-      var queue = JSON.parse(queueData);
-      var total = queue.length + 1;
-      batchNavText.textContent = '1 of ' + total + ' analyzed — ' + queue.length + ' remaining';
-      batchNav.classList.remove('hidden');
+    if (batchNav && batchNavText) {
+      var hasQueue = queueData;
+      var totalRemaining = hasQueue ? JSON.parse(queueData).length : remainingCount;
+      if (totalRemaining > 0) {
+        batchNavText.textContent = hasQueue ? '1 of ' + (totalRemaining + 1) + ' analyzed — ' + totalRemaining + ' remaining' : totalRemaining + ' image(s) remaining';
+        batchNav.classList.remove('hidden');
+      }
 
       if (btnNextImage) {
         btnNextImage.addEventListener('click', function () {
-          var next = queue.shift();
-          if (next && next.data) {
-            try {
-              sessionStorage.setItem('fracturedetect:image', next.data);
-              if (queue.length > 0) {
-                sessionStorage.setItem('fracturedetect:queue', JSON.stringify(queue));
-              } else {
-                sessionStorage.removeItem('fracturedetect:queue');
+          if (hasQueue) {
+            var queue = JSON.parse(queueData);
+            var next = queue.shift();
+            if (next && next.data) {
+              try {
+                sessionStorage.setItem('fracturedetect:image', next.data);
+                if (queue.length > 0) {
+                  sessionStorage.setItem('fracturedetect:queue', JSON.stringify(queue));
+                  sessionStorage.setItem('fracturedetect:remaining', queue.length);
+                } else {
+                  sessionStorage.removeItem('fracturedetect:queue');
+                  sessionStorage.removeItem('fracturedetect:remaining');
+                }
+                sessionStorage.removeItem('fracturedetect:result');
+                window.location.href = '/processing';
+              } catch (err) {
+                console.warn('Failed to navigate to next image:', err);
               }
-              sessionStorage.removeItem('fracturedetect:result');
-              window.location.href = '/processing';
-            } catch (err) {
-              console.warn('Failed to navigate to next image:', err);
             }
+          } else {
+            sessionStorage.removeItem('fracturedetect:result');
+            window.location.href = '/analyze';
           }
         });
       }

@@ -768,28 +768,48 @@ import Footer from '../components/Footer.astro';
           remaining.push(i);
         }
         if (remaining.length > 0) {
-          var queueData = [];
-          var pendingReads = remaining.length;
-          remaining.forEach(function (idx) {
-            var r = new FileReader();
-            r.onload = function (ev) {
-              queueData.push({ index: idx, data: ev.target.result, name: fileQueue[idx].name });
-              pendingReads--;
-              if (pendingReads === 0) {
-                sessionStorage.setItem('fracturedetect:queue', JSON.stringify(queueData));
-                sessionStorage.removeItem('fracturedetect:patient_id');
-                window.location.href = '/processing';
-              }
-            };
-            r.readAsDataURL(fileQueue[idx]);
-          });
+          sessionStorage.setItem('fracturedetect:remaining', remaining.length);
+          sessionStorage.removeItem('fracturedetect:queue');
+          try {
+            var queueData = [];
+            var pendingReads = remaining.length;
+            remaining.forEach(function (idx) {
+              var r = new FileReader();
+              r.onload = function (ev) {
+                queueData.push({ index: idx, data: ev.target.result, name: fileQueue[idx].name });
+                pendingReads--;
+                if (pendingReads === 0) {
+                  try {
+                    sessionStorage.setItem('fracturedetect:queue', JSON.stringify(queueData));
+                  } catch (err) {
+                    sessionStorage.setItem('fracturedetect:remaining', queueData.length);
+                  }
+                  sessionStorage.removeItem('fracturedetect:patient_id');
+                  window.location.href = '/processing';
+                }
+              };
+              r.onerror = function () {
+                pendingReads--;
+                if (pendingReads === 0) {
+                  sessionStorage.removeItem('fracturedetect:patient_id');
+                  window.location.href = '/processing';
+                }
+              };
+              r.readAsDataURL(fileQueue[idx]);
+            });
+          } catch (err) {
+            sessionStorage.removeItem('fracturedetect:patient_id');
+            window.location.href = '/processing';
+          }
         } else {
           sessionStorage.removeItem('fracturedetect:queue');
+          sessionStorage.removeItem('fracturedetect:remaining');
           sessionStorage.removeItem('fracturedetect:patient_id');
           window.location.href = '/processing';
         }
       } catch (err) {
         console.warn('Failed to store image in sessionStorage:', err);
+        window.location.href = '/processing';
       }
     };
     reader.onerror = function () {
