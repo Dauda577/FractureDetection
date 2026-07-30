@@ -378,7 +378,15 @@ import Sidebar from '../components/Sidebar.astro';
     var user = await getUser();
     if (user) {
       var topInitial = document.getElementById('top-avatar-initial');
-      if (topInitial) topInitial.textContent = user.name.charAt(0).toUpperCase();
+      var topAvatar = document.getElementById('top-avatar');
+      if (user.avatarUrl && topAvatar) {
+        topAvatar.style.backgroundImage = 'url(' + user.avatarUrl + ')';
+        topAvatar.style.backgroundSize = 'cover';
+        topAvatar.style.backgroundPosition = 'center';
+        if (topInitial) topInitial.textContent = '';
+      } else if (topInitial) {
+        topInitial.textContent = user.name.charAt(0).toUpperCase();
+      }
       var settingsNameInput = document.getElementById('settings-name-input');
       var settingsEmailInput = document.getElementById('settings-email-input');
       var settingsAvatar = document.getElementById('settings-avatar');
@@ -1063,16 +1071,6 @@ import Sidebar from '../components/Sidebar.astro';
     transition: all 0.15s;
   }
   .settings-danger-btn:hover { background: var(--color-danger); color: white; }
-
-  .confirm-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 10000; }
-  .confirm-modal { background: white; border-radius: 12px; padding: 28px; max-width: 400px; width: 90%; box-shadow: 0 16px 48px rgba(0,0,0,0.2); }
-  .confirm-modal h3 { font-family: var(--font-heading); font-weight: 600; font-size: 18px; color: #0F172A; margin: 0 0 8px; }
-  .confirm-modal p { font-family: var(--font-body); font-size: 14px; line-height: 1.5; color: #475569; margin: 0 0 20px; }
-  .confirm-actions { display: flex; gap: 8px; justify-content: flex-end; }
-  .confirm-cancel-btn { font-family: var(--font-body); font-weight: 500; font-size: 13px; color: #475569; background: #F1F5F9; border: 1px solid #E2E8F0; border-radius: 8px; padding: 8px 16px; cursor: pointer; }
-  .confirm-delete-btn { font-family: var(--font-body); font-weight: 600; font-size: 13px; color: white; background: #DC2626; border: none; border-radius: 8px; padding: 8px 16px; cursor: pointer; }
-  .confirm-cancel-btn:hover { background: #E2E8F0; }
-  .confirm-delete-btn:hover { background: #B91C1C; }
 
   .model-info-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 20px 24px; }
   .mi-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin: 0; }

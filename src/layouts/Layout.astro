@@ -201,6 +201,16 @@ const { title, description, active, variant = 'marketing' } = Astro.props;
     100% { background-position: -200% 0; }
   }
 
+  .confirm-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 10000; }
+  .confirm-modal { background: white; border-radius: 12px; padding: 28px; max-width: 400px; width: 90%; box-shadow: 0 16px 48px rgba(0,0,0,0.2); }
+  .confirm-modal h3 { font-family: var(--font-heading); font-weight: 600; font-size: 18px; color: #0F172A; margin: 0 0 8px; }
+  .confirm-modal p { font-family: var(--font-body); font-size: 14px; line-height: 1.5; color: #475569; margin: 0 0 20px; }
+  .confirm-actions { display: flex; gap: 8px; justify-content: flex-end; }
+  .confirm-cancel-btn { font-family: var(--font-body); font-weight: 500; font-size: 13px; color: #475569; background: #F1F5F9; border: 1px solid #E2E8F0; border-radius: 8px; padding: 8px 16px; cursor: pointer; }
+  .confirm-delete-btn { font-family: var(--font-body); font-weight: 600; font-size: 13px; color: white; background: #DC2626; border: none; border-radius: 8px; padding: 8px 16px; cursor: pointer; }
+  .confirm-cancel-btn:hover { background: #E2E8F0; }
+  .confirm-delete-btn:hover { background: #B91C1C; }
+
   @media (max-width: 480px) {
     #toast-container {
       left: 16px;
