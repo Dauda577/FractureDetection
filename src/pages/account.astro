@@ -224,6 +224,7 @@ import Sidebar from '../components/Sidebar.astro';
                     <div class="settings-avatar-row">
                       <div class="settings-avatar" id="settings-avatar">U</div>
                       <div>
+                        <input type="file" id="avatar-input" accept="image/*" style="display:none" />
                         <button class="btn-text-link" id="btn-change-avatar">Change photo</button>
                       </div>
                     </div>
@@ -459,6 +460,25 @@ import Sidebar from '../components/Sidebar.astro';
 
     document.getElementById('btn-signout-settings').addEventListener('click', function () {
       document.getElementById('sidebar-signout')?.click();
+    });
+
+    var avatarInput = document.getElementById('avatar-input');
+    var settingsAvatar = document.getElementById('settings-avatar');
+    document.getElementById('btn-change-avatar').addEventListener('click', function () {
+      avatarInput.click();
+    });
+    avatarInput.addEventListener('change', function () {
+      var file = this.files[0];
+      if (!file) return;
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        settingsAvatar.style.backgroundImage = 'url(' + e.target.result + ')';
+        settingsAvatar.style.backgroundSize = 'cover';
+        settingsAvatar.style.backgroundPosition = 'center';
+        settingsAvatar.textContent = '';
+        if (window.showToast) window.showToast({ type: 'success', message: 'Photo updated.' });
+      };
+      reader.readAsDataURL(file);
     });
 
     document.querySelectorAll('.nav-item').forEach(function (item) {
@@ -767,7 +787,7 @@ import Sidebar from '../components/Sidebar.astro';
   /* ── Layout ── */
   .dash-page { position: relative; background: var(--color-bg-subtle); min-height: calc(100vh - 68px); padding: 0; }
   .dash-layout { display: flex; align-items: center; justify-content: center; min-height: calc(100vh - 68px); padding: 24px; }
-  .dash-wrapper { display: flex; align-items: stretch; max-width: calc(100vw - 48px); width: 100%; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.04); overflow: hidden; height: calc(100vh - 116px); }
+  .dash-wrapper { display: flex; align-items: stretch; max-width: calc(100vw - 48px); width: 100%; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.04); height: calc(100vh - 116px); }
   .dash-main { flex: 1; min-width: 0; background: var(--color-bg-subtle); display: flex; flex-direction: column; overflow: hidden; }
   .dash-content { flex: 1; padding: 20px 24px 24px; display: flex; flex-direction: column; overflow: hidden; }
 
@@ -853,7 +873,8 @@ import Sidebar from '../components/Sidebar.astro';
   }
   .step-img-wrap {
     position: relative; background: #0B1121; border-radius: var(--radius-md);
-    aspect-ratio: 4 / 3; overflow: hidden; border: 1px solid var(--color-border);
+    aspect-ratio: 16 / 9; overflow: hidden; border: 1px solid var(--color-border);
+    max-height: 200px;
   }
   .step-img { width: 100%; height: 100%; object-fit: contain; display: block; transition: transform 0.2s ease; }
   .step-empty {
