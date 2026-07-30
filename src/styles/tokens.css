@@ -84,11 +84,6 @@
   border: 1px solid rgba(255, 255, 255, 0.4);
 }
 
-.fd-tilt {
-  transition: transform 0.15s ease-out;
-  will-change: transform;
-}
-
 @media (prefers-reduced-motion: no-preference) {
   .page-enter {
     animation: fd-fadeIn 0.28s ease-out;
