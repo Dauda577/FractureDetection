@@ -43,15 +43,13 @@ const { title, description, active, variant = 'marketing' } = Astro.props;
 </html>
 
 <script>
-  import { initTilt, initFloating, initReveal, initCounters, initMagnetic, initCursorGlow, initParticles, initRipples } from '../scripts/effects.js';
+  import { initTilt, initFloating, initReveal, initCounters, initCursorGlow, initParticles } from '../scripts/effects.js';
   document.addEventListener('DOMContentLoaded', function () {
     initReveal();
     initCounters();
-    initRipples('[data-ripple]');
     requestAnimationFrame(function () {
       initTilt('.fd-tilt');
       initFloating('.fd-float, .fd-float-lg, .fd-orb-drift');
-      initMagnetic('.fd-magnetic');
     });
     if (matchMedia('(pointer: fine)').matches) {
       requestAnimationFrame(function () {

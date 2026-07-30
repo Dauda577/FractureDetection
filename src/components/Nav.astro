@@ -43,6 +43,7 @@ const links = [
           <circle cx="12" cy="8" r="4" stroke="#64748B" stroke-width="1.6"/>
           <path d="M4 20c1.6-3.6 4.8-5.5 8-5.5s6.4 1.9 8 5.5" stroke="#64748B" stroke-width="1.6" stroke-linecap="round"/>
         </svg>
+        <span class="avatar-label">Account</span>
       </a>
       <button class="btn-hamburger" id="btn-hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -218,17 +219,26 @@ const links = [
   }
 
   .avatar {
-    width: 36px;
     height: 36px;
-    border-radius: 50%;
+    border-radius: 999px;
     background: #FFFFFF;
     border: 1.5px solid #E2E8F0;
     display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 8px;
+    padding: 0 14px 0 8px;
     flex-shrink: 0;
     cursor: pointer;
+    text-decoration: none;
     transition: background-color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .avatar-label {
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 13px;
+    color: var(--color-text);
+    white-space: nowrap;
   }
 
   .avatar:hover {

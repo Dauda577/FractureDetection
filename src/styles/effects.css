@@ -117,17 +117,6 @@
   will-change: transform;
 }
 
-/* ── Magnetic ── */
-.fd-magnetic {
-  transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  will-change: transform;
-}
-
-/* ── Ripple ── */
-@keyframes ripple-in {
-  to { transform: scale(3); opacity: 0; }
-}
-
 /* ── Reduced Motion ── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -139,4 +128,4 @@
 }
 
 /* ── GPU Hint ── */
-.fd-tilt, .fd-magnetic, [class*="orb"] { will-change: transform; }
+.fd-tilt, [class*="orb"] { will-change: transform; }

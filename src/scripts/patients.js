@@ -24,6 +24,7 @@ export async function getPatients() {
   const { data, error } = await supabase
     .from('patients')
     .select('id, name, age, gender, medical_record_id, notes, created_at')
+    .eq('user_id', session.user.id)
     .order('created_at', { ascending: false })
     .limit(50)
 
@@ -32,10 +33,14 @@ export async function getPatients() {
 }
 
 export async function getPatient(id) {
+  const { data: { session } } = await supabase.auth.getSession()
+  if (!session) return null
+
   const { data, error } = await supabase
     .from('patients')
     .select('*')
     .eq('id', id)
+    .eq('user_id', session.user.id)
     .single()
 
   if (error) return null

@@ -96,27 +96,6 @@ function formatNumber(n) {
   return n.toFixed(1);
 }
 
-/* ── Magnetic Buttons ── */
-export function initMagnetic(selector) {
-  if (matchMedia('(pointer: coarse)').matches) return;
-  var els = document.querySelectorAll(selector);
-  var raf = null;
-  els.forEach(function (el) {
-    el.addEventListener('mousemove', function (e) {
-      if (raf) cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(function () {
-        var rect = el.getBoundingClientRect();
-        var x = e.clientX - rect.left - rect.width / 2;
-        var y = e.clientY - rect.top - rect.height / 2;
-        el.style.transform = 'translate(' + x * 0.3 + 'px, ' + y * 0.3 + 'px)';
-      });
-    });
-    el.addEventListener('mouseleave', function () {
-      el.style.transform = '';
-    });
-  });
-}
-
 /* ── Cursor Glow ── */
 export function initCursorGlow() {
   if (matchMedia('(pointer: coarse)').matches || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -202,21 +181,4 @@ export function initParticles(canvasId, opts) {
   draw();
 }
 
-/* ── Ripple Effect ── */
-export function initRipples(selector) {
-  document.querySelectorAll(selector).forEach(function (el) {
-    el.style.position = 'relative';
-    el.style.overflow = 'hidden';
-    el.addEventListener('mousedown', function (e) {
-      var rect = el.getBoundingClientRect();
-      var r = Math.max(rect.width, rect.height);
-      var x = e.clientX - rect.left - r / 2;
-      var y = e.clientY - rect.top - r / 2;
-      var ripple = document.createElement('span');
-      ripple.className = 'ripple';
-      ripple.style.cssText = 'position:absolute;border-radius:50%;background:rgba(255,255,255,0.35);width:' + r + 'px;height:' + r + 'px;left:' + x + 'px;top:' + y + 'px;transform:scale(0);animation:ripple-in 0.5s ease-out forwards;pointer-events:none';
-      el.appendChild(ripple);
-      ripple.addEventListener('animationend', function () { ripple.remove(); });
-    });
-  });
-}
+
