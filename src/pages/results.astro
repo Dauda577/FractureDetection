@@ -171,11 +171,6 @@ import Layout from '../layouts/Layout.astro';
             </div>
           </div>
 
-          <div class="disclaimer-banner">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-            <span>This result is intended to assist healthcare professionals and should not replace professional medical diagnosis. Always consult a qualified medical professional for clinical decisions.</span>
-          </div>
-
           <div class="batch-nav hidden" id="batch-nav">
             <div class="batch-nav-info">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" /></svg>
@@ -617,14 +612,6 @@ import Layout from '../layouts/Layout.astro';
   }
   .report-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(37,99,235,0.35); }
 
-  .disclaimer-banner {
-    display: flex; align-items: flex-start; gap: 10px;
-    padding: 14px 18px; background: rgba(245,158,11,0.06);
-    border: 1px solid rgba(245,158,11,0.15); border-radius: var(--radius-md);
-    font-family: var(--font-body); font-size: 12px; line-height: 1.5;
-    color: var(--color-text-muted);
-  }
-  .disclaimer-banner svg { flex-shrink: 0; margin-top: 1px; color: #f59e0b; }
 
   .batch-nav {
     display: flex; align-items: center; justify-content: space-between;

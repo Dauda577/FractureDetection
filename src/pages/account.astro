@@ -96,15 +96,6 @@ import Sidebar from '../components/Sidebar.astro';
                     <div class="ood-bar-fill" id="ood-bar-fill" style="width:0%"></div>
                   </div>
                 </div>
-
-                <div class="card card-reco">
-                  <div class="card-header">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
-                    <span>Recommendation</span>
-                  </div>
-                  <div class="reco-text" id="reco-text">Run an analysis to receive a recommendation.</div>
-                  <div class="reco-severity" id="reco-severity"></div>
-                </div>
               </div>
 
               <div class="row row-2">
@@ -142,78 +133,14 @@ import Sidebar from '../components/Sidebar.astro';
               </div>
 
               <div class="row row-3">
-                <div class="card card-probs">
+                <div class="card card-reco">
                   <div class="card-header">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10" /><path d="M12 20V4" /><path d="M6 20v-6" /></svg>
-                    <span>Prediction Probabilities</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
+                    <span>Recommendation</span>
                   </div>
-                  <div class="probs-chart" id="probs-chart">
-                    <div class="prob-bar-row">
-                      <span class="prob-label">Fracture</span>
-                      <div class="prob-bar-track">
-                        <div class="prob-bar-fill prob-bar-danger" id="prob-bar-fracture" style="width:0%"></div>
-                      </div>
-                      <span class="prob-value" id="prob-value-fracture">—</span>
-                    </div>
-                    <div class="prob-bar-row">
-                      <span class="prob-label">Normal</span>
-                      <div class="prob-bar-track">
-                        <div class="prob-bar-fill prob-bar-safe" id="prob-bar-normal" style="width:0%"></div>
-                      </div>
-                      <span class="prob-value" id="prob-value-normal">—</span>
-                    </div>
-                  </div>
-                  <div class="probs-empty" id="probs-empty">Run an analysis to see probabilities.</div>
+                  <div class="reco-text" id="reco-text">Run an analysis to receive a recommendation.</div>
+                  <div class="reco-severity" id="reco-severity"></div>
                 </div>
-
-                <div class="card card-speedo">
-                  <div class="card-header">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
-                    <span>Novelty Score</span>
-                  </div>
-                  <div class="speedo-wrap">
-                    <svg class="speedo-svg" viewBox="0 0 200 120">
-                      <path class="speedo-track" d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="var(--color-bg-subtle)" stroke-width="12" stroke-linecap="round" />
-                      <path class="speedo-fill" id="speedo-fill" d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="var(--color-success)" stroke-width="12" stroke-linecap="round" stroke-dasharray="226" stroke-dashoffset="226" />
-                      <line class="speedo-needle" id="speedo-needle" x1="100" y1="100" x2="100" y2="30" stroke="var(--color-text)" stroke-width="2.5" stroke-linecap="round" transform="rotate(-90 100 100)" />
-                      <circle cx="100" cy="100" r="5" fill="var(--color-text)" />
-                      <text class="speedo-label" x="100" y="30" text-anchor="middle" font-size="11" font-weight="600" fill="var(--color-text-muted)">OOD</text>
-                      <text class="speedo-readout" id="speedo-readout" x="100" y="80" text-anchor="middle" font-size="20" font-weight="700" fill="currentColor">—</text>
-                    </svg>
-                  </div>
-                  <div class="speedo-status" id="speedo-status">No data</div>
-                </div>
-
-                <div class="card card-info">
-                  <div class="card-header">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="12" /><line x1="12" y1="8" x2="12.01" y2="8" /></svg>
-                    <span>Key Information</span>
-                  </div>
-                  <div class="info-list">
-                    <div class="info-row"><span class="info-key">Patient</span><span class="info-val" id="info-patient">—</span></div>
-                    <div class="info-row"><span class="info-key">Analysis Date</span><span class="info-val" id="info-date">—</span></div>
-                    <div class="info-row"><span class="info-key">Model</span><span class="info-val" id="info-model">v2.1.0</span></div>
-                    <div class="info-row"><span class="info-key">Status</span><span class="info-val" id="info-status">Pending</span></div>
-                    <div class="info-row"><span class="info-key">Image Type</span><span class="info-val" id="info-image-type">X-ray</span></div>
-                  </div>
-                </div>
-
-                <div class="card card-report-card">
-                  <div class="card-header">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /></svg>
-                    <span>Generate Report</span>
-                  </div>
-                  <p class="report-desc">Download a comprehensive PDF report with all analysis results, images, and findings.</p>
-                  <button class="report-btn" id="btn-report-download">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
-                    Download Report
-                  </button>
-                </div>
-              </div>
-
-              <div class="disclaimer-banner">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                <span>This result is intended to assist healthcare professionals and should not replace professional medical diagnosis. Always consult a qualified medical professional for clinical decisions.</span>
               </div>
 
             </div>
@@ -662,148 +589,11 @@ import Sidebar from '../components/Sidebar.astro';
       recoSeverity.className = 'reco-severity reco-severity-safe';
     }
 
-    var probFracture = document.getElementById('prob-bar-fracture');
-    var probNormal = document.getElementById('prob-bar-normal');
-    var probValFracture = document.getElementById('prob-value-fracture');
-    var probValNormal = document.getElementById('prob-value-normal');
-    var probsEmpty = document.getElementById('probs-empty');
-    if (probFracture && probNormal) {
-      probsEmpty.style.display = 'none';
-      var fracPct = isFracture ? confNum : (100 - confNum);
-      var normPct = isFracture ? (100 - confNum) : confNum;
-      probFracture.style.width = fracPct + '%';
-      probNormal.style.width = normPct + '%';
-      probValFracture.textContent = fracPct.toFixed(1) + '%';
-      probValNormal.textContent = normPct.toFixed(1) + '%';
-    }
-
-    var speedoFill = document.getElementById('speedo-fill');
-    var speedoNeedle = document.getElementById('speedo-needle');
-    var speedoReadout = document.getElementById('speedo-readout');
-    var speedoStatus = document.getElementById('speedo-status');
-    if (speedoFill && speedoNeedle) {
-      var maxDash = 226;
-      var oodAngle = Math.min(oodScore / 100, 1) * 180;
-      var oodOffset = maxDash - (oodAngle / 180) * maxDash;
-      speedoFill.style.strokeDashoffset = oodOffset;
-      speedoNeedle.setAttribute('transform', 'rotate(' + (oodAngle - 90) + ' 100 100)');
-      speedoReadout.textContent = oodScore.toFixed(1);
-      if (oodScore < 25) {
-        speedoFill.style.stroke = 'var(--color-success)';
-        speedoStatus.textContent = 'In-distribution';
-        speedoStatus.style.color = 'var(--color-success)';
-      } else if (oodScore < 50) {
-        speedoFill.style.stroke = '#f59e0b';
-        speedoStatus.textContent = 'Borderline';
-        speedoStatus.style.color = '#f59e0b';
-      } else {
-        speedoFill.style.stroke = 'var(--color-danger)';
-        speedoStatus.textContent = 'Out-of-distribution';
-        speedoStatus.style.color = 'var(--color-danger)';
-      }
-    }
-
-    var infoPatient = document.getElementById('info-patient');
-    var infoDate = document.getElementById('info-date');
-    var infoStatus = document.getElementById('info-status');
-    var patientId = sessionStorage.getItem('fracturedetect:patient_id');
-    if (patientId) {
-      import('../scripts/patients.js').then(function (mod) {
-        mod.getPatient(patientId).then(function (p) {
-          if (p && infoPatient) infoPatient.textContent = p.name;
-        });
-      });
-    }
-    if (infoDate) infoDate.textContent = new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
-    if (infoStatus) {
-      infoStatus.textContent = isFracture ? 'Fracture Detected' : 'Normal';
-      infoStatus.style.color = isFracture ? 'var(--color-danger)' : 'var(--color-success)';
-    }
-
     if (imgData) {
       var orig = document.getElementById('img-original');
       var heat = document.getElementById('img-heatmap');
       if (orig) { orig.src = imgData; document.getElementById('empty-original')?.classList.add('hidden'); }
       if (heat) { heat.src = imgData; document.getElementById('empty-heatmap')?.classList.add('hidden'); }
-    }
-
-    var downloadBtn = document.getElementById('btn-report-download');
-    if (downloadBtn) {
-      downloadBtn.addEventListener('click', function () {
-        var canvas = document.createElement('canvas');
-        var ctx = canvas.getContext('2d');
-        canvas.width = 800;
-        var imgW = 400, imgH = 300;
-        var findingsText = isFracture
-          ? ['Bone discontinuity detected in the forearm region', 'Fracture localized to the mid-shaft of the radius', 'No signs of comminution or displacement detected']
-          : ['No visible bone discontinuity detected', 'Bone alignment appears normal', 'No suspicious abnormalities identified'];
-        canvas.height = 700 + imgH + findingsText.length * 28;
-
-        ctx.fillStyle = '#ffffff';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = '#0F172A';
-        ctx.font = 'bold 26px Poppins, sans-serif';
-        ctx.fillText('FractureDetect Analysis Report', 40, 50);
-        ctx.fillStyle = '#475569';
-        ctx.font = '14px Inter, sans-serif';
-        ctx.fillText('Generated: ' + new Date().toLocaleString(), 40, 80);
-        ctx.strokeStyle = '#E2E8F0';
-        ctx.lineWidth = 1;
-        ctx.beginPath(); ctx.moveTo(40, 100); ctx.lineTo(760, 100); ctx.stroke();
-
-        ctx.fillStyle = '#0F172A';
-        ctx.font = 'bold 20px Poppins, sans-serif';
-        ctx.fillText('Prediction: ' + diagBadge.textContent, 40, 140);
-        ctx.fillStyle = isFracture ? '#DC2626' : '#16A34A';
-        ctx.font = 'bold 40px Poppins, sans-serif';
-        ctx.fillText(confNum + '%', 40, 190);
-        ctx.fillStyle = '#475569';
-        ctx.font = '14px Inter, sans-serif';
-        ctx.fillText('Confidence Score', 40, 210);
-        ctx.fillStyle = '#0F172A';
-        ctx.font = '15px Inter, sans-serif';
-        ctx.fillText('Inference Time: ' + (result.inferenceTimeSec || 0).toFixed(2) + ' sec', 40, 248);
-        ctx.fillText('Model Version: v2.1.0', 40, 272);
-
-        ctx.strokeStyle = '#E2E8F0'; ctx.beginPath(); ctx.moveTo(40, 296); ctx.lineTo(760, 296); ctx.stroke();
-        ctx.fillStyle = '#0F172A'; ctx.font = 'bold 16px Poppins, sans-serif';
-        ctx.fillText('Findings Summary', 40, 325);
-        ctx.fillStyle = '#334155'; ctx.font = '14px Inter, sans-serif';
-        findingsText.forEach(function (t, i) { ctx.fillText('\u2022  ' + t, 40, 353 + i * 28); });
-
-        var findingsEndY = 353 + findingsText.length * 28;
-        ctx.strokeStyle = '#E2E8F0'; ctx.beginPath(); ctx.moveTo(40, findingsEndY + 8); ctx.lineTo(760, findingsEndY + 8); ctx.stroke();
-        ctx.fillStyle = '#0F172A'; ctx.font = 'bold 16px Poppins, sans-serif';
-        ctx.fillText('X-ray Image', 40, findingsEndY + 40);
-
-        var imgX = Math.round((canvas.width - imgW) / 2);
-        var origImg = document.getElementById('img-original');
-        if (origImg && origImg.src) ctx.drawImage(origImg, imgX, findingsEndY + 56, imgW, imgH);
-
-        if (isFracture) {
-          var overlayCanvas = document.createElement('canvas');
-          overlayCanvas.width = imgW; overlayCanvas.height = imgH;
-          var octx = overlayCanvas.getContext('2d');
-          var gradient = octx.createRadialGradient(imgW * 0.42, imgH * 0.52, 0, imgW * 0.42, imgH * 0.52, imgW * 0.5);
-          gradient.addColorStop(0, 'rgba(255, 50, 0, 0.5)');
-          gradient.addColorStop(0.18, 'rgba(255, 130, 0, 0.35)');
-          gradient.addColorStop(0.38, 'rgba(255, 220, 0, 0.2)');
-          gradient.addColorStop(1, 'transparent');
-          octx.fillStyle = gradient; octx.fillRect(0, 0, imgW, imgH);
-          ctx.drawImage(overlayCanvas, imgX, findingsEndY + 56, imgW, imgH);
-        }
-
-        var imgBottomY = findingsEndY + 56 + imgH + 24;
-        ctx.strokeStyle = '#E2E8F0'; ctx.beginPath(); ctx.moveTo(40, imgBottomY); ctx.lineTo(760, imgBottomY); ctx.stroke();
-        ctx.fillStyle = '#475569'; ctx.font = '13px Inter, sans-serif';
-        ctx.fillText('This result is intended to assist healthcare professionals and should not replace', 40, imgBottomY + 24);
-        ctx.fillText('professional medical diagnosis.', 40, imgBottomY + 44);
-
-        var link = document.createElement('a');
-        link.download = 'fracturedetect-report.png';
-        link.href = canvas.toDataURL('image/png');
-        link.click();
-      });
     }
   }
 
@@ -912,7 +702,7 @@ import Sidebar from '../components/Sidebar.astro';
   }
 
   /* ── Row 1: Stat Cards ── */
-  .row-1 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+  .row-1 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
   .card {
     background: var(--color-surface); border: 1px solid var(--color-border);
     border-radius: var(--radius-lg); padding: 18px;
@@ -976,52 +766,8 @@ import Sidebar from '../components/Sidebar.astro';
   .step-img-wrap:hover .step-zoom { opacity: 1; }
   .step-zoom:hover { background: rgba(0,0,0,0.7); }
 
-  /* ── Row 3: Mixed Cards ── */
-  .row-3 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
-
-  .probs-chart { display: flex; flex-direction: column; gap: 10px; }
-  .prob-bar-row { display: flex; align-items: center; gap: 8px; }
-  .prob-label { font-family: var(--font-body); font-size: 12px; color: var(--color-text); min-width: 52px; font-weight: 500; }
-  .prob-bar-track { flex: 1; height: 8px; background: var(--color-bg-subtle); border-radius: 4px; overflow: hidden; }
-  .prob-bar-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
-  .prob-bar-danger { background: var(--color-danger); }
-  .prob-bar-safe { background: var(--color-success); }
-  .prob-value { font-family: var(--font-heading); font-weight: 600; font-size: 13px; color: var(--color-text); min-width: 40px; text-align: right; }
-  .probs-empty { font-family: var(--font-body); font-size: 12px; color: var(--color-text-muted); padding: 12px 0; }
-
-  .speedo-wrap { text-align: center; padding: 4px 0; }
-  .speedo-svg { width: 120px; height: 72px; display: block; margin: 0 auto; }
-  .speedo-track { stroke: var(--color-bg-subtle); }
-  .speedo-fill { transition: stroke-dashoffset 0.6s ease; }
-  .speedo-readout { font-family: var(--font-heading); }
-  .speedo-status { text-align: center; font-family: var(--font-body); font-size: 11px; font-weight: 600; margin-top: 2px; }
-
-  .info-list { display: flex; flex-direction: column; gap: 0; }
-  .info-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--color-border); }
-  .info-row:last-child { border-bottom: none; }
-  .info-key { font-family: var(--font-body); font-size: 12px; color: var(--color-text-muted); }
-  .info-val { font-family: var(--font-body); font-size: 12px; font-weight: 600; color: var(--color-text); }
-
-  .report-desc { font-family: var(--font-body); font-size: 12px; line-height: 1.5; color: var(--color-text-muted); margin: 0 0 14px; }
-  .report-btn {
-    display: flex; align-items: center; justify-content: center; gap: 6px;
-    font-family: var(--font-body); font-weight: 600; font-size: 12px; color: white;
-    background: linear-gradient(135deg, var(--color-primary), #1d4ed8);
-    padding: 8px 14px; border: none; border-radius: var(--radius-md);
-    cursor: pointer; width: 100%; transition: all 0.2s ease;
-    box-shadow: 0 4px 12px rgba(37,99,235,0.25);
-  }
-  .report-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(37,99,235,0.35); }
-
-  /* ── Disclaimer ── */
-  .disclaimer-banner {
-    display: flex; align-items: flex-start; gap: 10px;
-    padding: 14px 18px; background: rgba(245,158,11,0.06);
-    border: 1px solid rgba(245,158,11,0.15); border-radius: var(--radius-md);
-    font-family: var(--font-body); font-size: 12px; line-height: 1.5;
-    color: var(--color-text-muted);
-  }
-  .disclaimer-banner svg { flex-shrink: 0; margin-top: 1px; color: #f59e0b; }
+  /* ── Row 3: Recommendation ── */
+  .row-3 { display: grid; grid-template-columns: 1fr; gap: 16px; margin-bottom: 24px; }
 
   /* ── Sub-views (Patients, History, Reports, Settings) ── */
   .view-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
