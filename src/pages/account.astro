@@ -491,16 +491,16 @@ import Sidebar from '../components/Sidebar.astro';
     });
 
     var avatarInput = document.getElementById('avatar-input');
-    var settingsAvatar = document.getElementById('settings-avatar');
+    var avatarImg = document.getElementById('settings-avatar');
     async function loadStoredAvatar() {
       try {
         var { getUser } = await import('../scripts/auth.js');
         var user = await getUser();
         if (user && user.avatarUrl) {
-          settingsAvatar.style.backgroundImage = 'url(' + user.avatarUrl + ')';
-          settingsAvatar.style.backgroundSize = 'cover';
-          settingsAvatar.style.backgroundPosition = 'center';
-          settingsAvatar.textContent = '';
+          avatarImg.style.backgroundImage = 'url(' + user.avatarUrl + ')';
+          avatarImg.style.backgroundSize = 'cover';
+          avatarImg.style.backgroundPosition = 'center';
+          avatarImg.textContent = '';
         }
       } catch (err) {}
     }
@@ -508,22 +508,22 @@ import Sidebar from '../components/Sidebar.astro';
     document.getElementById('btn-change-avatar').addEventListener('click', function () {
       avatarInput.click();
     });
-    avatarInput.addEventListener('change', async function () {
+    avatarInput.addEventListener('change', function () {
       var file = this.files[0];
       if (!file) return;
       var reader = new FileReader();
-      reader.onload = async function (e) {
-        settingsAvatar.style.backgroundImage = 'url(' + e.target.result + ')';
-        settingsAvatar.style.backgroundSize = 'cover';
-        settingsAvatar.style.backgroundPosition = 'center';
-        settingsAvatar.textContent = '';
-        try {
-          var { supabase } = await import('../lib/supabase.js');
-          var { data: { session } } = await supabase.auth.getSession();
-          if (session) {
-            await supabase.auth.updateUser({ data: { avatar_url: e.target.result } });
-          }
-        } catch (err) {}
+      reader.onload = function (e) {
+        avatarImg.style.backgroundImage = 'url(' + e.target.result + ')';
+        avatarImg.style.backgroundSize = 'cover';
+        avatarImg.style.backgroundPosition = 'center';
+        avatarImg.textContent = '';
+        import('../lib/supabase.js').then(function (m) {
+          m.supabase.auth.getSession().then(function (res) {
+            if (res.data.session) {
+              m.supabase.auth.updateUser({ data: { avatar_url: e.target.result } });
+            }
+          });
+        });
         if (window.showToast) window.showToast({ type: 'success', message: 'Photo saved.' });
       };
       reader.readAsDataURL(file);
