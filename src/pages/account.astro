@@ -557,32 +557,24 @@ import Sidebar from '../components/Sidebar.astro';
       if (!session) return;
 
       var userId = session.user.id;
-      var [{ data: analyses }, { data: patients }] = await Promise.all([
-        supabase.from('analyses').select('id, prediction, confidence, created_at').eq('user_id', userId).order('created_at', { ascending: false }).limit(5),
-        supabase.from('patients').select('id, name, created_at').eq('user_id', userId).order('created_at', { ascending: false }).limit(3)
-      ]);
+      var { data: notifs } = await supabase
+        .from('notifications')
+        .select('id, message, type, read, created_at')
+        .eq('user_id', userId)
+        .order('created_at', { ascending: false })
+        .limit(10);
 
-      (analyses || []).forEach(function (a) {
-        var pred = a.prediction === 'fracture' ? 'Fracture detected' : 'Normal';
-        var conf = (a.confidence * 100).toFixed(1) + '%';
+      (notifs || []).forEach(function (n) {
         items.push({
-          text: 'Analysis complete — <strong>' + pred + '</strong> (' + conf + ' confidence)',
-          time: timeAgo(new Date(a.created_at)),
-          unread: true
-        });
-      });
-
-      (patients || []).forEach(function (p) {
-        items.push({
-          text: 'New patient registered: <strong>' + p.name + '</strong>',
-          time: timeAgo(new Date(p.created_at)),
-          unread: true
+          id: n.id,
+          text: n.message,
+          time: timeAgo(new Date(n.created_at)),
+          unread: !n.read
         });
       });
 
       if (items.length === 0) {
-        items.push({ text: 'Model updated to <strong>v2.1.0</strong>', time: 'Recently', unread: false });
-        items.push({ text: 'Welcome to FractureDetect! Start by analyzing an X-ray.', time: 'Recently', unread: false });
+        items.push({ text: 'Welcome to FractureDetect! Start by analyzing an X-ray.', time: '', unread: false });
       }
     } catch (err) {
       items.push({ text: 'Could not load notifications.', time: '', unread: false });
@@ -613,11 +605,24 @@ import Sidebar from '../components/Sidebar.astro';
     return date.toLocaleDateString();
   }
 
+  async function markAllRead() {
+    try {
+      var { supabase } = await import('../lib/supabase.js');
+      var { data: { session } } = await supabase.auth.getSession();
+      if (!session) return;
+      await supabase.from('notifications').update({ read: true }).eq('user_id', session.user.id).eq('read', false);
+      if (notifDot) notifDot.style.display = 'none';
+    } catch (err) {}
+  }
+
   if (btnNotif && notifDropdown) {
     btnNotif.addEventListener('click', function (e) {
       e.stopPropagation();
       var hidden = notifDropdown.classList.contains('hidden');
-      if (hidden) loadNotifications();
+      if (hidden) {
+        loadNotifications();
+        markAllRead();
+      }
       notifDropdown.classList.toggle('hidden');
     });
     document.addEventListener('click', function (e) {

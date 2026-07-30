@@ -39,10 +39,12 @@ const links = [
     <div class="nav-actions">
       <a href="/signin" class="nav-signin" style="display:none">Sign In</a>
       <a href="/account" class="avatar" aria-label="Account" style="display:none">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="12" cy="8" r="4" stroke="#64748B" stroke-width="1.6"/>
-          <path d="M4 20c1.6-3.6 4.8-5.5 8-5.5s6.4 1.9 8 5.5" stroke="#64748B" stroke-width="1.6" stroke-linecap="round"/>
-        </svg>
+        <div class="avatar-icon" id="nav-avatar-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="8" r="4" stroke="#64748B" stroke-width="1.6"/>
+            <path d="M4 20c1.6-3.6 4.8-5.5 8-5.5s6.4 1.9 8 5.5" stroke="#64748B" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </div>
         <span class="avatar-label">Account</span>
       </a>
       <button class="btn-hamburger" id="btn-hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
@@ -63,11 +65,21 @@ const links = [
   const navLinks = document.getElementById('nav-links');
   const signInLink = document.querySelector('.nav-signin');
   const avatarLink = document.querySelector('.avatar');
+  const avatarIcon = document.getElementById('nav-avatar-icon');
 
-  function updateNav(session) {
+  async function updateNav(session) {
     if (session) {
       if (signInLink) signInLink.style.display = 'none';
       if (avatarLink) avatarLink.style.display = 'flex';
+      if (avatarIcon && session.user?.user_metadata?.avatar_url) {
+        avatarIcon.innerHTML = '';
+        avatarIcon.style.backgroundImage = 'url(' + session.user.user_metadata.avatar_url + ')';
+        avatarIcon.style.backgroundSize = 'cover';
+        avatarIcon.style.backgroundPosition = 'center';
+        avatarIcon.style.borderRadius = '50%';
+        avatarIcon.style.width = '28px';
+        avatarIcon.style.height = '28px';
+      }
     } else {
       if (signInLink) signInLink.style.display = '';
       if (avatarLink) avatarLink.style.display = 'none';
@@ -239,6 +251,12 @@ const links = [
     font-size: 13px;
     color: var(--color-text);
     white-space: nowrap;
+  }
+
+  .avatar-icon {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: #F1F5F9; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
   }
 
   .avatar:hover {

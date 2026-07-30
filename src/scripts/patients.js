@@ -14,6 +14,13 @@ export async function savePatient(name, age, gender, medicalRecordId, notes) {
   }).select('id').single()
 
   if (error) return null
+
+  supabase.from('notifications').insert({
+    user_id: session.user.id,
+    type: 'patient',
+    message: 'New patient registered: ' + name
+  }).then(function () {});
+
   return data.id
 }
 

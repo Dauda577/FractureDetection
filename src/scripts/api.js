@@ -26,6 +26,15 @@ export async function saveAnalysis(imageData, prediction, confidence, inferenceT
   const { data, error } = await supabase.from('analyses').insert(record).select('id').single()
 
   if (error) return null
+
+  var predLabel = prediction === 'fracture' ? 'Fracture detected' : 'Normal';
+  var confPct = (confidence * 100).toFixed(1) + '%';
+  supabase.from('notifications').insert({
+    user_id: userId,
+    type: 'analysis',
+    message: 'Analysis complete — ' + predLabel + ' (' + confPct + ' confidence)'
+  }).then(function () {});
+
   return data.id
 }
 
