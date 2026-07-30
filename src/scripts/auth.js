@@ -64,3 +64,11 @@ export async function updatePassword(newPassword) {
 export function onAuthStateChange(callback) {
   return supabase.auth.onAuthStateChange(callback)
 }
+
+export async function updateProfile({ name }) {
+  const { data, error } = await supabase.auth.updateUser({
+    data: { full_name: name }
+  })
+  if (error) return { ok: false, error: error.message }
+  return { ok: true, user: data.user }
+}

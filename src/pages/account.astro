@@ -272,20 +272,91 @@ import Sidebar from '../components/Sidebar.astro';
               <div class="view-header">
                 <h2 class="view-title">Settings</h2>
               </div>
-              <div class="settings-card">
-                <div class="settings-section">
-                  <h3 class="settings-section-title">Profile</h3>
-                  <div class="settings-row"><span class="settings-key">Name</span><span class="settings-val" id="settings-name">User</span></div>
-                  <div class="settings-row"><span class="settings-key">Email</span><span class="settings-val" id="settings-email">user@example.com</span></div>
-                </div>
-                <div class="settings-section">
-                  <h3 class="settings-section-title">Preferences</h3>
-                  <div class="settings-row"><span class="settings-key">Notifications</span><span class="settings-val">Coming soon</span></div>
-                  <div class="settings-row"><span class="settings-key">Theme</span><span class="settings-val">System</span></div>
-                </div>
-                <div class="settings-section">
-                  <h3 class="settings-section-title">Account</h3>
-                  <button class="settings-signout-btn" id="btn-settings-signout">Sign Out</button>
+              <div class="settings-grid">
+                <div class="settings-card">
+                  <div class="settings-section">
+                    <h3 class="settings-section-title">Profile</h3>
+                    <div class="settings-avatar-row">
+                      <div class="settings-avatar" id="settings-avatar">U</div>
+                      <div>
+                        <button class="btn-text-link" id="btn-change-avatar">Change photo</button>
+                      </div>
+                    </div>
+                    <div class="settings-field">
+                      <label class="settings-label">Full Name</label>
+                      <input class="settings-input" id="settings-name-input" type="text" placeholder="Your name" />
+                    </div>
+                    <div class="settings-field">
+                      <label class="settings-label">Email</label>
+                      <input class="settings-input" id="settings-email-input" type="email" disabled />
+                      <span class="settings-hint">Email changes require re-verification</span>
+                    </div>
+                    <div class="settings-field">
+                      <label class="settings-label">Member since</label>
+                      <span class="settings-val" id="settings-member-since">—</span>
+                    </div>
+                    <button class="settings-save-btn" id="btn-save-profile">Save Changes</button>
+                  </div>
+
+                  <div class="settings-section">
+                    <h3 class="settings-section-title">Appearance</h3>
+                    <div class="settings-row">
+                      <div>
+                        <span class="settings-key">Theme</span>
+                        <span class="settings-hint-block">Choose how FractureDetect looks to you</span>
+                      </div>
+                      <select class="settings-select" id="settings-theme">
+                        <option value="system">System</option>
+                        <option value="light">Light</option>
+                        <option value="dark">Dark</option>
+                      </select>
+                    </div>
+                    <div class="settings-row">
+                      <div>
+                        <span class="settings-key">Notifications</span>
+                        <span class="settings-hint-block">Email alerts for completed analyses</span>
+                      </div>
+                      <label class="toggle">
+                        <input type="checkbox" id="settings-notifications" checked />
+                        <span class="toggle-track"></span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="settings-section">
+                    <h3 class="settings-section-title">Security</h3>
+                    <button class="settings-action-btn" id="btn-change-password">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                      Change Password
+                    </button>
+                    <div class="api-key-section">
+                      <div class="settings-row">
+                        <div>
+                          <span class="settings-key">API Key</span>
+                          <span class="settings-hint-block">Use this to authenticate API requests</span>
+                        </div>
+                        <button class="btn-text-link" id="btn-generate-key">Generate Key</button>
+                      </div>
+                      <div id="api-key-display" class="hidden">
+                        <div class="api-key-copied hidden" id="api-key-copied">Copied!</div>
+                        <div class="api-key-box">
+                          <code id="api-key-value"></code>
+                          <button class="btn-icon-sm" id="btn-copy-key" title="Copy to clipboard">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="settings-section settings-danger">
+                    <h3 class="settings-section-title settings-section-title-danger">Danger Zone</h3>
+                    <p class="settings-danger-desc">Once you delete your account, there is no going back. All patient records, analyses, and uploaded images will be permanently removed.</p>
+                    <button class="settings-danger-btn" id="btn-delete-account">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                      Delete Account
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -354,9 +425,77 @@ import Sidebar from '../components/Sidebar.astro';
     if (user) {
       var topInitial = document.getElementById('top-avatar-initial');
       if (topInitial) topInitial.textContent = user.name.charAt(0).toUpperCase();
-      document.getElementById('settings-name').textContent = user.name;
-      document.getElementById('settings-email').textContent = user.email;
+      var settingsNameInput = document.getElementById('settings-name-input');
+      var settingsEmailInput = document.getElementById('settings-email-input');
+      var settingsAvatar = document.getElementById('settings-avatar');
+      var settingsMemberSince = document.getElementById('settings-member-since');
+      if (settingsNameInput) settingsNameInput.value = user.name;
+      if (settingsEmailInput) settingsEmailInput.value = user.email;
+      if (settingsAvatar) settingsAvatar.textContent = user.name.charAt(0).toUpperCase();
+      if (settingsMemberSince) {
+        settingsMemberSince.textContent = new Date(user.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+      }
     }
+
+    var themeSelect = document.getElementById('settings-theme');
+    if (themeSelect) {
+      themeSelect.value = localStorage.getItem('fracturedetect:theme') || 'system';
+      themeSelect.addEventListener('change', function () {
+        localStorage.setItem('fracturedetect:theme', this.value);
+        applyTheme(this.value);
+      });
+    }
+
+    document.getElementById('btn-save-profile').addEventListener('click', async function () {
+      var nameInput = document.getElementById('settings-name-input');
+      var btn = this;
+      var orig = btn.textContent;
+      btn.textContent = 'Saving...';
+      btn.disabled = true;
+      var { updateProfile } = await import('../scripts/auth.js');
+      var result = await updateProfile({ name: nameInput.value });
+      if (result.ok) {
+        if (window.showToast) window.showToast({ type: 'success', message: 'Profile updated.' });
+        var avatar = document.getElementById('settings-avatar');
+        var topAvatar = document.getElementById('top-avatar-initial');
+        if (avatar) avatar.textContent = nameInput.value.charAt(0).toUpperCase();
+        if (topAvatar) topAvatar.textContent = nameInput.value.charAt(0).toUpperCase();
+      } else {
+        if (window.showToast) window.showToast({ type: 'error', message: result.error || 'Failed to update profile.' });
+      }
+      btn.textContent = orig;
+      btn.disabled = false;
+    });
+
+    document.getElementById('btn-change-password').addEventListener('click', function () {
+      window.location.href = '/update-password';
+    });
+
+    document.getElementById('btn-generate-key').addEventListener('click', function () {
+      var display = document.getElementById('api-key-display');
+      var keyValue = document.getElementById('api-key-value');
+      var chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+      var key = 'fd_';
+      for (var i = 0; i < 40; i++) key += chars.charAt(Math.floor(Math.random() * chars.length));
+      keyValue.textContent = key;
+      display.classList.remove('hidden');
+    });
+
+    document.getElementById('btn-copy-key').addEventListener('click', async function () {
+      var keyValue = document.getElementById('api-key-value').textContent;
+      try {
+        await navigator.clipboard.writeText(keyValue);
+        var copied = document.getElementById('api-key-copied');
+        copied.classList.remove('hidden');
+        setTimeout(function () { copied.classList.add('hidden'); }, 2000);
+      } catch (e) {}
+    });
+
+    document.getElementById('btn-delete-account').addEventListener('click', function () {
+      if (confirm('Are you sure you want to delete your account? This action cannot be undone. All your data, including patients, analyses, and images, will be permanently deleted.')) {
+        if (window.showToast) window.showToast({ type: 'info', message: 'Please contact support@fracturedetect.ai to delete your account.' });
+      }
+    });
 
     document.querySelectorAll('.nav-item').forEach(function (item) {
       item.addEventListener('click', function (e) {
@@ -372,6 +511,12 @@ import Sidebar from '../components/Sidebar.astro';
 
     loadLastResult();
   }
+
+  function applyTheme(theme) {
+    document.documentElement.classList.remove('light', 'dark');
+    if (theme === 'light' || theme === 'dark') document.documentElement.classList.add(theme);
+  }
+  applyTheme(localStorage.getItem('fracturedetect:theme') || 'system');
 
   async function loadPatientsList() {
     var { getPatients } = await import('../scripts/patients.js');
@@ -923,16 +1068,87 @@ import Sidebar from '../components/Sidebar.astro';
   .hc-view-btn:hover { background: rgba(37,99,235,0.14); }
   .hc-view-btn svg { flex-shrink: 0; }
 
-  .settings-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 28px; box-shadow: 0 1px 4px rgba(0,0,0,0.03); }
-  .settings-section { margin-bottom: 24px; }
-  .settings-section:last-child { margin-bottom: 0; }
-  .settings-section-title { font-family: var(--font-heading); font-weight: 600; font-size: 15px; color: var(--color-text); margin: 0 0 12px; }
-  .settings-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--color-border); }
-  .settings-row:last-child { border-bottom: none; }
-  .settings-key { font-family: var(--font-body); font-size: 14px; color: var(--color-text-muted); }
+  /* ── Settings ── */
+  .settings-grid { max-width: 640px; }
+  .settings-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 32px; box-shadow: 0 1px 4px rgba(0,0,0,0.03); }
+  .settings-section { margin-bottom: 32px; padding-bottom: 28px; border-bottom: 1px solid var(--color-border); }
+  .settings-section:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+  .settings-section-title { font-family: var(--font-heading); font-weight: 600; font-size: 16px; color: var(--color-text); margin: 0 0 16px; }
+  .settings-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; gap: 16px; }
+  .settings-key { font-family: var(--font-body); font-size: 14px; font-weight: 500; color: var(--color-text); }
   .settings-val { font-family: var(--font-body); font-size: 14px; font-weight: 600; color: var(--color-text); }
-  .settings-signout-btn { font-family: var(--font-body); font-weight: 600; font-size: 14px; color: white; background: var(--color-danger); padding: 10px 24px; border: none; border-radius: var(--radius-md); cursor: pointer; transition: all 0.15s; }
-  .settings-signout-btn:hover { background: #B91C1C; transform: translateY(-1px); }
+  .settings-hint { display: block; font-family: var(--font-body); font-size: 12px; color: var(--color-text-muted); margin-top: 2px; }
+  .settings-hint-block { display: block; font-family: var(--font-body); font-size: 12px; color: var(--color-text-muted); margin-top: 2px; }
+
+  .settings-avatar-row { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+  .settings-avatar { width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, var(--color-primary), #1d4ed8); display: flex; align-items: center; justify-content: center; font-family: var(--font-heading); font-weight: 700; font-size: 26px; color: white; flex-shrink: 0; }
+  .btn-text-link { font-family: var(--font-body); font-weight: 500; font-size: 13px; color: var(--color-primary); background: none; border: none; cursor: pointer; padding: 4px 0; transition: opacity 0.15s; }
+  .btn-text-link:hover { opacity: 0.8; }
+
+  .settings-field { margin-bottom: 16px; }
+  .settings-label { display: block; font-family: var(--font-body); font-weight: 500; font-size: 13px; color: var(--color-text-muted); margin-bottom: 6px; }
+  .settings-input {
+    width: 100%; font-family: var(--font-body); font-size: 14px; color: var(--color-text);
+    background: var(--color-bg-subtle); border: 1px solid var(--color-border);
+    border-radius: var(--radius-md); padding: 10px 14px; outline: none;
+    transition: all 0.15s; box-sizing: border-box;
+  }
+  .settings-input:focus { border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+  .settings-input:disabled { opacity: 0.6; cursor: not-allowed; background: var(--color-bg-subtle); }
+
+  .settings-select {
+    font-family: var(--font-body); font-size: 14px; color: var(--color-text);
+    background: var(--color-bg-subtle); border: 1px solid var(--color-border);
+    border-radius: var(--radius-md); padding: 8px 12px; outline: none;
+    cursor: pointer; min-width: 120px;
+  }
+  .settings-select:focus { border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+
+  .toggle { position: relative; display: inline-block; width: 44px; height: 24px; flex-shrink: 0; cursor: pointer; }
+  .toggle input { opacity: 0; width: 0; height: 0; }
+  .toggle-track { position: absolute; inset: 0; background: var(--color-border); border-radius: 12px; transition: background 0.2s; }
+  .toggle-track::after { content: ''; position: absolute; width: 18px; height: 18px; border-radius: 50%; background: white; top: 3px; left: 3px; transition: transform 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.15); }
+  .toggle input:checked + .toggle-track { background: var(--color-success); }
+  .toggle input:checked + .toggle-track::after { transform: translateX(20px); }
+
+  .settings-save-btn {
+    font-family: var(--font-body); font-weight: 600; font-size: 14px; color: white;
+    background: linear-gradient(135deg, var(--color-primary), #1d4ed8);
+    padding: 10px 24px; border: none; border-radius: var(--radius-md);
+    cursor: pointer; margin-top: 8px; transition: all 0.2s;
+    box-shadow: 0 4px 12px rgba(37,99,235,0.25);
+  }
+  .settings-save-btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(37,99,235,0.35); }
+  .settings-save-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+  .settings-action-btn {
+    display: flex; align-items: center; gap: 8px;
+    font-family: var(--font-body); font-weight: 500; font-size: 14px; color: var(--color-text);
+    background: var(--color-bg-subtle); border: 1px solid var(--color-border);
+    border-radius: var(--radius-md); padding: 10px 18px; cursor: pointer;
+    transition: all 0.15s; width: 100%; box-sizing: border-box;
+  }
+  .settings-action-btn:hover { border-color: var(--color-primary); color: var(--color-primary); }
+
+  .api-key-section { background: var(--color-bg-subtle); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 12px 16px; margin-top: 16px; }
+  .api-key-section .settings-row { padding: 0 0 12px; }
+  .api-key-box { display: flex; align-items: center; gap: 8px; background: #0B1121; border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; padding: 10px 14px; }
+  .api-key-box code { font-family: Consolas, Monaco, monospace; font-size: 12px; color: #38bdf8; flex: 1; word-break: break-all; }
+  .btn-icon-sm { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 4px; background: rgba(255,255,255,0.06); border: none; color: rgba(255,255,255,0.5); cursor: pointer; flex-shrink: 0; transition: all 0.15s; }
+  .btn-icon-sm:hover { background: rgba(255,255,255,0.12); color: white; }
+  .api-key-copied { font-family: var(--font-body); font-size: 12px; font-weight: 500; color: var(--color-success); margin-bottom: 6px; }
+
+  .settings-danger { background: rgba(220,38,38,0.03); border: 1px solid rgba(220,38,38,0.15); border-radius: var(--radius-md); padding: 20px; margin-top: 8px; }
+  .settings-section-title-danger { color: var(--color-danger); }
+  .settings-danger-desc { font-family: var(--font-body); font-size: 13px; line-height: 1.5; color: var(--color-text-muted); margin: 0 0 14px; }
+  .settings-danger-btn {
+    display: flex; align-items: center; gap: 8px;
+    font-family: var(--font-body); font-weight: 600; font-size: 14px; color: var(--color-danger);
+    background: rgba(220,38,38,0.08); border: 1px solid rgba(220,38,38,0.2);
+    border-radius: var(--radius-md); padding: 10px 20px; cursor: pointer;
+    transition: all 0.15s;
+  }
+  .settings-danger-btn:hover { background: var(--color-danger); color: white; }
 
   /* ── Responsive ── */
   @media (max-width: 1200px) { .row-1, .row-3 { grid-template-columns: repeat(2, 1fr); } }
