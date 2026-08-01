@@ -151,22 +151,24 @@ import Footer from "../components/Footer.astro";
                   >
                 </div>
                 <div class="dsp-step-body">
-                  <span class="dsp-step-title">Upload X-ray</span>
+                  <div class="dsp-step-title-row">
+                    <span class="dsp-step-title">Upload X-ray</span>
+                    <div class="dsp-step-check">
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        ><polyline points="20 6 9 17 4 12"></polyline></svg
+                      >
+                    </div>
+                  </div>
                   <span class="dsp-step-desc"
                     >Drag & drop or browse DICOM / standard images</span
-                  >
-                </div>
-                <div class="dsp-step-check">
-                  <svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    ><polyline points="20 6 9 17 4 12"></polyline></svg
                   >
                 </div>
               </div>
@@ -2715,13 +2717,18 @@ import Footer from "../components/Footer.astro";
     flex: 1;
     min-width: 0;
   }
+  .dsp-step-title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 3px;
+  }
   .dsp-step-title {
     font-family: var(--font-heading);
     font-weight: 600;
     font-size: 14px;
     color: var(--color-text);
     display: block;
-    margin-bottom: 3px;
   }
   .dsp-step-desc {
     font-family: var(--font-body);
@@ -2730,9 +2737,9 @@ import Footer from "../components/Footer.astro";
     display: block;
   }
   .dsp-step-check {
-    width: 24px;
-    height: 24px;
-    min-width: 24px;
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
     border-radius: 50%;
     display: flex;
     align-items: center;
