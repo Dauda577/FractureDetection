@@ -23,7 +23,7 @@ import Footer from "../components/Footer.astro";
       </div>
     </div>
 
-    <div id="auth-demo" class="hidden">
+    <div id="auth-demo" class="auth-demo hidden">
       <div class="demo-container">
         <div class="demo-left">
           <div class="demo-badge">
@@ -1653,7 +1653,8 @@ import Footer from "../components/Footer.astro";
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: calc(100vh - 68px);
+    flex: 1;
+    width: 100%;
     padding: 48px 24px;
     position: relative;
     z-index: 1;
@@ -1762,7 +1763,9 @@ import Footer from "../components/Footer.astro";
   }
 
   .analyze-page {
-    min-height: calc(100vh - 68px);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
     position: relative;
     overflow: hidden;
   }
@@ -2499,7 +2502,8 @@ import Footer from "../components/Footer.astro";
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: calc(100vh - 68px);
+    flex: 1;
+    width: 100%;
     padding: 48px 24px;
     position: relative;
     z-index: 1;
