@@ -1,6 +1,7 @@
-import { supabase } from '../lib/supabase.js'
+import { getSupabase } from '../lib/supabase.js'
 
 export async function saveAnalysis(imageData, prediction, confidence, inferenceTime, findings, patientId) {
+  const supabase = await getSupabase()
   const { data: { session } } = await supabase.auth.getSession()
   if (!session) return null
 
@@ -39,6 +40,7 @@ export async function saveAnalysis(imageData, prediction, confidence, inferenceT
 }
 
 export async function getAnalyses() {
+  const supabase = await getSupabase()
   const { data: { session } } = await supabase.auth.getSession()
   if (!session) return []
 
@@ -53,11 +55,13 @@ export async function getAnalyses() {
 }
 
 export async function getAnalysisImageUrl(path) {
+  const supabase = await getSupabase()
   const { data } = supabase.storage.from('analysis-images').getPublicUrl(path)
   return data.publicUrl
 }
 
 export async function deleteAnalysis(id, imagePath) {
+  const supabase = await getSupabase()
   const { data: { session } } = await supabase.auth.getSession()
   if (!session) return false
 

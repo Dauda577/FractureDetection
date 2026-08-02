@@ -102,4 +102,4 @@
 }
 
 /* ── GPU Hint ── */
-[class*="orb"] { will-change: transform; }
+.orb-animate { will-change: transform; }

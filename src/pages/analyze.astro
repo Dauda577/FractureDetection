@@ -42,8 +42,10 @@ import Footer from "../components/Footer.astro";
               <div class="demo-card-img-wrap">
                 <img
                   class="demo-card-img"
-                  src="https://upload.wikimedia.org/wikipedia/commons/8/88/Wrist_fracture_-_Scaphoid_fracture_--_Smart-Servier.jpg"
+                  src="/images/xrays/wrist-scaphoid-fracture.jpg"
                   alt="Wrist fracture X-ray"
+                  width="300" height="300"
+                  decoding="async"
                   loading="lazy"
                 />
                 <div
@@ -67,8 +69,10 @@ import Footer from "../components/Footer.astro";
               <div class="demo-card-img-wrap">
                 <img
                   class="demo-card-img"
-                  src="https://upload.wikimedia.org/wikipedia/commons/d/d3/X-ray_of_a_comminuted_hip_fracture.jpg"
+                  src="/images/xrays/comminuted-hip-fracture.jpg"
                   alt="Hip fracture X-ray"
+                  width="300" height="300"
+                  decoding="async"
                   loading="lazy"
                 />
                 <div
@@ -92,8 +96,10 @@ import Footer from "../components/Footer.astro";
               <div class="demo-card-img-wrap">
                 <img
                   class="demo-card-img"
-                  src="https://upload.wikimedia.org/wikipedia/commons/a/a1/Normal_posteroanterior_%28PA%29_chest_radiograph_%28X-ray%29.jpg"
+                  src="/images/xrays/normal-chest.jpg"
                   alt="Chest X-ray"
+                  width="300" height="300"
+                  decoding="async"
                   loading="lazy"
                 />
                 <div
@@ -868,7 +874,7 @@ import Footer from "../components/Footer.astro";
   <Footer />
 </Layout>
 
-<script>
+<script type="module">
   import { isSignedIn, getUser } from "../scripts/auth.js";
   import { savePatient, getPatient, getPatients } from "../scripts/patients.js";
 

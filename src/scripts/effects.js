@@ -50,7 +50,8 @@ function animateCounter(el) {
   var target = parseFloat(el.getAttribute('data-count-to'));
   var suffix = el.getAttribute('data-count-suffix') || '';
   var prefix = el.getAttribute('data-count-prefix') || '';
-  var duration = parseInt(el.getAttribute('data-count-duration')) || 1500;
+  var duration = parseInt(el.getAttribute('data-count-duration')) || 2000;
+  var isInt = Number.isInteger(target);
   var start = performance.now();
 
   function step(now) {
@@ -58,16 +59,12 @@ function animateCounter(el) {
     var progress = Math.min(elapsed / duration, 1);
     var eased = 1 - Math.pow(1 - progress, 3);
     var current = eased * target;
-    el.textContent = prefix + formatNumber(current) + suffix;
+    var display = isInt ? Math.round(current) : current.toFixed(1);
+    el.textContent = prefix + display + suffix;
     if (progress < 1) requestAnimationFrame(step);
-    else el.textContent = prefix + formatNumber(target) + suffix;
+    else el.textContent = prefix + (isInt ? target : target.toFixed(1)) + suffix;
   }
   requestAnimationFrame(step);
-}
-
-function formatNumber(n) {
-  if (Number.isInteger(n)) return n.toString();
-  return n.toFixed(1);
 }
 
 

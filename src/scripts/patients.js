@@ -1,6 +1,7 @@
-import { supabase } from '../lib/supabase.js'
+import { getSupabase } from '../lib/supabase.js'
 
 export async function savePatient(name, age, gender, medicalRecordId, notes) {
+  const supabase = await getSupabase()
   const { data: { session } } = await supabase.auth.getSession()
   if (!session) return null
 
@@ -25,6 +26,7 @@ export async function savePatient(name, age, gender, medicalRecordId, notes) {
 }
 
 export async function getPatients() {
+  const supabase = await getSupabase()
   const { data: { session } } = await supabase.auth.getSession()
   if (!session) return []
 
@@ -40,6 +42,7 @@ export async function getPatients() {
 }
 
 export async function getPatient(id) {
+  const supabase = await getSupabase()
   const { data: { session } } = await supabase.auth.getSession()
   if (!session) return null
 
@@ -55,6 +58,7 @@ export async function getPatient(id) {
 }
 
 export async function deletePatient(id) {
+  const supabase = await getSupabase()
   const { error } = await supabase.from('patients').delete().eq('id', id)
   return !error
 }

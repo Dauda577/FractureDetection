@@ -536,14 +536,16 @@ import Sidebar from '../components/Sidebar.astro';
           var nAv = document.getElementById('nav-avatar-icon');
           if (nAv) { nAv.innerHTML = ''; nAv.style.backgroundImage = 'url(' + imgUrl + ')'; nAv.style.backgroundSize = 'cover'; nAv.style.backgroundPosition = 'center'; }
           import('../lib/supabase.js').then(function (m) {
-            m.supabase.auth.getSession().then(function (res) {
-              if (res.data.session) {
-                m.supabase.auth.updateUser({ data: { avatar_url: imgUrl } }).then(function () {
-                  if (window.showToast) window.showToast({ type: 'success', message: 'Photo saved.' });
-                }).catch(function () {
-                  if (window.showToast) window.showToast({ type: 'success', message: 'Photo saved locally.' });
-                });
-              }
+            m.getSupabase().then(function (supabase) {
+              supabase.auth.getSession().then(function (res) {
+                if (res.data.session) {
+                  supabase.auth.updateUser({ data: { avatar_url: imgUrl } }).then(function () {
+                    if (window.showToast) window.showToast({ type: 'success', message: 'Photo saved.' });
+                  }).catch(function () {
+                    if (window.showToast) window.showToast({ type: 'success', message: 'Photo saved locally.' });
+                  });
+                }
+              });
             });
           }).catch(function () {
             if (window.showToast) window.showToast({ type: 'success', message: 'Photo saved locally.' });
@@ -579,7 +581,8 @@ import Sidebar from '../components/Sidebar.astro';
   async function loadNotifications() {
     var items = [];
     try {
-      var { supabase } = await import('../lib/supabase.js');
+      var { getSupabase } = await import('../lib/supabase.js');
+      var supabase = await getSupabase();
       var { data: { session } } = await supabase.auth.getSession();
       if (!session) return;
 
@@ -634,7 +637,8 @@ import Sidebar from '../components/Sidebar.astro';
 
   async function markAllRead() {
     try {
-      var { supabase } = await import('../lib/supabase.js');
+      var { getSupabase: gs } = await import('../lib/supabase.js');
+      var supabase = await gs();
       var { data: { session } } = await supabase.auth.getSession();
       if (!session) return;
       await supabase.from('notifications').update({ read: true }).eq('user_id', session.user.id).eq('read', false);

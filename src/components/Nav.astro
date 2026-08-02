@@ -59,7 +59,7 @@ const links = [
 </header>
 
 <script type="module">
-  import { supabase } from '../lib/supabase.js'
+  import { getSupabase } from '../lib/supabase.js'
 
   const hamburger = document.getElementById('btn-hamburger');
   const navLinks = document.getElementById('nav-links');
@@ -86,12 +86,14 @@ const links = [
     }
   }
 
-  supabase.auth.getSession().then(function (res) {
-    updateNav(res.data.session);
-  });
+  getSupabase().then(function (supabase) {
+    supabase.auth.getSession().then(function (res) {
+      updateNav(res.data.session);
+    });
 
-  supabase.auth.onAuthStateChange(function (event, session) {
-    updateNav(session);
+    supabase.auth.onAuthStateChange(function (event, session) {
+      updateNav(session);
+    });
   });
 
   function setMenu(open) {

@@ -44,27 +44,27 @@ import Footer from '../components/Footer.astro';
         <div class="hero-visual reveal-right" style="transition-delay:0.2s">
           <div class="xray-grid">
             <div class="xray-card xc-1">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/a/a1/Normal_posteroanterior_%28PA%29_chest_radiograph_%28X-ray%29.jpg" alt="Chest X-ray" loading="lazy" />
+              <img src="/images/xrays/normal-chest.jpg" alt="Chest X-ray" width="300" height="300" decoding="async" loading="lazy" />
               <span class="xc-label">Chest</span>
             </div>
             <div class="xray-card xc-2">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/c/c5/X-ray_of_bimalleolar_fracture.jpg" alt="Ankle fracture X-ray" loading="lazy" />
+              <img src="/images/xrays/bimalleolar-fracture.jpg" alt="Ankle fracture X-ray" width="300" height="300" decoding="async" loading="lazy" />
               <span class="xc-label">Ankle</span>
             </div>
             <div class="xray-card xc-3">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Boxers_fracture.JPG" alt="Hand fracture X-ray" loading="lazy" />
+              <img src="/images/xrays/boxers-fracture.jpg" alt="Hand fracture X-ray" width="300" height="300" decoding="async" loading="lazy" />
               <span class="xc-label">Hand</span>
             </div>
             <div class="xray-card xc-4">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/d/d3/X-ray_of_a_comminuted_hip_fracture.jpg" alt="Hip fracture X-ray" loading="lazy" />
+              <img src="/images/xrays/comminuted-hip-fracture.jpg" alt="Hip fracture X-ray" width="300" height="300" decoding="async" loading="lazy" />
               <span class="xc-label">Hip</span>
             </div>
             <div class="xray-card xc-5">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/8/88/Wrist_fracture_-_Scaphoid_fracture_--_Smart-Servier.jpg" alt="Wrist fracture X-ray" loading="lazy" />
+              <img src="/images/xrays/wrist-scaphoid-fracture.jpg" alt="Wrist fracture X-ray" width="300" height="300" decoding="async" loading="lazy" />
               <span class="xc-label">Wrist</span>
             </div>
             <div class="xray-card xc-6">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/6/61/Patella_fracture.JPG" alt="Knee fracture X-ray" loading="lazy" />
+              <img src="/images/xrays/patella-fracture.jpg" alt="Knee fracture X-ray" width="300" height="300" decoding="async" loading="lazy" />
               <span class="xc-label">Knee</span>
             </div>
           </div>
@@ -257,51 +257,8 @@ import Footer from '../components/Footer.astro';
 
 </Layout>
 
-<script>
+<script type="module">
   (function () {
-    /* ── Animated Count-Up ── */
-    var statIds = ['stat-accuracy', 'stat-speed', 'stat-xrays'];
-    var counted = {};
-    statIds.forEach(function (id) { counted[id] = false; });
-
-    function animateCounter(el) {
-      var isSpeed = el.id === 'stat-speed';
-      var prefix = el.getAttribute('data-count-prefix') || '';
-      var suffix = el.getAttribute('data-count-suffix') || '';
-      var target = parseFloat(el.getAttribute('data-count-to'));
-      var duration = 2000;
-      var startTime = performance.now();
-
-      function tick(now) {
-        var t = Math.min((now - startTime) / duration, 1);
-        var eased = 1 - Math.pow(1 - t, 3);
-        var val = isSpeed ? Math.round(eased * target) : (eased * target).toFixed(1);
-        var display = isSpeed
-          ? prefix + val + suffix
-          : (t < 1 ? val : target.toFixed(1)) + suffix;
-        if (isSpeed && t < 1) display = prefix + val + suffix;
-        else if (isSpeed) display = prefix + target + suffix;
-        el.textContent = display;
-        if (t < 1) requestAnimationFrame(tick);
-      }
-
-      requestAnimationFrame(tick);
-    }
-
-    var observer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting && !counted[entry.target.id]) {
-          counted[entry.target.id] = true;
-          animateCounter(entry.target);
-        }
-      });
-    }, { threshold: 0.5 });
-
-    statIds.forEach(function (id) {
-      var el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
-
     /* ── Testimonials Carousel ── */
     var track = document.getElementById('testimonials-track');
     var dots = document.querySelectorAll('.t-dot');
