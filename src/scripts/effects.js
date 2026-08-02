@@ -11,6 +11,7 @@ export function initFloating(selector) {
 
 /* ── Scroll Reveal ── */
 export function initReveal() {
+  document.documentElement.classList.add('js');
   if (!('IntersectionObserver' in window)) {
     document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale').forEach(function (el) {
       el.classList.add('revealed');
