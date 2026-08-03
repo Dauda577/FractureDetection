@@ -16,6 +16,12 @@ import Footer from '../components/Footer.astro';
             We build tools that help clinicians make faster, more accurate decisions. Our deep learning models are trained on thousands of annotated X-ray images to detect fractures with clinical-grade precision.
           </p>
         </div>
+        <div class="hero-visual reveal-right" style="transition-delay:0.2s">
+          <div class="hero-xray-frame">
+            <img src="/images/xrays/femur-xray.webp" alt="AI fracture detection X-ray" width="400" height="400" decoding="async" loading="eager" />
+            <div class="hero-xray-heatmap"></div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -156,11 +162,29 @@ import Footer from '../components/Footer.astro';
 
 <style>
   .about-hero { min-height: calc(100vh - 68px); display: flex; align-items: center; position: relative; overflow: hidden; padding: 48px 24px; }
-  .hero-container { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; position: relative; z-index: 1; }
+  .hero-container { max-width: var(--max-width); margin: 0 auto; padding: 48px 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; width: 100%; position: relative; z-index: 1; }
   .hero-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-body); font-size: 13px; font-weight: 500; color: var(--color-primary); background: rgba(37,99,235,0.08); padding: 6px 14px; border-radius: 20px; margin-bottom: 24px; letter-spacing: 0.02em; text-transform: uppercase; }
   .hero-title { font-family: var(--font-heading); font-weight: 600; font-size: 44px; line-height: 1.15; color: var(--color-text); margin: 0 0 20px; letter-spacing: -0.02em; }
   .text-gradient { background: linear-gradient(135deg, var(--color-primary), #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-  .hero-description { font-family: var(--font-body); font-weight: 400; font-size: 18px; line-height: 1.65; color: var(--color-text-muted); margin: 0; max-width: 640px; }
+  .hero-description { font-family: var(--font-body); font-weight: 400; font-size: 18px; line-height: 1.65; color: var(--color-text-muted); margin: 0; max-width: 540px; }
+  .hero-visual { display: flex; justify-content: center; align-items: center; min-width: 0; }
+  .hero-xray-frame {
+    position: relative;
+    background: #0b1121;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2), 0 0 0 1px var(--color-border);
+    max-width: 400px;
+    width: 100%;
+    aspect-ratio: 1;
+  }
+  .hero-xray-frame img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .hero-xray-heatmap {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(ellipse at 50% 42%, rgba(255,50,0,0.45) 0%, rgba(255,130,0,0.28) 20%, rgba(255,220,0,0.15) 38%, transparent 58%);
+  }
 
   .section-header { text-align: center; max-width: 600px; margin: 0 auto 40px; padding: 0 24px; }
   .section-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-body); font-size: 12px; font-weight: 500; color: var(--color-primary); background: rgba(37,99,235,0.08); padding: 5px 12px; border-radius: 20px; margin-bottom: 16px; letter-spacing: 0.02em; text-transform: uppercase; }
@@ -209,6 +233,7 @@ import Footer from '../components/Footer.astro';
   .cta-buttons .btn-secondary:hover { border-color: white; color: white; }
 
   @media (max-width: 1024px) {
+    .hero-container { gap: 40px; }
     .hero-title { font-size: 38px; }
     .mission-grid, .tech-grid, .team-grid { gap: 18px; }
   }
@@ -219,7 +244,10 @@ import Footer from '../components/Footer.astro';
   }
   @media (max-width: 768px) {
     .about-hero { min-height: auto; }
-    .hero-container { padding: 40px 24px 0; }
+    .hero-container { grid-template-columns: 1fr; gap: 40px; padding: 40px 24px 0; }
+    .hero-visual { order: 1; }
+    .hero-content { order: 2; }
+    .hero-xray-frame { max-width: 320px; margin: 0 auto; }
     .hero-title { font-size: 30px; }
     .hero-description { font-size: 16px; }
     .mission-grid { grid-template-columns: 1fr; }
@@ -228,7 +256,8 @@ import Footer from '../components/Footer.astro';
     .section-title { font-size: 26px; }
   }
   @media (max-width: 480px) {
-    .hero-container { padding: 24px 20px 0; }
+    .hero-container { grid-template-columns: 1fr; gap: 28px; padding: 24px 20px 0; }
+    .hero-xray-frame { max-width: 280px; margin: 0 auto; }
     .hero-title { font-size: 24px; }
     .hero-description { font-size: 15px; margin-bottom: 24px; }
     .hero-badge { font-size: 12px; padding: 5px 12px; margin-bottom: 16px; }
