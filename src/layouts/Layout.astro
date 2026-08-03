@@ -1,4 +1,6 @@
 ---
+import "../styles/tokens.css";
+import "../styles/effects.css";
 import Nav from "../components/Nav.astro";
 
 export interface Props {
@@ -75,110 +77,6 @@ const { title, description, active, variant = "marketing" } = Astro.props;
       @font-face { font-family: "Poppins"; font-style: normal; font-weight: 600; font-display: swap; src: url(https://fonts.gstatic.com/s/poppins/v24/pxiByp8kv8JHgFVrLEj6Z1xlFQ.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
       @font-face { font-family: "Poppins"; font-style: normal; font-weight: 700; font-display: swap; src: url(https://fonts.gstatic.com/s/poppins/v24/pxiByp8kv8JHgFVrLCz7Z1xlFQ.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
     </style>
-    <style is:inline>
-      :root {
-        color-scheme: light;
-        --color-primary: #2563EB;
-        --color-success: #16A34A;
-        --color-danger: #DC2626;
-        --color-neutral: #64748B;
-        --color-bg-subtle: #F1F5F9;
-        --color-text: #0F172A;
-        --color-text-muted: #475569;
-        --color-border: #E2E8F0;
-        --color-surface: #FFFFFF;
-        --color-border-strong: #CBD5E1;
-        --color-hover: rgba(15, 23, 42, 0.04);
-        --color-sidebar: #0F172A;
-        --font-heading: 'Poppins', sans-serif;
-        --font-body: 'Inter', sans-serif;
-        --radius-sm: 6px;
-        --radius-md: 10px;
-        --radius-lg: 16px;
-        --shadow-card: 0 1px 2px rgba(15,23,42,.06), 0 1px 3px rgba(15,23,42,.08);
-        --color-warning-bg: #FFFBEB;
-        --color-warning-border: #FDE68A;
-        --color-warning-text: #92400E;
-        --max-width: 1120px;
-      }
-      :root.dark {
-        color-scheme: dark;
-        --color-bg-subtle: #0F172A;
-        --color-text: #E2E8F0;
-        --color-text-muted: #94A3B8;
-        --color-border: #334155;
-        --color-surface: #1E293B;
-        --color-border-strong: #475569;
-        --color-hover: rgba(255, 255, 255, 0.06);
-        --color-sidebar: #0B1121;
-        --shadow-card: 0 1px 2px rgba(0,0,0,.4), 0 1px 3px rgba(0,0,0,.5);
-        --color-warning-bg: #422006;
-        --color-warning-border: #78350F;
-        --color-warning-text: #FDE68A;
-      }
-      @keyframes fd-fadeIn {
-        from { opacity: 0; transform: translateY(12px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
-      @keyframes fd-float {
-        0%, 100% { transform: translateY(0px); }
-        50% { transform: translateY(-16px); }
-      }
-      @keyframes fd-float-lg {
-        0%, 100% { transform: translateY(0px) scale(1); }
-        33% { transform: translateY(-24px) scale(1.04); }
-        66% { transform: translateY(8px) scale(0.97); }
-      }
-      @keyframes fd-orb-drift {
-        0% { transform: translate(0, 0) rotate(0deg); }
-        25% { transform: translate(40px, -30px) rotate(90deg); }
-        50% { transform: translate(-20px, -50px) rotate(180deg); }
-        75% { transform: translate(-40px, 10px) rotate(270deg); }
-        100% { transform: translate(0, 0) rotate(360deg); }
-      }
-      @keyframes fd-shimmer {
-        0% { background-position: 200% 0; }
-        100% { background-position: -200% 0; }
-      }
-      .fd-float { animation: fd-float var(--float-duration, 5s) ease-in-out var(--float-delay, 0s) infinite; }
-      .fd-float-lg { animation: fd-float-lg var(--float-duration, 8s) ease-in-out var(--float-delay, 0s) infinite; }
-      .fd-orb-drift { animation: fd-orb-drift var(--float-duration, 20s) linear var(--float-delay, 0s) infinite; }
-      .fd-glass {
-        background: rgba(255, 255, 255, 0.6);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.4);
-      }
-      html:not(.js) .reveal,
-      html:not(.js) .reveal-left,
-      html:not(.js) .reveal-right,
-      html:not(.js) .reveal-scale { opacity: 0; transform: translateY(30px); }
-      .js .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
-      .js .reveal-left { opacity: 0; transform: translateX(-30px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
-      .js .reveal-right { opacity: 0; transform: translateX(30px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
-      .js .reveal-scale { opacity: 0; transform: scale(0.9); transition: opacity 0.5s ease-out, transform 0.5s ease-out; }
-      .js .reveal.revealed { opacity: 1; transform: translateY(0); }
-      .js .reveal-left.revealed { opacity: 1; transform: translateX(0); }
-      .js .reveal-right.revealed { opacity: 1; transform: translateX(0); }
-      .js .reveal-scale.revealed { opacity: 1; transform: scale(1); }
-      .shimmer {
-        background: linear-gradient(90deg, var(--color-bg-subtle) 25%, rgba(255,255,255,0.5) 50%, var(--color-bg-subtle) 75%);
-        background-size: 200% 100%;
-        animation: fd-shimmer 1.5s ease-in-out infinite;
-        border-radius: var(--radius-md);
-      }
-      .shimmer-card { padding: 24px; border-radius: var(--radius-lg); border: 1px solid var(--color-border); background: var(--color-surface); }
-      .shimmer-line { height: 14px; margin-bottom: 10px; }
-      .shimmer-line:last-child { width: 60%; }
-      .shimmer-line-sm { height: 10px; width: 40%; margin-bottom: 8px; }
-      .shimmer-block { height: 180px; margin-bottom: 16px; }
-      .shimmer-avatar { width: 48px; height: 48px; border-radius: 50%; flex-shrink: 0; }
-      .shimmer-row { display: flex; align-items: center; gap: 12px; }
-      .orb-animate { will-change: transform; }
-      @media (prefers-reduced-motion: no-preference) {
-        .page-enter { animation: fd-fadeIn 0.28s ease-out; }
-      }
-    </style>
   </head>
   <body>
     <Nav active={active} variant={variant} />
@@ -240,7 +138,7 @@ const { title, description, active, variant = "marketing" } = Astro.props;
   body>main{flex:1;display:flex;flex-direction:column;min-height:0}
 </style>
 
-<style is:inline>
+<style>
   #toast-container {
     position: fixed;
     bottom: 24px;
