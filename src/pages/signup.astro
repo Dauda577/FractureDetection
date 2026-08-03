@@ -16,8 +16,8 @@ import Footer from '../components/Footer.astro';
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
             </svg>
           </div>
-          <h1 class="auth-title">Create an account</h1>
-          <p class="auth-subtitle">Get started with FractureDetect</p>
+          <h1 class="auth-title" id="auth-title">Create an account</h1>
+          <p class="auth-subtitle" id="auth-subtitle">Get started with FractureDetect</p>
         </div>
         <form id="signup-form" class="auth-form" novalidate>
           <div class="field">
@@ -207,8 +207,12 @@ import Footer from '../components/Footer.astro';
       document.getElementById('success-msg').style.display = 'flex';
       if (result.needsConfirmation) {
         showResend(email);
-        document.getElementById('success-text').textContent = 'Account created! We sent a confirmation link to ' + email + '. Your account stays inactive until you click it.';
+        document.getElementById('auth-title').textContent = 'Account created successfully';
+        document.getElementById('auth-subtitle').textContent = 'Please check your email and verify your account.';
+        document.getElementById('success-text').textContent = 'We sent a confirmation link to ' + email + '. Your account stays inactive until you click it.';
       } else {
+        document.getElementById('auth-title').textContent = 'Account created successfully';
+        document.getElementById('auth-subtitle').textContent = 'You\'re all set and signed in.';
         document.getElementById('success-text').textContent = 'Account created! You\'re signed in.';
       }
       if (window.showToast) {
