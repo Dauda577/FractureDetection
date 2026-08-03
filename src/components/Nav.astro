@@ -45,7 +45,7 @@ const links = [
             <path d="M4 20c1.6-3.6 4.8-5.5 8-5.5s6.4 1.9 8 5.5" stroke="#64748B" stroke-width="1.6" stroke-linecap="round"/>
           </svg>
         </div>
-        <span class="avatar-label">Account</span>
+        <span class="avatar-label" id="nav-avatar-label">Account</span>
       </a>
       <button class="btn-hamburger" id="btn-hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -66,11 +66,19 @@ const links = [
   const signInLink = document.querySelector('.nav-signin');
   const avatarLink = document.querySelector('.avatar');
   const avatarIcon = document.getElementById('nav-avatar-icon');
+  const avatarLabel = document.getElementById('nav-avatar-label');
 
   async function updateNav(session) {
     if (session) {
       if (signInLink) signInLink.style.display = 'none';
       if (avatarLink) avatarLink.style.display = 'flex';
+      if (avatarLabel && session.user) {
+        var name = session.user.user_metadata?.full_name
+          || session.user.user_metadata?.name
+          || session.user.email?.split('@')[0]
+          || 'Account';
+        avatarLabel.textContent = name;
+      }
       if (avatarIcon && session.user?.user_metadata?.avatar_url) {
         avatarIcon.innerHTML = '';
         avatarIcon.style.backgroundImage = 'url(' + session.user.user_metadata.avatar_url + ')';
