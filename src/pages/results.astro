@@ -261,11 +261,13 @@ import Layout from '../layouts/Layout.astro';
       doc.setTextColor(71, 85, 105);
       doc.text('Confidence Score', margin, y); y += 10;
 
-      /* ── Metadata ── */
-      doc.setFontSize(11);
+      /* ── Novelty / OOD Score ── */
+      doc.setFontSize(13);
       doc.setTextColor(15, 23, 42);
-      doc.text('Inference Time: ' + (result.inferenceTimeSec || 0).toFixed(2) + ' sec', margin, y); y += lineH + 1;
-      doc.text('Model Version: v2.1.0', margin, y); y += 9;
+      doc.text('Novelty / OOD Score: ' + oodScore.toFixed(1), margin, y); y += lineH + 2;
+      doc.setFontSize(10);
+      doc.setTextColor(oodScore < 25 ? 22 : oodScore < 50 ? 202 : 220, oodScore < 25 ? 163 : oodScore < 50 ? 138 : 38, oodScore < 25 ? 74 : oodScore < 50 ? 30 : 38);
+      doc.text(oodScore < 25 ? 'Low \u2014 in-distribution' : oodScore < 50 ? 'Moderate' : 'High \u2014 out-of-distribution', margin, y); y += 11;
 
       /* ── Findings ── */
       doc.setDrawColor(226, 232, 240);
