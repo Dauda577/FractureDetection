@@ -960,18 +960,9 @@ import Footer from "../components/Footer.astro";
         '<span class="rp-chip-name">' +
         (p.name || "Unnamed") +
         "</span>";
-      chip.addEventListener("click", async function () {
+      chip.addEventListener("click", function () {
         sessionStorage.setItem("fracturedetect:patient_id", p.id);
-        currentPatientId = p.id;
-        var welcomeEl = document.getElementById("welcome-signedin");
-        var patientUiEl = document.getElementById("patient-ui");
-        if (welcomeEl) await animateOut(welcomeEl);
-        if (welcomeEl) welcomeEl.classList.add("hidden");
-        if (patientUiEl) {
-          patientUiEl.classList.remove("hidden");
-          animateIn(patientUiEl);
-          prefillPatientForm();
-        }
+        window.location.reload();
       });
       rpGrid.appendChild(chip);
     });
@@ -999,12 +990,13 @@ import Footer from "../components/Footer.astro";
     }
 
     if (currentPatientId) {
-      if (welcome) {
-        welcome.classList.remove("hidden");
-        animateIn(welcome);
-        loadWelcomeDashboard();
-      }
+      if (welcome) welcome.classList.add("hidden");
       if (patientUi) patientUi.classList.add("hidden");
+      if (upload) {
+        upload.classList.remove("hidden");
+        animateIn(upload);
+        loadPatientBadge();
+      }
     } else {
       if (welcome) {
         welcome.classList.remove("hidden");
