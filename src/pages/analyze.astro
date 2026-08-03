@@ -963,11 +963,13 @@ import Footer from "../components/Footer.astro";
       chip.addEventListener("click", async function () {
         sessionStorage.setItem("fracturedetect:patient_id", p.id);
         currentPatientId = p.id;
-        if (welcome) await animateOut(welcome);
-        welcome.classList.add("hidden");
-        if (patientUi) {
-          patientUi.classList.remove("hidden");
-          animateIn(patientUi);
+        var welcomeEl = document.getElementById("welcome-signedin");
+        var patientUiEl = document.getElementById("patient-ui");
+        if (welcomeEl) await animateOut(welcomeEl);
+        if (welcomeEl) welcomeEl.classList.add("hidden");
+        if (patientUiEl) {
+          patientUiEl.classList.remove("hidden");
+          animateIn(patientUiEl);
           prefillPatientForm();
         }
       });
