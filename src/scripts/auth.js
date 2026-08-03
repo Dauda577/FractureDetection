@@ -12,6 +12,9 @@ export async function register(name, email, password) {
   })
   if (error) return { ok: false, error: error.message }
   const user = data.user
+  if (user && !user.identities?.length) {
+    return { ok: false, error: 'An account with this email already exists.' }
+  }
   const needsConfirmation = !data.session || !user?.email_confirmed_at
   return { ok: true, user, needsConfirmation }
 }

@@ -221,8 +221,8 @@ import Footer from '../components/Footer.astro';
     } else {
       errorEl.textContent = result.error;
       errorEl.style.display = 'block';
-      if (/already registered|already been registered|already a user/i.test(result.error)) {
-        showResend(email);
+      if (/already registered|already been registered|already a user|already exists/i.test(result.error)) {
+        errorEl.innerHTML = 'An account with this email already exists. <a href="/signin" style="color:var(--color-primary);font-weight:500;">Sign in instead</a>.';
       }
     }
   });
