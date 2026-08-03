@@ -58,9 +58,51 @@ const links = [
   </nav>
 </header>
 
-<script>
+<script type="module">
+  import { getSupabase } from '../lib/supabase.js'
+
   const hamburger = document.getElementById('btn-hamburger');
   const navLinks = document.getElementById('nav-links');
+  const signInLink = document.querySelector('.nav-signin');
+  const avatarLink = document.querySelector('.avatar');
+  const avatarIcon = document.getElementById('nav-avatar-icon');
+  const avatarLabel = document.getElementById('nav-avatar-label');
+
+  async function updateNav(session) {
+    if (session) {
+      if (signInLink) signInLink.style.display = 'none';
+      if (avatarLink) avatarLink.style.display = 'flex';
+      if (avatarLabel && session.user) {
+        var name = session.user.user_metadata?.full_name
+          || session.user.user_metadata?.name
+          || session.user.email?.split('@')[0]
+          || 'Account';
+        avatarLabel.textContent = name;
+      }
+      if (avatarIcon && session.user?.user_metadata?.avatar_url) {
+        avatarIcon.innerHTML = '';
+        avatarIcon.style.backgroundImage = 'url(' + session.user.user_metadata.avatar_url + ')';
+        avatarIcon.style.backgroundSize = 'cover';
+        avatarIcon.style.backgroundPosition = 'center';
+        avatarIcon.style.borderRadius = '50%';
+        avatarIcon.style.width = '28px';
+        avatarIcon.style.height = '28px';
+      }
+    } else {
+      if (signInLink) signInLink.style.display = '';
+      if (avatarLink) avatarLink.style.display = 'none';
+    }
+  }
+
+  getSupabase().then(function (supabase) {
+    supabase.auth.getSession().then(function (res) {
+      updateNav(res.data.session);
+    });
+
+    supabase.auth.onAuthStateChange(function (event, session) {
+      updateNav(session);
+    });
+  });
 
   function setMenu(open) {
     if (!navLinks || !hamburger) return;
@@ -91,53 +133,6 @@ const links = [
     }
   });
 </script>
-
-{variant === 'app' && (
-  <script type="module">
-    import { getSupabase } from '../lib/supabase.js'
-
-    const signInLink = document.querySelector('.nav-signin');
-    const avatarLink = document.querySelector('.avatar');
-    const avatarIcon = document.getElementById('nav-avatar-icon');
-    const avatarLabel = document.getElementById('nav-avatar-label');
-
-    async function updateNav(session) {
-      if (session) {
-        if (signInLink) signInLink.style.display = 'none';
-        if (avatarLink) avatarLink.style.display = 'flex';
-        if (avatarLabel && session.user) {
-          var name = session.user.user_metadata?.full_name
-            || session.user.user_metadata?.name
-            || session.user.email?.split('@')[0]
-            || 'Account';
-          avatarLabel.textContent = name;
-        }
-        if (avatarIcon && session.user?.user_metadata?.avatar_url) {
-          avatarIcon.innerHTML = '';
-          avatarIcon.style.backgroundImage = 'url(' + session.user.user_metadata.avatar_url + ')';
-          avatarIcon.style.backgroundSize = 'cover';
-          avatarIcon.style.backgroundPosition = 'center';
-          avatarIcon.style.borderRadius = '50%';
-          avatarIcon.style.width = '28px';
-          avatarIcon.style.height = '28px';
-        }
-      } else {
-        if (signInLink) signInLink.style.display = '';
-        if (avatarLink) avatarLink.style.display = 'none';
-      }
-    }
-
-    getSupabase().then(function (supabase) {
-      supabase.auth.getSession().then(function (res) {
-        updateNav(res.data.session);
-      });
-
-      supabase.auth.onAuthStateChange(function (event, session) {
-        updateNav(session);
-      });
-    });
-  </script>
-)}
 
 <style>
   .nav-header {
