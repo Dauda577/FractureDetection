@@ -1,4 +1,5 @@
 :root {
+  color-scheme: light;
   --color-primary: #2563EB;
   --color-success: #16A34A;
   --color-danger: #DC2626;
@@ -8,6 +9,9 @@
   --color-text-muted: #475569;
   --color-border: #E2E8F0;
   --color-surface: #FFFFFF;
+  --color-border-strong: #CBD5E1;
+  --color-hover: rgba(15, 23, 42, 0.04);
+  --color-sidebar: #0F172A;
 
   --font-heading: 'Poppins', sans-serif;
   --font-body: 'Inter', sans-serif;
@@ -23,6 +27,24 @@
   --color-warning-text: #92400E;
 
   --max-width: 1120px;
+}
+
+:root.dark {
+  color-scheme: dark;
+  --color-bg-subtle: #0F172A;
+  --color-text: #E2E8F0;
+  --color-text-muted: #94A3B8;
+  --color-border: #334155;
+  --color-surface: #1E293B;
+  --color-border-strong: #475569;
+  --color-hover: rgba(255, 255, 255, 0.06);
+  --color-sidebar: #0B1121;
+
+  --shadow-card: 0 1px 2px rgba(0,0,0,.4), 0 1px 3px rgba(0,0,0,.5);
+
+  --color-warning-bg: #422006;
+  --color-warning-border: #78350F;
+  --color-warning-text: #FDE68A;
 }
 
 @keyframes fd-fadeIn {

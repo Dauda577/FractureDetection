@@ -201,7 +201,7 @@ const links = [
 
   .nav-link:hover {
     color: var(--color-text);
-    background: rgba(0, 0, 0, 0.04);
+    background: var(--color-hover);
   }
 
   .nav-link:active {
@@ -235,8 +235,8 @@ const links = [
   .avatar {
     height: 36px;
     border-radius: 999px;
-    background: #FFFFFF;
-    border: 1.5px solid #E2E8F0;
+    background: var(--color-surface);
+    border: 1.5px solid var(--color-border);
     display: flex;
     align-items: center;
     gap: 8px;
@@ -257,13 +257,13 @@ const links = [
 
   .avatar-icon {
     width: 28px; height: 28px; border-radius: 50%;
-    background: #F1F5F9; display: flex; align-items: center; justify-content: center;
+    background: var(--color-bg-subtle); display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
   }
 
   .avatar:hover {
-    background: #F1F5F9;
-    border-color: #CBD5E1;
+    background: var(--color-bg-subtle);
+    border-color: var(--color-border-strong);
   }
 
   .nav-signin {

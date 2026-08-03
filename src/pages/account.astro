@@ -428,10 +428,12 @@ import Sidebar from '../components/Sidebar.astro';
 
     var themeSelect = document.getElementById('settings-theme');
     if (themeSelect) {
-      themeSelect.value = localStorage.getItem('fracturedetect:theme') || 'system';
+      var currentTheme = 'system';
+      try { currentTheme = localStorage.getItem('fracturedetect:theme') || 'system'; } catch (e) {}
+      themeSelect.value = currentTheme;
       themeSelect.addEventListener('change', function () {
-        localStorage.setItem('fracturedetect:theme', this.value);
-        applyTheme(this.value);
+        try { localStorage.setItem('fracturedetect:theme', this.value); } catch (e) {}
+        if (window.fdApplyTheme) window.fdApplyTheme(this.value);
       });
     }
 
@@ -668,12 +670,6 @@ import Sidebar from '../components/Sidebar.astro';
       notifDropdown.classList.add('hidden');
     });
   }
-
-  function applyTheme(theme) {
-    document.documentElement.classList.remove('light', 'dark');
-    if (theme === 'light' || theme === 'dark') document.documentElement.classList.add(theme);
-  }
-  applyTheme(localStorage.getItem('fracturedetect:theme') || 'system');
 
   async function loadPatientsList() {
     var { getPatients } = await import('../scripts/patients.js');

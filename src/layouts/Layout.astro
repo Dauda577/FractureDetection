@@ -39,6 +39,34 @@ const { title, description, active, variant = "marketing" } = Astro.props;
       content={description ||
         `${title} - FractureDetect AI-powered bone fracture detection`}
     />
+    <script is:inline>
+      (function () {
+        var KEY = 'fracturedetect:theme';
+        var mq = window.matchMedia('(prefers-color-scheme: dark)');
+        function resolve(pref) {
+          if (pref === 'light' || pref === 'dark') return pref;
+          return mq.matches ? 'dark' : 'light';
+        }
+        function apply(pref) {
+          var resolved = resolve(pref);
+          document.documentElement.classList.remove('light', 'dark');
+          document.documentElement.classList.add(resolved);
+        }
+        var saved = 'system';
+        try { saved = localStorage.getItem(KEY) || 'system'; } catch (e) {}
+        apply(saved);
+        window.fdApplyTheme = function (pref) {
+          apply(pref);
+        };
+        if (mq.addEventListener) {
+          mq.addEventListener('change', function () {
+            var cur = 'system';
+            try { cur = localStorage.getItem(KEY) || 'system'; } catch (e) {}
+            if (cur === 'system') apply('system');
+          });
+        }
+      })();
+    </script>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <style>
       @font-face { font-family: "Inter"; font-style: normal; font-weight: 400; font-display: swap; src: url(https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
@@ -122,15 +150,15 @@ const { title, description, active, variant = "marketing" } = Astro.props;
     pointer-events: none;
   }
 
-  .toast {
+  :global(.toast) {
     display: flex;
     align-items: center;
     gap: 10px;
     padding: 12px 18px;
     border-radius: 10px;
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
     pointer-events: auto;
     transform: translateX(120%);
     opacity: 0;
@@ -140,36 +168,36 @@ const { title, description, active, variant = "marketing" } = Astro.props;
     max-width: 360px;
   }
 
-  .toast.toast-visible {
+  :global(.toast.toast-visible) {
     transform: translateX(0);
     opacity: 1;
   }
 
-  .toast-icon {
+  :global(.toast-icon) {
     display: flex;
     flex-shrink: 0;
   }
 
-  .toast-success .toast-icon {
+  :global(.toast-success .toast-icon) {
     color: #16a34a;
   }
-  .toast-error .toast-icon {
+  :global(.toast-error .toast-icon) {
     color: #dc2626;
   }
-  .toast-info .toast-icon {
+  :global(.toast-info .toast-icon) {
     color: #2563eb;
   }
 
-  .toast-msg {
+  :global(.toast-msg) {
     font-family: var(--font-body);
     font-size: 14px;
     font-weight: 500;
-    color: #0f172a;
+    color: var(--color-text);
     line-height: 1.4;
   }
 
-  .skeleton {
-    background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+  :global(.skeleton) {
+    background: linear-gradient(90deg, var(--color-bg-subtle) 25%, var(--color-border) 50%, var(--color-bg-subtle) 75%);
     background-size: 200% 100%;
     animation: skeleton-shimmer 1.5s ease-in-out infinite;
     border-radius: 6px;
