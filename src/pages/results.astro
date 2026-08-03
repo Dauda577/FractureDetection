@@ -209,6 +209,7 @@ import Layout from '../layouts/Layout.astro';
     var btnAnother = document.getElementById('btn-another');
     if (btnAnother) {
       btnAnother.addEventListener('click', function (e) {
+        sessionStorage.setItem('fracturedetect:from_results', '1');
         sessionStorage.removeItem('fracturedetect:image');
         sessionStorage.removeItem('fracturedetect:result');
         sessionStorage.removeItem('fracturedetect:queue');

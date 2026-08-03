@@ -990,12 +990,21 @@ import Footer from "../components/Footer.astro";
     }
 
     if (currentPatientId) {
-      if (welcome) welcome.classList.add("hidden");
-      if (patientUi) patientUi.classList.add("hidden");
-      if (upload) {
-        upload.classList.remove("hidden");
-        animateIn(upload);
-        loadPatientBadge();
+      var fromResults = sessionStorage.getItem("fracturedetect:from_results");
+      sessionStorage.removeItem("fracturedetect:from_results");
+      if (fromResults && patientUi) {
+        if (welcome) welcome.classList.add("hidden");
+        patientUi.classList.remove("hidden");
+        animateIn(patientUi);
+        prefillPatientForm();
+      } else {
+        if (welcome) welcome.classList.add("hidden");
+        if (patientUi) patientUi.classList.add("hidden");
+        if (upload) {
+          upload.classList.remove("hidden");
+          animateIn(upload);
+          loadPatientBadge();
+        }
       }
     } else {
       if (welcome) {
