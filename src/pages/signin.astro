@@ -129,6 +129,7 @@ import Footer from '../components/Footer.astro';
   googleBtn?.addEventListener('click', async function () {
     googleBtn.disabled = true;
     googleBtn.textContent = 'Redirecting\u2026';
+    try { sessionStorage.setItem('fracturedetect:signed-in', '1'); } catch (e) {}
     var result = await signInWithGoogle();
     if (!result.ok) {
       errorEl.textContent = result.error;
@@ -154,6 +155,7 @@ import Footer from '../components/Footer.astro';
 
     var result = await login(email, password);
     if (result.ok) {
+      try { sessionStorage.setItem('fracturedetect:signed-in', '1'); } catch (e) {}
       window.location.href = '/account';
     } else {
       errorEl.style.display = 'none';

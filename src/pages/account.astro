@@ -378,9 +378,15 @@ import Sidebar from '../components/Sidebar.astro';
     }
     if (!signedIn) return;
 
+    var justSignedIn = false;
+    try { justSignedIn = sessionStorage.getItem('fracturedetect:signed-in') === '1'; sessionStorage.removeItem('fracturedetect:signed-in'); } catch (e) {}
+    if (justSignedIn && window.showToast) {
+      window.showToast({ type: 'success', message: 'Signed in successfully. Welcome back!' });
+    }
+
     if (isEmailConfirmed) {
       if (window.showToast) {
-        window.showToast({ type: 'success', message: 'Email confirmed! Your account is now active.', duration: 5000 });
+        window.showToast({ type: 'success', message: 'Email confirmed! Your account is now active.', duration: 6500 });
       }
       history.replaceState(null, '', window.location.pathname);
     }
