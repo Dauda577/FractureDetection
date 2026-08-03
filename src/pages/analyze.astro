@@ -990,12 +990,12 @@ import Footer from "../components/Footer.astro";
     }
 
     if (currentPatientId) {
-      if (welcome) welcome.classList.add("hidden");
-      if (patientUi) {
-        patientUi.classList.remove("hidden");
-        animateIn(patientUi);
-        prefillPatientForm();
+      if (welcome) {
+        welcome.classList.remove("hidden");
+        animateIn(welcome);
+        loadWelcomeDashboard();
       }
+      if (patientUi) patientUi.classList.add("hidden");
     } else {
       if (welcome) {
         welcome.classList.remove("hidden");
@@ -1019,6 +1019,7 @@ import Footer from "../components/Footer.astro";
       if (patientUi) {
         patientUi.classList.remove("hidden");
         animateIn(patientUi);
+        prefillPatientForm();
       }
     });
   }
