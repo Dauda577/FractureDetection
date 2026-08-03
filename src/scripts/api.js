@@ -8,6 +8,7 @@ export async function saveAnalysis(imageData, prediction, confidence, inferenceT
   const userId = session.user.id
   const fileName = userId + '/' + Date.now() + '.png'
 
+  if (!imageData) return null
   const blob = dataURLToBlob(imageData)
   const { data: uploadData, error: uploadError } = await supabase.storage
     .from('analysis-images')
