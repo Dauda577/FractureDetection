@@ -216,94 +216,124 @@ import Layout from '../layouts/Layout.astro';
       });
     }
 
-    /* Report download */
-    function downloadReport() {
-      var canvas = document.createElement('canvas');
-      var ctx = canvas.getContext('2d');
-      canvas.width = 800;
-      var imgW = 400, imgH = 300;
-      canvas.height = 700 + imgH + findingsText.length * 28;
+    /* Report download (PDF via jsPDF) */
+    async function downloadReport() {
+      var { jsPDF } = await import('jspdf');
+      var doc = new jsPDF({ unit: 'mm', format: 'a4' });
+      var pageW = 210;
+      var margin = 20;
+      var y = 20;
+      var lineH = 5;
 
-      ctx.fillStyle = '#ffffff';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = '#0F172A';
-      ctx.font = 'bold 26px Poppins, sans-serif';
-      ctx.fillText('FractureDetect Analysis Report', 40, 50);
-      ctx.fillStyle = '#475569';
-      ctx.font = '14px Inter, sans-serif';
-      ctx.fillText('Generated: ' + new Date().toLocaleString(), 40, 80);
+      /* ── Header ── */
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(22);
+      doc.setTextColor(15, 23, 42);
+      doc.text('FractureDetect Analysis Report', margin, y); y += 10;
 
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(10);
+      doc.setTextColor(71, 85, 105);
+      doc.text('Generated: ' + new Date().toLocaleString(), margin, y); y += 9;
+
+      /* ── Patient line ── */
       if (currentPatientName || currentPatientMrn) {
-        ctx.fillText('Patient: ' + (currentPatientName || '—') + (currentPatientMrn ? '  (' + currentPatientMrn + ')' : ''), 40, 104);
-        ctx.strokeStyle = '#E2E8F0';
-        ctx.lineWidth = 1;
-        ctx.beginPath(); ctx.moveTo(40, 122); ctx.lineTo(760, 122); ctx.stroke();
-        var contentTop = 150;
+        doc.text('Patient: ' + (currentPatientName || '\u2014') + (currentPatientMrn ? '  (' + currentPatientMrn + ')' : ''), margin, y); y += 8;
+        doc.setDrawColor(226, 232, 240);
+        doc.line(margin, y, pageW - margin, y); y += 10;
       } else {
-        ctx.strokeStyle = '#E2E8F0';
-        ctx.lineWidth = 1;
-        ctx.beginPath(); ctx.moveTo(40, 100); ctx.lineTo(760, 100); ctx.stroke();
-        var contentTop = 128;
+        doc.setDrawColor(226, 232, 240);
+        doc.line(margin, y, pageW - margin, y); y += 10;
       }
 
-      ctx.fillStyle = '#0F172A';
-      ctx.font = 'bold 20px Poppins, sans-serif';
-      ctx.fillText('Prediction: ' + diagBadge.textContent, 40, contentTop + 12);
-      ctx.fillStyle = isFracture ? '#DC2626' : '#16A34A';
-      ctx.font = 'bold 40px Poppins, sans-serif';
-      ctx.fillText(confNum + '%', 40, contentTop + 62);
-      ctx.fillStyle = '#475569';
-      ctx.font = '14px Inter, sans-serif';
-      ctx.fillText('Confidence Score', 40, contentTop + 82);
-      ctx.fillStyle = '#0F172A';
-      ctx.font = '15px Inter, sans-serif';
-      ctx.fillText('Inference Time: ' + (result.inferenceTimeSec || 0).toFixed(2) + ' sec', 40, contentTop + 120);
-      ctx.fillText('Model Version: v2.1.0', 40, contentTop + 144);
+      /* ── Prediction ── */
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(14);
+      doc.setTextColor(15, 23, 42);
+      doc.text('Prediction: ' + diagBadge.textContent, margin, y); y += 11;
 
-      ctx.strokeStyle = '#E2E8F0'; ctx.beginPath(); ctx.moveTo(40, contentTop + 168); ctx.lineTo(760, contentTop + 168); ctx.stroke();
-      ctx.fillStyle = '#0F172A'; ctx.font = 'bold 16px Poppins, sans-serif';
-      ctx.fillText('Findings Summary', 40, contentTop + 197);
-      ctx.fillStyle = '#334155'; ctx.font = '14px Inter, sans-serif';
-      findingsText.forEach(function (t, i) { ctx.fillText('\u2022  ' + t, 40, contentTop + 225 + i * 28); });
+      doc.setFontSize(32);
+      doc.setTextColor(isFracture ? 220 : 22, isFracture ? 38 : 163, isFracture ? 38 : 74);
+      doc.text(confNum + '%', margin, y); y += 12;
 
-      var findingsEndY = contentTop + 225 + findingsText.length * 28;
-      ctx.strokeStyle = '#E2E8F0'; ctx.beginPath(); ctx.moveTo(40, findingsEndY + 8); ctx.lineTo(760, findingsEndY + 8); ctx.stroke();
-      ctx.fillStyle = '#0F172A'; ctx.font = 'bold 16px Poppins, sans-serif';
-      ctx.fillText('X-ray Image', 40, findingsEndY + 40);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(10);
+      doc.setTextColor(71, 85, 105);
+      doc.text('Confidence Score', margin, y); y += 10;
 
-      var imgX = Math.round((canvas.width - imgW) / 2);
+      /* ── Metadata ── */
+      doc.setFontSize(11);
+      doc.setTextColor(15, 23, 42);
+      doc.text('Inference Time: ' + (result.inferenceTimeSec || 0).toFixed(2) + ' sec', margin, y); y += lineH + 1;
+      doc.text('Model Version: v2.1.0', margin, y); y += 9;
+
+      /* ── Findings ── */
+      doc.setDrawColor(226, 232, 240);
+      doc.line(margin, y, pageW - margin, y); y += 9;
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(13);
+      doc.setTextColor(15, 23, 42);
+      doc.text('Findings Summary', margin, y); y += 8;
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(10);
+      doc.setTextColor(51, 65, 85);
+      findingsText.forEach(function (t) {
+        doc.text('\u2022  ' + t, margin, y); y += 7;
+      });
+
+      y += 5;
+
+      /* ── X-ray Image ── */
+      doc.setDrawColor(226, 232, 240);
+      doc.line(margin, y, pageW - margin, y); y += 9;
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(13);
+      doc.setTextColor(15, 23, 42);
+      doc.text('X-ray Image', margin, y); y += 7;
+
       var origImgEl = document.getElementById('img-original');
-      if (origImgEl && origImgEl.src) ctx.drawImage(origImgEl, imgX, findingsEndY + 56, imgW, imgH);
+      if (origImgEl && origImgEl.src && origImgEl.complete && origImgEl.naturalWidth > 0) {
+        var imgW = 130, imgH = 97.5;
+        var imgX = (pageW - imgW) / 2;
+        if (y + imgH > 270) { doc.addPage(); y = 20; }
+        doc.addImage(origImgEl, 'JPEG', imgX, y, imgW, imgH);
 
-      if (isFracture) {
-        var overlayCanvas = document.createElement('canvas');
-        overlayCanvas.width = imgW; overlayCanvas.height = imgH;
-        var octx = overlayCanvas.getContext('2d');
-        var gradient = octx.createRadialGradient(imgW * 0.42, imgH * 0.52, 0, imgW * 0.42, imgH * 0.52, imgW * 0.5);
-        gradient.addColorStop(0, 'rgba(255, 50, 0, 0.5)');
-        gradient.addColorStop(0.18, 'rgba(255, 130, 0, 0.35)');
-        gradient.addColorStop(0.38, 'rgba(255, 220, 0, 0.2)');
-        gradient.addColorStop(1, 'transparent');
-        octx.fillStyle = gradient; octx.fillRect(0, 0, imgW, imgH);
-        ctx.drawImage(overlayCanvas, imgX, findingsEndY + 56, imgW, imgH);
+        if (isFracture) {
+          var oc = document.createElement('canvas');
+          oc.width = 800; oc.height = 600;
+          var octx = oc.getContext('2d');
+          octx.drawImage(origImgEl, 0, 0, 800, 600);
+          var gradient = octx.createRadialGradient(336, 312, 0, 336, 312, 400);
+          gradient.addColorStop(0, 'rgba(255, 50, 0, 0.5)');
+          gradient.addColorStop(0.18, 'rgba(255, 130, 0, 0.35)');
+          gradient.addColorStop(0.38, 'rgba(255, 220, 0, 0.2)');
+          gradient.addColorStop(1, 'transparent');
+          octx.fillStyle = gradient; octx.fillRect(0, 0, 800, 600);
+          var heatData = oc.toDataURL('image/png');
+          doc.addImage(heatData, 'PNG', imgX, y, imgW, imgH);
+        }
+
+        y += imgH + 8;
       }
 
-      var imgBottomY = findingsEndY + 56 + imgH + 24;
-      ctx.strokeStyle = '#E2E8F0'; ctx.beginPath(); ctx.moveTo(40, imgBottomY); ctx.lineTo(760, imgBottomY); ctx.stroke();
-      ctx.fillStyle = '#475569'; ctx.font = '13px Inter, sans-serif';
-      ctx.fillText('This result is intended to assist healthcare professionals and should not replace', 40, imgBottomY + 24);
-      ctx.fillText('professional medical diagnosis.', 40, imgBottomY + 44);
+      /* ── Disclaimer ── */
+      doc.setDrawColor(226, 232, 240);
+      doc.line(margin, y, pageW - margin, y); y += 8;
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(9);
+      doc.setTextColor(71, 85, 105);
+      doc.text('This result is intended to assist healthcare professionals and should not replace', margin, y); y += 5;
+      doc.text('professional medical diagnosis.', margin, y);
 
+      /* ── Filename ── */
       var fileNameParts = [];
       if (currentPatientName) fileNameParts.push(currentPatientName);
       if (currentPatientMrn) fileNameParts.push(currentPatientMrn);
       fileNameParts.push('fracture-detection-report');
-      var fileName = fileNameParts.join('-').replace(/[^a-z0-9\-_]/gi, '').toLowerCase() + '.png';
+      var fileName = fileNameParts.join('-').replace(/[^a-z0-9\-_]/gi, '').toLowerCase() + '.pdf';
 
-      var link = document.createElement('a');
-      link.download = fileName;
-      link.href = canvas.toDataURL('image/png');
-      link.click();
+      doc.save(fileName);
     }
 
     var downloadBtn = document.getElementById('btn-download');

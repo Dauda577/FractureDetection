@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.110.8",
-    "astro": "^7.1.1"
+    "astro": "^7.1.1",
+    "jspdf": "^4.2.1"
   }
 }
