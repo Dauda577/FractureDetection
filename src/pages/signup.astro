@@ -63,19 +63,19 @@ import Footer from '../components/Footer.astro';
             </div>
           </div>
           <div class="error-msg" id="error-msg" role="alert"></div>
-          <div class="success-msg" id="success-msg" role="status" style="display:none">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-              <polyline points="22 4 12 14.01 9 11.01" />
-            </svg>
-            <span id="success-text">Account created! We sent a confirmation link to your email. Your account stays inactive until you click it.</span>
-          </div>
-          <div class="resend-row" id="resend-row" style="display:none">
-            <span class="resend-note" id="resend-note">Haven't received it? Check spam, or</span>
-            <button type="button" class="resend-btn" id="btn-resend">Resend email</button>
-          </div>
           <button class="btn-submit" type="submit" id="btn-submit">Create Account</button>
         </form>
+        <div class="success-msg" id="success-msg" role="status" style="display:none">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+            <polyline points="22 4 12 14.01 9 11.01" />
+          </svg>
+          <span id="success-text">Account created! We sent a confirmation link to your email. Your account stays inactive until you click it.</span>
+        </div>
+        <div class="resend-row" id="resend-row" style="display:none">
+          <span class="resend-note" id="resend-note">Haven't received it? Check spam, or</span>
+          <button type="button" class="resend-btn" id="btn-resend">Resend email</button>
+        </div>
         <div class="divider">
           <span class="divider-line"></span>
           <span class="divider-text">or continue with</span>
