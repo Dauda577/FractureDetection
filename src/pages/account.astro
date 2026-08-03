@@ -303,34 +303,6 @@ import Sidebar from '../components/Sidebar.astro';
               </div>
             </div>
 
-            <div id="model-info-view" class="hidden">
-              <div class="view-header">
-                <h2 class="view-title">Model Information</h2>
-              </div>
-              <div class="model-info-card">
-                <dl class="mi-list">
-                  <div class="mi-row"><dt>Model Name</dt><dd>FractureDetect v2.1.0</dd></div>
-                  <div class="mi-row"><dt>Architecture</dt><dd>Custom CNN (ResNet-50 Backbone)</dd></div>
-                  <div class="mi-row"><dt>Input Size</dt><dd>512 × 512 pixels (grayscale)</dd></div>
-                  <div class="mi-row"><dt>Training Dataset</dt><dd>MURA + custom (50,000+ radiographs)</dd></div>
-                  <div class="mi-row"><dt>Anatomical Sites</dt><dd>12 (wrist, hand, elbow, shoulder, hip, knee, ankle, foot, spine, chest, skull, pelvis)</dd></div>
-                  <div class="mi-row"><dt>Detection Accuracy</dt><dd>98.5% (AUROC: 0.987)</dd></div>
-                  <div class="mi-row"><dt>Sensitivity</dt><dd>97.8%</dd></div>
-                  <div class="mi-row"><dt>Specificity</dt><dd>96.3%</dd></div>
-                  <div class="mi-row"><dt>Inference Time</dt><dd>&lt; 500ms on GPU / ~3s on CPU</dd></div>
-                  <div class="mi-row"><dt>Model Size</dt><dd>94 MB (ONNX quantized)</dd></div>
-                  <div class="mi-row"><dt>Framework</dt><dd>PyTorch 2.1 + ONNX Runtime</dd></div>
-                  <div class="mi-row"><dt>Last Updated</dt><dd>June 2026</dd></div>
-                  <div class="mi-row"><dt>Regulatory Status</dt><dd>Research use only — FDA 510(k) pending</dd></div>
-                  <div class="mi-row"><dt>Heatmap Method</dt><dd>Grad-CAM++ with guided backpropagation</dd></div>
-                </dl>
-                <div class="mi-disclaimer">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-                  <span>Model performance may vary based on image quality, anatomical site, and patient demographics. Always correlate with clinical findings.</span>
-                </div>
-              </div>
-            </div>
-
             <div id="settings-view" class="hidden">
               <div class="view-header">
                 <h2 class="view-title">Settings</h2>
@@ -388,6 +360,14 @@ import Sidebar from '../components/Sidebar.astro';
                   </div>
 
                   <div class="settings-section">
+                    <h3 class="settings-section-title">About</h3>
+                    <button class="settings-action-btn" id="btn-view-model-info">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" /></svg>
+                      View Model Information
+                    </button>
+                  </div>
+
+                  <div class="settings-section">
                     <h3 class="settings-section-title">Security</h3>
                     <button class="settings-action-btn" id="btn-change-password">
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
@@ -431,8 +411,44 @@ import Sidebar from '../components/Sidebar.astro';
               </div>
             </div>
 
+      </div>
+
+      <div id="model-info-modal" class="modal-overlay hidden">
+        <div class="modal-panel">
+          <div class="modal-header">
+            <div class="modal-header-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" /></svg>
+            </div>
+            <h3 class="modal-title">Model Information</h3>
+            <button class="modal-close-btn" id="btn-close-model-modal" aria-label="Close">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+            </button>
+          </div>
+          <div class="modal-body">
+            <dl class="mi-list">
+              <div class="mi-row"><dt>Model Name</dt><dd>FractureDetect v2.1.0</dd></div>
+              <div class="mi-row"><dt>Architecture</dt><dd>Custom CNN (ResNet-50 Backbone)</dd></div>
+              <div class="mi-row"><dt>Input Size</dt><dd>512 × 512 pixels (grayscale)</dd></div>
+              <div class="mi-row"><dt>Training Dataset</dt><dd>MURA + custom (50,000+ radiographs)</dd></div>
+              <div class="mi-row"><dt>Anatomical Sites</dt><dd>12 (wrist, hand, elbow, shoulder, hip, knee, ankle, foot, spine, chest, skull, pelvis)</dd></div>
+              <div class="mi-row"><dt>Detection Accuracy</dt><dd>98.5% (AUROC: 0.987)</dd></div>
+              <div class="mi-row"><dt>Sensitivity</dt><dd>97.8%</dd></div>
+              <div class="mi-row"><dt>Specificity</dt><dd>96.3%</dd></div>
+              <div class="mi-row"><dt>Inference Time</dt><dd>&lt; 500ms on GPU / ~3s on CPU</dd></div>
+              <div class="mi-row"><dt>Model Size</dt><dd>94 MB (ONNX quantized)</dd></div>
+              <div class="mi-row"><dt>Framework</dt><dd>PyTorch 2.1 + ONNX Runtime</dd></div>
+              <div class="mi-row"><dt>Last Updated</dt><dd>June 2026</dd></div>
+              <div class="mi-row"><dt>Regulatory Status</dt><dd>Research use only — FDA 510(k) pending</dd></div>
+              <div class="mi-row"><dt>Heatmap Method</dt><dd>Grad-CAM++ with guided backpropagation</dd></div>
+            </dl>
+            <div class="mi-disclaimer">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              <span>Model performance may vary based on image quality, anatomical site, and patient demographics. Always correlate with clinical findings.</span>
+            </div>
           </div>
         </div>
+      </div>
+    </div>
       </div>
       </div>
     </div>
@@ -446,13 +462,12 @@ import Sidebar from '../components/Sidebar.astro';
   var gate = document.getElementById('dash-gate');
   var dashUi = document.getElementById('dash-ui');
 
-  var VIEWS = ['analysis-view', 'patients-view', 'history-view', 'reports-view', 'model-info-view', 'settings-view'];
+  var VIEWS = ['analysis-view', 'patients-view', 'history-view', 'reports-view', 'settings-view'];
   var VIEW_TITLES = {
     'analysis-view': 'Dashboard',
     'patients-view': 'Patients',
     'history-view': 'Analysis History',
     'reports-view': 'Reports',
-    'model-info-view': 'Model Info',
     'settings-view': 'Settings'
   };
   var filteredPatientId = null;
@@ -600,10 +615,32 @@ import Sidebar from '../components/Sidebar.astro';
         overlay.remove();
         if (window.showToast) window.showToast({ type: 'info', message: 'Please contact support@fracturedetect.ai to delete your account.' });
       });
-      overlay.addEventListener('click', function (e) { if (e.target === overlay) overlay.remove(); });
-    });
+       overlay.addEventListener('click', function (e) { if (e.target === overlay) overlay.remove(); });
+     });
 
-    document.getElementById('btn-signout-settings').addEventListener('click', function () {
+     var modelModal = document.getElementById('model-info-modal');
+
+     document.getElementById('btn-view-model-info').addEventListener('click', function () {
+       if (modelModal) modelModal.classList.remove('hidden');
+     });
+
+     document.getElementById('btn-close-model-modal').addEventListener('click', function () {
+       if (modelModal) modelModal.classList.add('hidden');
+     });
+
+     if (modelModal) {
+       modelModal.addEventListener('click', function (e) {
+         if (e.target === modelModal) modelModal.classList.add('hidden');
+       });
+     }
+
+     document.addEventListener('keydown', function (e) {
+       if (e.key === 'Escape' && modelModal && !modelModal.classList.contains('hidden')) {
+         modelModal.classList.add('hidden');
+       }
+     });
+
+     document.getElementById('btn-signout-settings').addEventListener('click', function () {
       var overlay = document.createElement('div');
       overlay.className = 'confirm-overlay';
       overlay.innerHTML = '<div class="confirm-modal"><h3>Sign Out?</h3><p>You will need to sign in again to access your account.</p><div class="confirm-actions"><button class="confirm-cancel-btn">Cancel</button><button class="confirm-primary-btn">Sign Out</button></div></div>';
@@ -669,7 +706,7 @@ import Sidebar from '../components/Sidebar.astro';
     document.querySelectorAll('.nav-item').forEach(function (item) {
       item.addEventListener('click', function (e) {
         var text = this.querySelector('span')?.textContent;
-        var map = { 'Dashboard': 'analysis-view', 'Patients': 'patients-view', 'History': 'history-view', 'Reports': 'reports-view', 'Model Info': 'model-info-view', 'Settings': 'settings-view' };
+        var map = { 'Dashboard': 'analysis-view', 'Patients': 'patients-view', 'History': 'history-view', 'Reports': 'reports-view', 'Settings': 'settings-view' };
         if (map[text]) { e.preventDefault(); showView(map[text]); }
       });
     });
@@ -1842,7 +1879,7 @@ import Sidebar from '../components/Sidebar.astro';
   }
 
   /* ── Sub-views (Patients, History, Reports, Model Info, Settings) ── */
-  #patients-view, #history-view, #reports-view, #model-info-view, #settings-view { display: flex; flex-direction: column; flex: 1; min-height: 0; overflow-y: auto; }
+  #patients-view, #history-view, #reports-view, #settings-view { display: flex; flex-direction: column; flex: 1; min-height: 0; overflow-y: auto; }
   .view-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
   .view-title { font-family: var(--font-heading); font-weight: 600; font-size: 20px; color: var(--color-text); margin: 0; flex: 1; }
   .view-back-btn { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-surface); color: var(--color-text-muted); cursor: pointer; transition: all 0.15s; }
@@ -2085,7 +2122,6 @@ import Sidebar from '../components/Sidebar.astro';
   }
   .settings-danger-btn:hover { background: var(--color-danger); color: white; }
 
-  .model-info-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 20px 24px; }
   .mi-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin: 0; }
   .mi-row { display: flex; padding: 10px 0; border-bottom: 1px solid var(--color-border); }
   .mi-row:last-child { border-bottom: none; }
@@ -2093,6 +2129,81 @@ import Sidebar from '../components/Sidebar.astro';
   .mi-row dd { font-family: var(--font-body); font-size: 13px; font-weight: 600; color: var(--color-text); margin: 0; }
   .mi-disclaimer { display: flex; align-items: flex-start; gap: 8px; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--color-border); font-family: var(--font-body); font-size: 12px; color: var(--color-text-muted); line-height: 1.4; }
   .mi-disclaimer svg { flex-shrink: 0; margin-top: 1px; color: #f59e0b; }
+
+  /* ── Modal ── */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+  }
+  .modal-panel {
+    position: relative;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    max-width: 600px;
+    width: 100%;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .modal-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--color-border);
+    flex-shrink: 0;
+  }
+  .modal-header-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: rgba(37, 99, 235, 0.1);
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .modal-title {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--color-text);
+    margin: 0;
+    flex: 1;
+  }
+  .modal-close-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: none;
+    background: var(--color-bg-subtle);
+    color: var(--color-text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+  .modal-close-btn:hover {
+    background: rgba(220, 38, 38, 0.1);
+    color: var(--color-danger);
+  }
+  .modal-body {
+    padding: 24px;
+    overflow-y: auto;
+  }
 
   /* ── Responsive ── */
   @media (max-width: 1100px) { .flow-grid { grid-template-columns: 1fr; } }
