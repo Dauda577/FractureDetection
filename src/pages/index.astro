@@ -42,31 +42,8 @@ import Footer from '../components/Footer.astro';
           </div>
         </div>
         <div class="hero-visual reveal-right" style="transition-delay:0.2s">
-          <div class="xray-grid">
-            <div class="xray-card xc-1">
-              <img src="/images/xrays/normal-chest.webp" alt="Chest X-ray" width="300" height="300" decoding="async" loading="lazy" />
-              <span class="xc-label">Chest</span>
-            </div>
-            <div class="xray-card xc-2">
-              <img src="/images/xrays/bimalleolar-fracture.webp" alt="Ankle fracture X-ray" width="300" height="300" decoding="async" loading="lazy" />
-              <span class="xc-label">Ankle</span>
-            </div>
-            <div class="xray-card xc-3">
-              <img src="/images/xrays/boxers-fracture.webp" alt="Hand fracture X-ray" width="300" height="300" decoding="async" loading="lazy" />
-              <span class="xc-label">Hand</span>
-            </div>
-            <div class="xray-card xc-4">
-              <img src="/images/xrays/comminuted-hip-fracture.webp" alt="Hip fracture X-ray" width="300" height="300" decoding="async" loading="lazy" />
-              <span class="xc-label">Hip</span>
-            </div>
-            <div class="xray-card xc-5">
-              <img src="/images/xrays/wrist-scaphoid-fracture.webp" alt="Wrist fracture X-ray" width="300" height="300" decoding="async" loading="lazy" />
-              <span class="xc-label">Wrist</span>
-            </div>
-            <div class="xray-card xc-6">
-              <img src="/images/xrays/patella-fracture.webp" alt="Knee fracture X-ray" width="300" height="300" decoding="async" loading="lazy" />
-              <span class="xc-label">Knee</span>
-            </div>
+          <div class="hero-app-frame">
+            <img src="/images/hero-app.webp" alt="Fracture Detection app in action" width="554" height="554" decoding="async" loading="eager" />
           </div>
         </div>
       </div>
@@ -321,39 +298,26 @@ import Footer from '../components/Footer.astro';
   .hero-content { min-width: 0; }
   .hero-visual { display: flex; justify-content: center; align-items: center; min-width: 0; }
 
-  /* ── X-ray Grid ── */
-  .xray-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    gap: 10px;
+  /* ── Hero App Frame ── */
+  .hero-app-frame {
+    position: relative;
     width: 100%;
     max-width: 620px;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #0B1121;
+    box-shadow: 0 8px 40px rgba(37,99,235,0.2);
+    animation: appFrameFadeIn 0.6s ease-out both;
   }
-  .xray-card {
-    position: relative; border-radius: 12px; overflow: hidden;
-    aspect-ratio: 1 / 1; background: #0B1121;
-    box-shadow: 0 4px 16px rgba(37,99,235,0.12);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    opacity: 0; animation: xrayFadeIn 0.5s ease-out forwards;
+  .hero-app-frame img {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
   }
-  .xray-card:nth-child(1) { animation-delay: 0.1s; }
-  .xray-card:nth-child(2) { animation-delay: 0.2s; }
-  .xray-card:nth-child(3) { animation-delay: 0.15s; }
-  .xray-card:nth-child(4) { animation-delay: 0.25s; }
-  .xray-card:nth-child(5) { animation-delay: 0.2s; }
-  .xray-card:nth-child(6) { animation-delay: 0.3s; }
-  .xray-card:hover { transform: scale(1.05); box-shadow: 0 8px 32px rgba(37,99,235,0.25); z-index: 2; }
-  .xray-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .xc-label {
-    position: absolute; bottom: 6px; left: 6px;
-    font-family: var(--font-body); font-size: 10px; font-weight: 600;
-    color: white; background: rgba(0,0,0,0.55);
-    padding: 2px 8px; border-radius: 4px;
-    text-transform: uppercase; letter-spacing: 0.04em;
-  }
-  @keyframes xrayFadeIn {
-    from { opacity: 0; transform: translateY(12px) scale(0.95); }
+  @keyframes appFrameFadeIn {
+    from { opacity: 0; transform: translateY(12px) scale(0.97); }
     to { opacity: 1; transform: translateY(0) scale(1); }
   }
 
@@ -439,7 +403,7 @@ import Footer from '../components/Footer.astro';
     .compare-wrapper { max-width: 300px; }
     .hero-title { font-size: 30px; }
     .hero-description { font-size: 16px; max-width: none; }
-    .xray-grid { max-width: 100%; }
+    .hero-app-frame { max-width: 100%; }
     .section-title { font-size: 26px; }
     .features { padding: 0 24px 60px; }
     .features-container { grid-template-columns: 1fr; }
