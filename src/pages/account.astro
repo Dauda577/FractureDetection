@@ -41,13 +41,9 @@ import Sidebar from '../components/Sidebar.astro';
               <div class="top-bar">
                 <div class="top-left">
                   <h1 class="top-title">Dashboard</h1>
-                  <p class="top-subtitle">Overview of your fracture analysis results</p>
+                  <p class="top-subtitle">Start a new fracture analysis</p>
                 </div>
                 <div class="top-right">
-                  <button class="top-btn-primary" id="btn-report-download">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
-                    Download Report
-                  </button>
                   <button class="top-icon-btn" id="btn-notifications" title="Notifications">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 0 1-3.46 0" /></svg>
                     <span class="notif-dot"></span>
@@ -67,76 +63,189 @@ import Sidebar from '../components/Sidebar.astro';
                 </div>
               </div>
 
-              <div class="row row-1">
-                <div class="card card-diag">
-                  <div class="card-header">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                    <span>Diagnosis</span>
+              <div id="dash-patient-step">
+
+                <div id="dash-intro-screen">
+                  <div class="intro-card">
+                    <div class="intro-icon">
+                      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 9V3h-6" /><path d="M3 15v6h6" /><path d="M21 3l-9 9" /><path d="M11.5 5.5 8.2 4.8 7.5 1.5 6.8 4.8 3.5 5.5l2.3 3.3-.5 3.3 2.8-1.8 2.8 1.8-.5-3.3Z" /><path d="M19 22v-6" /><path d="M16 19h6" />
+                      </svg>
+                    </div>
+                    <h2 class="intro-title">Start New Analysis</h2>
+                    <p class="intro-subtext">Upload X-ray images for AI-powered fracture detection. First, provide the patient details below.</p>
+                    <button class="btn-analyze" id="dash-intro-begin" type="button">Begin</button>
+                    <div class="intro-recent hidden" id="dash-recent">
+                      <div class="intro-recent-label">Or continue with a recent patient</div>
+                      <div class="rp-grid" id="dash-rp-grid"></div>
+                    </div>
                   </div>
-                  <div class="diag-result">
-                    <span class="diag-badge" id="diag-badge">No Result</span>
-                  </div>
-                  <div class="diag-meta" id="diag-meta">Run an analysis to see results</div>
                 </div>
 
-                <div class="card card-conf">
-                  <div class="card-header">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
-                    <span>Confidence Score</span>
+                <div id="dash-patient-screen" class="hidden">
+                  <div class="pform-card">
+                    <div class="upload-badge">
+                      <span class="badge-dot"></span>
+                      Patient Information
+                    </div>
+                    <h2 class="flow-title">Enter Patient Details</h2>
+                    <p class="flow-subtext">Provide patient information before proceeding with the X-ray analysis.</p>
+                    <form id="dash-patient-form" class="patient-form" novalidate>
+                      <div class="patient-fields-grid">
+                        <div class="patient-field">
+                          <label class="patient-label" for="dash-patient-name">Full Name <span class="required">*</span></label>
+                          <input class="patient-input" id="dash-patient-name" name="name" type="text" placeholder="e.g. John Doe" required />
+                        </div>
+                        <div class="patient-field">
+                          <label class="patient-label" for="dash-patient-age">Age</label>
+                          <input class="patient-input" id="dash-patient-age" name="age" type="number" min="0" max="150" placeholder="e.g. 45" />
+                        </div>
+                        <div class="patient-field">
+                          <label class="patient-label" for="dash-patient-gender">Gender</label>
+                          <select class="patient-input patient-select" id="dash-patient-gender" name="gender">
+                            <option value="">Select</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                          </select>
+                        </div>
+                        <div class="patient-field">
+                          <label class="patient-label" for="dash-patient-mrn">Medical Record ID</label>
+                          <input class="patient-input" id="dash-patient-mrn" name="mrn" type="text" placeholder="e.g. MRN-12345" />
+                        </div>
+                        <div class="patient-field patient-field-wide">
+                          <label class="patient-label" for="dash-patient-notes">Notes (optional)</label>
+                          <textarea class="patient-input patient-textarea" id="dash-patient-notes" name="notes" rows="2" placeholder="Any additional notes..."></textarea>
+                        </div>
+                      </div>
+                      <p class="error-message" id="dash-patient-error"></p>
+                      <button class="btn-analyze" id="dash-patient-continue" type="submit">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
+                        Continue to Upload
+                      </button>
+                    </form>
                   </div>
-                  <div class="gauge-wrap">
-                    <svg class="gauge-svg" viewBox="0 0 120 120">
-                      <circle class="gauge-bg" cx="60" cy="60" r="50" fill="none" stroke="var(--color-bg-subtle)" stroke-width="8" />
-                      <circle class="gauge-fill" id="gauge-fill" cx="60" cy="60" r="50" fill="none" stroke="var(--color-primary)" stroke-width="8" stroke-linecap="round" stroke-dasharray="314.16" stroke-dashoffset="314.16" transform="rotate(-90 60 60)" />
-                      <text class="gauge-text" id="gauge-text" x="60" y="60" text-anchor="middle" dominant-baseline="central" font-size="22" font-weight="700" fill="currentColor">—</text>
-                    </svg>
-                  </div>
-                  <div class="conf-label">Confidence</div>
                 </div>
 
-                <div class="card card-ood">
-                  <div class="card-header">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" /></svg>
-                    <span>Novelty / OOD Score</span>
-                  </div>
-                  <div class="ood-value" id="ood-value">—</div>
-                  <div class="ood-label" id="ood-label">No data</div>
-                  <div class="ood-bar-wrap">
-                    <div class="ood-bar-fill" id="ood-bar-fill" style="width:0%"></div>
-                  </div>
-                </div>
               </div>
 
-              <div class="row row-2">
-                <div class="pipeline-step">
-                  <div class="step-label">Original X-ray</div>
-                  <div class="step-img-wrap">
-                    <img id="img-original" class="step-img" alt="Original X-ray" />
-                    <div class="step-empty" id="empty-original">
-                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2" /><circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" /></svg>
-                      <span>No image</span>
+              <div id="dash-upload-step" class="hidden">
+                <div class="flow-grid">
+                  <div class="upload-section">
+                    <div class="upload-badge">
+                      <span class="badge-dot"></span>
+                      AI Analysis
                     </div>
-                    <button class="step-zoom" id="zoom-original" title="Zoom">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /><line x1="11" y1="8" x2="11" y2="14" /><line x1="8" y1="11" x2="14" y2="11" /></svg>
+                    <h2 class="flow-title">Upload X-ray Images</h2>
+                    <div class="patient-badge" id="dash-patient-badge">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
+                      <span id="dash-patient-badge-name">Patient</span>
+                      <button class="patient-change-btn" id="dash-btn-change-patient">Change</button>
+                    </div>
+                    <p class="flow-subtext">Upload one or more X-ray images. The model detects fractures with confidence scores and heatmaps.</p>
+
+                    <div class="dropzone" id="dash-dropzone" tabindex="0" role="button" aria-label="Upload X-ray image files">
+                      <input type="file" id="dash-file-input" accept="image/png,image/jpeg" multiple hidden aria-label="Choose X-ray image files" />
+                      <div class="dropzone-graphic">
+                        <svg class="dropzone-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" />
+                          <line x1="12" y1="13" x2="12" y2="19" />
+                          <polyline points="9 16 12 13 15 16" />
+                        </svg>
+                      </div>
+                      <p class="dropzone-text">Drag and drop your images here</p>
+                      <p class="dropzone-link">or <span class="dropzone-link-text">click to browse</span></p>
+                      <p class="dropzone-caption">PNG, JPG, JPEG &middot; Max 10MB each &middot; Multiple allowed</p>
+                    </div>
+
+                    <p class="error-message" id="dash-error-message"></p>
+
+                    <button class="btn-analyze" id="dash-btn-analyze" disabled>
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12" /></svg>
+                      <span id="dash-btn-analyze-text">Analyze Image</span>
                     </button>
+
+                    <div id="dash-batch-queue" class="batch-queue hidden">
+                      <div class="batch-header">
+                        <span class="batch-count" id="dash-batch-count">0 images</span>
+                        <button class="batch-clear-btn" id="dash-btn-batch-clear">Clear all</button>
+                      </div>
+                      <div class="batch-strip" id="dash-batch-strip"></div>
+                    </div>
                   </div>
-                </div>
 
-                <div class="pipeline-arrow">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
-                </div>
+                  <div class="preview-section">
+                    <div class="preview-card">
+                      <div class="preview-card-header">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                          <circle cx="8.5" cy="8.5" r="1.5" />
+                          <polyline points="21 15 16 10 5 21" />
+                        </svg>
+                        <span>Preview</span>
+                        <button class="guide-toggle-btn" id="dash-btn-guide-toggle" title="Toggle fracture guide overlay">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="12" /><line x1="12" y1="8" x2="12.01" y2="8" /></svg>
+                          Guide
+                        </button>
+                      </div>
 
-                <div class="pipeline-step">
-                  <div class="step-label">Predicted Heatmap</div>
-                  <div class="step-img-wrap">
-                    <img id="img-heatmap" class="step-img" alt="Heatmap" />
-                    <div class="step-empty" id="empty-heatmap">
-                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9" /><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" /></svg>
-                      <span>No image</span>
+                      <div class="preview-empty" id="dash-preview-empty">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                          <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                          <circle cx="8.5" cy="8.5" r="1.5" />
+                          <polyline points="21 15 16 10 5 21" />
+                        </svg>
+                        <p class="preview-empty-text">No image selected yet</p>
+                      </div>
+
+                      <div class="preview-filled hidden" id="dash-preview-filled">
+                        <div class="preview-image-wrapper">
+                          <img id="dash-preview-image" alt="Uploaded X-ray image" />
+                          <div class="guide-overlay hidden" id="dash-guide-overlay">
+                            <svg class="guide-svg" viewBox="0 0 240 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <g opacity="0.7">
+                                <circle cx="85" cy="55" r="18" fill="rgba(239,68,68,0.25)" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="3 2" />
+                                <circle cx="85" cy="55" r="3" fill="#ef4444" />
+                                <text x="85" y="42" text-anchor="middle" font-size="8" fill="#ef4444" font-weight="600">Distal Radius</text>
+                                <circle cx="68" cy="78" r="14" fill="rgba(239,68,68,0.25)" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="3 2" />
+                                <circle cx="68" cy="78" r="3" fill="#ef4444" />
+                                <text x="68" y="66" text-anchor="middle" font-size="8" fill="#ef4444" font-weight="600">Scaphoid</text>
+                                <circle cx="80" cy="115" r="16" fill="rgba(239,68,68,0.25)" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="3 2" />
+                                <circle cx="80" cy="115" r="3" fill="#ef4444" />
+                                <text x="80" y="102" text-anchor="middle" font-size="8" fill="#ef4444" font-weight="600">Radius Shaft</text>
+                                <circle cx="64" cy="118" r="14" fill="rgba(239,68,68,0.25)" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="3 2" />
+                                <circle cx="64" cy="118" r="3" fill="#ef4444" />
+                                <text x="64" y="138" text-anchor="middle" font-size="8" fill="#ef4444" font-weight="600">Ulna Shaft</text>
+                                <circle cx="75" cy="170" r="16" fill="rgba(239,68,68,0.25)" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="3 2" />
+                                <circle cx="75" cy="170" r="3" fill="#ef4444" />
+                                <text x="75" y="158" text-anchor="middle" font-size="8" fill="#ef4444" font-weight="600">Olecranon</text>
+                                <circle cx="70" cy="210" r="18" fill="rgba(239,68,68,0.25)" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="3 2" />
+                                <circle cx="70" cy="210" r="3" fill="#ef4444" />
+                                <text x="70" y="196" text-anchor="middle" font-size="8" fill="#ef4444" font-weight="600">Distal Humerus</text>
+                                <circle cx="60" cy="260" r="16" fill="rgba(239,68,68,0.25)" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="3 2" />
+                                <circle cx="60" cy="260" r="3" fill="#ef4444" />
+                                <text x="60" y="248" text-anchor="middle" font-size="8" fill="#ef4444" font-weight="600">Humeral Shaft</text>
+                                <circle cx="108" cy="175" r="10" fill="rgba(239,68,68,0.25)" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="3 2" />
+                                <circle cx="108" cy="175" r="3" fill="#f59e0b" />
+                                <text x="108" y="163" text-anchor="middle" font-size="8" fill="#f59e0b" font-weight="600">Radial Head</text>
+                                <circle cx="105" cy="220" r="10" fill="rgba(239,68,68,0.25)" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="3 2" />
+                                <circle cx="105" cy="220" r="3" fill="#f59e0b" />
+                                <text x="105" y="238" text-anchor="middle" font-size="8" fill="#f59e0b" font-weight="600">Capitellum</text>
+                                <path d="M48 285 L192 285" stroke="rgba(255,255,255,0.2)" stroke-width="1" stroke-dasharray="2 4" />
+                                <text x="120" y="300" text-anchor="middle" font-size="7" fill="rgba(255,255,255,0.4)">Reference guide: common fracture sites</text>
+                                <rect x="40" y="10" width="160" height="270" rx="8" stroke="rgba(255,255,255,0.1)" stroke-width="1" fill="none" />
+                              </g>
+                            </svg>
+                          </div>
+                          <button class="btn-delete" id="dash-btn-delete" aria-label="Remove image">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                              <polyline points="3 6 5 6 21 6" />
+                              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
                     </div>
-                    <button class="step-zoom" id="zoom-heatmap" title="Zoom">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /><line x1="11" y1="8" x2="11" y2="14" /><line x1="8" y1="11" x2="14" y2="11" /></svg>
-                    </button>
                   </div>
                 </div>
               </div>
@@ -332,6 +441,7 @@ import Sidebar from '../components/Sidebar.astro';
 
 <script type="module">
   import { isSignedIn, getUser, logout } from '../scripts/auth.js';
+  import { savePatient, getPatient, getPatients } from '../scripts/patients.js';
 
   var gate = document.getElementById('dash-gate');
   var dashUi = document.getElementById('dash-ui');
@@ -578,7 +688,7 @@ import Sidebar from '../components/Sidebar.astro';
       });
     }
 
-    loadLastResult();
+    initAnalyzeFlow();
   }
 
   var btnNotif = document.getElementById('btn-notifications');
@@ -791,155 +901,387 @@ import Sidebar from '../components/Sidebar.astro';
     }).join('');
   }
 
-  function loadLastResult() {
-    var imgData = sessionStorage.getItem('fracturedetect:image');
-    var resultData = sessionStorage.getItem('fracturedetect:result');
-    if (!resultData) return;
+  /* ── Analyze flow (dashboard) ── */
+  var dashPatientId = null;
+  try { dashPatientId = sessionStorage.getItem('fracturedetect:patient_id'); } catch (e) {}
 
-    var result = JSON.parse(resultData);
-    var isFracture = result.prediction === 'fracture';
-    var confNum = parseFloat((result.confidence * 100).toFixed(1));
+  function dashShowStep(step) {
+    var pStep = document.getElementById('dash-patient-step');
+    var uStep = document.getElementById('dash-upload-step');
+    if (pStep) pStep.classList.toggle('hidden', step !== 'patient');
+    if (uStep) uStep.classList.toggle('hidden', step !== 'upload');
+  }
 
-    var diagBadge = document.getElementById('diag-badge');
-    var diagMeta = document.getElementById('diag-meta');
-    if (isFracture) {
-      diagBadge.textContent = 'Fracture Detected';
-      diagBadge.style.color = 'var(--color-danger)';
-      diagBadge.style.background = 'rgba(220,38,38,0.1)';
-      diagMeta.textContent = 'High confidence positive finding';
+  async function loadDashPatientBadge() {
+    if (!dashPatientId) return;
+    var p = await getPatient(dashPatientId);
+    var el = document.getElementById('dash-patient-badge-name');
+    if (el && p) el.textContent = p.name;
+  }
+
+  async function loadDashRecentPatients() {
+    var wrap = document.getElementById('dash-recent');
+    var grid = document.getElementById('dash-rp-grid');
+    if (!wrap || !grid) return;
+    var patients = await getPatients();
+    if (!patients.length) { wrap.classList.add('hidden'); return; }
+    grid.innerHTML = '';
+    patients.slice(0, 5).forEach(function (p) {
+      var chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = 'rp-chip';
+      chip.innerHTML =
+        '<svg class="rp-chip-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>' +
+        '<span class="rp-chip-name">' + escapeHtml(p.name || 'Unnamed') + '</span>';
+      chip.addEventListener('click', function () {
+        try { sessionStorage.setItem('fracturedetect:patient_id', p.id); } catch (e) {}
+        dashPatientId = p.id;
+        dashShowStep('upload');
+        loadDashPatientBadge();
+      });
+      grid.appendChild(chip);
+    });
+    wrap.classList.remove('hidden');
+  }
+
+  function initAnalyzeFlow() {
+    if (dashPatientId) {
+      dashShowStep('upload');
+      loadDashPatientBadge();
     } else {
-      diagBadge.textContent = 'Normal';
-      diagBadge.style.color = 'var(--color-success)';
-      diagBadge.style.background = 'rgba(22,163,74,0.1)';
-      diagMeta.textContent = 'No fracture detected';
-    }
-
-    var gaugeFill = document.getElementById('gauge-fill');
-    var gaugeText = document.getElementById('gauge-text');
-    var circumference = 314.16;
-    var offset = circumference - (confNum / 100) * circumference;
-    if (gaugeFill) {
-      gaugeFill.style.strokeDashoffset = offset;
-      gaugeFill.style.stroke = isFracture ? 'var(--color-danger)' : 'var(--color-success)';
-    }
-    if (gaugeText) gaugeText.textContent = confNum + '%';
-
-    var oodScore = 18.4;
-    var oodValue = document.getElementById('ood-value');
-    var oodLabel = document.getElementById('ood-label');
-    var oodFill = document.getElementById('ood-bar-fill');
-    if (oodValue) oodValue.textContent = oodScore.toFixed(1);
-    if (oodLabel) oodLabel.textContent = oodScore < 25 ? 'Low — in-distribution' : oodScore < 50 ? 'Moderate' : 'High — out-of-distribution';
-    if (oodFill) oodFill.style.width = Math.min(oodScore, 100) + '%';
-
-    var recoText = document.getElementById('reco-text');
-    var recoSeverity = document.getElementById('reco-severity');
-    if (recoText && recoSeverity) {
-      if (isFracture) {
-        recoText.textContent = 'Immediate medical consultation recommended. Please consult with an orthopedic specialist for further evaluation and treatment planning.';
-        recoSeverity.textContent = 'Action Required';
-        recoSeverity.className = 'reco-severity reco-severity-danger';
-      } else {
-        recoText.textContent = 'No signs of fracture detected. Continue routine monitoring as recommended by your healthcare provider.';
-        recoSeverity.textContent = 'Routine';
-        recoSeverity.className = 'reco-severity reco-severity-safe';
-      }
-    }
-
-    if (imgData) {
-      var orig = document.getElementById('img-original');
-      var heat = document.getElementById('img-heatmap');
-      if (orig) { orig.src = imgData; document.getElementById('empty-original')?.classList.add('hidden'); }
-      if (heat) { heat.src = imgData; document.getElementById('empty-heatmap')?.classList.add('hidden'); }
+      dashShowStep('patient');
+      loadDashRecentPatients();
     }
   }
 
-  var downloadBtn = document.getElementById('btn-report-download');
-  if (downloadBtn) {
-    downloadBtn.addEventListener('click', function () {
-      var imgData = sessionStorage.getItem('fracturedetect:image');
-      var resultData = sessionStorage.getItem('fracturedetect:result');
-      if (!resultData) {
-        if (window.showToast) window.showToast({ type: 'info', message: 'No results to download.' });
+  var dashIntroBegin = document.getElementById('dash-intro-begin');
+  if (dashIntroBegin) {
+    dashIntroBegin.addEventListener('click', function () {
+      var intro = document.getElementById('dash-intro-screen');
+      var form = document.getElementById('dash-patient-screen');
+      if (intro) intro.classList.add('hidden');
+      if (form) form.classList.remove('hidden');
+    });
+  }
+
+  var dashPatientForm = document.getElementById('dash-patient-form');
+  var dashPatientError = document.getElementById('dash-patient-error');
+  var dashPatientContinue = document.getElementById('dash-patient-continue');
+
+  if (dashPatientForm) {
+    dashPatientForm.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      if (dashPatientContinue) dashPatientContinue.disabled = true;
+
+      var name = document.getElementById('dash-patient-name').value.trim();
+      var age = document.getElementById('dash-patient-age').value ? parseInt(document.getElementById('dash-patient-age').value) : null;
+      var gender = document.getElementById('dash-patient-gender').value || null;
+      var mrn = document.getElementById('dash-patient-mrn').value.trim() || null;
+      var notes = document.getElementById('dash-patient-notes').value.trim() || null;
+
+      if (!name) {
+        if (dashPatientError) { dashPatientError.textContent = 'Please enter the patient name.'; dashPatientError.classList.add('visible'); }
+        if (dashPatientContinue) dashPatientContinue.disabled = false;
         return;
       }
-      var result = JSON.parse(resultData);
-      var isFracture = result.prediction === 'fracture';
-      var confNum = parseFloat((result.confidence * 100).toFixed(1));
+      if (dashPatientError) dashPatientError.classList.remove('visible');
+      if (dashPatientContinue) dashPatientContinue.textContent = 'Saving\u2026';
 
-      var canvas = document.createElement('canvas');
-      var ctx = canvas.getContext('2d');
-      canvas.width = 800;
-      var imgW = 400, imgH = 300;
-      var findingsText = isFracture
-        ? ['Bone discontinuity detected in the forearm region', 'Fracture localized to the mid-shaft of the radius', 'No signs of comminution or displacement detected']
-        : ['No visible bone discontinuity detected', 'Bone alignment appears normal', 'No suspicious abnormalities identified'];
-      canvas.height = 700 + imgH + findingsText.length * 28;
-
-      ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = '#0F172A'; ctx.font = 'bold 26px Poppins, sans-serif';
-      ctx.fillText('FractureDetect Analysis Report', 40, 50);
-      ctx.fillStyle = '#475569'; ctx.font = '14px Inter, sans-serif';
-      ctx.fillText('Generated: ' + new Date().toLocaleString(), 40, 80);
-      ctx.strokeStyle = '#E2E8F0'; ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.moveTo(40, 100); ctx.lineTo(760, 100); ctx.stroke();
-      ctx.fillStyle = '#0F172A'; ctx.font = 'bold 20px Poppins, sans-serif';
-      ctx.fillText('Prediction: ' + (isFracture ? 'Fracture Detected' : 'Normal'), 40, 140);
-      ctx.fillStyle = isFracture ? '#DC2626' : '#16A34A'; ctx.font = 'bold 40px Poppins, sans-serif';
-      ctx.fillText(confNum + '%', 40, 190);
-      ctx.fillStyle = '#475569'; ctx.font = '14px Inter, sans-serif';
-      ctx.fillText('Confidence Score', 40, 210);
-      ctx.font = '15px Inter, sans-serif';
-      ctx.fillText('Inference Time: ' + (result.inferenceTimeSec || 0).toFixed(2) + ' sec', 40, 248);
-      ctx.fillText('Model Version: v2.1.0', 40, 272);
-      ctx.strokeStyle = '#E2E8F0'; ctx.beginPath(); ctx.moveTo(40, 296); ctx.lineTo(760, 296); ctx.stroke();
-      ctx.fillStyle = '#0F172A'; ctx.font = 'bold 16px Poppins, sans-serif';
-      ctx.fillText('Findings Summary', 40, 325);
-      ctx.fillStyle = '#334155'; ctx.font = '14px Inter, sans-serif';
-      findingsText.forEach(function (t, i) { ctx.fillText('\u2022  ' + t, 40, 353 + i * 28); });
-      var findingsEndY = 353 + findingsText.length * 28;
-      ctx.strokeStyle = '#E2E8F0'; ctx.beginPath(); ctx.moveTo(40, findingsEndY + 8); ctx.lineTo(760, findingsEndY + 8); ctx.stroke();
-      ctx.fillStyle = '#0F172A'; ctx.font = 'bold 16px Poppins, sans-serif';
-      ctx.fillText('X-ray Image', 40, findingsEndY + 40);
-      var imgX = Math.round((canvas.width - imgW) / 2);
-      var origImg = document.getElementById('img-original');
-      if (origImg && origImg.src) ctx.drawImage(origImg, imgX, findingsEndY + 56, imgW, imgH);
-      if (isFracture) {
-        var overlayCanvas = document.createElement('canvas');
-        overlayCanvas.width = imgW; overlayCanvas.height = imgH;
-        var octx = overlayCanvas.getContext('2d');
-        var gradient = octx.createRadialGradient(imgW * 0.42, imgH * 0.52, 0, imgW * 0.42, imgH * 0.52, imgW * 0.5);
-        gradient.addColorStop(0, 'rgba(255, 50, 0, 0.5)');
-        gradient.addColorStop(0.18, 'rgba(255, 130, 0, 0.35)');
-        gradient.addColorStop(0.38, 'rgba(255, 220, 0, 0.2)');
-        gradient.addColorStop(1, 'transparent');
-        octx.fillStyle = gradient; octx.fillRect(0, 0, imgW, imgH);
-        ctx.drawImage(overlayCanvas, imgX, findingsEndY + 56, imgW, imgH);
+      var patientId = await savePatient(name, age, gender, mrn, notes);
+      if (patientId) {
+        try { sessionStorage.setItem('fracturedetect:patient_id', patientId); } catch (err) {}
+        dashPatientId = patientId;
+        dashPatientForm.reset();
+        dashShowStep('upload');
+        loadDashPatientBadge();
+      } else {
+        if (dashPatientError) { dashPatientError.textContent = 'Failed to save patient info. Please try again.'; dashPatientError.classList.add('visible'); }
       }
-      var link = document.createElement('a');
-      link.download = 'fracturedetect-report.png';
-      link.href = canvas.toDataURL('image/png');
-      link.click();
+      if (dashPatientContinue) {
+        dashPatientContinue.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6" /></svg> Continue to Upload';
+        dashPatientContinue.disabled = false;
+      }
     });
   }
 
-  window.initZoom = function (imgId, zoomBtnId) {
-    var img = document.getElementById(imgId);
-    var btn = document.getElementById(zoomBtnId);
-    if (!img || !btn) return;
-    var zoomed = false;
-    btn.addEventListener('click', function (e) {
-      e.stopPropagation();
-      zoomed = !zoomed;
-      img.style.transform = zoomed ? 'scale(2)' : '';
-      img.style.cursor = zoomed ? 'zoom-out' : 'zoom-in';
-      img.style.zIndex = zoomed ? '10' : '';
-      btn.style.opacity = zoomed ? '1' : '';
+  var dashChangePatientBtn = document.getElementById('dash-btn-change-patient');
+  if (dashChangePatientBtn) {
+    dashChangePatientBtn.addEventListener('click', function () {
+      try { sessionStorage.removeItem('fracturedetect:patient_id'); } catch (e) {}
+      dashPatientId = null;
+      dashShowStep('patient');
+      loadDashRecentPatients();
     });
-  };
+  }
 
-  initZoom('img-original', 'zoom-original');
-  initZoom('img-heatmap', 'zoom-heatmap');
+  /* ── Multi-file batch upload state ── */
+  var fileQueue = [];
+  var selectedIndex = -1;
+  var currentObjectUrl = null;
+
+  var dropzone = document.getElementById('dash-dropzone');
+  var fileInput = document.getElementById('dash-file-input');
+  var errorMsg = document.getElementById('dash-error-message');
+  var btnAnalyze = document.getElementById('dash-btn-analyze');
+  var btnAnalyzeText = document.getElementById('dash-btn-analyze-text');
+  var previewEmpty = document.getElementById('dash-preview-empty');
+  var previewFilled = document.getElementById('dash-preview-filled');
+  var previewImage = document.getElementById('dash-preview-image');
+  var btnDelete = document.getElementById('dash-btn-delete');
+  var batchQueue = document.getElementById('dash-batch-queue');
+  var batchStrip = document.getElementById('dash-batch-strip');
+  var batchCount = document.getElementById('dash-batch-count');
+  var btnBatchClear = document.getElementById('dash-btn-batch-clear');
+
+  var ALLOWED_TYPES = ['image/png', 'image/jpeg', 'image/jpg'];
+  var MAX_SIZE = 10 * 1024 * 1024;
+
+  function isValidFile(file) {
+    return ALLOWED_TYPES.includes(file.type) && file.size <= MAX_SIZE;
+  }
+
+  function showUploadError(message) {
+    if (errorMsg) { errorMsg.textContent = message; errorMsg.classList.add('visible'); }
+  }
+
+  function clearUploadError() {
+    if (errorMsg) { errorMsg.textContent = ''; errorMsg.classList.remove('visible'); }
+  }
+
+  function renderBatchStrip() {
+    batchStrip.innerHTML = '';
+    fileQueue.forEach(function (file, i) {
+      var thumb = document.createElement('div');
+      thumb.className = 'batch-thumb' + (i === selectedIndex ? ' batch-thumb-active' : '');
+      var url = URL.createObjectURL(file);
+      var img = document.createElement('img');
+      img.className = 'batch-thumb-img';
+      img.src = url;
+      var overlay = document.createElement('div');
+      overlay.className = 'batch-thumb-overlay';
+      overlay.textContent = i + 1;
+      thumb.appendChild(img);
+      thumb.appendChild(overlay);
+      thumb.addEventListener('click', function () { selectFile(i); });
+      batchStrip.appendChild(thumb);
+    });
+    batchQueue.classList.remove('hidden');
+    batchCount.textContent = fileQueue.length + ' image' + (fileQueue.length !== 1 ? 's' : '');
+    updateAnalyzeButton();
+  }
+
+  function selectFile(index) {
+    if (index < 0 || index >= fileQueue.length) return;
+    selectedIndex = index;
+    renderBatchStrip();
+    var file = fileQueue[index];
+    if (currentObjectUrl) URL.revokeObjectURL(currentObjectUrl);
+    currentObjectUrl = URL.createObjectURL(file);
+    previewImage.src = currentObjectUrl;
+    previewEmpty.classList.add('hidden');
+    previewFilled.classList.remove('hidden');
+    btnAnalyze.disabled = false;
+    clearUploadError();
+    hideGuide();
+  }
+
+  function updateAnalyzeButton() {
+    if (fileQueue.length === 0) {
+      btnAnalyze.disabled = true;
+      btnAnalyzeText.textContent = 'Analyze Image';
+    } else if (fileQueue.length === 1) {
+      btnAnalyzeText.textContent = 'Analyze Image';
+    } else {
+      var remaining = fileQueue.length - selectedIndex;
+      btnAnalyzeText.textContent = 'Analyze (' + remaining + ' of ' + fileQueue.length + ')';
+    }
+  }
+
+  function addFiles(files) {
+    var added = 0;
+    var errors = [];
+    for (var i = 0; i < files.length; i++) {
+      var file = files[i];
+      if (!file) continue;
+      if (!isValidFile(file)) {
+        errors.push('"' + file.name + '" - must be PNG or JPEG under 10MB.');
+        continue;
+      }
+      fileQueue.push(file);
+      added++;
+    }
+    if (errors.length > 0) { showUploadError(errors.join(' ')); } else { clearUploadError(); }
+    if (added > 0) {
+      if (selectedIndex < 0) { selectFile(0); } else { renderBatchStrip(); }
+    }
+  }
+
+  function removeCurrentFile() {
+    if (selectedIndex < 0 || selectedIndex >= fileQueue.length) return;
+    fileQueue.splice(selectedIndex, 1);
+    if (currentObjectUrl) { URL.revokeObjectURL(currentObjectUrl); currentObjectUrl = null; }
+    if (fileQueue.length === 0) {
+      selectedIndex = -1;
+      previewEmpty.classList.remove('hidden');
+      previewFilled.classList.add('hidden');
+      previewImage.src = '';
+      btnAnalyze.disabled = true;
+      batchQueue.classList.add('hidden');
+      batchStrip.innerHTML = '';
+      updateAnalyzeButton();
+      clearUploadError();
+      hideGuide();
+    } else {
+      if (selectedIndex >= fileQueue.length) selectedIndex = fileQueue.length - 1;
+      selectFile(selectedIndex);
+    }
+  }
+
+  function clearAllFiles() {
+    fileQueue = [];
+    selectedIndex = -1;
+    if (currentObjectUrl) { URL.revokeObjectURL(currentObjectUrl); currentObjectUrl = null; }
+    previewEmpty.classList.remove('hidden');
+    previewFilled.classList.add('hidden');
+    previewImage.src = '';
+    btnAnalyze.disabled = true;
+    batchQueue.classList.add('hidden');
+    batchStrip.innerHTML = '';
+    fileInput.value = '';
+    updateAnalyzeButton();
+    clearUploadError();
+    hideGuide();
+  }
+
+  function storeAndNavigate() {
+    if (selectedIndex < 0 || selectedIndex >= fileQueue.length) return;
+    var file = fileQueue[selectedIndex];
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      try {
+        sessionStorage.setItem('fracturedetect:image', e.target.result);
+        var remaining = [];
+        for (var i = selectedIndex + 1; i < fileQueue.length; i++) remaining.push(i);
+        if (remaining.length > 0) {
+          sessionStorage.setItem('fracturedetect:remaining', remaining.length);
+          sessionStorage.removeItem('fracturedetect:queue');
+          try {
+            var queueData = [];
+            var pendingReads = remaining.length;
+            remaining.forEach(function (idx) {
+              var r = new FileReader();
+              r.onload = function (ev) {
+                queueData.push({ index: idx, data: ev.target.result, name: fileQueue[idx].name });
+                pendingReads--;
+                if (pendingReads === 0) {
+                  try {
+                    sessionStorage.setItem('fracturedetect:queue', JSON.stringify(queueData));
+                  } catch (err) {
+                    sessionStorage.setItem('fracturedetect:remaining', queueData.length);
+                  }
+                  window.location.href = '/processing';
+                }
+              };
+              r.onerror = function () {
+                pendingReads--;
+                if (pendingReads === 0) window.location.href = '/processing';
+              };
+              r.readAsDataURL(fileQueue[idx]);
+            });
+          } catch (err) {
+            window.location.href = '/processing';
+          }
+        } else {
+          sessionStorage.removeItem('fracturedetect:queue');
+          sessionStorage.removeItem('fracturedetect:remaining');
+          window.location.href = '/processing';
+        }
+      } catch (err) {
+        console.warn('Failed to store image in sessionStorage:', err);
+        window.location.href = '/processing';
+      }
+    };
+    reader.onerror = function () { window.location.href = '/processing'; };
+    reader.readAsDataURL(file);
+  }
+
+  /* ── Guide overlay toggle ── */
+  var guideOverlay = document.getElementById('dash-guide-overlay');
+  var guideToggleBtn = document.getElementById('dash-btn-guide-toggle');
+  var guideVisible = false;
+
+  function showGuide() {
+    if (guideOverlay) guideOverlay.classList.remove('hidden');
+    if (guideToggleBtn) guideToggleBtn.classList.add('guide-active');
+    guideVisible = true;
+  }
+
+  function hideGuide() {
+    if (guideOverlay) guideOverlay.classList.add('hidden');
+    if (guideToggleBtn) guideToggleBtn.classList.remove('guide-active');
+    guideVisible = false;
+  }
+
+  if (guideToggleBtn) {
+    guideToggleBtn.addEventListener('click', function () {
+      if (guideVisible) { hideGuide(); } else { showGuide(); }
+    });
+  }
+
+  /* ── Dropzone events ── */
+  if (dropzone) {
+    var dragCounter = 0;
+    dropzone.addEventListener('click', function () { fileInput?.click(); });
+    dropzone.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInput?.click(); }
+    });
+    dropzone.addEventListener('dragenter', function (e) {
+      e.preventDefault();
+      dragCounter++;
+      if (dragCounter === 1) { dropzone.classList.add('dragover'); dropzone.classList.add('drag-hover'); }
+    });
+    dropzone.addEventListener('dragover', function (e) { e.preventDefault(); });
+    dropzone.addEventListener('dragleave', function () {
+      dragCounter--;
+      if (dragCounter === 0) { dropzone.classList.remove('dragover'); dropzone.classList.remove('drag-hover'); }
+    });
+    dropzone.addEventListener('drop', function (e) {
+      e.preventDefault();
+      dragCounter = 0;
+      dropzone.classList.remove('dragover');
+      dropzone.classList.remove('drag-hover');
+      if (e.dataTransfer?.files?.length) addFiles(Array.from(e.dataTransfer.files));
+    });
+  }
+
+  if (fileInput) {
+    fileInput.addEventListener('change', function () {
+      if (fileInput.files?.length) addFiles(Array.from(fileInput.files));
+      fileInput.value = '';
+    });
+  }
+
+  if (btnDelete) {
+    btnDelete.addEventListener('click', function (e) {
+      e.stopPropagation();
+      removeCurrentFile();
+    });
+  }
+
+  if (btnBatchClear) {
+    btnBatchClear.addEventListener('click', clearAllFiles);
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (e.ctrlKey && e.key === 'Enter' && btnAnalyze && !btnAnalyze.disabled) {
+      e.preventDefault();
+      storeAndNavigate();
+    }
+  });
+
+  if (btnAnalyze) {
+    btnAnalyze.addEventListener('click', storeAndNavigate);
+  }
 
   init();
 </script>
@@ -1048,75 +1390,456 @@ import Sidebar from '../components/Sidebar.astro';
   .notif-time { font-family: var(--font-body); font-size: 12px; color: var(--color-text-muted); margin-top: 4px; display: block; }
   .notif-empty { padding: 24px; text-align: center; font-family: var(--font-body); font-size: 13px; color: var(--color-text-muted); }
 
-  /* ── Row 1: Stat Cards ── */
-  .row-1 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; }
-  .card {
-    background: var(--color-surface); border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg); padding: 14px 16px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.03);
-  }
-  .card-header {
-    display: flex; align-items: center; gap: 4px;
-    font-family: var(--font-body); font-weight: 600; font-size: 10px;
-    text-transform: uppercase; letter-spacing: 0.06em;
-    color: var(--color-text-muted); margin-bottom: 8px;
-  }
-  .card-header svg { opacity: 0.5; flex-shrink: 0; }
+  /* ── Analyze flow (Dashboard) ── */
+  #analysis-view { display: flex; flex-direction: column; flex: 1; min-height: 0; overflow-y: auto; }
 
-  .diag-result { margin-bottom: 6px; }
-  .diag-badge { display: inline-block; font-family: var(--font-heading); font-weight: 600; font-size: 13px; padding: 4px 10px; border-radius: var(--radius-md); background: var(--color-bg-subtle); color: var(--color-text-muted); }
-  .diag-meta { font-family: var(--font-body); font-size: 11px; color: var(--color-text-muted); line-height: 1.4; }
-
-  .gauge-wrap { text-align: center; padding: 0; }
-  .gauge-svg { width: 56px; height: 56px; display: block; margin: 0 auto; }
-  .gauge-fill { transition: stroke-dashoffset 0.6s ease; }
-  .conf-label { text-align: center; font-family: var(--font-body); font-size: 10px; color: var(--color-text-muted); margin-top: 2px; }
-
-  .ood-value { font-family: var(--font-heading); font-weight: 700; font-size: 22px; color: var(--color-text); margin-bottom: 2px; }
-  .ood-label { font-family: var(--font-body); font-size: 11px; color: var(--color-success); margin-bottom: 8px; }
-  .ood-bar-wrap { height: 4px; background: var(--color-bg-subtle); border-radius: 2px; overflow: hidden; }
-  .ood-bar-fill { height: 100%; background: var(--color-success); border-radius: 2px; transition: width 0.5s ease; }
-
-  .reco-text { font-family: var(--font-body); font-size: 11px; line-height: 1.4; color: var(--color-text-muted); margin-bottom: 6px; }
-  .reco-severity {
-    display: inline-block; font-family: var(--font-body); font-weight: 600; font-size: 11px;
-    padding: 4px 10px; border-radius: var(--radius-md);
+  .flow-title {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 26px;
+    line-height: 1.2;
+    color: var(--color-text);
+    margin: 0 0 8px;
+    letter-spacing: -0.02em;
   }
-  .reco-severity-danger { color: var(--color-danger); background: rgba(220,38,38,0.1); }
-  .reco-severity-safe { color: var(--color-success); background: rgba(22,163,74,0.1); }
+  .flow-subtext {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+    margin: 0 0 24px;
+  }
 
-  /* ── Row 2: Image Pipeline ── */
-  #analysis-view { display: flex; flex-direction: column; flex: 1; min-height: 0; }
-  .row-2 { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; flex: 1; }
-  .pipeline-step { flex: 1; min-width: 0; display: flex; flex-direction: column; height: 100%; }
-  .pipeline-arrow { flex-shrink: 0; color: var(--color-neutral); opacity: 0.4; }
-  .step-label {
-    font-family: var(--font-body); font-weight: 600; font-size: 10px;
-    text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-text-muted);
-    margin-bottom: 6px; text-align: center;
+  /* ── Intro screen ── */
+  .intro-card {
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 48px 40px;
+    text-align: center;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+    margin-bottom: 20px;
   }
-  .step-img-wrap {
-    position: relative; background: #0B1121; border-radius: var(--radius-md);
-    aspect-ratio: 16 / 9; overflow: hidden; border: 1px solid var(--color-border);
-    flex: 1;
+  .intro-icon {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 24px;
+    border-radius: 20px;
+    background: rgba(37, 99, 235, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-primary);
   }
-  .step-img { width: 100%; height: 100%; object-fit: contain; display: block; transition: transform 0.2s ease; }
-  .step-empty {
-    position: absolute; inset: 0; display: flex; flex-direction: column;
-    align-items: center; justify-content: center; gap: 6px;
-    color: var(--color-neutral); font-family: var(--font-body); font-size: 11px;
+  .intro-title {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 26px;
+    line-height: 1.2;
+    color: var(--color-text);
+    margin: 0 0 8px;
+    letter-spacing: -0.02em;
   }
-  .step-zoom {
-    position: absolute; top: 6px; right: 6px; width: 28px; height: 28px;
-    border-radius: 6px; background: rgba(0,0,0,0.5); border: none;
-    color: white; display: flex; align-items: center; justify-content: center;
-    cursor: pointer; opacity: 0; transition: opacity 0.15s;
+  .intro-subtext {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+    margin: 0 auto 28px;
+    max-width: 420px;
   }
-  .step-img-wrap:hover .step-zoom { opacity: 1; }
-  .step-zoom:hover { background: rgba(0,0,0,0.7); }
+  .intro-recent { margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--color-border); }
+  .intro-recent-label {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    margin: 0 0 10px;
+  }
 
-  /* ── Row 3: Recommendation ── */
-  .row-3 { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 0; }
+  /* ── Patient form card ── */
+  .pform-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 32px 36px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+    margin-bottom: 20px;
+  }
+  .rp-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+  .rp-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background: var(--color-bg-subtle);
+    border: 1px solid var(--color-border);
+    border-radius: 100px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: var(--color-text);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .rp-chip:hover {
+    background: rgba(37, 99, 235, 0.08);
+    border-color: var(--color-primary);
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.1);
+    transform: translateY(-1px);
+  }
+  .rp-chip-icon { color: var(--color-text-muted); flex-shrink: 0; }
+  .rp-chip:hover .rp-chip-icon { color: var(--color-primary); }
+  .rp-chip-name { font-weight: 500; }
+
+  .patient-fields-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  .patient-field-wide { grid-column: span 3; }
+  .patient-form { display: flex; flex-direction: column; gap: 18px; }
+  .patient-field { display: flex; flex-direction: column; gap: 5px; }
+  .patient-label { font-family: var(--font-body); font-weight: 500; font-size: 14px; color: var(--color-text); }
+  .patient-label .required { color: var(--color-danger); margin-left: 2px; }
+  .patient-input {
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--color-text);
+    background: var(--color-bg-subtle);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 10px 14px;
+    outline: none;
+    transition: all 0.15s;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .patient-input:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  }
+  .patient-select { cursor: pointer; }
+  .patient-textarea { resize: vertical; min-height: 60px; }
+  .patient-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .patient-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: var(--color-text);
+    background: rgba(37, 99, 235, 0.06);
+    border: 1px solid rgba(37, 99, 235, 0.12);
+    border-radius: var(--radius-md);
+    padding: 6px 12px;
+    margin-bottom: 16px;
+  }
+  .patient-badge svg { color: var(--color-primary); flex-shrink: 0; }
+  .patient-change-btn {
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-primary);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: all 0.15s;
+    margin-left: 4px;
+  }
+  .patient-change-btn:hover { background: rgba(37, 99, 235, 0.1); }
+
+  .upload-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-primary);
+    background: rgba(37, 99, 235, 0.08);
+    padding: 6px 14px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+  .upload-badge .badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .flow-grid { display: grid; grid-template-columns: 11fr 9fr; gap: 24px; align-items: start; }
+  .upload-section { min-width: 0; }
+  .preview-section { min-width: 0; }
+
+  .dropzone {
+    border: 2px dashed var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 48px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    outline: none;
+    background: var(--color-surface);
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  .dropzone:hover,
+  .dropzone.dragover {
+    background: rgba(37, 99, 235, 0.03);
+    border-color: var(--color-primary);
+    box-shadow: 0 4px 20px rgba(37, 99, 235, 0.06);
+  }
+  .dropzone.drag-hover {
+    border-color: var(--color-primary);
+    background: rgba(37, 99, 235, 0.05);
+    box-shadow:
+      0 0 0 4px rgba(37, 99, 235, 0.08),
+      0 4px 24px rgba(37, 99, 235, 0.1);
+    animation: dropzone-pulse 1s ease-in-out infinite;
+  }
+  .dropzone:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+  .dropzone-graphic {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    background: rgba(37, 99, 235, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    transition: background 0.2s ease;
+  }
+  .dropzone:hover .dropzone-graphic,
+  .dropzone.dragover .dropzone-graphic {
+    background: rgba(37, 99, 235, 0.14);
+  }
+  .dropzone-icon { color: var(--color-primary); flex-shrink: 0; }
+  .dropzone-text { font-family: var(--font-body); font-weight: 500; font-size: 16px; color: var(--color-text); margin: 0 0 4px; }
+  .dropzone-link { font-family: var(--font-body); font-weight: 400; font-size: 14px; color: var(--color-text-muted); margin: 0 0 20px; }
+  .dropzone-link-text { color: var(--color-primary); font-weight: 500; text-decoration: underline; text-underline-offset: 2px; }
+  .dropzone-caption { font-family: var(--font-body); font-weight: 400; font-size: 13px; color: var(--color-text-muted); margin: 0; }
+  @keyframes dropzone-pulse {
+    0%, 100% {
+      box-shadow:
+        0 0 0 4px rgba(37, 99, 235, 0.08),
+        0 4px 24px rgba(37, 99, 235, 0.1);
+    }
+    50% {
+      box-shadow:
+        0 0 0 8px rgba(37, 99, 235, 0.12),
+        0 4px 28px rgba(37, 99, 235, 0.15);
+    }
+  }
+
+  .error-message {
+    display: none;
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--color-danger);
+    margin: 12px 0 0;
+  }
+  .error-message.visible { display: block; }
+
+  .btn-analyze {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 16px;
+    color: white;
+    background: linear-gradient(135deg, var(--color-primary), #1d4ed8);
+    padding: 14px 28px;
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 24px;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+  }
+  .btn-analyze:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+  .btn-analyze:not(:disabled):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+  }
+  .btn-analyze:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  /* ── Batch Queue ── */
+  .batch-queue {
+    margin-top: 20px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 14px;
+  }
+  .batch-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .batch-count { font-family: var(--font-body); font-size: 13px; font-weight: 600; color: var(--color-text-muted); }
+  .batch-clear-btn {
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-danger);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.15s;
+  }
+  .batch-clear-btn:hover { background: rgba(220, 38, 38, 0.08); }
+  .batch-strip { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; }
+  .batch-thumb {
+    position: relative;
+    flex-shrink: 0;
+    width: 64px;
+    height: 64px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid var(--color-border);
+    transition: all 0.15s;
+  }
+  .batch-thumb:hover { border-color: var(--color-primary); opacity: 0.85; }
+  .batch-thumb-active {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.25);
+  }
+  .batch-thumb-img { width: 100%; height: 100%; object-fit: cover; }
+  .batch-thumb-overlay {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    color: white;
+    font-family: var(--font-body);
+    font-size: 10px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ── Preview ── */
+  .preview-card {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+    background: var(--color-surface);
+    min-width: 0;
+  }
+  .preview-card-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+    margin: 0 0 16px;
+  }
+  .preview-card-header svg { opacity: 0.5; }
+  .guide-toggle-btn {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    background: var(--color-bg-subtle);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 4px 10px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .guide-toggle-btn:hover { border-color: var(--color-primary); color: var(--color-primary); }
+  .guide-toggle-btn.guide-active {
+    background: rgba(37, 99, 235, 0.1);
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+  .preview-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 64px 24px;
+    background: var(--color-bg-subtle);
+    border-radius: var(--radius-md);
+    color: var(--color-neutral);
+  }
+  .preview-empty.hidden { display: none; }
+  .preview-empty-text { font-family: var(--font-body); font-weight: 400; font-size: 15px; color: var(--color-neutral); margin: 12px 0 0; }
+  .preview-filled.hidden { display: none; }
+  .preview-image-wrapper {
+    position: relative;
+    background: #0b1121;
+    border-radius: var(--radius-md);
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+  }
+  .preview-image-wrapper img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .guide-overlay { position: absolute; inset: 0; z-index: 5; pointer-events: none; }
+  .guide-overlay.hidden { display: none; }
+  .guide-svg { width: 100%; height: 100%; }
+  .btn-delete {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: white;
+    color: var(--color-danger);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    transition: all 0.15s;
+    z-index: 10;
+  }
+  .btn-delete:hover { opacity: 0.85; transform: scale(1.05); }
+  .btn-delete:focus-visible {
+    outline: 2px solid var(--color-danger);
+    outline-offset: 2px;
+  }
 
   /* ── Sub-views (Patients, History, Reports, Model Info, Settings) ── */
   #patients-view, #history-view, #reports-view, #model-info-view, #settings-view { display: flex; flex-direction: column; flex: 1; min-height: 0; overflow-y: auto; }
@@ -1372,8 +2095,7 @@ import Sidebar from '../components/Sidebar.astro';
   .mi-disclaimer svg { flex-shrink: 0; margin-top: 1px; color: #f59e0b; }
 
   /* ── Responsive ── */
-  @media (max-width: 1200px) { .row-1, .row-3 { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 1024px) { .row-2 { flex-wrap: wrap; } .pipeline-arrow { display: none; } .pipeline-step { min-width: calc(50% - 8px); } }
+  @media (max-width: 1100px) { .flow-grid { grid-template-columns: 1fr; } }
   @media (max-width: 900px) { .dash-content { padding: 20px 20px 32px; } }
   @media (max-width: 768px) {
     .dash-layout { flex-direction: column; padding: 0; }
@@ -1381,7 +2103,6 @@ import Sidebar from '../components/Sidebar.astro';
     .dash-sidebar { border-radius: 0; }
     .dash-main { margin-left: 0; overflow-y: auto; }
     .dash-page { padding: 0; }
-    .row-1, .row-3 { grid-template-columns: 1fr 1fr; }
     .top-title { font-size: 22px; }
     .top-bar { flex-direction: column; align-items: flex-start; }
     .top-right { width: 100%; justify-content: flex-end; }
@@ -1390,18 +2111,21 @@ import Sidebar from '../components/Sidebar.astro';
   }
   @media (max-width: 600px) {
     .dash-content { padding: 16px 16px 24px; }
-    .row-1, .row-3 { grid-template-columns: 1fr; }
-    .row-2 { flex-direction: column; }
-    .pipeline-step { width: 100%; }
+    .pform-card { padding: 24px 20px; }
+    .patient-fields-grid { grid-template-columns: 1fr 1fr; }
+    .patient-field-wide { grid-column: span 2; }
+    .intro-card { padding: 36px 24px; }
     .top-title { font-size: 20px; }
   }
   @media (max-width: 480px) {
     .dash-content { padding: 12px 12px 16px; }
+    .pform-card { padding: 18px 16px; }
+    .patient-fields-grid { grid-template-columns: 1fr; }
+    .patient-field-wide { grid-column: span 1; }
+    .intro-card { padding: 28px 18px; }
+    .intro-title { font-size: 22px; }
     .top-title { font-size: 17px; }
     .top-btn-primary { font-size: 11px; padding: 6px 10px; }
-    .card { padding: 10px 12px; }
-    .diag-badge { font-size: 12px; }
-    .ood-value { font-size: 18px; }
     .notif-dropdown { right: -8px; }
     .settings-card { padding: 14px 16px; }
     .mi-list { grid-template-columns: 1fr; }
