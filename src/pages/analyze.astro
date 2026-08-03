@@ -991,11 +991,10 @@ import Footer from "../components/Footer.astro";
 
     if (currentPatientId) {
       if (welcome) welcome.classList.add("hidden");
-      if (patientUi) patientUi.classList.add("hidden");
-      if (upload) {
-        upload.classList.remove("hidden");
-        animateIn(upload);
-        loadPatientBadge();
+      if (patientUi) {
+        patientUi.classList.remove("hidden");
+        animateIn(patientUi);
+        prefillPatientForm();
       }
     } else {
       if (welcome) {
@@ -1029,6 +1028,22 @@ import Footer from "../components/Footer.astro";
     var p = await getPatient(currentPatientId);
     var el = document.getElementById("patient-badge-name");
     if (el && p) el.textContent = p.name;
+  }
+
+  async function prefillPatientForm() {
+    if (!currentPatientId) return;
+    var p = await getPatient(currentPatientId);
+    if (!p) return;
+    var nameEl = document.getElementById("patient-name");
+    var ageEl = document.getElementById("patient-age");
+    var genderEl = document.getElementById("patient-gender");
+    var mrnEl = document.getElementById("patient-mrn");
+    var notesEl = document.getElementById("patient-notes");
+    if (nameEl && p.name) nameEl.value = p.name;
+    if (ageEl && p.age) ageEl.value = p.age;
+    if (genderEl && p.gender) genderEl.value = p.gender;
+    if (mrnEl && p.medical_record_id) mrnEl.value = p.medical_record_id;
+    if (notesEl && p.notes) notesEl.value = p.notes;
   }
 
   var patientForm = document.getElementById("patient-form");
