@@ -369,14 +369,15 @@ import Sidebar from '../components/Sidebar.astro';
   }
 
   async function init() {
+    var rawHash = window.location.hash;
+    var isEmailConfirmed = rawHash && rawHash.includes('type=signup');
+
     var signedIn = await isSignedIn();
     if (gate && dashUi) {
       if (signedIn) { gate.classList.add('hidden'); dashUi.classList.remove('hidden'); }
     }
     if (!signedIn) return;
 
-    var hash = window.location.hash;
-    var isEmailConfirmed = hash && hash.includes('type=signup');
     if (isEmailConfirmed) {
       if (window.showToast) {
         window.showToast({ type: 'success', message: 'Email confirmed! Your account is now active.', duration: 5000 });

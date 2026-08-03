@@ -45,6 +45,10 @@ import Footer from '../components/Footer.astro';
             </div>
           </div>
           <div class="error-msg" id="error-msg" role="alert"></div>
+          <div class="confirm-msg" id="confirm-msg" role="status" style="display:none">
+            <span id="confirm-msg-text">Your email isn't confirmed yet. Check your inbox, or resend the confirmation link.</span>
+            <button type="button" class="resend-btn" id="btn-resend">Resend email</button>
+          </div>
           <button class="btn-submit" type="submit">Sign In</button>
         </form>
         <div class="divider">
@@ -79,13 +83,41 @@ import Footer from '../components/Footer.astro';
 </Layout>
 
 <script type="module">
-  import { login, signInWithGoogle } from '../scripts/auth.js';
+  import { login, signInWithGoogle, resendConfirmationEmail } from '../scripts/auth.js';
 
   var form = document.getElementById('signin-form');
   var errorEl = document.getElementById('error-msg');
+  var confirmMsg = document.getElementById('confirm-msg');
+  var resendBtn = document.getElementById('btn-resend');
   var pwInput = document.getElementById('password');
   var toggleBtn = document.getElementById('toggle-pw');
   var googleBtn = document.getElementById('btn-google');
+  var lastEmail = null;
+
+  function showConfirmMsg(email) {
+    lastEmail = email;
+    errorEl.style.display = 'none';
+    confirmMsg.style.display = 'flex';
+  }
+
+  resendBtn?.addEventListener('click', async function () {
+    if (!lastEmail) return;
+    resendBtn.disabled = true;
+    resendBtn.textContent = 'Sending\u2026';
+    var result = await resendConfirmationEmail(lastEmail);
+    if (result.ok) {
+      if (window.showToast) {
+        window.showToast({ type: 'success', message: 'Confirmation email resent. Check your inbox (and spam).', duration: 6000 });
+      }
+      resendBtn.textContent = 'Sent!';
+      setTimeout(function () { resendBtn.textContent = 'Resend email'; resendBtn.disabled = false; }, 3000);
+    } else {
+      errorEl.textContent = result.error;
+      errorEl.style.display = 'block';
+      resendBtn.textContent = 'Resend email';
+      resendBtn.disabled = false;
+    }
+  });
 
   toggleBtn?.addEventListener('click', function () {
     var open = pwInput.type === 'password';
@@ -124,8 +156,14 @@ import Footer from '../components/Footer.astro';
     if (result.ok) {
       window.location.href = '/account';
     } else {
-      errorEl.textContent = result.error;
-      errorEl.style.display = 'block';
+      errorEl.style.display = 'none';
+      confirmMsg.style.display = 'none';
+      if (/not confirmed|Email not confirmed|verify.*email/i.test(result.error)) {
+        showConfirmMsg(email);
+      } else {
+        errorEl.textContent = result.error;
+        errorEl.style.display = 'block';
+      }
     }
   });
 </script>
@@ -149,6 +187,10 @@ import Footer from '../components/Footer.astro';
   .field-input::placeholder { color: #94a3b8; }
   .field-input:focus { border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
   .error-msg { display: none; font-family: var(--font-body); font-size: 14px; color: var(--color-danger); background: rgba(220,38,38,0.06); padding: 10px 14px; border-radius: var(--radius-md); margin: 0; }
+  .confirm-msg { display: none; flex-direction: column; align-items: flex-start; gap: 8px; font-family: var(--font-body); font-size: 14px; color: var(--color-text); background: rgba(37,99,235,0.06); padding: 12px 14px; border-radius: var(--radius-md); margin: 0; line-height: 1.5; }
+  .resend-btn { font-family: var(--font-body); font-size: 14px; font-weight: 500; color: var(--color-primary); background: none; border: none; padding: 0; cursor: pointer; }
+  .resend-btn:hover { text-decoration: underline; }
+  .resend-btn:disabled { opacity: 0.6; cursor: default; }
   .btn-submit { font-family: var(--font-body); font-weight: 600; font-size: 15px; color: white; background: linear-gradient(135deg, var(--color-primary), #1d4ed8); padding: 12px 24px; border: none; border-radius: var(--radius-md); cursor: pointer; transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(37,99,235,0.25); margin-top: 4px; }
   .btn-submit:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(37,99,235,0.35); }
   .btn-submit:active { transform: translateY(0); }

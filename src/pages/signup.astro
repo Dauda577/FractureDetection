@@ -68,7 +68,11 @@ import Footer from '../components/Footer.astro';
               <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
               <polyline points="22 4 12 14.01 9 11.01" />
             </svg>
-            <span>Account created! Check your email for the confirmation link.</span>
+            <span id="success-text">Account created! We sent a confirmation link to your email. Your account stays inactive until you click it.</span>
+          </div>
+          <div class="resend-row" id="resend-row" style="display:none">
+            <span class="resend-note" id="resend-note">Haven't received it? Check spam, or</span>
+            <button type="button" class="resend-btn" id="btn-resend">Resend email</button>
           </div>
           <button class="btn-submit" type="submit" id="btn-submit">Create Account</button>
         </form>
@@ -104,7 +108,7 @@ import Footer from '../components/Footer.astro';
 </Layout>
 
 <script type="module">
-  import { register, signInWithGoogle } from '../scripts/auth.js';
+  import { register, signInWithGoogle, resendConfirmationEmail } from '../scripts/auth.js';
 
   var form = document.getElementById('signup-form');
   var errorEl = document.getElementById('error-msg');
@@ -113,6 +117,33 @@ import Footer from '../components/Footer.astro';
   var toggleBtn = document.getElementById('toggle-pw');
   var toggleConfirmBtn = document.getElementById('toggle-confirm-pw');
   var googleBtn = document.getElementById('btn-google');
+  var resendRow = document.getElementById('resend-row');
+  var resendBtn = document.getElementById('btn-resend');
+  var lastEmail = null;
+
+  function showResend(email) {
+    lastEmail = email;
+    if (resendRow) resendRow.style.display = 'flex';
+  }
+
+  resendBtn?.addEventListener('click', async function () {
+    if (!lastEmail) return;
+    resendBtn.disabled = true;
+    resendBtn.textContent = 'Sending\u2026';
+    var result = await resendConfirmationEmail(lastEmail);
+    if (result.ok) {
+      if (window.showToast) {
+        window.showToast({ type: 'success', message: 'Confirmation email resent. Check your inbox (and spam).', duration: 6000 });
+      }
+      resendBtn.textContent = 'Sent!';
+      setTimeout(function () { resendBtn.textContent = 'Resend email'; resendBtn.disabled = false; }, 3000);
+    } else {
+      errorEl.textContent = result.error;
+      errorEl.style.display = 'block';
+      resendBtn.textContent = 'Resend email';
+      resendBtn.disabled = false;
+    }
+  });
 
   function setupToggle(btn, input, cls) {
     btn?.addEventListener('click', function () {
@@ -174,12 +205,21 @@ import Footer from '../components/Footer.astro';
       document.querySelector('.social-btns').style.display = 'none';
       document.getElementById('auth-footer').style.display = 'none';
       document.getElementById('success-msg').style.display = 'flex';
+      if (result.needsConfirmation) {
+        showResend(email);
+        document.getElementById('success-text').textContent = 'Account created! We sent a confirmation link to ' + email + '. Your account stays inactive until you click it.';
+      } else {
+        document.getElementById('success-text').textContent = 'Account created! You\'re signed in.';
+      }
       if (window.showToast) {
         window.showToast({ type: 'info', message: 'Check your email inbox for the confirmation link to activate your account.', duration: 6000 });
       }
     } else {
       errorEl.textContent = result.error;
       errorEl.style.display = 'block';
+      if (/already registered|already been registered|already a user/i.test(result.error)) {
+        showResend(email);
+      }
     }
   });
 </script>
@@ -205,6 +245,11 @@ import Footer from '../components/Footer.astro';
   .error-msg { display: none; font-family: var(--font-body); font-size: 14px; color: var(--color-danger); background: rgba(220,38,38,0.06); padding: 10px 14px; border-radius: var(--radius-md); margin: 0; }
   .success-msg { display: none; align-items: center; gap: 10px; font-family: var(--font-body); font-size: 15px; color: var(--color-success); background: rgba(22,163,74,0.06); padding: 16px 18px; border-radius: var(--radius-md); margin: 0; line-height: 1.5; }
   .success-msg svg { flex-shrink: 0; }
+  .resend-row { display: flex; align-items: center; gap: 8px; font-family: var(--font-body); font-size: 14px; color: var(--color-text-muted); margin-top: 12px; }
+  .resend-note { line-height: 1.4; }
+  .resend-btn { font-family: var(--font-body); font-size: 14px; font-weight: 500; color: var(--color-primary); background: none; border: none; padding: 4px 6px; cursor: pointer; white-space: nowrap; }
+  .resend-btn:hover { text-decoration: underline; }
+  .resend-btn:disabled { opacity: 0.6; cursor: default; }
   .btn-submit { font-family: var(--font-body); font-weight: 600; font-size: 15px; color: white; background: linear-gradient(135deg, var(--color-primary), #1d4ed8); padding: 12px 24px; border: none; border-radius: var(--radius-md); cursor: pointer; transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(37,99,235,0.25); margin-top: 4px; }
   .btn-submit:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(37,99,235,0.35); }
   .btn-submit:active { transform: translateY(0); }

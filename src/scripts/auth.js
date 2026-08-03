@@ -5,10 +5,26 @@ export async function register(name, email, password) {
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
-    options: { data: { full_name: name } }
+    options: {
+      data: { full_name: name },
+      emailRedirectTo: window.location.origin + '/account'
+    }
   })
   if (error) return { ok: false, error: error.message }
-  return { ok: true, user: data.user }
+  const user = data.user
+  const needsConfirmation = !data.session || !user?.email_confirmed_at
+  return { ok: true, user, needsConfirmation }
+}
+
+export async function resendConfirmationEmail(email) {
+  const supabase = await getSupabase()
+  const { data, error } = await supabase.auth.resend({
+    type: 'signup',
+    email,
+    options: { emailRedirectTo: window.location.origin + '/account' }
+  })
+  if (error) return { ok: false, error: error.message }
+  return { ok: true, data }
 }
 
 export async function login(email, password) {
@@ -33,7 +49,8 @@ export async function getUser() {
     email: user.email,
     name: user.user_metadata?.full_name || user.email?.split('@')[0] || 'User',
     avatarUrl: user.user_metadata?.avatar_url || user.user_metadata?.picture || null,
-    createdAt: user.created_at
+    createdAt: user.created_at,
+    emailConfirmed: !!user.email_confirmed_at
   }
 }
 
