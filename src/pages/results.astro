@@ -176,14 +176,16 @@ import Layout from '../layouts/Layout.astro';
     /* Recommendation */
     var recoText = document.getElementById('reco-text');
     var recoSeverity = document.getElementById('reco-severity');
-    if (isFracture) {
-      recoText.textContent = 'Immediate medical consultation recommended. Please consult with an orthopedic specialist for further evaluation and treatment planning.';
-      recoSeverity.textContent = 'Action Required';
-      recoSeverity.className = 'reco-severity reco-severity-danger';
-    } else {
-      recoText.textContent = 'No signs of fracture detected. Continue routine monitoring as recommended by your healthcare provider.';
-      recoSeverity.textContent = 'Routine';
-      recoSeverity.className = 'reco-severity reco-severity-safe';
+    if (recoText && recoSeverity) {
+      if (isFracture) {
+        recoText.textContent = 'Immediate medical consultation recommended. Please consult with an orthopedic specialist for further evaluation and treatment planning.';
+        recoSeverity.textContent = 'Action Required';
+        recoSeverity.className = 'reco-severity reco-severity-danger';
+      } else {
+        recoText.textContent = 'No signs of fracture detected. Continue routine monitoring as recommended by your healthcare provider.';
+        recoSeverity.textContent = 'Routine';
+        recoSeverity.className = 'reco-severity reco-severity-safe';
+      }
     }
 
     /* Probabilities */
@@ -197,13 +199,13 @@ import Layout from '../layouts/Layout.astro';
     var probValNormal = document.getElementById('prob-value-normal');
     var probsEmpty = document.getElementById('probs-empty');
     if (probFracture && probNormal) {
-      probsEmpty.style.display = 'none';
+      if (probsEmpty) probsEmpty.style.display = 'none';
       var fracPct = isFracture ? confNum : (100 - confNum);
       var normPct = isFracture ? (100 - confNum) : confNum;
       probFracture.style.width = fracPct + '%';
       probNormal.style.width = normPct + '%';
-      probValFracture.textContent = fracPct.toFixed(1) + '%';
-      probValNormal.textContent = normPct.toFixed(1) + '%';
+      if (probValFracture) probValFracture.textContent = fracPct.toFixed(1) + '%';
+      if (probValNormal) probValNormal.textContent = normPct.toFixed(1) + '%';
     }
 
     /* Speedometer */
@@ -265,7 +267,7 @@ import Layout from '../layouts/Layout.astro';
     }
 
     /* Report download */
-    var downloadBtn = document.getElementById('btn-report-download');
+    var downloadBtn = document.getElementById('btn-download');
     if (downloadBtn) {
       downloadBtn.addEventListener('click', function () {
         var canvas = document.createElement('canvas');

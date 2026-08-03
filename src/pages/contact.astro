@@ -97,7 +97,7 @@ import Footer from '../components/Footer.astro';
           </div>
           <h2 class="form-title">We'll get back to you within 24 hours</h2>
         </div>
-        <form class="contact-form" id="contact-form" onsubmit="return handleSubmit(event)">
+        <form class="contact-form" id="contact-form" novalidate>
           <div class="form-row">
             <div class="form-field">
               <label for="name" class="form-label">Full Name <span class="required">*</span></label>
@@ -224,6 +224,8 @@ import Footer from '../components/Footer.astro';
     return false;
   }
 
+  document.getElementById('contact-form').addEventListener('submit', handleSubmit);
+
   document.getElementById('btn-send-another')?.addEventListener('click', function() {
     document.getElementById('form-success').classList.add('hidden');
     document.getElementById('contact-form').classList.remove('hidden');
@@ -231,6 +233,8 @@ import Footer from '../components/Footer.astro';
 </script>
 
 <style>
+  .hidden { display: none !important; }
+
   .contact-hero { min-height: calc(100vh - 68px); display: flex; align-items: center; position: relative; overflow: hidden; padding: 48px 24px; }
   .hero-container { max-width: var(--max-width); margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; width: 100%; position: relative; z-index: 1; }
   .hero-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-body); font-size: 13px; font-weight: 500; color: var(--color-primary); background: rgba(37,99,235,0.08); padding: 6px 14px; border-radius: 20px; margin-bottom: 24px; letter-spacing: 0.02em; text-transform: uppercase; }

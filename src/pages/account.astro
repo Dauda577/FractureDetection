@@ -814,14 +814,16 @@ import Sidebar from '../components/Sidebar.astro';
 
     var recoText = document.getElementById('reco-text');
     var recoSeverity = document.getElementById('reco-severity');
-    if (isFracture) {
-      recoText.textContent = 'Immediate medical consultation recommended. Please consult with an orthopedic specialist for further evaluation and treatment planning.';
-      recoSeverity.textContent = 'Action Required';
-      recoSeverity.className = 'reco-severity reco-severity-danger';
-    } else {
-      recoText.textContent = 'No signs of fracture detected. Continue routine monitoring as recommended by your healthcare provider.';
-      recoSeverity.textContent = 'Routine';
-      recoSeverity.className = 'reco-severity reco-severity-safe';
+    if (recoText && recoSeverity) {
+      if (isFracture) {
+        recoText.textContent = 'Immediate medical consultation recommended. Please consult with an orthopedic specialist for further evaluation and treatment planning.';
+        recoSeverity.textContent = 'Action Required';
+        recoSeverity.className = 'reco-severity reco-severity-danger';
+      } else {
+        recoText.textContent = 'No signs of fracture detected. Continue routine monitoring as recommended by your healthcare provider.';
+        recoSeverity.textContent = 'Routine';
+        recoSeverity.className = 'reco-severity reco-severity-safe';
+      }
     }
 
     if (imgData) {
