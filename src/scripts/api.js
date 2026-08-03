@@ -39,16 +39,21 @@ export async function saveAnalysis(imageData, prediction, confidence, inferenceT
   return data.id
 }
 
-export async function getAnalyses() {
+export async function getAnalyses(patientId) {
   const supabase = await getSupabase()
   const { data: { session } } = await supabase.auth.getSession()
   if (!session) return []
 
-  const { data, error } = await supabase
+  let query = supabase
     .from('analyses')
-    .select('id, image_path, prediction, confidence, inference_time, created_at, findings, patient_id')
+    .select('id, image_path, prediction, confidence, inference_time, created_at, findings, patient_id, patients(name, medical_record_id)')
+    .eq('user_id', session.user.id)
     .order('created_at', { ascending: false })
     .limit(20)
+
+  if (patientId) query = query.eq('patient_id', patientId)
+
+  const { data, error } = await query
 
   if (error) return []
   return data || []

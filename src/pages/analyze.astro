@@ -1315,27 +1315,23 @@ import Footer from "../components/Footer.astro";
                       queueData.length,
                     );
                   }
-                  sessionStorage.removeItem("fracturedetect:patient_id");
                   window.location.href = "/processing";
                 }
               };
               r.onerror = function () {
                 pendingReads--;
                 if (pendingReads === 0) {
-                  sessionStorage.removeItem("fracturedetect:patient_id");
                   window.location.href = "/processing";
                 }
               };
               r.readAsDataURL(fileQueue[idx]);
             });
           } catch (err) {
-            sessionStorage.removeItem("fracturedetect:patient_id");
             window.location.href = "/processing";
           }
         } else {
           sessionStorage.removeItem("fracturedetect:queue");
           sessionStorage.removeItem("fracturedetect:remaining");
-          sessionStorage.removeItem("fracturedetect:patient_id");
           window.location.href = "/processing";
         }
       } catch (err) {

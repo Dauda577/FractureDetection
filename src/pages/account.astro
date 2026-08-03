@@ -348,15 +348,7 @@ import Sidebar from '../components/Sidebar.astro';
   var filteredPatientId = null;
 
   function showView(viewId) {
-    VIEWS.forEach(function (id) {
-      var el = document.getElementById(id);
-      if (el) el.classList.toggle('hidden', id !== viewId);
-    });
-    document.querySelectorAll('.nav-item').forEach(function (el) { el.classList.remove('active'); });
-    document.querySelectorAll('.nav-item').forEach(function (l) {
-      var text = l.querySelector('span')?.textContent;
-      if (text && text.toLowerCase() === (VIEW_TITLES[viewId] || '').toLowerCase()) l.classList.add('active');
-    });
+    switchView(viewId);
     if (viewId === 'patients-view') loadPatientsList();
     if (viewId === 'history-view') {
       filteredPatientId = null;
@@ -572,6 +564,13 @@ import Sidebar from '../components/Sidebar.astro';
       });
     });
 
+    var historyBackBtn = document.getElementById('history-back');
+    if (historyBackBtn) {
+      historyBackBtn.addEventListener('click', function () {
+        showView('history-view');
+      });
+    }
+
     var btnSettingsSignout = document.getElementById('btn-settings-signout');
     if (btnSettingsSignout) {
       btnSettingsSignout.addEventListener('click', function () {
@@ -726,8 +725,20 @@ import Sidebar from '../components/Sidebar.astro';
     var historyBack = document.getElementById('history-back');
     if (historyBack) historyBack.classList.remove('hidden');
     filteredPatientId = patientId;
+    switchView('history-view');
     loadHistoryList(patientId);
-    showView('history-view');
+  }
+
+  function switchView(viewId) {
+    VIEWS.forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.classList.toggle('hidden', id !== viewId);
+    });
+    document.querySelectorAll('.nav-item').forEach(function (el) { el.classList.remove('active'); });
+    document.querySelectorAll('.nav-item').forEach(function (l) {
+      var text = l.querySelector('span')?.textContent;
+      if (text && text.toLowerCase() === (VIEW_TITLES[viewId] || '').toLowerCase()) l.classList.add('active');
+    });
   }
 
   function escapeHtml(str) {
@@ -738,10 +749,9 @@ import Sidebar from '../components/Sidebar.astro';
 
   async function loadHistoryList(patientId) {
     var { getAnalyses } = await import('../scripts/api.js');
-    var analyses = await getAnalyses();
+    var analyses = await getAnalyses(patientId);
     var list = document.getElementById('history-list');
     var empty = document.getElementById('history-empty');
-    if (patientId) analyses = analyses.filter(function (a) { return a.patient_id === patientId; });
     if (!analyses.length) {
       list.innerHTML = '';
       empty.classList.remove('hidden');
@@ -758,11 +768,19 @@ import Sidebar from '../components/Sidebar.astro';
         ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>'
         : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
       var confPct = (a.confidence * 100).toFixed(1);
+      var pat = a.patients || null;
+      var patientName = pat && pat.name ? escapeHtml(pat.name) : (a.patient_id ? 'Patient' : 'Walk-in');
+      var mrn = pat && pat.medical_record_id ? escapeHtml(pat.medical_record_id) : '';
+      var patientLine = patientName + (mrn ? ' &middot; ' + mrn : '');
       return '<div class="history-card">' +
         '<div class="hc-badge ' + badgeClass + '">' + badgeIcon + '<span>' + label + '</span></div>' +
         '<div class="hc-body">' +
           '<div class="hc-conf">' + confPct + '%</div>' +
           '<div class="hc-label">Confidence</div>' +
+          '<div class="hc-patient">' +
+            '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>' +
+            '<span>' + patientLine + '</span>' +
+          '</div>' +
           '<div class="hc-meta">' +
             '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>' +
             '<span>' + date + '</span>' +
@@ -1101,6 +1119,7 @@ import Sidebar from '../components/Sidebar.astro';
   .row-3 { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 0; }
 
   /* ── Sub-views (Patients, History, Reports, Model Info, Settings) ── */
+  #patients-view, #history-view, #reports-view, #model-info-view, #settings-view { display: flex; flex-direction: column; flex: 1; min-height: 0; overflow-y: auto; }
   .view-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
   .view-title { font-family: var(--font-heading); font-weight: 600; font-size: 20px; color: var(--color-text); margin: 0; flex: 1; }
   .view-back-btn { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-surface); color: var(--color-text-muted); cursor: pointer; transition: all 0.15s; }
@@ -1246,6 +1265,9 @@ import Sidebar from '../components/Sidebar.astro';
   .hc-label { font-family: var(--font-body); font-size: 11px; color: var(--color-text-muted); margin-bottom: 10px; }
   .hc-meta { display: flex; align-items: center; gap: 5px; font-family: var(--font-body); font-size: 11px; color: var(--color-text-muted); }
   .hc-meta svg { flex-shrink: 0; color: var(--color-neutral); }
+  .hc-patient { display: flex; align-items: center; gap: 5px; font-family: var(--font-body); font-size: 11px; font-weight: 600; color: var(--color-text); margin-bottom: 6px; overflow: hidden; }
+  .hc-patient svg { flex-shrink: 0; color: var(--color-primary); }
+  .hc-patient span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .hc-view-btn { display: flex; align-items: center; justify-content: space-between; gap: 6px; font-family: var(--font-body); font-weight: 500; font-size: 12px; color: var(--color-primary); text-decoration: none; padding: 8px 12px; border-radius: var(--radius-md); background: rgba(37,99,235,0.06); transition: all 0.15s; }
   .hc-view-btn:hover { background: rgba(37,99,235,0.14); }
   .hc-view-btn svg { flex-shrink: 0; }
