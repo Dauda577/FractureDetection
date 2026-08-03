@@ -960,9 +960,16 @@ import Footer from "../components/Footer.astro";
         '<span class="rp-chip-name">' +
         (p.name || "Unnamed") +
         "</span>";
-      chip.addEventListener("click", function () {
+      chip.addEventListener("click", async function () {
         sessionStorage.setItem("fracturedetect:patient_id", p.id);
-        window.location.reload();
+        currentPatientId = p.id;
+        if (welcome) await animateOut(welcome);
+        welcome.classList.add("hidden");
+        if (patientUi) {
+          patientUi.classList.remove("hidden");
+          animateIn(patientUi);
+          prefillPatientForm();
+        }
       });
       rpGrid.appendChild(chip);
     });
