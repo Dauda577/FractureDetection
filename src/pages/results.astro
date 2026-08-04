@@ -18,6 +18,14 @@ import Layout from '../layouts/Layout.astro';
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10" /><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" /></svg>
                 New Analysis
               </a>
+              <button class="top-btn-secondary" id="btn-redo" title="Re-analyze same image">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10" /><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" /></svg>
+                Re-analyze
+              </button>
+              <button class="top-btn-secondary" id="btn-redo-other" title="Re-analyze for another patient">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="8.5" cy="7" r="4" /><polyline points="17 11 19 13 23 9" /></svg>
+                Another Patient
+              </button>
               <button class="top-icon-btn" id="btn-download" title="Export Report">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
               </button>
@@ -213,6 +221,26 @@ import Layout from '../layouts/Layout.astro';
         sessionStorage.removeItem('fracturedetect:image');
         sessionStorage.removeItem('fracturedetect:result');
         sessionStorage.removeItem('fracturedetect:queue');
+        window.location.href = '/analyze';
+      });
+    }
+
+    var btnRedo = document.getElementById('btn-redo');
+    if (btnRedo) {
+      btnRedo.addEventListener('click', function () {
+        sessionStorage.removeItem('fracturedetect:result');
+        sessionStorage.removeItem('fracturedetect:queue');
+        window.location.href = '/processing';
+      });
+    }
+
+    var btnRedoOther = document.getElementById('btn-redo-other');
+    if (btnRedoOther) {
+      btnRedoOther.addEventListener('click', function () {
+        sessionStorage.setItem('fracturedetect:from_results', '1');
+        sessionStorage.removeItem('fracturedetect:result');
+        sessionStorage.removeItem('fracturedetect:queue');
+        sessionStorage.removeItem('fracturedetect:patient_id');
         window.location.href = '/analyze';
       });
     }
@@ -448,6 +476,14 @@ import Layout from '../layouts/Layout.astro';
     box-shadow: 0 4px 12px rgba(37,99,235,0.25);
   }
   .top-btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(37,99,235,0.35); }
+  .top-btn-secondary {
+    display: inline-flex; align-items: center; gap: 5px; text-decoration: none;
+    font-family: var(--font-body); font-weight: 500; font-size: 12px; color: var(--color-text);
+    background: var(--color-surface); border: 1px solid var(--color-border);
+    padding: 7px 12px; border-radius: var(--radius-md);
+    cursor: pointer; transition: all 0.15s; white-space: nowrap;
+  }
+  .top-btn-secondary:hover { border-color: var(--color-primary); color: var(--color-primary); }
   .top-icon-btn {
     width: 38px; height: 38px; border-radius: 50%;
     background: var(--color-surface); border: 1px solid var(--color-border);

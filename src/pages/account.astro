@@ -777,8 +777,37 @@ import Sidebar from '../components/Sidebar.astro';
             '<span class="notif-dot-item"></span>' +
             '<div class="notif-body"><p class="notif-text">' + n.text + '</p><span class="notif-time">' + n.time + '</span></div>' +
             '</div>';
-        }).join('');
+    }).join('');
     if (notifDot) notifDot.style.display = items.some(function (n) { return n.unread; }) ? 'block' : 'none';
+  }
+
+  async function redoAnalysis(imagePath, patientId) {
+    var { getAnalysisImageUrl, imageUrlToDataURL } = await import('../scripts/api.js');
+    var url = await getAnalysisImageUrl(imagePath);
+    var dataURL = await imageUrlToDataURL(url);
+    if (!dataURL) return;
+    try { sessionStorage.setItem('fracturedetect:image', dataURL); } catch (e) {}
+    if (patientId) {
+      try { sessionStorage.setItem('fracturedetect:patient_id', patientId); } catch (e) {}
+    }
+    sessionStorage.removeItem('fracturedetect:result');
+    sessionStorage.removeItem('fracturedetect:queue');
+    window.location.href = '/processing';
+  }
+
+  function attachHistoryRedoHandlers() {
+    var list = document.getElementById('history-list');
+    if (!list) return;
+    list.addEventListener('click', function (e) {
+      var btn = e.target.closest('.hc-redo-btn');
+      if (!btn) return;
+      e.preventDefault();
+      btn.disabled = true;
+      var card = btn.closest('.history-card');
+      var imagePath = card.getAttribute('data-image-path');
+      var patientId = card.getAttribute('data-patient-id') || null;
+      redoAnalysis(imagePath, patientId);
+    });
   }
 
   function timeAgo(date) {
@@ -854,13 +883,38 @@ import Sidebar from '../components/Sidebar.astro';
           '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>' +
           '<span>' + created + '</span>' +
         '</div>' +
+        '<button class="pc-redo-btn" title="Re-analyze last X-ray"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10" /><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" /></svg>Re-analyze</button>' +
       '</div>';
     }).join('');
+    list.querySelectorAll('.pc-redo-btn').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        btn.disabled = true;
+        var card = btn.closest('.patient-card');
+        var patientId = card.getAttribute('data-patient-id');
+        redoLatestForPatient(patientId);
+      });
+    });
     list.querySelectorAll('.patient-card').forEach(function (card) {
-      card.addEventListener('click', function () {
+      card.addEventListener('click', function (e) {
+        if (e.target.closest('.pc-redo-btn')) return;
         showPatientScans(card.getAttribute('data-patient-id'), card.querySelector('.pc-name').textContent);
       });
     });
+  }
+
+  async function redoLatestForPatient(patientId) {
+    var { getLatestAnalysisForPatient, getAnalysisImageUrl, imageUrlToDataURL } = await import('../scripts/api.js');
+    var analysis = await getLatestAnalysisForPatient(patientId);
+    if (!analysis) return;
+    var url = await getAnalysisImageUrl(analysis.image_path);
+    var dataURL = await imageUrlToDataURL(url);
+    if (!dataURL) return;
+    try { sessionStorage.setItem('fracturedetect:image', dataURL); } catch (e) {}
+    try { sessionStorage.setItem('fracturedetect:patient_id', patientId); } catch (e) {}
+    sessionStorage.removeItem('fracturedetect:result');
+    sessionStorage.removeItem('fracturedetect:queue');
+    window.location.href = '/processing';
   }
 
   async function showPatientScans(patientId, patientName) {
@@ -919,7 +973,7 @@ import Sidebar from '../components/Sidebar.astro';
       var patientName = pat && pat.name ? escapeHtml(pat.name) : (a.patient_id ? 'Patient' : 'Walk-in');
       var mrn = pat && pat.medical_record_id ? escapeHtml(pat.medical_record_id) : '';
       var patientLine = patientName + (mrn ? ' &middot; ' + mrn : '');
-      return '<div class="history-card">' +
+      return '<div class="history-card" data-analysis-id="' + a.id + '" data-image-path="' + (a.image_path || '') + '" data-patient-id="' + (a.patient_id || '') + '">' +
         '<div class="hc-badge ' + badgeClass + '">' + badgeIcon + '<span>' + label + '</span></div>' +
         '<div class="hc-body">' +
           '<div class="hc-conf">' + confPct + '%</div>' +
@@ -933,7 +987,10 @@ import Sidebar from '../components/Sidebar.astro';
             '<span>' + date + '</span>' +
           '</div>' +
         '</div>' +
-        '<a href="/results" class="hc-view-btn">View Details <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6" /></svg></a>' +
+        '<div class="hc-actions">' +
+          '<button class="hc-redo-btn" title="Re-analyze this X-ray"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10" /><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" /></svg></button>' +
+          '<a href="/results" class="hc-view-btn">View <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6" /></svg></a>' +
+        '</div>' +
       '</div>';
     }).join('');
   }
@@ -1320,6 +1377,7 @@ import Sidebar from '../components/Sidebar.astro';
     btnAnalyze.addEventListener('click', storeAndNavigate);
   }
 
+  attachHistoryRedoHandlers();
   init();
 </script>
 
@@ -2031,6 +2089,13 @@ import Sidebar from '../components/Sidebar.astro';
   .hc-view-btn { display: flex; align-items: center; justify-content: space-between; gap: 6px; font-family: var(--font-body); font-weight: 500; font-size: 12px; color: var(--color-primary); text-decoration: none; padding: 8px 12px; border-radius: var(--radius-md); background: rgba(37,99,235,0.06); transition: all 0.15s; }
   .hc-view-btn:hover { background: rgba(37,99,235,0.14); }
   .hc-view-btn svg { flex-shrink: 0; }
+  .hc-actions { display: flex; align-items: center; gap: 6px; margin-top: 10px; }
+  .hc-redo-btn { display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: var(--radius-md); border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text-muted); cursor: pointer; transition: all 0.15s; }
+  .hc-redo-btn:hover { border-color: var(--color-primary); color: var(--color-primary); background: rgba(37,99,235,0.06); }
+  .hc-redo-btn:disabled { opacity: 0.4; pointer-events: none; }
+  .pc-redo-btn { display: flex; align-items: center; gap: 5px; width: 100%; font-family: var(--font-body); font-size: 11px; font-weight: 500; color: var(--color-primary); background: rgba(37,99,235,0.06); border: none; border-top: 1px solid var(--color-border); border-radius: 0 0 var(--radius-md) var(--radius-md); padding: 8px 12px; cursor: pointer; transition: all 0.15s; margin: 0; }
+  .pc-redo-btn:hover { background: rgba(37,99,235,0.14); }
+  .pc-redo-btn:disabled { opacity: 0.4; pointer-events: none; }
 
   /* ── Settings ── */
   .settings-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 20px 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.03); display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
