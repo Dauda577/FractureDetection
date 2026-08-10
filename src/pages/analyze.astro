@@ -1,1 +1,878 @@
----\nimport Layout from "../layouts/Layout.astro";\nimport Footer from "../components/Footer.astro";\n---\n\n<Layout\n title="Upload"\n description="Upload X-ray images for AI-powered fracture analysis"\n active="analyze"\n variant="app"\n>\n <main class="analyze-page page-enter">\n <div class="analyze-bg">\n <div\n class="analyze-orb orb-left fd-orb-drift"\n style="--float-duration:20s"\n >\n </div>\n <div\n class="analyze-orb orb-right fd-orb-drift"\n style="--float-duration:16s;--float-delay:-5s"\n >\n </div>\n </div>\n\n <div id="auth-demo" class="auth-demo hidden">\n
+---
+import Layout from "../layouts/Layout.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<Layout
+  title="Upload"
+  description="Upload X-ray images for AI-powered fracture analysis"
+  active="analyze"
+  variant="app"
+>
+  <main class="analyze-page page-enter">
+    <div class="analyze-bg">
+      <div
+        class="analyze-orb orb-left fd-orb-drift"
+        style="--float-duration:20s"
+      >
+      </div>
+      <div
+        class="analyze-orb orb-right fd-orb-drift"
+        style="--float-duration:16s;--float-delay:-5s"
+      >
+      </div>
+    </div>
+
+    <div id="auth-demo" class="auth-demo hidden">
+      <div class="demo-container">
+        <div class="demo-left">
+          <div class="demo-badge">
+            <span class="badge-dot"></span>
+            See It In Action
+          </div>
+          <h2 class="demo-title">
+            See how AI detects fractures<br />in real X-ray images
+          </h2>
+          <p class="demo-desc">
+            Swipe through sample results showing original X-rays with AI-powered
+            fracture detection overlays.
+          </p>
+          <div class="demo-gallery">
+            <div class="demo-card">
+              <div class="demo-card-img-wrap">
+                <img
+                  class="demo-card-img"
+                  src="/images/xrays/tibia-fibula-xray.webp"
+                  alt="Tibia/Fibula fracture x-ray"
+                  width="300"
+                  height="300"
+                  decoding="async"
+                  loading="lazy"
+                />
+                <div
+                  class="demo-card-heatmap"
+                  style="background:radial-gradient(ellipse at 48% 35%, rgba(255,50,0,0.55) 0%, rgba(255,130,0,0.35) 18%, rgba(255,220,0,0.2) 36%, transparent 56%)"
+                >
+                </div>
+              </div>
+              <div class="demo-card-body">
+                <div class="demo-card-tags">
+                  <span class="demo-tag demo-tag-red">Fracture</span>
+                  <span class="demo-tag">Tibia Shaft</span>
+                </div>
+                <div class="demo-card-meta">
+                  <span class="demo-card-conf">94.6% confidence</span>
+                  <span class="demo-card-time">Tibia/Fibula X-ray</span>
+                </div>
+              </div>
+            </div>
+            <div class="demo-card">
+              <div class="demo-card-img-wrap">
+                <img
+                  class="demo-card-img"
+                  src="/images/xrays/comminuted-hip-fracture.webp"
+                  alt="Hip fracture x-ray"
+                  width="300"
+                  height="300"
+                  decoding="async"
+                  loading="lazy"
+                />
+                <div
+                  class="demo-card-heatmap"
+                  style="background:radial-gradient(ellipse at 55% 42%, rgba(255,50,0,0.5) 0%, rgba(255,130,0,0.3) 22%, rgba(255,220,0,0.18) 42%, transparent 62%)"
+                >
+                </div>
+              </div>
+              <div class="demo-card-body">
+                <div class="demo-card-tags">
+                  <span class="demo-tag demo-tag-red">Fracture</span>
+                  <span class="demo-tag">Femoral Neck</span>
+                </div>
+                <div class="demo-card-meta">
+                  <span class="demo-card-conf">96.2% confidence</span>
+                  <span class="demo-card-time">Hip X-ray</span>
+                </div>
+              </div>
+            </div>
+            <div class="demo-card">
+              <div class="demo-card-img-wrap">
+                <img
+                  class="demo-card-img"
+                  src="/images/xrays/femur-xray.webp"
+                  alt="Femur fracture x-ray"
+                  width="300"
+                  height="300"
+                  decoding="async"
+                  loading="lazy"
+                />
+                <div
+                  class="demo-card-heatmap"
+                  style="background:radial-gradient(ellipse at 50% 40%, rgba(255,50,0,0.5) 0%, rgba(255,130,0,0.32) 20%, rgba(255,220,0,0.18) 40%, transparent 60%)"
+                >
+                </div>
+              </div>
+              <div class="demo-card-body">
+                <div class="demo-card-tags">
+                  <span class="demo-tag demo-tag-red">Fracture</span>
+                  <span class="demo-tag">Femur Shaft</span>
+                </div>
+                <div class="demo-card-meta">
+                  <span class="demo-card-conf">95.1% confidence</span>
+                  <span class="demo-card-time">Femur X-ray</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="demo-right">
+          <div class="demo-steps-preview">
+            <div class="dsp-header">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                ><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"
+                ></polyline></svg
+              >
+              <span>How it works</span>
+            </div>
+            <div class="dsp-track" id="dsp-track">
+              <div class="dsp-step dsp-step-active">
+                <div class="dsp-step-icon">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    ><path
+                      d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"
+                    ></path><line x1="12" y1="13" x2="12" y2="19"
+                    ></line><polyline points="9 16 12 13 15 16"></polyline></svg
+                  >
+                </div>
+                <div class="dsp-step-body">
+                  <div class="dsp-step-title-row">
+                    <span class="dsp-step-title">Upload X-ray</span>
+                    <div class="dsp-step-check">
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        ><polyline points="20 6 9 17 4 12"></polyline></svg
+                      >
+                    </div>
+                  </div>
+                  <span class="dsp-step-desc"
+                    >Drag & drop or browse DICOM / standard images</span
+                  >
+                </div>
+              </div>
+              <div class="dsp-connector"></div>
+              <div class="dsp-step">
+                <div class="dsp-step-icon">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    ><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"
+                    ></polyline><path
+                      d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+                    ></path><line x1="12" y1="9" x2="12" y2="13"></line><line
+                      x1="12"
+                      y1="17"
+                      x2="12.01"
+                      y2="17"></line></svg
+                  >
+                </div>
+                <div class="dsp-step-body">
+                  <span class="dsp-step-title">AI Analysis</span>
+                  <span class="dsp-step-desc"
+                    >Deep learning model processes in under 5 seconds</span
+                  >
+                </div>
+              </div>
+              <div class="dsp-connector"></div>
+              <div class="dsp-step">
+                <div class="dsp-step-icon">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    ><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
+                    ></path><path d="M9 12l2 2 4-4"></path></svg
+                  >
+                </div>
+                <div class="dsp-step-body">
+                  <span class="dsp-step-title">Review Results</span>
+                  <span class="dsp-step-desc"
+                    >Confidence scores, heatmaps, and exportable reports</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="demo-cta">
+            <a href="/signup" class="btn-demo-primary" id="btn-get-started">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                ><line x1="12" y1="5" x2="12" y2="19"></line><line
+                  x1="5"
+                  y1="12"
+                  x2="19"
+                  y2="12"></line></svg
+              >
+              Get Started Free
+            </a>
+            <a href="/signin" class="btn-demo-alt">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                ><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"
+                ></path><polyline points="10 17 15 12 10 7"></polyline><line
+                  x1="15"
+                  y1="12"
+                  x2="3"
+                  y2="12"></line></svg
+              >
+              Sign In
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="welcome-signedin" class="hidden">
+      <div class="welcome-container">
+        <div class="welcome-header">
+          <div class="wh-top">
+            <div class="wh-avatar" id="wh-avatar">U</div>
+            <div class="wh-text">
+              <h2 class="wh-greeting">
+                Welcome back, <span id="welcome-name">User</span>
+              </h2>
+              <p class="wh-sub">
+                Start a new analysis or pick up where you left off.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="welcome-cards">
+          <button class="wc-card" id="btn-new-analysis">
+            <div class="wc-card-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                ><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"
+                ></path><line x1="12" y1="13" x2="12" y2="19"></line><polyline
+                  points="9 16 12 13 15 16"></polyline></svg
+              >
+            </div>
+            <div class="wc-card-body">
+              <h3 class="wc-card-title">New Analysis</h3>
+              <p class="wc-card-desc">
+                Upload X-ray images for AI-powered fracture detection with
+                confidence scoring and heatmaps.
+              </p>
+            </div>
+            <div class="wc-card-arrow">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                ><polyline points="9 18 15 12 9 6"></polyline></svg
+              >
+            </div>
+          </button>
+          <a href="/account" class="wc-card">
+            <div class="wc-card-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                ><path
+                  d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                ></path><polyline points="14 2 14 8 20 8"></polyline><line
+                  x1="16"
+                  y1="13"
+                  x2="8"
+                  y2="13"></line><line x1="16" y1="17" x2="8" y2="17"
+                ></line></svg
+              >
+            </div>
+            <div class="wc-card-body">
+              <h3 class="wc-card-title">View History</h3>
+              <p class="wc-card-desc">
+                Review past analyses, patient records, and downloaded reports
+                from your dashboard.
+              </p>
+            </div>
+            <div class="wc-card-arrow">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                ><polyline points="9 18 15 12 9 6"></polyline></svg
+              >
+            </div>
+          </a>
+        </div>
+        <div class="recent-patients" id="recent-patients">
+          <div class="rp-header">
+            <h4 class="rp-title">Recent Patients</h4>
+            <span class="rp-count" id="rp-count">0</span>
+          </div>
+          <div class="rp-grid" id="rp-grid">
+            <div class="rp-empty" id="rp-empty">
+              No previous patients yet. Start a new analysis to begin.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="patient-ui" class="hidden">
+      <div class="patient-container">
+        <div class="patient-card">
+          <div class="upload-badge">
+            <span class="badge-dot"></span>
+            Patient Information
+          </div>
+          <h1 class="upload-title">Enter Patient Details</h1>
+          <p class="upload-subtext">
+            Provide patient information before proceeding with the X-ray
+            analysis.
+          </p>
+          <form id="patient-form" class="patient-form" novalidate>
+            <div class="patient-field">
+              <label class="patient-label" for="patient-name"
+                >Full Name <span class="required">*</span></label
+              >
+              <input
+                class="patient-input"
+                id="patient-name"
+                name="name"
+                type="text"
+                placeholder="e.g. John Doe"
+                required
+              />
+            </div>
+            <div class="patient-row">
+              <div class="patient-field">
+                <label class="patient-label" for="patient-age">Age</label>
+                <input
+                  class="patient-input"
+                  id="patient-age"
+                  name="age"
+                  type="number"
+                  min="0"
+                  max="150"
+                  placeholder="e.g. 45"
+                />
+              </div>
+              <div class="patient-field">
+                <label class="patient-label" for="patient-gender">Gender</label>
+                <select
+                  class="patient-input patient-select"
+                  id="patient-gender"
+                  name="gender"
+                >
+                  <option value="">Select</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+            </div>
+            <div class="patient-field">
+              <label class="patient-label" for="patient-mrn"
+                >Medical Record ID</label
+              >
+              <input
+                class="patient-input"
+                id="patient-mrn"
+                name="mrn"
+                type="text"
+                placeholder="e.g. MRN-12345"
+              />
+            </div>
+            <div class="patient-field">
+              <label class="patient-label" for="patient-notes"
+                >Notes (optional)</label
+              >
+              <textarea
+                class="patient-input patient-textarea"
+                id="patient-notes"
+                name="notes"
+                rows="2"
+                placeholder="Any additional notes..."></textarea>
+            </div>
+            <p class="error-message" id="patient-error"></p>
+            <button class="btn-analyze" id="btn-patient-continue" type="submit">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+              Continue to Upload
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div id="upload-ui" class="hidden">
+      <div class="analyze-container">
+        <div class="upload-section">
+          <div class="upload-badge">
+            <span class="badge-dot"></span>
+            AI Analysis
+          </div>
+          <h1 class="upload-title">Upload X-ray Images</h1>
+          <div class="patient-badge" id="patient-badge">
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              ><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
+              ></path><circle cx="12" cy="7" r="4"></circle></svg
+            >
+            <span id="patient-badge-name">Patient</span>
+            <button class="patient-change-btn" id="btn-change-patient"
+              >Change</button
+            >
+          </div>
+          <p class="upload-subtext">
+            Upload one or more X-ray images. The model detects fractures with
+            confidence scores and heatmaps.
+          </p>
+
+          <div
+            class="dropzone"
+            id="dropzone"
+            tabindex="0"
+            role="button"
+            aria-label="Upload X-ray image files"
+          >
+            <input
+              type="file"
+              id="file-input"
+              accept="image/png,image/jpeg"
+              multiple
+              hidden
+              aria-label="Choose X-ray image files"
+            />
+            <div class="dropzone-graphic">
+              <svg
+                class="dropzone-icon"
+                width="48"
+                height="48"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"
+                ></path>
+                <line x1="12" y1="13" x2="12" y2="19"></line>
+                <polyline points="9 16 12 13 15 16"></polyline>
+              </svg>
+            </div>
+            <p class="dropzone-text">Drag and drop your images here</p>
+            <p class="dropzone-link">
+              or <span class="dropzone-link-text">click to browse</span>
+            </p>
+            <p class="dropzone-caption">
+              PNG, JPG, JPEG &middot; Max 10MB each &middot; Multiple allowed
+            </p>
+          </div>
+
+          <p class="error-message" id="error-message"></p>
+
+          <button class="btn-analyze" id="btn-analyze" disabled>
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+            </svg>
+            <span id="btn-analyze-text">Analyze Image</span>
+          </button>
+
+          <div id="batch-queue" class="batch-queue hidden">
+            <div class="batch-header">
+              <span class="batch-count" id="batch-count">0 images</span>
+              <button class="batch-clear-btn" id="btn-batch-clear"
+                >Clear all</button
+              >
+            </div>
+            <div class="batch-strip" id="batch-strip"></div>
+          </div>
+        </div>
+
+        <div class="preview-section">
+          <div class="preview-card">
+            <div class="preview-card-header">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <polyline points="21 15 16 10 5 21"></polyline>
+              </svg>
+              <span>Preview</span>
+              <button
+                class="guide-toggle-btn"
+                id="btn-guide-toggle"
+                title="Toggle fracture guide overlay"
+              >
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  ><circle cx="12" cy="12" r="10"></circle><line
+                    x1="12"
+                    y1="16"
+                    x2="12"
+                    y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"
+                  ></line></svg
+                >
+                Guide
+              </button>
+            </div>
+
+            <div class="preview-empty" id="preview-empty">
+              <svg
+                width="48"
+                height="48"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <polyline points="21 15 16 10 5 21"></polyline>
+              </svg>
+              <p class="preview-empty-text">No image selected yet</p>
+            </div>
+
+            <div class="preview-filled hidden" id="preview-filled">
+              <div class="preview-image-wrapper" id="preview-image-wrapper">
+                <img id="preview-image" alt="Uploaded X-ray image" />
+                <div class="guide-overlay hidden" id="guide-overlay">
+                  <svg
+                    class="guide-svg"
+                    viewBox="0 0 240 320"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <g opacity="0.7">
+                      <circle
+                        cx="85"
+                        cy="55"
+                        r="18"
+                        fill="rgba(239,68,68,0.25)"
+                        stroke="#ef4444"
+                        stroke-width="1.5"
+                        stroke-dasharray="3 2"></circle>
+                      <circle cx="85" cy="55" r="3" fill="#ef4444"></circle>
+                      <text
+                        x="85"
+                        y="42"
+                        text-anchor="middle"
+                        font-size="8"
+                        fill="#ef4444"
+                        font-weight="600">Distal Radius</text
+                      >
+
+                      <circle
+                        cx="68"
+                        cy="78"
+                        r="14"
+                        fill="rgba(239,68,68,0.25)"
+                        stroke="#ef4444"
+                        stroke-width="1.5"
+                        stroke-dasharray="3 2"></circle>
+                      <circle cx="68" cy="78" r="3" fill="#ef4444"></circle>
+                      <text
+                        x="68"
+                        y="66"
+                        text-anchor="middle"
+                        font-size="8"
+                        fill="#ef4444"
+                        font-weight="600">Scaphoid</text
+                      >
+
+                      <circle
+                        cx="80"
+                        cy="115"
+                        r="16"
+                        fill="rgba(239,68,68,0.25)"
+                        stroke="#ef4444"
+                        stroke-width="1.5"
+                        stroke-dasharray="3 2"></circle>
+                      <circle cx="80" cy="115" r="3" fill="#ef4444"></circle>
+                      <text
+                        x="80"
+                        y="102"
+                        text-anchor="middle"
+                        font-size="8"
+                        fill="#ef4444"
+                        font-weight="600">Radius Shaft</text
+                      >
+
+                      <circle
+                        cx="64"
+                        cy="118"
+                        r="14"
+                        fill="rgba(239,68,68,0.25)"
+                        stroke="#ef4444"
+                        stroke-width="1.5"
+                        stroke-dasharray="3 2"></circle>
+                      <circle cx="64" cy="118" r="3" fill="#ef4444"></circle>
+                      <text
+                        x="64"
+                        y="138"
+                        text-anchor="middle"
+                        font-size="8"
+                        fill="#ef4444"
+                        font-weight="600">Ulna Shaft</text
+                      >
+
+                      <circle
+                        cx="75"
+                        cy="170"
+                        r="16"
+                        fill="rgba(239,68,68,0.25)"
+                        stroke="#ef4444"
+                        stroke-width="1.5"
+                        stroke-dasharray="3 2"></circle>
+                      <circle cx="75" cy="170" r="3" fill="#ef4444"></circle>
+                      <text
+                        x="75"
+                        y="158"
+                        text-anchor="middle"
+                        font-size="8"
+                        fill="#ef4444"
+                        font-weight="600">Olecranon</text
+                      >
+
+                      <circle
+                        cx="70"
+                        cy="210"
+                        r="18"
+                        fill="rgba(239,68,68,0.25)"
+                        stroke="#ef4444"
+                        stroke-width="1.5"
+                        stroke-dasharray="3 2"></circle>
+                      <circle cx="70" cy="210" r="3" fill="#ef4444"></circle>
+                      <text
+                        x="70"
+                        y="196"
+                        text-anchor="middle"
+                        font-size="8"
+                        fill="#ef4444"
+                        font-weight="600">Distal Humerus</text
+                      >
+
+                      <circle
+                        cx="60"
+                        cy="260"
+                        r="16"
+                        fill="rgba(239,68,68,0.25)"
+                        stroke="#ef4444"
+                        stroke-width="1.5"
+                        stroke-dasharray="3 2"></circle>
+                      <circle cx="60" cy="260" r="3" fill="#ef4444"></circle>
+                      <text
+                        x="60"
+                        y="248"
+                        text-anchor="middle"
+                        font-size="8"
+                        fill="#ef4444"
+                        font-weight="600">Humeral Shaft</text
+                      >
+
+                      <circle
+                        cx="108"
+                        cy="175"
+                        r="10"
+                        fill="rgba(239,68,68,0.25)"
+                        stroke="#f59e0b"
+                        stroke-width="1.5"
+                        stroke-dasharray="3 2"></circle>
+                      <circle cx="108" cy="175" r="3" fill="#f59e0b"></circle>
+                      <text
+                        x="108"
+                        y="163"
+                        text-anchor="middle"
+                        font-size="8"
+                        fill="#f59e0b"
+                        font-weight="600">Radial Head</text
+                      >
+
+                      <circle
+                        cx="105"
+                        cy="220"
+                        r="10"
+                        fill="rgba(239,68,68,0.25)"
+                        stroke="#f59e0b"
+                        stroke-width="1.5"
+                        stroke-dasharray="3 2"></circle>
+                      <circle cx="105" cy="220" r="3" fill="#f59e0b"></circle>
+                      <text
+                        x="105"
+                        y="238"
+                        text-anchor="middle"
+                        font-size="8"
+                        fill="#f59e0b"
+                        font-weight="600">Capitellum</text
+                      >
+
+                      <path
+                        d="M48 285 L192 285"
+                        stroke="rgba(255,255,255,0.2)"
+                        stroke-width="1"
+                        stroke-dasharray="2 4"></path>
+                      <text
+                        x="120"
+                        y="300"
+                        text-anchor="middle"
+                        font-size="7"
+                        fill="rgba(255,255,255,0.4)"
+                        >Reference guide: common fracture sites</text
+                      >
+                      <rect
+                        x="40"
+                        y="10"
+                        width="160"
+                        height="270"
+                        rx="8"
+                        stroke="rgba(255,255,255,0.1)"
+                        stroke-width="1"
+                        fill="none"></rect>
+                    </g>
+                  </svg>
+                </div>
+                <button
+                  class="btn-delete"
+                  id="btn-delete"
+                  aria-label="Remove image"
+                >
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path
+                      d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+                    ></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</Layout>
