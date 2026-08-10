@@ -416,7 +416,7 @@ import Footer from "../components/Footer.astro";
             </div>
             <div class="patient-row">
               <div class="patient-field">
-                <label class="patient-label" for="patient-age">Age</label>
+                <label class="patient-label" for="patient-age">Age <span class="required">*</span></label>
                 <input
                   class="patient-input"
                   id="patient-age"
@@ -425,14 +425,16 @@ import Footer from "../components/Footer.astro";
                   min="0"
                   max="150"
                   placeholder="e.g. 45"
+                  required
                 />
               </div>
               <div class="patient-field">
-                <label class="patient-label" for="patient-gender">Gender</label>
+                <label class="patient-label" for="patient-gender">Gender <span class="required">*</span></label>
                 <select
                   class="patient-input patient-select"
                   id="patient-gender"
                   name="gender"
+                  required
                 >
                   <option value="">Select</option>
                   <option value="male">Male</option>
@@ -443,7 +445,7 @@ import Footer from "../components/Footer.astro";
             </div>
             <div class="patient-field">
               <label class="patient-label" for="patient-mrn"
-                >Medical Record ID</label
+                >Medical Record ID <span class="required">*</span></label
               >
               <input
                 class="patient-input"
@@ -451,6 +453,7 @@ import Footer from "../components/Footer.astro";
                 name="mrn"
                 type="text"
                 placeholder="e.g. MRN-12345"
+                required
               />
             </div>
             <div class="patient-field">
@@ -879,7 +882,7 @@ import Footer from "../components/Footer.astro";
 
 <script type="module">
   import { isSignedIn, getUser } from "../scripts/auth.js";
-  import { savePatient, getPatient, getPatients } from "../scripts/patients.js";
+  import { savePatient, getPatient, getPatients, checkMrnUnique } from "../scripts/patients.js";
 
   var currentPatientId = sessionStorage.getItem("fracturedetect:patient_id");
 
@@ -1070,12 +1073,31 @@ import Footer from "../components/Footer.astro";
         ? parseInt(document.getElementById("patient-age").value)
         : null;
       var gender = document.getElementById("patient-gender").value || null;
-      var mrn = document.getElementById("patient-mrn").value.trim() || null;
+      var mrn = document.getElementById("patient-mrn").value.trim();
       var notes = document.getElementById("patient-notes").value.trim() || null;
 
       if (!name) {
         if (patientError) {
           patientError.textContent = "Please enter the patient name.";
+          patientError.classList.add("visible");
+        }
+        if (patientContinue) patientContinue.disabled = false;
+        return;
+      }
+
+      if (!age || !gender || !mrn) {
+        if (patientError) {
+          patientError.textContent = "Please fill in all required fields.";
+          patientError.classList.add("visible");
+        }
+        if (patientContinue) patientContinue.disabled = false;
+        return;
+      }
+
+      var mrnUnique = await checkMrnUnique(mrn);
+      if (!mrnUnique) {
+        if (patientError) {
+          patientError.textContent = "This Medical Record ID is already in use. Please use a different one.";
           patientError.classList.add("visible");
         }
         if (patientContinue) patientContinue.disabled = false;
