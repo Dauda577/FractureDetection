@@ -1,882 +1,115 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import Footer from "../components/Footer.astro";
+import Layout from '../layouts/Layout.astro';
+import Footer from '../components/Footer.astro';
 ---
-
-<Layout
-  title="Upload"
-  description="Upload X-ray images for AI-powered fracture analysis"
-  active="analyze"
-  variant="app"
->
+<Layout title="Analyze" description="Upload an X-ray image for fracture detection" active="analyze" variant="marketing">
   <main class="analyze-page page-enter">
-    <div class="analyze-bg">
-      <div
-        class="analyze-orb orb-left fd-orb-drift"
-        style="--float-duration:20s"
-      >
-      </div>
-      <div
-        class="analyze-orb orb-right fd-orb-drift"
-        style="--float-duration:16s;--float-delay:-5s"
-      >
-      </div>
+    <div class="auth-bg">
+      <div class="auth-orb orb-1 fd-orb-drift" style="--float-duration:20s"></div>
+      <div class="auth-orb orb-2 fd-orb-drift" style="--float-duration:16s;--float-delay:-5s"></div>
     </div>
-
-    <div id="analyze-loading" class="analyze-loading">
-      <div class="analyze-loading-spinner"></div>
-      <p>Loading&hellip;</p>
-    </div>
-
-    <div id="auth-demo" class="auth-demo hidden">
-      <div class="demo-container">
-        <div class="demo-left">
-          <div class="demo-badge">
-            <span class="badge-dot"></span>
-            See It In Action
+    <div class="analyze-container">
+      <div class="analyze-card">
+        <div class="analyze-header">
+          <div class="analyze-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+            </svg>
           </div>
-          <h2 class="demo-title">
-            See how AI detects fractures<br />in real X-ray images
-          </h2>
-          <p class="demo-desc">
-            Swipe through sample results showing original X-rays with AI-powered
-            fracture detection overlays.
-          </p>
-          <div class="demo-gallery">
-            <div class="demo-card">
-              <div class="demo-card-img-wrap">
-                <img
-                  class="demo-card-img"
-                  src="/images/xrays/tibia-fibula-xray.webp"
-                  alt="Tibia/Fibula fracture x-ray"
-                  width="300"
-                  height="300"
-                  decoding="async"
-                  loading="lazy"
-                />
-                <div
-                  class="demo-card-heatmap"
-                  style="background:radial-gradient(ellipse at 48% 35%, rgba(255,50,0,0.55) 0%, rgba(255,130,0,0.35) 18%, rgba(255,220,0,0.2) 36%, transparent 56%)"
-                >
-                </div>
-              </div>
-              <div class="demo-card-body">
-                <div class="demo-card-tags">
-                  <span class="demo-tag demo-tag-red">Fracture</span>
-                  <span class="demo-tag">Tibia Shaft</span>
-                </div>
-                <div class="demo-card-meta">
-                  <span class="demo-card-conf">94.6% confidence</span>
-                  <span class="demo-card-time">Tibia/Fibula X-ray</span>
-                </div>
-              </div>
-            </div>
-            <div class="demo-card">
-              <div class="demo-card-img-wrap">
-                <img
-                  class="demo-card-img"
-                  src="/images/xrays/comminuted-hip-fracture.webp"
-                  alt="Hip fracture x-ray"
-                  width="300"
-                  height="300"
-                  decoding="async"
-                  loading="lazy"
-                />
-                <div
-                  class="demo-card-heatmap"
-                  style="background:radial-gradient(ellipse at 55% 42%, rgba(255,50,0,0.5) 0%, rgba(255,130,0,0.3) 22%, rgba(255,220,0,0.18) 42%, transparent 62%)"
-                >
-                </div>
-              </div>
-              <div class="demo-card-body">
-                <div class="demo-card-tags">
-                  <span class="demo-tag demo-tag-red">Fracture</span>
-                  <span class="demo-tag">Femoral Neck</span>
-                </div>
-                <div class="demo-card-meta">
-                  <span class="demo-card-conf">96.2% confidence</span>
-                  <span class="demo-card-time">Hip X-ray</span>
-                </div>
-              </div>
-            </div>
-            <div class="demo-card">
-              <div class="demo-card-img-wrap">
-                <img
-                  class="demo-card-img"
-                  src="/images/xrays/femur-xray.webp"
-                  alt="Femur fracture x-ray"
-                  width="300"
-                  height="300"
-                  decoding="async"
-                  loading="lazy"
-                />
-                <div
-                  class="demo-card-heatmap"
-                  style="background:radial-gradient(ellipse at 50% 40%, rgba(255,50,0,0.5) 0%, rgba(255,130,0,0.32) 20%, rgba(255,220,0,0.18) 40%, transparent 60%)"
-                >
-                </div>
-              </div>
-              <div class="demo-card-body">
-                <div class="demo-card-tags">
-                  <span class="demo-tag demo-tag-red">Fracture</span>
-                  <span class="demo-tag">Femur Shaft</span>
-                </div>
-                <div class="demo-card-meta">
-                  <span class="demo-card-conf">95.1% confidence</span>
-                  <span class="demo-card-time">Femur X-ray</span>
-                </div>
-              </div>
-            </div>
+          <h1 class="analyze-title">Fracture Analysis</h1>
+          <p class="analyze-subtitle">Upload an X-ray image to detect bone fractures</p>
+        </div>
+        <div id="analyze-loading" class="analyze-loading">
+          <div class="loading-spinner"></div>
+          <p class="loading-text">Loading...</p>
+        </div>
+        <div class="auth-demo hidden" id="auth-demo">
+          <div class="demo-header">
+            <svg class="demo-lock" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+              <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+            </svg>
+            <h2 class="demo-title">Sign in required</h2>
+            <p class="demo-desc">Sign in or create an account to upload X-rays and get fracture analysis results.</p>
+          </div>
+          <div class="demo-actions">
+            <a href="/signin" class="demo-btn-primary">Sign In</a>
+            <a href="/signup" class="demo-btn-secondary">Create Account</a>
           </div>
         </div>
-        <div class="demo-right">
-          <div class="demo-steps-preview">
-            <div class="dsp-header">
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                ><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"
-                ></polyline></svg
-              >
-              <span>How it works</span>
-            </div>
-            <div class="dsp-track" id="dsp-track">
-              <div class="dsp-step dsp-step-active">
-                <div class="dsp-step-icon">
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    ><path
-                      d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"
-                    ></path><line x1="12" y1="13" x2="12" y2="19"
-                    ></line><polyline points="9 16 12 13 15 16"></polyline></svg
-                  >
-                </div>
-                <div class="dsp-step-body">
-                  <div class="dsp-step-title-row">
-                    <span class="dsp-step-title">Upload X-ray</span>
-                    <div class="dsp-step-check">
-                      <svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        ><polyline points="20 6 9 17 4 12"></polyline></svg
-                      >
-                    </div>
-                  </div>
-                  <span class="dsp-step-desc"
-                    >Drag & drop or browse DICOM / standard images</span
-                  >
-                </div>
-              </div>
-              <div class="dsp-connector"></div>
-              <div class="dsp-step">
-                <div class="dsp-step-icon">
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    ><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"
-                    ></polyline><path
-                      d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
-                    ></path><line x1="12" y1="9" x2="12" y2="13"></line><line
-                      x1="12"
-                      y1="17"
-                      x2="12.01"
-                      y2="17"></line></svg
-                  >
-                </div>
-                <div class="dsp-step-body">
-                  <span class="dsp-step-title">AI Analysis</span>
-                  <span class="dsp-step-desc"
-                    >Deep learning model processes in under 5 seconds</span
-                  >
-                </div>
-              </div>
-              <div class="dsp-connector"></div>
-              <div class="dsp-step">
-                <div class="dsp-step-icon">
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    ><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
-                    ></path><path d="M9 12l2 2 4-4"></path></svg
-                  >
-                </div>
-                <div class="dsp-step-body">
-                  <span class="dsp-step-title">Review Results</span>
-                  <span class="dsp-step-desc"
-                    >Confidence scores, heatmaps, and exportable reports</span
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="demo-cta">
-            <a href="/signup" class="btn-demo-primary" id="btn-get-started">
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                ><line x1="12" y1="5" x2="12" y2="19"></line><line
-                  x1="5"
-                  y1="12"
-                  x2="19"
-                  y2="12"></line></svg
-              >
-              Get Started Free
-            </a>
-            <a href="/signin" class="btn-demo-alt">
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                ><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"
-                ></path><polyline points="10 17 15 12 10 7"></polyline><line
-                  x1="15"
-                  y1="12"
-                  x2="3"
-                  y2="12"></line></svg
-              >
-              Sign In
-            </a>
+        <div class="welcome-signedin hidden" id="welcome-signedin">
+          <div class="welcome-content">
+            <svg class="welcome-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+            </svg>
+            <h2 class="welcome-title">Ready to analyze</h2>
+            <p class="welcome-desc">Upload an X-ray image to get started with fracture detection. You can save results and download reports.</p>
+            <button type="button" class="welcome-btn" id="btn-welcome-start">New Analysis</button>
           </div>
         </div>
-      </div>
-    </div>
-
-    <div id="welcome-signedin" class="hidden">
-      <div class="welcome-container">
-        <div class="welcome-header">
-          <div class="wh-top">
-            <div class="wh-avatar" id="wh-avatar">U</div>
-            <div class="wh-text">
-              <h2 class="wh-greeting">
-                Welcome back, <span id="welcome-name">User</span>
-              </h2>
-              <p class="wh-sub">
-                Start a new analysis or pick up where you left off.
-              </p>
-            </div>
+        <div class="patient-ui hidden" id="patient-ui">
+          <div class="patient-header">
+            <h2 class="patient-title">Patient Information</h2>
+            <p class="patient-desc">Enter patient details before uploading the X-ray. This info will appear on the report.</p>
           </div>
-        </div>
-        <div class="welcome-cards">
-          <button class="wc-card" id="btn-new-analysis">
-            <div class="wc-card-icon">
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                ><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"
-                ></path><line x1="12" y1="13" x2="12" y2="19"></line><polyline
-                  points="9 16 12 13 15 16"></polyline></svg
-              >
-            </div>
-            <div class="wc-card-body">
-              <h3 class="wc-card-title">New Analysis</h3>
-              <p class="wc-card-desc">
-                Upload X-ray images for AI-powered fracture detection with
-                confidence scoring and heatmaps.
-              </p>
-            </div>
-            <div class="wc-card-arrow">
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                ><polyline points="9 18 15 12 9 6"></polyline></svg
-              >
-            </div>
-          </button>
-          <a href="/account" class="wc-card">
-            <div class="wc-card-icon">
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                ><path
-                  d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
-                ></path><polyline points="14 2 14 8 20 8"></polyline><line
-                  x1="16"
-                  y1="13"
-                  x2="8"
-                  y2="13"></line><line x1="16" y1="17" x2="8" y2="17"
-                ></line></svg
-              >
-            </div>
-            <div class="wc-card-body">
-              <h3 class="wc-card-title">View History</h3>
-              <p class="wc-card-desc">
-                Review past analyses, patient records, and downloaded reports
-                from your dashboard.
-              </p>
-            </div>
-            <div class="wc-card-arrow">
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                ><polyline points="9 18 15 12 9 6"></polyline></svg
-              >
-            </div>
-          </a>
-        </div>
-        <div class="recent-patients" id="recent-patients">
-          <div class="rp-header">
-            <h4 class="rp-title">Recent Patients</h4>
-            <span class="rp-count" id="rp-count">0</span>
-          </div>
-          <div class="rp-grid" id="rp-grid">
-            <div class="rp-empty" id="rp-empty">
-              No previous patients yet. Start a new analysis to begin.
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div id="patient-ui" class="hidden">
-      <div class="patient-container">
-        <div class="patient-card">
-          <div class="upload-badge">
-            <span class="badge-dot"></span>
-            Patient Information
-          </div>
-          <h1 class="upload-title">Enter Patient Details</h1>
-          <p class="upload-subtext">
-            Provide patient information before proceeding with the X-ray
-            analysis.
-          </p>
           <form id="patient-form" class="patient-form" novalidate>
-            <div class="patient-field">
-              <label class="patient-label" for="patient-name"
-                >Full Name <span class="required">*</span></label
-              >
-              <input
-                class="patient-input"
-                id="patient-name"
-                name="name"
-                type="text"
-                placeholder="e.g. John Doe"
-                required
-              />
-            </div>
-            <div class="patient-row">
-              <div class="patient-field">
-                <label class="patient-label" for="patient-age">Age <span class="required">*</span></label>
-                <input
-                  class="patient-input"
-                  id="patient-age"
-                  name="age"
-                  type="number"
-                  min="0"
-                  max="150"
-                  placeholder="e.g. 45"
-                  required
-                />
+            <div class="patient-fields">
+              <div class="field">
+                <label class="field-label" for="pt-name">Patient Name <span class="required">*</span></label>
+                <input class="field-input" id="pt-name" name="name" type="text" placeholder="Full name" required autocomplete="off" />
               </div>
-              <div class="patient-field">
-                <label class="patient-label" for="patient-gender">Gender <span class="required">*</span></label>
-                <select
-                  class="patient-input patient-select"
-                  id="patient-gender"
-                  name="gender"
-                  required
-                >
-                  <option value="">Select</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                  <option value="other">Other</option>
-                </select>
+              <div class="field-row">
+                <div class="field">
+                  <label class="field-label" for="pt-age">Age</label>
+                  <input class="field-input" id="pt-age" name="age" type="number" min="0" max="150" placeholder="Years" autocomplete="off" />
+                </div>
+                <div class="field">
+                  <label class="field-label" for="pt-gender">Gender</label>
+                  <select class="field-input" id="pt-gender" name="gender" autocomplete="off">
+                    <option value="">Select...</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+              </div>
+              <div class="field">
+                <label class="field-label" for="pt-mrn">Medical Record ID</label>
+                <input class="field-input" id="pt-mrn" name="mrn" type="text" placeholder="Optional record number" autocomplete="off" />
+              </div>
+              <div class="field">
+                <label class="field-label" for="pt-notes">Clinical Notes</label>
+                <textarea class="field-input" id="pt-notes" name="notes" rows="2" placeholder="Relevant history or symptoms..." autocomplete="off"></textarea>
               </div>
             </div>
-            <div class="patient-field">
-              <label class="patient-label" for="patient-mrn"
-                >Medical Record ID <span class="required">*</span></label
-              >
-              <input
-                class="patient-input"
-                id="patient-mrn"
-                name="mrn"
-                type="text"
-                placeholder="e.g. MRN-12345"
-                required
-              />
-            </div>
-            <div class="patient-field">
-              <label class="patient-label" for="patient-notes"
-                >Notes (optional)</label
-              >
-              <textarea
-                class="patient-input patient-textarea"
-                id="patient-notes"
-                name="notes"
-                rows="2"
-                placeholder="Any additional notes..."></textarea>
-            </div>
-            <p class="error-message" id="patient-error"></p>
-            <button class="btn-analyze" id="btn-patient-continue" type="submit">
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <polyline points="9 18 15 12 9 6"></polyline>
-              </svg>
-              Continue to Upload
-            </button>
+            <div class="patient-error hidden" id="patient-error" role="alert"></div>
+            <button type="submit" class="patient-continue" id="patient-continue">Continue to Upload</button>
           </form>
         </div>
-      </div>
-    </div>
-
-    <div id="upload-ui" class="hidden">
-      <div class="analyze-container">
-        <div class="upload-section">
-          <div class="upload-badge">
-            <span class="badge-dot"></span>
-            AI Analysis
+        <div class="upload-ui hidden" id="upload-ui">
+          <div id="patient-badge" class="patient-badge hidden"></div>
+          <div class="upload-header">
+            <h2 class="upload-title">Upload X-ray</h2>
+            <p class="upload-subtitle">Supported: PNG, JPEG (max 10 MB). The image must be a grayscale bone X-ray.</p>
           </div>
-          <h1 class="upload-title">Upload X-ray Images</h1>
-          <div class="patient-badge" id="patient-badge">
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              ><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
-              ></path><circle cx="12" cy="7" r="4"></circle></svg
-            >
-            <span id="patient-badge-name">Patient</span>
-            <button class="patient-change-btn" id="btn-change-patient"
-              >Change</button
-            >
-          </div>
-          <p class="upload-subtext">
-            Upload one or more X-ray images. The model detects fractures with
-            confidence scores and heatmaps.
-          </p>
-
-          <div
-            class="dropzone"
-            id="dropzone"
-            tabindex="0"
-            role="button"
-            aria-label="Upload X-ray image files"
-          >
-            <input
-              type="file"
-              id="file-input"
-              accept="image/png,image/jpeg"
-              multiple
-              hidden
-              aria-label="Choose X-ray image files"
-            />
-            <div class="dropzone-graphic">
-              <svg
-                class="dropzone-icon"
-                width="48"
-                height="48"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"
-                ></path>
-                <line x1="12" y1="13" x2="12" y2="19"></line>
-                <polyline points="9 16 12 13 15 16"></polyline>
+          <div class="upload-dropzone" id="upload-dropzone">
+            <div class="dropzone-content">
+              <svg class="dropzone-icon" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="17 8 12 3 7 8" />
+                <line x1="12" y1="3" x2="12" y2="15" />
               </svg>
+              <p class="dropzone-text">Drag & drop X-ray here or <span class="dropzone-browse">browse</span></p>
+              <p class="dropzone-hint">Grayscale PNG or JPEG under 10 MB</p>
             </div>
-            <p class="dropzone-text">Drag and drop your images here</p>
-            <p class="dropzone-link">
-              or <span class="dropzone-link-text">click to browse</span>
-            </p>
-            <p class="dropzone-caption">
-              PNG, JPG, JPEG &middot; Max 10MB each &middot; Multiple allowed
-            </p>
+            <input type="file" id="file-input" accept="image/png,image/jpeg" class="file-input-hidden" multiple />
           </div>
-
-          <p class="error-message" id="error-message"></p>
-
-          <button class="btn-analyze" id="btn-analyze" disabled>
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-            </svg>
-            <span id="btn-analyze-text">Analyze Image</span>
-          </button>
-
-          <div id="batch-queue" class="batch-queue hidden">
-            <div class="batch-header">
-              <span class="batch-count" id="batch-count">0 images</span>
-              <button class="batch-clear-btn" id="btn-batch-clear"
-                >Clear all</button
-              >
-            </div>
-            <div class="batch-strip" id="batch-strip"></div>
+          <div class="upload-preview hidden" id="upload-preview">
+            <div class="preview-grid" id="preview-grid"></div>
           </div>
-        </div>
-
-        <div class="preview-section">
-          <div class="preview-card">
-            <div class="preview-card-header">
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                <polyline points="21 15 16 10 5 21"></polyline>
-              </svg>
-              <span>Preview</span>
-              <button
-                class="guide-toggle-btn"
-                id="btn-guide-toggle"
-                title="Toggle fracture guide overlay"
-              >
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  ><circle cx="12" cy="12" r="10"></circle><line
-                    x1="12"
-                    y1="16"
-                    x2="12"
-                    y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"
-                  ></line></svg
-                >
-                Guide
-              </button>
-            </div>
-
-            <div class="preview-empty" id="preview-empty">
-              <svg
-                width="48"
-                height="48"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                <polyline points="21 15 16 10 5 21"></polyline>
-              </svg>
-              <p class="preview-empty-text">No image selected yet</p>
-            </div>
-
-            <div class="preview-filled hidden" id="preview-filled">
-              <div class="preview-image-wrapper" id="preview-image-wrapper">
-                <img id="preview-image" alt="Uploaded X-ray image" />
-                <div class="guide-overlay hidden" id="guide-overlay">
-                  <svg
-                    class="guide-svg"
-                    viewBox="0 0 240 320"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <g opacity="0.7">
-                      <circle
-                        cx="85"
-                        cy="55"
-                        r="18"
-                        fill="rgba(239,68,68,0.25)"
-                        stroke="#ef4444"
-                        stroke-width="1.5"
-                        stroke-dasharray="3 2"></circle>
-                      <circle cx="85" cy="55" r="3" fill="#ef4444"></circle>
-                      <text
-                        x="85"
-                        y="42"
-                        text-anchor="middle"
-                        font-size="8"
-                        fill="#ef4444"
-                        font-weight="600">Distal Radius</text
-                      >
-
-                      <circle
-                        cx="68"
-                        cy="78"
-                        r="14"
-                        fill="rgba(239,68,68,0.25)"
-                        stroke="#ef4444"
-                        stroke-width="1.5"
-                        stroke-dasharray="3 2"></circle>
-                      <circle cx="68" cy="78" r="3" fill="#ef4444"></circle>
-                      <text
-                        x="68"
-                        y="66"
-                        text-anchor="middle"
-                        font-size="8"
-                        fill="#ef4444"
-                        font-weight="600">Scaphoid</text
-                      >
-
-                      <circle
-                        cx="80"
-                        cy="115"
-                        r="16"
-                        fill="rgba(239,68,68,0.25)"
-                        stroke="#ef4444"
-                        stroke-width="1.5"
-                        stroke-dasharray="3 2"></circle>
-                      <circle cx="80" cy="115" r="3" fill="#ef4444"></circle>
-                      <text
-                        x="80"
-                        y="102"
-                        text-anchor="middle"
-                        font-size="8"
-                        fill="#ef4444"
-                        font-weight="600">Radius Shaft</text
-                      >
-
-                      <circle
-                        cx="64"
-                        cy="118"
-                        r="14"
-                        fill="rgba(239,68,68,0.25)"
-                        stroke="#ef4444"
-                        stroke-width="1.5"
-                        stroke-dasharray="3 2"></circle>
-                      <circle cx="64" cy="118" r="3" fill="#ef4444"></circle>
-                      <text
-                        x="64"
-                        y="138"
-                        text-anchor="middle"
-                        font-size="8"
-                        fill="#ef4444"
-                        font-weight="600">Ulna Shaft</text
-                      >
-
-                      <circle
-                        cx="75"
-                        cy="170"
-                        r="16"
-                        fill="rgba(239,68,68,0.25)"
-                        stroke="#ef4444"
-                        stroke-width="1.5"
-                        stroke-dasharray="3 2"></circle>
-                      <circle cx="75" cy="170" r="3" fill="#ef4444"></circle>
-                      <text
-                        x="75"
-                        y="158"
-                        text-anchor="middle"
-                        font-size="8"
-                        fill="#ef4444"
-                        font-weight="600">Olecranon</text
-                      >
-
-                      <circle
-                        cx="70"
-                        cy="210"
-                        r="18"
-                        fill="rgba(239,68,68,0.25)"
-                        stroke="#ef4444"
-                        stroke-width="1.5"
-                        stroke-dasharray="3 2"></circle>
-                      <circle cx="70" cy="210" r="3" fill="#ef4444"></circle>
-                      <text
-                        x="70"
-                        y="196"
-                        text-anchor="middle"
-                        font-size="8"
-                        fill="#ef4444"
-                        font-weight="600">Distal Humerus</text
-                      >
-
-                      <circle
-                        cx="60"
-                        cy="260"
-                        r="16"
-                        fill="rgba(239,68,68,0.25)"
-                        stroke="#ef4444"
-                        stroke-width="1.5"
-                        stroke-dasharray="3 2"></circle>
-                      <circle cx="60" cy="260" r="3" fill="#ef4444"></circle>
-                      <text
-                        x="60"
-                        y="248"
-                        text-anchor="middle"
-                        font-size="8"
-                        fill="#ef4444"
-                        font-weight="600">Humeral Shaft</text
-                      >
-
-                      <circle
-                        cx="108"
-                        cy="175"
-                        r="10"
-                        fill="rgba(239,68,68,0.25)"
-                        stroke="#f59e0b"
-                        stroke-width="1.5"
-                        stroke-dasharray="3 2"></circle>
-                      <circle cx="108" cy="175" r="3" fill="#f59e0b"></circle>
-                      <text
-                        x="108"
-                        y="163"
-                        text-anchor="middle"
-                        font-size="8"
-                        fill="#f59e0b"
-                        font-weight="600">Radial Head</text
-                      >
-
-                      <circle
-                        cx="105"
-                        cy="220"
-                        r="10"
-                        fill="rgba(239,68,68,0.25)"
-                        stroke="#f59e0b"
-                        stroke-width="1.5"
-                        stroke-dasharray="3 2"></circle>
-                      <circle cx="105" cy="220" r="3" fill="#f59e0b"></circle>
-                      <text
-                        x="105"
-                        y="238"
-                        text-anchor="middle"
-                        font-size="8"
-                        fill="#f59e0b"
-                        font-weight="600">Capitellum</text
-                      >
-
-                      <path
-                        d="M48 285 L192 285"
-                        stroke="rgba(255,255,255,0.2)"
-                        stroke-width="1"
-                        stroke-dasharray="2 4"></path>
-                      <text
-                        x="120"
-                        y="300"
-                        text-anchor="middle"
-                        font-size="7"
-                        fill="rgba(255,255,255,0.4)"
-                        >Reference guide: common fracture sites</text
-                      >
-                      <rect
-                        x="40"
-                        y="10"
-                        width="160"
-                        height="270"
-                        rx="8"
-                        stroke="rgba(255,255,255,0.1)"
-                        stroke-width="1"
-                        fill="none"></rect>
-                    </g>
-                  </svg>
-                </div>
-                <button
-                  class="btn-delete"
-                  id="btn-delete"
-                  aria-label="Remove image"
-                >
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <polyline points="3 6 5 6 21 6"></polyline>
-                    <path
-                      d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
-                    ></path>
-                  </svg>
-                </button>
-              </div>
-            </div>
+          <div class="error-msg hidden" id="upload-error" role="alert"></div>
+          <div class="upload-action">
+            <button class="btn-analyze hidden" id="btn-analyze">Analyze</button>
           </div>
         </div>
       </div>
@@ -886,292 +119,164 @@ import Footer from "../components/Footer.astro";
 </Layout>
 
 <script type="module">
-  import { isSignedIn, getUser, waitForAuth } from "../scripts/auth.js";
-  import { savePatient, getPatient, getPatients, checkMrnUnique } from "../scripts/patients.js";
+  import { isSignedIn, getSupabase, getUserId } from '../scripts/auth.js';
+  import { savePatient, checkMrnUnique } from '../scripts/patients.js';
+  import { runInference } from '../scripts/inference.js';
 
-  var currentPatientId = sessionStorage.getItem("fracturedetect:patient_id");
+  var currentPatientId = sessionStorage.getItem('fracturedetect:patient_id') || null;
+  var currentPatientName = sessionStorage.getItem('fracturedetect:patient_name') || null;
+  var currentPatientMrn = sessionStorage.getItem('fracturedetect:patient_mrn') || null;
+  var fromResults = sessionStorage.getItem('fracturedetect:from_results');
 
-  function animateIn(el) {
-    el.classList.remove("hidden");
-    el.classList.remove("fade-out");
-    el.classList.add("fade-in");
+  var upload = document.getElementById('upload-ui');
+  var patientUi = document.getElementById('patient-ui');
+  var welcome = document.getElementById('welcome-signedin');
+  var btnWelcomeStart = document.getElementById('btn-welcome-start');
+  var btnAnalyze = document.getElementById('btn-analyze');
+  var fileInput = document.getElementById('file-input');
+  var dropzone = document.getElementById('upload-dropzone');
+  var previewGrid = document.getElementById('preview-grid');
+  var previewSection = document.getElementById('upload-preview');
+  var uploadError = document.getElementById('upload-error');
+  var patientBadge = document.getElementById('patient-badge');
+  var patientForm = document.getElementById('patient-form');
+  var patientError = document.getElementById('patient-error');
+  var patientContinue = document.getElementById('patient-continue');
+  var demoSection = document.getElementById('auth-demo');
+  var loadingEl = document.getElementById('analyze-loading');
+
+  var fileQueue = [];
+
+  if (currentPatientId && currentPatientName) {
+    renderPatientBadge();
   }
 
-  function animateOut(el) {
-    el.classList.remove("fade-in");
-    el.classList.add("fade-out");
-    return new Promise(function (r) {
-      el.addEventListener("animationend", function handler() {
-        el.classList.add("hidden");
-        el.classList.remove("fade-out");
-        el.removeEventListener("animationend", handler);
-        r();
-      });
+  function renderPatientBadge() {
+    if (!patientBadge || !currentPatientName) return;
+    patientBadge.classList.remove('hidden');
+    var parts = [currentPatientName];
+    if (currentPatientMrn) parts.push('MRN: ' + currentPatientMrn);
+    patientBadge.innerHTML = '<span class="badge-label">Patient:</span> <span class="badge-value">' + parts.join(' &middot; ') + '</span>' +
+      ' <button type="button" class="badge-change" id="btn-change-patient">Change</button>';
+    document.getElementById('btn-change-patient')?.addEventListener('click', function () {
+      currentPatientId = null;
+      currentPatientName = null;
+      currentPatientMrn = null;
+      sessionStorage.removeItem('fracturedetect:patient_id');
+      sessionStorage.removeItem('fracturedetect:patient_name');
+      sessionStorage.removeItem('fracturedetect:patient_mrn');
+      upload.classList.add('hidden');
+      patientUi.classList.remove('hidden');
+      patientBadge.classList.add('hidden');
     });
   }
 
-  /* ── Demo gallery static (unauth) ── */
+  btnWelcomeStart?.addEventListener('click', function () {
+    welcome.classList.add('hidden');
+    patientUi.classList.remove('hidden');
+  });
 
-  /* ── Step animation for demo (unauth) ── */
-  function initStepAnimation() {
-    var steps = document.querySelectorAll(".dsp-step");
-    var connectors = document.querySelectorAll(".dsp-connector");
-    var current = 0;
+  patientForm?.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    patientError.classList.add('hidden');
+    patientContinue.disabled = true;
+    patientContinue.textContent = 'Saving...';
 
-    function activateStep(index) {
-      steps.forEach(function (s, i) {
-        s.classList.toggle("dsp-step-active", i <= index);
-      });
-      connectors.forEach(function (c, i) {
-        c.classList.toggle("dsp-connector-active", i < index);
-      });
-    }
+    var name = patientForm.name.value.trim();
+    var age = patientForm.age.value.trim();
+    var gender = patientForm.gender.value;
+    var mrn = patientForm.mrn.value.trim();
+    var notes = patientForm.notes.value.trim();
 
-    var stepInterval = setInterval(function () {
-      current = (current + 1) % steps.length;
-      activateStep(current);
-    }, 2800);
-  }
-
-  /* ── Welcome dashboard (auth) ── */
-  async function loadWelcomeDashboard() {
-    var user = await getUser();
-    var nameEl = document.getElementById("welcome-name");
-    var avatarEl = document.getElementById("wh-avatar");
-    if (nameEl && user?.name) nameEl.textContent = user.name;
-    if (avatarEl && user?.name)
-      avatarEl.textContent = user.name.charAt(0).toUpperCase();
-
-    // Load recent patients
-    var patients = await getPatients();
-    var rpGrid = document.getElementById("rp-grid");
-    var rpEmpty = document.getElementById("rp-empty");
-    var rpCount = document.getElementById("rp-count");
-    if (rpCount)
-      rpCount.textContent =
-        patients.length + " patient" + (patients.length !== 1 ? "s" : "");
-
-    if (patients.length === 0) {
-      if (rpEmpty) rpEmpty.style.display = "block";
-      return;
-    }
-    if (rpEmpty) rpEmpty.style.display = "none";
-
-    var recent = patients.slice(0, 5);
-    rpGrid.innerHTML = "";
-    recent.forEach(function (p) {
-      var chip = document.createElement("button");
-      chip.className = "rp-chip";
-      chip.setAttribute("data-patient-id", p.id);
-      chip.innerHTML =
-        '<svg class="rp-chip-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>' +
-        '<span class="rp-chip-name">' +
-        (p.name || "Unnamed") +
-        "</span>";
-      chip.addEventListener("click", function () {
-        sessionStorage.setItem("fracturedetect:patient_id", p.id);
-        window.location.reload();
-      });
-      rpGrid.appendChild(chip);
-    });
-  }
-
-  /* ── Main init ── */
-  (async function () {
-    var signedIn = await waitForAuth();
-    var loading = document.getElementById("analyze-loading");
-    if (loading) loading.classList.add("hidden");
-    var demo = document.getElementById("auth-demo");
-    var welcome = document.getElementById("welcome-signedin");
-    var patientUi = document.getElementById("patient-ui");
-    var upload = document.getElementById("upload-ui");
-
-    if (!signedIn) {
-      if (demo) {
-        demo.classList.remove("hidden");
-        animateIn(demo);
-      }
-      initStepAnimation();
+    if (!name) {
+      patientError.textContent = 'Patient name is required.';
+      patientError.classList.remove('hidden');
+      patientContinue.disabled = false;
+      patientContinue.textContent = 'Continue to Upload';
       return;
     }
 
-    if (demo) {
-      demo.classList.add("hidden");
-    }
-
-    if (currentPatientId) {
-      var fromResults = sessionStorage.getItem("fracturedetect:from_results");
-      sessionStorage.removeItem("fracturedetect:from_results");
-      if (fromResults && patientUi) {
-        if (welcome) welcome.classList.add("hidden");
-        patientUi.classList.remove("hidden");
-        animateIn(patientUi);
-      } else {
-        if (welcome) welcome.classList.add("hidden");
-        if (patientUi) patientUi.classList.add("hidden");
-        if (upload) {
-          upload.classList.remove("hidden");
-          animateIn(upload);
-          loadPatientBadge();
-        }
-      }
-    } else {
-      if (welcome) {
-        welcome.classList.remove("hidden");
-        animateIn(welcome);
-        loadWelcomeDashboard();
-      }
-      if (patientUi) patientUi.classList.add("hidden");
-    }
-  })();
-
-  /* ── New Analysis button on welcome ── */
-  var newAnalysisBtn = document.getElementById("btn-new-analysis");
-  if (newAnalysisBtn) {
-    newAnalysisBtn.addEventListener("click", function () {
-      var welcome = document.getElementById("welcome-signedin");
-      var patientUi = document.getElementById("patient-ui");
-      if (welcome)
-        animateOut(welcome).then(function () {
-          welcome.classList.add("hidden");
-        });
-      if (patientUi) {
-        patientUi.classList.remove("hidden");
-        animateIn(patientUi);
-        prefillPatientForm();
-      }
-    });
-  }
-
-  async function loadPatientBadge() {
-    if (!currentPatientId) return;
-    var p = await getPatient(currentPatientId);
-    var el = document.getElementById("patient-badge-name");
-    if (el && p) el.textContent = p.name;
-  }
-
-  async function prefillPatientForm() {
-    if (!currentPatientId) return;
-    var p = await getPatient(currentPatientId);
-    if (!p) return;
-    var nameEl = document.getElementById("patient-name");
-    var ageEl = document.getElementById("patient-age");
-    var genderEl = document.getElementById("patient-gender");
-    var mrnEl = document.getElementById("patient-mrn");
-    var notesEl = document.getElementById("patient-notes");
-    if (nameEl && p.name) nameEl.value = p.name;
-    if (ageEl && p.age) ageEl.value = p.age;
-    if (genderEl && p.gender) genderEl.value = p.gender;
-    if (mrnEl && p.medical_record_id) mrnEl.value = p.medical_record_id;
-    if (notesEl && p.notes) notesEl.value = p.notes;
-  }
-
-  var patientForm = document.getElementById("patient-form");
-  var patientError = document.getElementById("patient-error");
-  var patientContinue = document.getElementById("btn-patient-continue");
-
-  if (patientForm) {
-    patientForm.addEventListener("submit", async function (e) {
-      e.preventDefault();
-      if (patientContinue) patientContinue.disabled = true;
-
-      var name = document.getElementById("patient-name").value.trim();
-      var age = document.getElementById("patient-age").value
-        ? parseInt(document.getElementById("patient-age").value)
-        : null;
-      var gender = document.getElementById("patient-gender").value || null;
-      var mrn = document.getElementById("patient-mrn").value.trim() || null;
-      var notes = document.getElementById("patient-notes").value.trim() || null;
-
-      if (!name || !age || !gender || !mrn) {
-        var missing = [];
-        if (!name) missing.push("Full Name");
-        if (!age) missing.push("Age");
-        if (!gender) missing.push("Gender");
-        if (!mrn) missing.push("Medical Record ID");
-        if (patientError) {
-          patientError.textContent = "Please fill in all required fields: " + missing.join(", ") + ".";
-          patientError.classList.add("visible");
-        }
-        if (patientContinue) patientContinue.disabled = false;
-        return;
-      }
-
-      if (patientError) patientError.classList.remove("visible");
-
+    if (mrn) {
       var mrnUnique = await checkMrnUnique(mrn);
       if (!mrnUnique) {
-        if (patientError) {
-          patientError.textContent = "This Medical Record ID is already in use.";
-          patientError.classList.add("visible");
-        }
-        if (patientContinue) {
-          patientContinue.textContent = "Continue to Upload";
-          patientContinue.disabled = false;
-        }
+        patientError.textContent = 'This Medical Record ID is already in use. Please use a different one.';
+        patientError.classList.remove('hidden');
+        patientContinue.disabled = false;
+        patientContinue.textContent = 'Continue to Upload';
         return;
       }
+    }
 
-      if (patientContinue) patientContinue.textContent = "Saving\u2026";
-      var patientId = await savePatient(name, age, gender, mrn, notes);
-      if (patientId) {
-        try {
-          sessionStorage.setItem("fracturedetect:patient_id", patientId);
-        } catch (err) {}
-        currentPatientId = patientId;
-        var pu = document.getElementById("patient-ui");
-        var up = document.getElementById("upload-ui");
-        if (pu) await animateOut(pu);
-        if (up) {
-          up.classList.remove("hidden");
-          animateIn(up);
-          loadPatientBadge();
-        }
-        if (patientContinue) {
-          patientContinue.textContent = "Continue to Upload";
-          patientContinue.disabled = false;
-        }
-      } else {
-        if (patientError) {
-          patientError.textContent =
-            "Failed to save patient info. Please try again.";
-          patientError.classList.add("visible");
-        }
-        if (patientContinue) patientContinue.disabled = false;
-      }
-    });
+    var patientData = { name: name, medical_record_id: mrn || null };
+    if (age) patientData.age = parseInt(age);
+    if (gender) patientData.gender = gender;
+    if (notes) patientData.notes = notes;
+
+    var result = await savePatient(patientData);
+    if (result.ok) {
+      currentPatientId = result.id;
+      currentPatientName = name;
+      currentPatientMrn = mrn || null;
+      sessionStorage.setItem('fracturedetect:patient_id', result.id);
+      sessionStorage.setItem('fracturedetect:patient_name', name);
+      if (mrn) sessionStorage.setItem('fracturedetect:patient_mrn', mrn);
+      renderPatientBadge();
+      patientUi.classList.add('hidden');
+      upload.classList.remove('hidden');
+    } else {
+      patientError.textContent = result.error || 'Failed to save patient.';
+      patientError.classList.remove('hidden');
+    }
+
+    patientContinue.disabled = false;
+    patientContinue.textContent = 'Continue to Upload';
+  });
+
+  function storeAndNavigate() {
+    if (!currentPatientId) {
+      uploadError.textContent = 'Please select or create a patient before analyzing.';
+      uploadError.classList.remove('hidden');
+      return;
+    }
+    if (fileQueue.length === 0) {
+      uploadError.textContent = 'Please upload at least one X-ray image.';
+      uploadError.classList.remove('hidden');
+      return;
+    }
+    var reader = new FileReader();
+    reader.onload = function (ev) {
+      sessionStorage.setItem('fracturedetect:xray', ev.target.result);
+      sessionStorage.setItem('fracturedetect:xray_name', fileQueue[0].name);
+      window.location.href = '/processing';
+    };
+    reader.readAsDataURL(fileQueue[0]);
   }
 
-  var changeBtn = document.getElementById("btn-change-patient");
-  if (changeBtn) {
-    changeBtn.addEventListener("click", function () {
-      try {
-        sessionStorage.removeItem("fracturedetect:patient_id");
-      } catch (e) {}
-      window.location.reload();
-    });
-  }
+  btnAnalyze?.addEventListener('click', storeAndNavigate);
 
-  /* ── Multi-file batch upload state ── */
-  var fileQueue = [];
-  var selectedIndex = -1;
-  var currentObjectUrl = null;
+  dropzone?.addEventListener('click', function () { fileInput.click(); });
+  fileInput?.addEventListener('change', function () {
+    if (fileInput.files && fileInput.files.length > 0) {
+      addFiles(fileInput.files);
+    }
+  });
 
-  const dropzone = document.getElementById("dropzone");
-  const fileInput = document.getElementById("file-input");
-  const errorMsg = document.getElementById("error-message");
-  const btnAnalyze = document.getElementById("btn-analyze");
-  const btnAnalyzeText = document.getElementById("btn-analyze-text");
-  const previewEmpty = document.getElementById("preview-empty");
-  const previewFilled = document.getElementById("preview-filled");
-  const previewImage = document.getElementById("preview-image");
-  const btnDelete = document.getElementById("btn-delete");
-  const batchQueue = document.getElementById("batch-queue");
-  const batchStrip = document.getElementById("batch-strip");
-  const batchCount = document.getElementById("batch-count");
-  const btnBatchClear = document.getElementById("btn-batch-clear");
+  dropzone?.addEventListener('dragover', function (e) {
+    e.preventDefault();
+    dropzone.classList.add('dropzone-active');
+  });
+  dropzone?.addEventListener('dragleave', function () {
+    dropzone.classList.remove('dropzone-active');
+  });
+  dropzone?.addEventListener('drop', function (e) {
+    e.preventDefault();
+    dropzone.classList.remove('dropzone-active');
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      addFiles(e.dataTransfer.files);
+    }
+  });
 
-  const ALLOWED_TYPES = ["image/png", "image/jpeg", "image/jpg"];
+  const ALLOWED_TYPES = ['image/png', 'image/jpeg'];
   const MAX_SIZE = 10 * 1024 * 1024;
 
   function isValidFile(file) {
@@ -1196,7 +301,7 @@ import Footer from "../components/Footer.astro";
         var pixels = imageData.data;
         var total = 0;
         var grayscale = 0;
-        var pixelThreshold = 50;
+        var pixelThreshold = 15;
         var sumR = 0, sumG = 0, sumB = 0;
         for (var i = 0; i < pixels.length; i += 4 * sampleStep) {
           total++;
@@ -1211,1870 +316,213 @@ import Footer from "../components/Footer.astro";
         if (total === 0) { resolve(false); return; }
         var pixelRatio = grayscale / total;
         var avgR = sumR / total, avgG = sumG / total, avgB = sumB / total;
-        var globalGray = Math.abs(avgR - avgG) < 60 && Math.abs(avgR - avgB) < 60 && Math.abs(avgG - avgB) < 60;
-        resolve(pixelRatio >= 0.50 || globalGray);
+        var globalGray = Math.abs(avgR - avgG) < 25 && Math.abs(avgR - avgB) < 25 && Math.abs(avgG - avgB) < 25;
+        resolve(pixelRatio >= 0.90 || globalGray);
       };
       img.onerror = function () {
         URL.revokeObjectURL(objectUrl);
         resolve(false);
       };
-      img.src = objectUrl;
     });
-  }
-
-  function showError(message) {
-    if (errorMsg) {
-      errorMsg.textContent = message;
-      errorMsg.classList.add("visible");
-    }
-  }
-
-  function clearError() {
-    if (errorMsg) {
-      errorMsg.textContent = "";
-      errorMsg.classList.remove("visible");
-    }
-  }
-
-  function renderBatchStrip() {
-    batchStrip.innerHTML = "";
-    fileQueue.forEach(function (file, i) {
-      var thumb = document.createElement("div");
-      thumb.className =
-        "batch-thumb" + (i === selectedIndex ? " batch-thumb-active" : "");
-      thumb.setAttribute("data-index", i);
-
-      var url = URL.createObjectURL(file);
-      var img = document.createElement("img");
-      img.className = "batch-thumb-img";
-      img.src = url;
-
-      var overlay = document.createElement("div");
-      overlay.className = "batch-thumb-overlay";
-      overlay.textContent = i + 1;
-
-      thumb.appendChild(img);
-      thumb.appendChild(overlay);
-
-      thumb.addEventListener("click", function () {
-        selectFile(i);
-      });
-
-      batchStrip.appendChild(thumb);
-    });
-
-    batchQueue.classList.remove("hidden");
-    batchCount.textContent =
-      fileQueue.length + " image" + (fileQueue.length !== 1 ? "s" : "");
-    updateAnalyzeButton();
-  }
-
-  function selectFile(index) {
-    if (index < 0 || index >= fileQueue.length) return;
-    selectedIndex = index;
-    renderBatchStrip();
-
-    var file = fileQueue[index];
-    if (currentObjectUrl) URL.revokeObjectURL(currentObjectUrl);
-    currentObjectUrl = URL.createObjectURL(file);
-    previewImage.src = currentObjectUrl;
-    previewEmpty.classList.add("hidden");
-    previewFilled.classList.remove("hidden");
-    btnAnalyze.disabled = false;
-    clearError();
-    hideGuide();
-  }
-
-  function updateAnalyzeButton() {
-    if (fileQueue.length === 0) {
-      btnAnalyze.disabled = true;
-      btnAnalyzeText.textContent = "Analyze Image";
-    } else if (fileQueue.length === 1) {
-      btnAnalyzeText.textContent = "Analyze Image";
-    } else {
-      var remaining = fileQueue.length - selectedIndex;
-      btnAnalyzeText.textContent =
-        "Analyze (" + remaining + " of " + fileQueue.length + ")";
-    }
   }
 
   function addFiles(files) {
-    var initialErrors = [];
+    uploadError.classList.add('hidden');
     var validFiles = [];
+    var errors = [];
     for (var i = 0; i < files.length; i++) {
       var file = files[i];
       if (!file) continue;
       if (!isValidFile(file)) {
-        initialErrors.push('"' + file.name + '" - must be PNG or JPEG under 10MB.');
+        errors.push('"' + file.name + '" - must be PNG or JPEG under 10MB.');
         continue;
       }
       validFiles.push(file);
     }
-
     if (validFiles.length === 0) {
-      if (initialErrors.length > 0) showError(initialErrors.join(" "));
+      if (errors.length > 0) {
+        uploadError.textContent = errors.join(' ');
+        uploadError.classList.remove('hidden');
+      }
       return;
     }
-
     var grayscaleChecks = validFiles.map(function (file) {
       return isGrayscaleImage(file).then(function (isGray) {
-        return { file: file, isGray: isGray, name: file.name };
+        return { file: file, isGray: isGray };
       });
     });
-
     Promise.all(grayscaleChecks).then(function (results) {
-      var errors = initialErrors.slice();
-      var added = 0;
-      results.forEach(function (r) {
+      var grayscaleErrors = [];
+      fileQueue = [];
+      for (var j = 0; j < results.length; j++) {
+        var r = results[j];
         if (!r.isGray) {
-          errors.push('Invalid image: Please upload a valid bone X-ray image.');
-          return;
-        }
-        fileQueue.push(r.file);
-        added++;
-      });
-
-      if (errors.length > 0) {
-        showError(errors.join(" "));
-      } else {
-        clearError();
-      }
-
-      if (added > 0) {
-        if (selectedIndex < 0) {
-          selectFile(0);
+          grayscaleErrors.push('"' + r.file.name + '" Invalid image: Please upload a valid bone X-ray image.');
         } else {
-          renderBatchStrip();
+          fileQueue.push(r.file);
         }
       }
+      if (grayscaleErrors.length > 0) {
+        uploadError.textContent = grayscaleErrors.join(' ');
+        uploadError.classList.remove('hidden');
+      }
+      if (fileQueue.length === 0) return;
+      renderPreview();
+      btnAnalyze.classList.remove('hidden');
     });
   }
 
-  function removeCurrentFile() {
-    if (selectedIndex < 0 || selectedIndex >= fileQueue.length) return;
-    fileQueue.splice(selectedIndex, 1);
-    if (currentObjectUrl) {
-      URL.revokeObjectURL(currentObjectUrl);
-      currentObjectUrl = null;
-    }
-
+  function removeFile(index) {
+    fileQueue.splice(index, 1);
     if (fileQueue.length === 0) {
-      selectedIndex = -1;
-      previewEmpty.classList.remove("hidden");
-      previewFilled.classList.add("hidden");
-      previewImage.src = "";
-      btnAnalyze.disabled = true;
-      batchQueue.classList.add("hidden");
-      batchStrip.innerHTML = "";
-      updateAnalyzeButton();
-      clearError();
-      hideGuide();
+      previewSection.classList.add('hidden');
+      btnAnalyze.classList.add('hidden');
+      previewGrid.innerHTML = '';
     } else {
-      if (selectedIndex >= fileQueue.length)
-        selectedIndex = fileQueue.length - 1;
-      selectFile(selectedIndex);
+      renderPreview();
     }
   }
 
-  function clearAllFiles() {
-    fileQueue.forEach(function (f) {
-      /* object URLs will be cleaned up by the browser */
-    });
-    fileQueue = [];
-    selectedIndex = -1;
-    if (currentObjectUrl) {
-      URL.revokeObjectURL(currentObjectUrl);
-      currentObjectUrl = null;
+  function renderPreview() {
+    previewSection.classList.remove('hidden');
+    previewGrid.innerHTML = '';
+    for (var i = 0; i < fileQueue.length; i++) {
+      var file = fileQueue[i];
+      var reader = new FileReader();
+      (function (idx, f) {
+        reader.onload = function (ev) {
+          var card = document.createElement('div');
+          card.className = 'preview-card';
+          card.innerHTML = '<img src="' + ev.target.result + '" alt="X-ray preview" class="preview-thumb" />' +
+            '<div class="preview-info">' +
+            '<span class="preview-name">' + f.name + '</span>' +
+            '<span class="preview-size">' + (f.size / 1024).toFixed(1) + ' KB</span>' +
+            '</div>' +
+            '<button class="preview-remove" data-index="' + idx + '" title="Remove">&times;</button>';
+          card.querySelector('.preview-remove')?.addEventListener('click', function (ev) {
+            ev.stopPropagation();
+            removeFile(idx);
+          });
+          previewGrid.appendChild(card);
+        };
+      })(i, file);
+      reader.readAsDataURL(file);
     }
-    previewEmpty.classList.remove("hidden");
-    previewFilled.classList.add("hidden");
-    previewImage.src = "";
-    btnAnalyze.disabled = true;
-    batchQueue.classList.add("hidden");
-    batchStrip.innerHTML = "";
-    fileInput.value = "";
-    updateAnalyzeButton();
-    clearError();
-    hideGuide();
   }
 
-  function storeAndNavigate() {
-    if (selectedIndex < 0 || selectedIndex >= fileQueue.length) return;
-
-    if (!sessionStorage.getItem('fracturedetect:patient_id')) {
-      showError("Patient information is required before analysis. Please fill in patient details first.");
+  (async function init() {
+    var signedIn = await isSignedIn();
+    if (loadingEl) loadingEl.classList.add('hidden');
+    if (!signedIn) {
+      demoSection.classList.remove('hidden');
       return;
     }
-
-    var file = fileQueue[selectedIndex];
-
-    var reader = new FileReader();
-    reader.onload = function (e) {
-      try {
-        sessionStorage.setItem("fracturedetect:image", e.target.result);
-
-        var remaining = [];
-        for (var i = selectedIndex + 1; i < fileQueue.length; i++) {
-          remaining.push(i);
-        }
-        if (remaining.length > 0) {
-          sessionStorage.setItem("fracturedetect:remaining", remaining.length);
-          sessionStorage.removeItem("fracturedetect:queue");
-          try {
-            var queueData = [];
-            var pendingReads = remaining.length;
-            remaining.forEach(function (idx) {
-              var r = new FileReader();
-              r.onload = function (ev) {
-                queueData.push({
-                  index: idx,
-                  data: ev.target.result,
-                  name: fileQueue[idx].name,
-                });
-                pendingReads--;
-                if (pendingReads === 0) {
-                  try {
-                    sessionStorage.setItem(
-                      "fracturedetect:queue",
-                      JSON.stringify(queueData),
-                    );
-                  } catch (err) {
-                    sessionStorage.setItem(
-                      "fracturedetect:remaining",
-                      queueData.length,
-                    );
-                  }
-                  window.location.href = "/processing";
-                }
-              };
-              r.onerror = function () {
-                pendingReads--;
-                if (pendingReads === 0) {
-                  window.location.href = "/processing";
-                }
-              };
-              r.readAsDataURL(fileQueue[idx]);
-            });
-          } catch (err) {
-            window.location.href = "/processing";
-          }
-        } else {
-          sessionStorage.removeItem("fracturedetect:queue");
-          sessionStorage.removeItem("fracturedetect:remaining");
-          window.location.href = "/processing";
-        }
-      } catch (err) {
-        console.warn("Failed to store image in sessionStorage:", err);
-        window.location.href = "/processing";
+    if (currentPatientId) {
+      var fromResults = sessionStorage.getItem('fracturedetect:from_results');
+      if (fromResults) {
+        if (patientUi) patientUi.classList.remove('hidden');
+      } else {
+        if (upload) upload.classList.remove('hidden');
+        loadPatientBadge();
       }
-    };
-    reader.onerror = function () {
-      window.location.href = "/processing";
-    };
-    reader.readAsDataURL(file);
-  }
-
-  /* ── Guide overlay toggle ── */
-  var guideOverlay = document.getElementById("guide-overlay");
-  var guideToggleBtn = document.getElementById("btn-guide-toggle");
-  var guideVisible = false;
-
-  function showGuide() {
-    if (guideOverlay) guideOverlay.classList.remove("hidden");
-    if (guideToggleBtn) guideToggleBtn.classList.add("guide-active");
-    guideVisible = true;
-  }
-
-  function hideGuide() {
-    if (guideOverlay) guideOverlay.classList.add("hidden");
-    if (guideToggleBtn) guideToggleBtn.classList.remove("guide-active");
-    guideVisible = false;
-  }
-
-  function toggleGuide() {
-    if (guideVisible) {
-      hideGuide();
     } else {
-      showGuide();
-    }
-  }
-
-  if (guideToggleBtn) {
-    guideToggleBtn.addEventListener("click", toggleGuide);
-  }
-
-  /* ── Dropzone events ── */
-  if (dropzone) {
-    var dragCounter = 0;
-
-    dropzone.addEventListener("click", function () {
-      fileInput?.click();
-    });
-    dropzone.addEventListener("keydown", function (e) {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        fileInput?.click();
-      }
-    });
-    dropzone.addEventListener("dragenter", function (e) {
-      e.preventDefault();
-      dragCounter++;
-      if (dragCounter === 1) {
-        dropzone.classList.add("dragover");
-        dropzone.classList.add("drag-hover");
-      }
-    });
-    dropzone.addEventListener("dragover", function (e) {
-      e.preventDefault();
-    });
-    dropzone.addEventListener("dragleave", function () {
-      dragCounter--;
-      if (dragCounter === 0) {
-        dropzone.classList.remove("dragover");
-        dropzone.classList.remove("drag-hover");
-      }
-    });
-    dropzone.addEventListener("drop", function (e) {
-      e.preventDefault();
-      dragCounter = 0;
-      dropzone.classList.remove("dragover");
-      dropzone.classList.remove("drag-hover");
-      if (e.dataTransfer?.files?.length) {
-        addFiles(Array.from(e.dataTransfer.files));
-      }
-    });
-  }
-
-  if (fileInput) {
-    fileInput.addEventListener("change", function () {
-      if (fileInput.files?.length) {
-        addFiles(Array.from(fileInput.files));
-      }
-      fileInput.value = "";
-    });
-  }
-
-  if (btnDelete) {
-    btnDelete.addEventListener("click", function (e) {
-      e.stopPropagation();
-      removeCurrentFile();
-    });
-  }
-
-  if (btnBatchClear) {
-    btnBatchClear.addEventListener("click", clearAllFiles);
-  }
-
-  document.addEventListener("keydown", function (e) {
-    if (e.ctrlKey && e.key === "Enter" && btnAnalyze && !btnAnalyze.disabled) {
-      e.preventDefault();
-      storeAndNavigate();
-    }
-  });
-
-  if (btnAnalyze) {
-    btnAnalyze.addEventListener("click", storeAndNavigate);
-  }
-
-  /* ── Check for incoming batch from results page ── */
-  (function () {
-    var queueData = sessionStorage.getItem("fracturedetect:queue");
-    if (queueData) {
-      var items = JSON.parse(queueData);
-      sessionStorage.removeItem("fracturedetect:queue");
-      if (items && items.length > 0) {
-        items.forEach(function (item) {
-          var blob = dataURLToBlob(item.data);
-          var file = new File([blob], item.name || "image.png", {
-            type: "image/png",
-          });
-          fileQueue.push(file);
-        });
-        if (fileQueue.length > 0) {
-          selectFile(0);
-          batchQueue.classList.remove("hidden");
-          batchCount.textContent =
-            fileQueue.length + " image" + (fileQueue.length !== 1 ? "s" : "");
-          updateAnalyzeButton();
-        }
-      }
+      if (welcome) welcome.classList.remove('hidden');
     }
   })();
 
-  function dataURLToBlob(dataURL) {
-    var parts = dataURL.split(",");
-    var mime = parts[0].match(/:(.*?);/)[1];
-    var bytes = atob(parts[1]);
-    var len = bytes.length;
-    var buf = new ArrayBuffer(len);
-    var view = new Uint8Array(buf);
-    for (var i = 0; i < len; i++) {
-      view[i] = bytes.charCodeAt(i);
+  function loadPatientBadge() {
+    if (currentPatientId && currentPatientName) {
+      renderPatientBadge();
     }
-    return new Blob([buf], { type: mime });
   }
 </script>
 
 <style>
-  .hidden {
-    display: none !important;
-  }
-
-  .analyze-loading {
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    min-height: calc(100vh - 68px); gap: 14px; color: var(--color-text-muted);
-    font-family: var(--font-body); font-size: 14px;
-  }
-  .analyze-loading-spinner {
-    width: 32px; height: 32px; border: 3px solid var(--color-border);
-    border-top-color: var(--color-primary); border-radius: 50%;
-    animation: analyze-spin 0.6s linear infinite;
-  }
-  @keyframes analyze-spin { to { transform: rotate(360deg); } }
-
-  .auth-gate {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: calc(100vh - 68px);
-    padding: 48px 24px;
-    position: relative;
-    z-index: 1;
-  }
-  .auth-gate-inner {
-    max-width: 560px;
-    width: 100%;
-  }
-  .auth-gate-steps {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    margin-bottom: 32px;
-  }
-  .gate-step {
-    display: flex;
-    align-items: flex-start;
-    gap: 16px;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    padding: 20px 24px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-    opacity: 0;
-    transform: translateX(-20px);
-  }
-  .gate-step.gate-step-1 {
-    animation: gateSlideIn 0.4s ease-out 0.1s forwards;
-  }
-  .gate-step.gate-step-2 {
-    animation: gateSlideIn 0.4s ease-out 0.25s forwards;
-  }
-  .gate-step.gate-step-3 {
-    animation: gateSlideIn 0.4s ease-out 0.4s forwards;
-  }
-  @keyframes gateSlideIn {
-    0% {
-      opacity: 0;
-      transform: translateX(-20px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-  .gate-step-num {
-    width: 32px;
-    height: 32px;
-    min-width: 32px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-body);
-    font-weight: 600;
-    font-size: 14px;
-    color: white;
-    background: var(--color-primary);
-    margin-top: 1px;
-  }
-  .gate-step-content {
-    flex: 1;
-  }
-  .gate-step-title {
-    font-family: var(--font-heading);
-    font-weight: 600;
-    font-size: 16px;
-    color: var(--color-text);
-    margin: 0 0 4px;
-  }
-  .gate-step-text {
-    font-family: var(--font-body);
-    font-size: 14px;
-    line-height: 1.5;
-    color: var(--color-text-muted);
-    margin: 0;
-  }
-  .auth-gate-cta {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    opacity: 0;
-    animation: gateFadeIn 0.5s ease-out 0.6s forwards;
-  }
-  @keyframes gateFadeIn {
-    0% {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .btn-submit {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    text-decoration: none;
-    font-family: var(--font-body);
-    font-weight: 600;
-    font-size: 15px;
-    color: white;
-    background: linear-gradient(135deg, var(--color-primary), #1d4ed8);
-    padding: 12px 24px;
-    border: none;
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
-  }
-  .btn-submit:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
-  }
-  .btn-submit:active {
-    transform: translateY(0);
-  }
-  .btn-submit:focus-visible {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
-  }
-
-  .btn-submit-alt {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    text-decoration: none;
-    font-family: var(--font-body);
-    font-weight: 600;
-    font-size: 15px;
-    color: var(--color-text);
-    background: var(--color-surface);
-    padding: 12px 24px;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-  .btn-submit-alt:hover {
-    border-color: var(--color-primary);
-    color: var(--color-primary);
-    transform: translateY(-1px);
-  }
-  .btn-submit-alt:active {
-    transform: translateY(0);
-  }
-  .btn-submit-alt:focus-visible {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
-  }
-
-  .patient-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex: 1;
-    width: 100%;
-    padding: 48px 24px;
-    position: relative;
-    z-index: 1;
-  }
-  .patient-card {
-    max-width: 520px;
-    width: 100%;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    padding: 40px 36px;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
-  }
-  .patient-form {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-  }
-  .patient-field {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
-  .patient-label {
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-size: 14px;
-    color: var(--color-text);
-  }
-  .patient-label .required {
-    color: var(--color-danger);
-    margin-left: 2px;
-  }
-  .patient-input {
-    font-family: var(--font-body);
-    font-size: 14px;
-    color: var(--color-text);
-    background: var(--color-bg-subtle);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    padding: 10px 14px;
-    outline: none;
-    transition: all 0.15s;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  .patient-input:focus {
-    border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-  }
-  .patient-select {
-    cursor: pointer;
-  }
-  .patient-textarea {
-    resize: vertical;
-    min-height: 60px;
-  }
-  .patient-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-  }
-  .patient-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: var(--font-body);
-    font-size: 13px;
-    color: var(--color-text);
-    background: rgba(37, 99, 235, 0.06);
-    border: 1px solid rgba(37, 99, 235, 0.12);
-    border-radius: var(--radius-md);
-    padding: 6px 12px;
-    margin-bottom: 16px;
-  }
-  .patient-badge svg {
-    color: var(--color-primary);
-    flex-shrink: 0;
-  }
-  .patient-change-btn {
-    font-family: var(--font-body);
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--color-primary);
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 2px 6px;
-    border-radius: 4px;
-    transition: all 0.15s;
-    margin-left: 4px;
-  }
-  .patient-change-btn:hover {
-    background: rgba(37, 99, 235, 0.1);
-  }
-  .error-message {
-    display: none;
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-size: 14px;
-    color: var(--color-danger);
-    margin: 0;
-  }
-  .error-message.visible {
-    display: block;
-  }
-
-  .analyze-page {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    overflow: hidden;
-  }
-  .analyze-bg {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-  }
-  .analyze-orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0.1;
-  }
-  .orb-left {
-    width: 400px;
-    height: 400px;
-    background: var(--color-primary);
-    top: -100px;
-    left: -100px;
-  }
-  .orb-right {
-    width: 350px;
-    height: 350px;
-    background: #a855f7;
-    bottom: -120px;
-    right: -80px;
-  }
-
-  .analyze-container {
-    max-width: var(--max-width);
-    margin: 0 auto;
-    padding: 48px 24px 80px;
-    display: grid;
-    grid-template-columns: 11fr 9fr;
-    gap: 48px;
-    align-items: start;
-    width: 100%;
-    position: relative;
-    z-index: 1;
-  }
-
-  .upload-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: var(--font-body);
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--color-primary);
-    background: rgba(37, 99, 235, 0.08);
-    padding: 6px 14px;
-    border-radius: 20px;
-    margin-bottom: 16px;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
-  }
-  .upload-badge .badge-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--color-primary);
-    animation: pulse-dot 2s ease-in-out infinite;
-  }
-  @keyframes pulse-dot {
-    0%,
-    100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.3;
-    }
-  }
-
-  .upload-title {
-    font-family: var(--font-heading);
-    font-weight: 600;
-    font-size: 34px;
-    line-height: 1.2;
-    color: var(--color-text);
-    margin: 0 0 8px;
-    letter-spacing: -0.02em;
-  }
-  .upload-subtext {
-    font-family: var(--font-body);
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 1.6;
-    color: var(--color-text-muted);
-    margin: 0 0 28px;
-  }
-
-  .dropzone {
-    border: 2px dashed var(--color-border);
-    border-radius: var(--radius-lg);
-    padding: 48px 24px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    outline: none;
-    background: var(--color-surface);
-    max-width: 100%;
-    box-sizing: border-box;
-  }
-  .dropzone:hover,
-  .dropzone.dragover {
-    background: rgba(37, 99, 235, 0.03);
-    border-color: var(--color-primary);
-    box-shadow: 0 4px 20px rgba(37, 99, 235, 0.06);
-  }
-  .dropzone.drag-hover {
-    border-color: var(--color-primary);
-    background: rgba(37, 99, 235, 0.05);
-    box-shadow:
-      0 0 0 4px rgba(37, 99, 235, 0.08),
-      0 4px 24px rgba(37, 99, 235, 0.1);
-    animation: dropzone-pulse 1s ease-in-out infinite;
-  }
-  .dropzone:focus-visible {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
-  }
-  .dropzone-graphic {
-    width: 64px;
-    height: 64px;
-    border-radius: 16px;
-    background: rgba(37, 99, 235, 0.08);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
-    transition: background 0.2s ease;
-  }
-  .dropzone:hover .dropzone-graphic,
-  .dropzone.dragover .dropzone-graphic {
-    background: rgba(37, 99, 235, 0.14);
-  }
-  .dropzone-icon {
-    color: var(--color-primary);
-    flex-shrink: 0;
-  }
-  .dropzone-text {
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-size: 16px;
-    color: var(--color-text);
-    margin: 0 0 4px;
-  }
-  .dropzone-link {
-    font-family: var(--font-body);
-    font-weight: 400;
-    font-size: 14px;
-    color: var(--color-text-muted);
-    margin: 0 0 20px;
-  }
-  .dropzone-link-text {
-    color: var(--color-primary);
-    font-weight: 500;
-    text-decoration: underline;
-    text-underline-offset: 2px;
-  }
-  .dropzone-caption {
-    font-family: var(--font-body);
-    font-weight: 400;
-    font-size: 13px;
-    color: var(--color-text-muted);
-    margin: 0;
-  }
-  @keyframes dropzone-pulse {
-    0%,
-    100% {
-      box-shadow:
-        0 0 0 4px rgba(37, 99, 235, 0.08),
-        0 4px 24px rgba(37, 99, 235, 0.1);
-    }
-    50% {
-      box-shadow:
-        0 0 0 8px rgba(37, 99, 235, 0.12),
-        0 4px 28px rgba(37, 99, 235, 0.15);
-    }
-  }
-
-  .error-message {
-    display: none;
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-size: 14px;
-    color: var(--color-danger);
-    margin: 12px 0 0;
-  }
-  .error-message.visible {
-    display: block;
-  }
-
-  .btn-analyze {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    width: 100%;
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-size: 16px;
-    color: white;
-    background: linear-gradient(135deg, var(--color-primary), #1d4ed8);
-    padding: 14px 28px;
-    border: none;
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    transition: all 0.2s ease;
-    margin-top: 24px;
-    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
-  }
-  .btn-analyze:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    box-shadow: none;
-  }
-  .btn-analyze:not(:disabled):hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
-  }
-  .btn-analyze:focus-visible {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
-  }
-
-  /* ── Batch Queue ── */
-  .batch-queue {
-    margin-top: 20px;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    padding: 14px;
-  }
-  .batch-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
-  .batch-count {
-    font-family: var(--font-body);
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--color-text-muted);
-  }
-  .batch-clear-btn {
-    font-family: var(--font-body);
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--color-danger);
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 4px 8px;
-    border-radius: 4px;
-    transition: all 0.15s;
-  }
-  .batch-clear-btn:hover {
-    background: rgba(220, 38, 38, 0.08);
-  }
-  .batch-strip {
-    display: flex;
-    gap: 8px;
-    overflow-x: auto;
-    padding-bottom: 4px;
-  }
-  .batch-thumb {
-    position: relative;
-    flex-shrink: 0;
-    width: 64px;
-    height: 64px;
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    cursor: pointer;
-    border: 2px solid var(--color-border);
-    transition: all 0.15s;
-  }
-  .batch-thumb:hover {
-    border-color: var(--color-primary);
-    opacity: 0.85;
-  }
-  .batch-thumb-active {
-    border-color: var(--color-primary);
-    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.25);
-  }
-  .batch-thumb-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  .batch-thumb-overlay {
-    position: absolute;
-    top: 2px;
-    right: 2px;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    background: var(--color-primary);
-    color: white;
-    font-family: var(--font-body);
-    font-size: 10px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  /* ── Preview ── */
-  .preview-card {
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    padding: 24px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
-    background: var(--color-surface);
-    min-width: 0;
-  }
-  .upload-section {
-    min-width: 0;
-  }
-  .preview-section {
-    min-width: 0;
-  }
-  .preview-card-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-family: var(--font-body);
-    font-weight: 600;
-    font-size: 13px;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--color-text-muted);
-    margin: 0 0 16px;
-  }
-  .preview-card-header svg {
-    opacity: 0.5;
-  }
-
-  .guide-toggle-btn {
-    margin-left: auto;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    font-family: var(--font-body);
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--color-text-muted);
-    background: var(--color-bg-subtle);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    padding: 4px 10px;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-  .guide-toggle-btn:hover {
-    border-color: var(--color-primary);
-    color: var(--color-primary);
-  }
-  .guide-toggle-btn.guide-active {
-    background: rgba(37, 99, 235, 0.1);
-    border-color: var(--color-primary);
-    color: var(--color-primary);
-  }
-
-  .preview-empty {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 64px 24px;
-    background: var(--color-bg-subtle);
-    border-radius: var(--radius-md);
-    color: var(--color-neutral);
-  }
-  .preview-empty.hidden {
-    display: none;
-  }
-  .preview-empty-text {
-    font-family: var(--font-body);
-    font-weight: 400;
-    font-size: 15px;
-    color: var(--color-neutral);
-    margin: 12px 0 0;
-  }
-  .preview-filled.hidden {
-    display: none;
-  }
-
-  .preview-image-wrapper {
-    position: relative;
-    background: #0b1121;
-    border-radius: var(--radius-md);
-    aspect-ratio: 4 / 3;
-    overflow: hidden;
-  }
-  .preview-image-wrapper img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    display: block;
-  }
-
-  .guide-overlay {
-    position: absolute;
-    inset: 0;
-    z-index: 5;
-    pointer-events: none;
-  }
-  .guide-overlay.hidden {
-    display: none;
-  }
-  .guide-svg {
-    width: 100%;
-    height: 100%;
-  }
-
-  .btn-delete {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    border: none;
-    background: white;
-    color: var(--color-danger);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-    transition: all 0.15s;
-    z-index: 10;
-  }
-  .btn-delete:hover {
-    opacity: 0.85;
-    transform: scale(1.05);
-  }
-  .btn-delete:focus-visible {
-    outline: 2px solid var(--color-danger);
-    outline-offset: 2px;
-  }
-
-  @media (max-width: 900px) {
-    .analyze-container {
-      gap: 40px;
-      padding: 48px 24px 64px;
-    }
-    .upload-title {
-      font-size: 28px;
-    }
-  }
-  @media (max-width: 768px) {
-    .analyze-container {
-      grid-template-columns: 1fr;
-      gap: 32px;
-      padding: 40px 24px 64px;
-    }
-    .upload-title {
-      font-size: 26px;
-    }
-  }
+  .analyze-page { min-height: calc(100vh - 68px); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+  .auth-bg { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+  .auth-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.08; }
+  .auth-orb.orb-1 { width: 400px; height: 400px; background: var(--color-primary); top: -120px; right: -80px; }
+  .auth-orb.orb-2 { width: 300px; height: 300px; background: #a855f7; bottom: -100px; left: -60px; }
+  .analyze-container { max-width: 520px; width: 100%; padding: 24px; position: relative; z-index: 1; }
+  .analyze-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 40px 32px 32px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+  .analyze-header { text-align: center; margin-bottom: 32px; }
+  .analyze-icon { width: 48px; height: 48px; border-radius: 14px; background: var(--color-primary); display: inline-flex; align-items: center; justify-content: center; margin-bottom: 20px; }
+  .analyze-title { font-family: var(--font-heading); font-weight: 600; font-size: 24px; color: var(--color-text); margin: 0 0 8px; letter-spacing: -0.02em; }
+  .analyze-subtitle { font-family: var(--font-body); font-size: 15px; color: var(--color-text-muted); margin: 0; }
+  .analyze-loading { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 48px 0; }
+  .loading-spinner { width: 36px; height: 36px; border: 3px solid var(--color-border); border-top-color: var(--color-primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-text { font-family: var(--font-body); font-size: 14px; color: var(--color-text-muted); margin: 0; }
+  .auth-demo { text-align: center; }
+  .demo-header { margin-bottom: 28px; }
+  .demo-lock { color: #94a3b8; margin-bottom: 16px; }
+  .demo-title { font-family: var(--font-heading); font-weight: 600; font-size: 20px; color: var(--color-text); margin: 0 0 8px; }
+  .demo-desc { font-family: var(--font-body); font-size: 15px; color: var(--color-text-muted); margin: 0; line-height: 1.5; }
+  .demo-actions { display: flex; gap: 12px; justify-content: center; }
+  .demo-btn-primary { font-family: var(--font-body); font-weight: 600; font-size: 15px; color: white; background: linear-gradient(135deg, var(--color-primary), #1d4ed8); padding: 12px 32px; border-radius: var(--radius-md); text-decoration: none; transition: all 0.2s; box-shadow: 0 4px 12px rgba(37,99,235,0.25); }
+  .demo-btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(37,99,235,0.35); }
+  .demo-btn-secondary { font-family: var(--font-body); font-weight: 600; font-size: 15px; color: var(--color-text); background: var(--color-surface); border: 1px solid var(--color-border); padding: 12px 32px; border-radius: var(--radius-md); text-decoration: none; transition: all 0.15s; }
+  .demo-btn-secondary:hover { background: var(--color-bg-subtle); border-color: var(--color-border-strong); }
+  .welcome-signedin { text-align: center; }
+  .welcome-content { padding: 8px 0; }
+  .welcome-icon { color: var(--color-primary); margin-bottom: 16px; }
+  .welcome-title { font-family: var(--font-heading); font-weight: 600; font-size: 22px; color: var(--color-text); margin: 0 0 8px; }
+  .welcome-desc { font-family: var(--font-body); font-size: 15px; color: var(--color-text-muted); margin: 0 0 24px; line-height: 1.5; max-width: 360px; margin-left: auto; margin-right: auto; }
+  .welcome-btn { font-family: var(--font-body); font-weight: 600; font-size: 15px; color: white; background: linear-gradient(135deg, var(--color-primary), #1d4ed8); padding: 12px 36px; border: none; border-radius: var(--radius-md); cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 12px rgba(37,99,235,0.25); }
+  .welcome-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(37,99,235,0.35); }
+  .patient-ui { }
+  .patient-header { margin-bottom: 24px; }
+  .patient-title { font-family: var(--font-heading); font-weight: 600; font-size: 20px; color: var(--color-text); margin: 0 0 6px; }
+  .patient-desc { font-family: var(--font-body); font-size: 14px; color: var(--color-text-muted); margin: 0; }
+  .patient-form { display: flex; flex-direction: column; gap: 20px; }
+  .patient-fields { display: flex; flex-direction: column; gap: 16px; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .hidden { display: none !important; }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field-label { font-family: var(--font-body); font-weight: 500; font-size: 14px; color: var(--color-text); }
+  .required { color: var(--color-danger); }
+  .field-input { font-family: var(--font-body); font-size: 15px; color: var(--color-text); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 10px 14px; outline: none; transition: border-color 0.15s, box-shadow 0.15s; resize: vertical; }
+  .field-input::placeholder { color: #94a3b8; }
+  .field-input:focus { border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+  textarea.field-input { min-height: 60px; }
+  .patient-error { font-family: var(--font-body); font-size: 14px; color: var(--color-danger); background: rgba(220,38,38,0.06); padding: 10px 14px; border-radius: var(--radius-md); }
+  .patient-continue { font-family: var(--font-body); font-weight: 600; font-size: 15px; color: white; background: linear-gradient(135deg, var(--color-primary), #1d4ed8); padding: 12px 24px; border: none; border-radius: var(--radius-md); cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 12px rgba(37,99,235,0.25); }
+  .patient-continue:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(37,99,235,0.35); }
+  .patient-continue:disabled { opacity: 0.6; cursor: default; transform: none; box-shadow: none; }
+  .upload-ui { }
+  .upload-header { margin-bottom: 20px; }
+  .upload-title { font-family: var(--font-heading); font-weight: 600; font-size: 20px; color: var(--color-text); margin: 0 0 6px; }
+  .upload-subtitle { font-family: var(--font-body); font-size: 14px; color: var(--color-text-muted); margin: 0; }
+  .upload-dropzone { border: 2px dashed var(--color-border); border-radius: var(--radius-lg); padding: 40px 24px; text-align: center; cursor: pointer; transition: border-color 0.15s, background 0.15s; }
+  .upload-dropzone:hover, .dropzone-active { border-color: var(--color-primary); background: rgba(37,99,235,0.03); }
+  .dropzone-icon { color: #94a3b8; margin-bottom: 12px; }
+  .dropzone-text { font-family: var(--font-body); font-size: 15px; color: var(--color-text); margin: 0 0 6px; }
+  .dropzone-browse { color: var(--color-primary); font-weight: 500; }
+  .dropzone-hint { font-family: var(--font-body); font-size: 13px; color: #94a3b8; margin: 0; }
+  .file-input-hidden { display: none; }
+  .upload-preview { margin-top: 20px; }
+  .preview-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+  .preview-card { position: relative; border: 1px solid var(--color-border); border-radius: var(--radius-md); overflow: hidden; background: var(--color-bg-subtle); }
+  .preview-thumb { width: 100%; height: 120px; object-fit: cover; display: block; }
+  .preview-info { padding: 8px 10px; }
+  .preview-name { font-family: var(--font-body); font-size: 12px; color: var(--color-text); display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .preview-size { font-family: var(--font-body); font-size: 11px; color: #94a3b8; }
+  .preview-remove { position: absolute; top: 4px; right: 4px; width: 24px; height: 24px; border-radius: 50%; background: rgba(0,0,0,0.5); color: white; border: none; font-size: 16px; line-height: 24px; text-align: center; cursor: pointer; }
+  .preview-remove:hover { background: var(--color-danger); }
+  .error-msg { display: none; font-family: var(--font-body); font-size: 14px; color: var(--color-danger); background: rgba(220,38,38,0.06); padding: 10px 14px; border-radius: var(--radius-md); margin-top: 16px; }
+  .upload-action { margin-top: 20px; text-align: center; }
+  .btn-analyze { font-family: var(--font-body); font-weight: 600; font-size: 16px; color: white; background: linear-gradient(135deg, var(--color-primary), #1d4ed8); padding: 14px 48px; border: none; border-radius: var(--radius-md); cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 12px rgba(37,99,235,0.25); }
+  .btn-analyze:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(37,99,235,0.35); }
+  .btn-analyze:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+  .patient-badge { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-family: var(--font-body); font-size: 14px; background: rgba(37,99,235,0.06); border: 1px solid rgba(37,99,235,0.15); border-radius: var(--radius-md); padding: 10px 14px; margin-bottom: 20px; }
+  .badge-label { font-weight: 600; color: var(--color-text); }
+  .badge-value { color: var(--color-text); }
+  .badge-change { font-family: var(--font-body); font-size: 13px; font-weight: 500; color: var(--color-primary); background: none; border: none; cursor: pointer; padding: 2px 4px; margin-left: auto; }
+  .badge-change:hover { text-decoration: underline; }
   @media (max-width: 480px) {
-    .analyze-container {
-      padding: 32px 20px 48px;
-      gap: 28px;
-    }
-    .upload-title {
-      font-size: 24px;
-    }
-    .upload-subtext {
-      font-size: 15px;
-      margin-bottom: 20px;
-    }
-    .dropzone {
-      padding: 32px 16px;
-    }
-    .dropzone-graphic {
-      width: 48px;
-      height: 48px;
-    }
-    .dropzone-icon {
-      width: 36px;
-      height: 36px;
-    }
-    .dropzone-text {
-      font-size: 15px;
-    }
-    .preview-card {
-      padding: 16px;
-    }
-    .preview-empty {
-      padding: 36px 16px;
-    }
-    .btn-analyze {
-      font-size: 15px;
-      padding: 12px 24px;
-    }
-    .auth-demo {
-      padding: 40px 20px;
-    }
-    .demo-container {
-      flex-direction: column;
-      gap: 32px;
-    }
-    .demo-left {
-      order: 2;
-    }
-    .demo-right {
-      order: 1;
-    }
-    .welcome-cards {
-      flex-direction: column;
-    }
-    .wc-card {
-      justify-content: flex-start;
-    }
-    .rp-grid {
-      gap: 8px;
-    }
-  }
-
-  /* ── Welcome Signed In (Authenticated) ── */
-  .welcome-container {
-    max-width: 640px;
-    margin: 0 auto;
-    padding: 48px 24px;
-    position: relative;
-    z-index: 1;
-  }
-  .wh-top {
-    display: flex;
-    align-items: flex-start;
-    gap: 16px;
-    margin-bottom: 32px;
-  }
-  .wh-avatar {
-    width: 56px;
-    height: 56px;
-    min-width: 56px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--color-primary), #1d4ed8);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-heading);
-    font-weight: 700;
-    font-size: 22px;
-    color: white;
-  }
-  .wh-text {
-    flex: 1;
-  }
-  .wh-greeting {
-    font-family: var(--font-heading);
-    font-weight: 600;
-    font-size: 28px;
-    line-height: 1.3;
-    color: var(--color-text);
-    margin: 0 0 6px;
-  }
-  .wh-greeting span {
-    background: linear-gradient(135deg, var(--color-primary), #a855f7);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .wh-sub {
-    font-family: var(--font-body);
-    font-size: 16px;
-    color: var(--color-text-muted);
-    margin: 0;
-    line-height: 1.5;
-  }
-  .welcome-cards {
-    display: flex;
-    gap: 16px;
-    margin-bottom: 32px;
-  }
-  .wc-card {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    padding: 24px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-decoration: none;
-    color: inherit;
-  }
-  .wc-card:hover {
-    border-color: rgba(37, 99, 235, 0.3);
-    box-shadow: 0 8px 32px rgba(37, 99, 235, 0.12);
-    transform: translateY(-2px);
-  }
-  .wc-card:active {
-    transform: translateY(0);
-  }
-  .wc-card:focus-visible {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
-  }
-  .wc-card-icon {
-    width: 48px;
-    height: 48px;
-    min-width: 48px;
-    border-radius: 14px;
-    background: rgba(37, 99, 235, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--color-primary);
-    transition: all 0.2s;
-  }
-  .wc-card:hover .wc-card-icon {
-    background: linear-gradient(135deg, var(--color-primary), #1d4ed8);
-    color: white;
-  }
-  .wc-card-body {
-    flex: 1;
-  }
-  .wc-card-title {
-    font-family: var(--font-heading);
-    font-weight: 600;
-    font-size: 16px;
-    color: var(--color-text);
-    margin: 0 0 4px;
-  }
-  .wc-card-desc {
-    font-family: var(--font-body);
-    font-size: 13px;
-    color: var(--color-text-muted);
-    margin: 0;
-    line-height: 1.5;
-  }
-  .wc-card-arrow {
-    color: var(--color-neutral);
-    opacity: 0;
-    transform: translateX(-8px);
-    transition: all 0.2s;
-  }
-  .wc-card:hover .wc-card-arrow {
-    opacity: 1;
-    transform: translateX(0);
-    color: var(--color-primary);
-  }
-
-  .recent-patients {
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    padding: 20px;
-  }
-  .rp-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 12px;
-  }
-  .rp-title {
-    font-family: var(--font-heading);
-    font-weight: 600;
-    font-size: 13px;
-    color: var(--color-text);
-    margin: 0;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-  .rp-count {
-    font-family: var(--font-body);
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--color-primary);
-    background: rgba(37, 99, 235, 0.08);
-    padding: 2px 10px;
-    border-radius: 10px;
-  }
-  .rp-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  .rp-empty {
-    flex: 1 1 100%;
-    text-align: center;
-    font-family: var(--font-body);
-    font-size: 13px;
-    color: var(--color-neutral);
-    padding: 12px;
-  }
-  .rp-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 14px;
-    background: var(--color-bg-subtle);
-    border: 1px solid var(--color-border);
-    border-radius: 100px;
-    font-family: var(--font-body);
-    font-size: 13px;
-    color: var(--color-text);
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-  .rp-chip:hover {
-    background: rgba(37, 99, 235, 0.08);
-    border-color: var(--color-primary);
-    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.1);
-    transform: translateY(-1px);
-  }
-  .rp-chip-icon {
-    color: var(--color-text-muted);
-    flex-shrink: 0;
-  }
-  .rp-chip:hover .rp-chip-icon {
-    color: var(--color-primary);
-  }
-  .rp-chip-name {
-    font-weight: 500;
-  }
-
-  /* ── Auth Demo (Unauthenticated) ── */
-  .auth-demo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex: 1;
-    width: 100%;
-    padding: 48px 24px;
-    position: relative;
-    z-index: 1;
-  }
-  .demo-container {
-    max-width: 1120px;
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1.2fr 1fr;
-    gap: 48px;
-    align-items: start;
-  }
-  .demo-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: var(--font-body);
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--color-primary);
-    background: rgba(37, 99, 235, 0.08);
-    padding: 6px 14px;
-    border-radius: 20px;
-    margin-bottom: 16px;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
-  }
-  .demo-badge .badge-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--color-primary);
-    animation: pulse-dot 2s ease-in-out infinite;
-  }
-  @keyframes pulse-dot {
-    0%,
-    100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.3;
-    }
-  }
-  .demo-title {
-    font-family: var(--font-heading);
-    font-weight: 600;
-    font-size: 34px;
-    line-height: 1.2;
-    color: var(--color-text);
-    margin: 0 0 12px;
-    letter-spacing: -0.02em;
-  }
-  .demo-desc {
-    font-family: var(--font-body);
-    font-size: 16px;
-    line-height: 1.6;
-    color: var(--color-text-muted);
-    margin: 0 0 28px;
-    max-width: 480px;
-  }
-
-  .demo-gallery {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    margin-bottom: 20px;
-  }
-  .demo-card {
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    transition: all 0.25s ease;
-    cursor: pointer;
-  }
-  .demo-card:hover {
-    border-color: rgba(37, 99, 235, 0.3);
-    box-shadow: 0 8px 32px rgba(37, 99, 235, 0.12);
-    transform: translateY(-2px);
-  }
-  .demo-card-img-wrap {
-    position: relative;
-    aspect-ratio: 4 / 3;
-    overflow: hidden;
-  }
-  .demo-card-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.3s ease;
-  }
-  .demo-card:hover .demo-card-img {
-    transform: scale(1.03);
-  }
-  .demo-card-heatmap {
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-    pointer-events: none;
-    mix-blend-mode: screen;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-  .demo-card:hover .demo-card-heatmap {
-    opacity: 1;
-  }
-  .demo-card-body {
-    padding: 14px 16px;
-  }
-  .demo-card-tags {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-    margin-bottom: 8px;
-  }
-  .demo-tag {
-    font-family: var(--font-body);
-    font-size: 11px;
-    font-weight: 600;
-    padding: 3px 8px;
-    border-radius: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-  }
-  .demo-tag-red {
-    background: rgba(239, 68, 68, 0.15);
-    color: #ef4444;
-  }
-  .demo-tag {
-    background: rgba(37, 99, 235, 0.12);
-    color: var(--color-primary);
-  }
-  .demo-card-meta {
-    display: flex;
-    justify-content: space-between;
-    font-family: var(--font-body);
-    font-size: 12px;
-  }
-  .demo-card-conf {
-    color: var(--color-primary);
-    font-weight: 600;
-  }
-  .demo-card-time {
-    color: var(--color-neutral);
-  }
-
-  .demo-right {
-    display: flex;
-    flex-direction: column;
-  }
-  .demo-steps-preview {
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    padding: 28px 24px;
-    flex: 1;
-  }
-  .dsp-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-family: var(--font-body);
-    font-weight: 600;
-    font-size: 13px;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--color-text-muted);
-    margin-bottom: 24px;
-  }
-  .dsp-header svg {
-    color: var(--color-primary);
-    flex-shrink: 0;
-  }
-
-  /* Step list is stacked vertically — three steps side-by-side in the
-     narrow demo-right column left too little width for text to wrap
-     properly, so it broke mid-word (e.g. "Upload" -> "Upl/oa/d"). */
-  .dsp-track {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-  .dsp-step {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    padding-bottom: 20px;
-    position: relative;
-    min-width: 0;
-  }
-  .dsp-step:last-child {
-    padding-bottom: 0;
-  }
-  .dsp-step-icon {
-    width: 40px;
-    height: 40px;
-    min-width: 40px;
-    border-radius: 12px;
-    background: var(--color-bg-subtle);
-    border: 1px solid var(--color-border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--color-text-muted);
-    transition: all 0.3s ease;
-  }
-  .dsp-step-active .dsp-step-icon {
-    background: linear-gradient(135deg, var(--color-primary), #1d4ed8);
-    border-color: var(--color-primary);
-    color: white;
-    transform: scale(1.05);
-  }
-  .dsp-step-body {
-    flex: 1;
-    min-width: 0;
-  }
-  .dsp-step-title-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 3px;
-  }
-  .dsp-step-title {
-    font-family: var(--font-heading);
-    font-weight: 600;
-    font-size: 14px;
-    color: var(--color-text);
-    display: block;
-  }
-  .dsp-step-desc {
-    font-family: var(--font-body);
-    font-size: 12px;
-    color: var(--color-text-muted);
-    display: block;
-  }
-  .dsp-step-check {
-    width: 20px;
-    height: 20px;
-    min-width: 20px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transform: scale(0.5);
-    transition: all 0.3s ease;
-    color: var(--color-primary);
-    background: rgba(37, 99, 235, 0.1);
-  }
-  .dsp-step-active .dsp-step-check {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  /* Vertical connector line running down between step icons */
-  .dsp-connector {
-    position: relative;
-    width: 40px;
-    height: 24px;
-    margin-left: 0;
-  }
-  .dsp-connector::before {
-    content: "";
-    position: absolute;
-    left: 20px;
-    top: 0;
-    width: 2px;
-    height: 100%;
-    background: var(--color-border);
-  }
-  .dsp-connector-active::before {
-    background: linear-gradient(
-      180deg,
-      var(--color-primary),
-      var(--color-primary) 50%,
-      var(--color-border) 50%
-    );
-  }
-
-  .demo-cta {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 24px;
-  }
-  .btn-demo-primary {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    text-decoration: none;
-    font-family: var(--font-body);
-    font-weight: 600;
-    font-size: 15px;
-    color: white;
-    background: linear-gradient(135deg, var(--color-primary), #1d4ed8);
-    padding: 14px 28px;
-    border: none;
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
-  }
-  .btn-demo-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
-  }
-  .btn-demo-primary:active {
-    transform: translateY(0);
-  }
-  .btn-demo-alt {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    text-decoration: none;
-    font-family: var(--font-body);
-    font-weight: 600;
-    font-size: 15px;
-    color: var(--color-text);
-    background: var(--color-surface);
-    padding: 14px 28px;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-  .btn-demo-alt:hover {
-    border-color: var(--color-primary);
-    color: var(--color-primary);
-    transform: translateY(-1px);
-  }
-  .btn-demo-alt:active {
-    transform: translateY(0);
-  }
-
-  /* Shared fade animations */
-  .fade-in {
-    animation: fdFadeIn 0.4s ease-out forwards;
-  }
-  .fade-out {
-    animation: fdFadeOut 0.3s ease-in forwards;
-  }
-  @keyframes fdFadeIn {
-    0% {
-      opacity: 0;
-      transform: translateY(12px) scale(0.98);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-  }
-  @keyframes fdFadeOut {
-    0% {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-    100% {
-      opacity: 0;
-      transform: translateY(-8px) scale(0.98);
-    }
-  }
-
-  /* Responsive for auth-demo */
-  @media (max-width: 900px) {
-    .demo-container {
-      grid-template-columns: 1fr;
-      gap: 32px;
-    }
-    .demo-gallery {
-      grid-template-columns: 1fr;
-    }
-    .demo-right {
-      order: -1;
-    }
-  }
-  @media (max-width: 768px) {
-    .auth-demo {
-      min-height: auto;
-      padding: 40px 20px;
-    }
-    .demo-title {
-      font-size: 28px;
-    }
-    .welcome-container {
-      padding: 40px 20px;
-    }
-    .wh-greeting {
-      font-size: 24px;
-    }
-    .welcome-cards {
-      flex-direction: column;
-    }
-    .wc-card {
-      flex-direction: column;
-      text-align: center;
-    }
-    .wc-card-arrow {
-      display: none;
-    }
-    .demo-cta {
-      flex-direction: column;
-    }
-  }
-  @media (max-width: 480px) {
-    .demo-title {
-      font-size: 24px;
-    }
-    .demo-badge {
-      font-size: 12px;
-      padding: 5px 12px;
-    }
-    .demo-desc {
-      font-size: 15px;
-    }
-    .demo-steps-preview {
-      padding: 20px 16px;
-    }
-    .dsp-step-icon {
-      width: 36px;
-      height: 36px;
-    }
-    .btn-demo-primary,
-    .btn-demo-alt {
-      padding: 12px 20px;
-      font-size: 14px;
-    }
+    .analyze-card { padding: 32px 24px 28px; }
+    .analyze-title { font-size: 22px; }
+    .field-row { grid-template-columns: 1fr; }
+    .demo-actions { flex-direction: column; }
   }
 </style>
