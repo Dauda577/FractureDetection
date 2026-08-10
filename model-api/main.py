@@ -91,20 +91,6 @@ async def predict(file: UploadFile = File(...)):
     except Exception:
         raise HTTPException(status_code=400, detail="Uploaded file is not a valid image.")
 
-    original = np.array(pil_image)
-    if original.ndim == 3 and original.shape[2] >= 3:
-        ch = [original[:, :, c].ravel().astype(np.float64) for c in range(3)]
-        min_corr = min(
-            np.corrcoef(ch[0], ch[1])[0, 1],
-            np.corrcoef(ch[0], ch[2])[0, 1],
-            np.corrcoef(ch[1], ch[2])[0, 1],
-        )
-        if min_corr < 0.92:
-            raise HTTPException(
-                status_code=400,
-                detail="This does not appear to be an X-ray image. Please upload a medical X-ray."
-            )
-
     # Input guards — validate image quality before inference
     w, h = pil_image.size
     if w < 64 or h < 64:
