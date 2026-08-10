@@ -74,8 +74,8 @@ import Footer from '../components/Footer.astro';
                 </div>
               </div>
               <div class="field">
-                <label class="field-label" for="pt-mrn">Medical Record ID</label>
-                <input class="field-input" id="pt-mrn" name="mrn" type="text" placeholder="Optional record number" autocomplete="off" />
+                <label class="field-label" for="pt-mrn">Medical Record ID <span class="required">*</span></label>
+                <input class="field-input" id="pt-mrn" name="mrn" type="text" placeholder="e.g. MRN-12345" required autocomplete="off" />
               </div>
               <div class="field">
                 <label class="field-label" for="pt-notes">Clinical Notes</label>
@@ -196,33 +196,31 @@ import Footer from '../components/Footer.astro';
       return;
     }
 
-    if (!age || !gender) {
-      patientError.textContent = 'Please fill in all required fields (Name, Age, Gender).';
+    if (!age || !gender || !mrn) {
+      patientError.textContent = 'Please fill in all required fields (Name, Age, Gender, Medical Record ID).';
       patientError.classList.remove('hidden');
       patientContinue.disabled = false;
       patientContinue.textContent = 'Continue to Upload';
       return;
     }
 
-    if (mrn) {
-      var mrnUnique = await checkMrnUnique(mrn);
-      if (!mrnUnique) {
-        patientError.textContent = 'This Medical Record ID is already in use. Please use a different one.';
-        patientError.classList.remove('hidden');
-        patientContinue.disabled = false;
-        patientContinue.textContent = 'Continue to Upload';
-        return;
-      }
+    var mrnUnique = await checkMrnUnique(mrn);
+    if (!mrnUnique) {
+      patientError.textContent = 'This Medical Record ID is already in use. Please use a different one.';
+      patientError.classList.remove('hidden');
+      patientContinue.disabled = false;
+      patientContinue.textContent = 'Continue to Upload';
+      return;
     }
 
-    var patientId = await savePatient(name, parseInt(age), gender, mrn || null, notes || null);
+    var patientId = await savePatient(name, parseInt(age), gender, mrn, notes || null);
     if (patientId) {
       currentPatientId = patientId;
       currentPatientName = name;
-      currentPatientMrn = mrn || null;
+      currentPatientMrn = mrn;
       sessionStorage.setItem('fracturedetect:patient_id', patientId);
       sessionStorage.setItem('fracturedetect:patient_name', name);
-      if (mrn) sessionStorage.setItem('fracturedetect:patient_mrn', mrn);
+      sessionStorage.setItem('fracturedetect:patient_mrn', mrn);
       renderPatientBadge();
       patientUi.classList.add('hidden');
       upload.classList.remove('hidden');
