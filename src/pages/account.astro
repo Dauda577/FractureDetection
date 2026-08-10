@@ -4,7 +4,7 @@ import Sidebar from '../components/Sidebar.astro';
 ---
 <Layout title="Dashboard" description="Your FractureDetect analysis dashboard" active="account" variant="app">
   <main class="dash-page page-enter">
-    <div id="dash-gate" class="dash-gate">
+    <div id="dash-gate" class="dash-gate hidden">
       <div class="dash-gate-card">
         <div class="dash-gate-icon">
           <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -492,7 +492,8 @@ import Sidebar from '../components/Sidebar.astro';
 
     var signedIn = await waitForAuth();
     if (gate && dashUi) {
-      if (signedIn) { gate.classList.add('hidden'); dashUi.classList.remove('hidden'); }
+      if (signedIn) { dashUi.classList.remove('hidden'); }
+      else { gate.classList.remove('hidden'); }
     }
     if (!signedIn) return;
 

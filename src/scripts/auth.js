@@ -64,8 +64,14 @@ export async function isSignedIn() {
 
 export async function waitForAuth() {
   const supabase = await getSupabase()
-  const { data: { user }, error } = await supabase.auth.getUser()
-  return !!user && !error
+  return new Promise((resolve) => {
+    const timeout = setTimeout(() => resolve(false), 3000)
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      clearTimeout(timeout)
+      subscription.unsubscribe()
+      resolve(!!session)
+    })
+  })
 }
 
 export async function signInWithGoogle() {
