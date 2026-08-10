@@ -233,7 +233,7 @@ class InferenceEngine:
                  model_bundle_path=None,
                  isotonic_calibrator_path=None,
                  uncertainty_thresholds_path=None,
-                 mc_passes=10):
+                  mc_passes=3):
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
         model_bundle_path = model_bundle_path or os.environ.get(
