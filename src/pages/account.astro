@@ -456,7 +456,7 @@ import Sidebar from '../components/Sidebar.astro';
 </Layout>
 
 <script type="module">
-  import { isSignedIn, getUser, logout } from '../scripts/auth.js';
+  import { isSignedIn, getUser, logout, waitForAuth } from '../scripts/auth.js';
   import { savePatient, getPatient, getPatients } from '../scripts/patients.js';
 
   var gate = document.getElementById('dash-gate');
@@ -490,7 +490,7 @@ import Sidebar from '../components/Sidebar.astro';
     var rawHash = window.location.hash;
     var isEmailConfirmed = rawHash && rawHash.includes('type=signup');
 
-    var signedIn = await isSignedIn();
+    var signedIn = await waitForAuth();
     if (gate && dashUi) {
       if (signedIn) { gate.classList.add('hidden'); dashUi.classList.remove('hidden'); }
     }

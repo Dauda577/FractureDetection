@@ -62,6 +62,12 @@ export async function isSignedIn() {
   return !!user
 }
 
+export async function waitForAuth() {
+  const supabase = await getSupabase()
+  const { data: { session } } = await supabase.auth.getSession()
+  return !!session
+}
+
 export async function signInWithGoogle() {
   const supabase = await getSupabase()
   const { data, error } = await supabase.auth.signInWithOAuth({

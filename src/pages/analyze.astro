@@ -881,7 +881,7 @@ import Footer from "../components/Footer.astro";
 </Layout>
 
 <script type="module">
-  import { isSignedIn, getUser } from "../scripts/auth.js";
+  import { isSignedIn, getUser, waitForAuth } from "../scripts/auth.js";
   import { savePatient, getPatient, getPatients } from "../scripts/patients.js";
 
   var currentPatientId = sessionStorage.getItem("fracturedetect:patient_id");
@@ -973,7 +973,7 @@ import Footer from "../components/Footer.astro";
 
   /* ── Main init ── */
   (async function () {
-    var signedIn = await isSignedIn();
+    var signedIn = await waitForAuth();
     var demo = document.getElementById("auth-demo");
     var welcome = document.getElementById("welcome-signedin");
     var patientUi = document.getElementById("patient-ui");
