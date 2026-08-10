@@ -29,6 +29,11 @@ import Sidebar from '../components/Sidebar.astro';
       </div>
     </div>
 
+    <div id="dash-loading" class="dash-loading">
+      <div class="dash-loading-spinner"></div>
+      <p>Loading dashboard&hellip;</p>
+    </div>
+
     <div id="dash-ui" class="hidden">
       <div class="dash-layout">
         <div class="dash-wrapper">
@@ -491,6 +496,8 @@ import Sidebar from '../components/Sidebar.astro';
     var isEmailConfirmed = rawHash && rawHash.includes('type=signup');
 
     var signedIn = await waitForAuth();
+    var loading = document.getElementById('dash-loading');
+    if (loading) loading.classList.add('hidden');
     if (gate && dashUi) {
       if (signedIn) { dashUi.classList.remove('hidden'); }
       else { gate.classList.remove('hidden'); }
@@ -1467,6 +1474,18 @@ import Sidebar from '../components/Sidebar.astro';
 
 <style is:global>
   .hidden { display: none !important; }
+
+  .dash-loading {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    min-height: calc(100vh - 68px); gap: 16px; color: var(--color-text-muted);
+    font-family: var(--font-body); font-size: 14px;
+  }
+  .dash-loading-spinner {
+    width: 32px; height: 32px; border: 3px solid var(--color-border);
+    border-top-color: var(--color-primary); border-radius: 50%;
+    animation: dash-spin 0.6s linear infinite;
+  }
+  @keyframes dash-spin { to { transform: rotate(360deg); } }
 
   .dash-gate {
     display: flex; align-items: center; justify-content: center;

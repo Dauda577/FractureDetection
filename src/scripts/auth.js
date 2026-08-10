@@ -64,12 +64,18 @@ export async function isSignedIn() {
 
 export async function waitForAuth() {
   const supabase = await getSupabase()
+  
+  const { data: { session } } = await supabase.auth.getSession()
+  if (session) return true
+  
   return new Promise((resolve) => {
-    const timeout = setTimeout(() => resolve(false), 3000)
+    const timeout = setTimeout(() => resolve(false), 2000)
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      clearTimeout(timeout)
-      subscription.unsubscribe()
-      resolve(!!session)
+      if (session) {
+        clearTimeout(timeout)
+        subscription.unsubscribe()
+        resolve(true)
+      }
     })
   })
 }
