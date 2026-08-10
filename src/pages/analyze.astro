@@ -60,12 +60,12 @@ import Footer from '../components/Footer.astro';
               </div>
               <div class="field-row">
                 <div class="field">
-                  <label class="field-label" for="pt-age">Age</label>
-                  <input class="field-input" id="pt-age" name="age" type="number" min="0" max="150" placeholder="Years" autocomplete="off" />
+                  <label class="field-label" for="pt-age">Age <span class="required">*</span></label>
+                  <input class="field-input" id="pt-age" name="age" type="number" min="0" max="150" placeholder="Years" required autocomplete="off" />
                 </div>
                 <div class="field">
-                  <label class="field-label" for="pt-gender">Gender</label>
-                  <select class="field-input" id="pt-gender" name="gender" autocomplete="off">
+                  <label class="field-label" for="pt-gender">Gender <span class="required">*</span></label>
+                  <select class="field-input" id="pt-gender" name="gender" required autocomplete="off">
                     <option value="">Select...</option>
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
@@ -196,6 +196,14 @@ import Footer from '../components/Footer.astro';
       return;
     }
 
+    if (!age || !gender) {
+      patientError.textContent = 'Please fill in all required fields (Name, Age, Gender).';
+      patientError.classList.remove('hidden');
+      patientContinue.disabled = false;
+      patientContinue.textContent = 'Continue to Upload';
+      return;
+    }
+
     if (mrn) {
       var mrnUnique = await checkMrnUnique(mrn);
       if (!mrnUnique) {
@@ -207,24 +215,19 @@ import Footer from '../components/Footer.astro';
       }
     }
 
-    var patientData = { name: name, medical_record_id: mrn || null };
-    if (age) patientData.age = parseInt(age);
-    if (gender) patientData.gender = gender;
-    if (notes) patientData.notes = notes;
-
-    var result = await savePatient(patientData);
-    if (result.ok) {
-      currentPatientId = result.id;
+    var patientId = await savePatient(name, parseInt(age), gender, mrn || null, notes || null);
+    if (patientId) {
+      currentPatientId = patientId;
       currentPatientName = name;
       currentPatientMrn = mrn || null;
-      sessionStorage.setItem('fracturedetect:patient_id', result.id);
+      sessionStorage.setItem('fracturedetect:patient_id', patientId);
       sessionStorage.setItem('fracturedetect:patient_name', name);
       if (mrn) sessionStorage.setItem('fracturedetect:patient_mrn', mrn);
       renderPatientBadge();
       patientUi.classList.add('hidden');
       upload.classList.remove('hidden');
     } else {
-      patientError.textContent = result.error || 'Failed to save patient.';
+      patientError.textContent = 'Failed to save patient info. Please try again.';
       patientError.classList.remove('hidden');
     }
 
