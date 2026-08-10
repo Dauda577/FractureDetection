@@ -1,12 +1,14 @@
 import { getSupabase } from '../lib/supabase.js'
 
-export async function saveAnalysis(imageData, prediction, confidence, inferenceTime, findings, patientId) {
+export async function saveAnalysis(imageData, prediction, confidence, inferenceTime, findings, patientId, heatmapBase64) {
   const supabase = await getSupabase()
   const { data: { session } } = await supabase.auth.getSession()
   if (!session) return null
 
   const userId = session.user.id
-  const fileName = userId + '/' + Date.now() + '.png'
+  const ts = Date.now()
+  const fileName = userId + '/' + ts + '.png'
+  const heatmapFileName = userId + '/' + ts + '_heatmap.png'
 
   if (!imageData) return null
   const blob = dataURLToBlob(imageData)
@@ -14,6 +16,19 @@ export async function saveAnalysis(imageData, prediction, confidence, inferenceT
     .from('analysis-images')
     .upload(fileName, blob, { contentType: 'image/png', upsert: false })
   if (uploadError) return null
+
+  if (heatmapBase64) {
+    const heatmapBytes = atob(heatmapBase64)
+    const heatmapBuf = new ArrayBuffer(heatmapBytes.length)
+    const heatmapView = new Uint8Array(heatmapBuf)
+    for (let i = 0; i < heatmapBytes.length; i++) heatmapView[i] = heatmapBytes.charCodeAt(i)
+    const heatmapBlob = new Blob([heatmapBuf], { type: 'image/png' })
+    await supabase.storage
+      .from('analysis-images')
+      .upload(heatmapFileName, heatmapBlob, { contentType: 'image/png', upsert: false })
+      .catch(() => {})
+
+  }
 
   const record = {
     user_id: userId,
@@ -29,7 +44,7 @@ export async function saveAnalysis(imageData, prediction, confidence, inferenceT
 
   if (error) return null
 
-  var predLabel = prediction === 'fracture' ? 'Fracture detected' : 'Normal';
+  var predLabel = prediction === 'fracture' ? 'Fracture detected' : 'Healthy';
   var confPct = (confidence * 100).toFixed(1) + '%';
   supabase.from('notifications').insert({
     user_id: userId,
@@ -138,4 +153,20 @@ function dataURLToBlob(dataURL) {
   var view = new Uint8Array(buf)
   for (var i = 0; i < len; i++) view[i] = bytes.charCodeAt(i)
   return new Blob([buf], { type: mime })
+}
+
+export async function getAnalytics() {
+  const supabase = await getSupabase()
+  const { data: { session } } = await supabase.auth.getSession()
+  if (!session) return null
+
+  const { data, error } = await supabase
+    .from('analyses')
+    .select('prediction, confidence, created_at, patient_id')
+    .eq('user_id', session.user.id)
+    .order('created_at', { ascending: false })
+    .limit(1000)
+
+  if (error) return []
+  return data || []
 }

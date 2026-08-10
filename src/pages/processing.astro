@@ -92,7 +92,7 @@ import Layout from '../layouts/Layout.astro';
         </div>
       </div>
 
-      <div class="info-banner">
+      <div class="info-banner" id="info-banner">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="10" />
           <line x1="12" y1="16" x2="12" y2="12" />
@@ -100,11 +100,51 @@ import Layout from '../layouts/Layout.astro';
         </svg>
         <span>Please do not refresh or close this page.</span>
       </div>
+
+      <div class="error-card hidden" id="error-card">
+        <div class="error-card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg>
+        </div>
+        <div class="error-card-body">
+          <p class="error-card-text" id="error-text"></p>
+          <div class="error-card-actions">
+            <button class="error-btn error-btn-primary" id="btn-retry">Retry</button>
+            <button class="error-btn error-btn-secondary" id="btn-cancel">Cancel</button>
+          </div>
+        </div>
+      </div>
     </div>
   </main>
+
+  <div class="ood-modal hidden" id="ood-modal">
+    <div class="ood-modal-backdrop" id="ood-modal-backdrop"></div>
+    <div class="ood-modal-card">
+      <div class="ood-modal-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </div>
+      <h3 class="ood-modal-title">Unsupported Image Detected</h3>
+      <p class="ood-modal-text">This image does not appear to be a supported X-ray type. The model is trained for Hand, Hip, Leg, and Shoulder X-rays only.</p>
+      <div class="ood-modal-actions">
+        <button class="ood-modal-btn ood-modal-btn-back" id="btn-ood-back">Go Back</button>
+        <button class="ood-modal-btn ood-modal-btn-retry" id="btn-ood-retry">Retry</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="ood-toast hidden" id="ood-toast">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    <span>Unsupported image blocked — only Hand, Hip, Leg and Shoulder X-rays are supported.</span>
+  </div>
+
 </Layout>
 
 <script type="module">
+  import { runInference } from '../scripts/inference.js';
+
   (function () {
     var imageData = sessionStorage.getItem('fracturedetect:image');
     if (!imageData) {
@@ -112,104 +152,176 @@ import Layout from '../layouts/Layout.astro';
       return;
     }
 
-    function simulateProgress(callback) {
-      var DURATION = 3500;
-      var TARGET = 98;
-      var fillEl = document.getElementById('progress-fill');
-      var labelEl = document.getElementById('progress-label');
-      var barEl = document.getElementById('progress-track');
-      var scanLine = document.getElementById('scan-line');
-      var scanStatus = document.getElementById('scan-status');
-      var startTime = performance.now();
+    var fillEl = document.getElementById('progress-fill');
+    var labelEl = document.getElementById('progress-label');
+    var barEl = document.getElementById('progress-track');
+    var scanLine = document.getElementById('scan-line');
+    var scanStatus = document.getElementById('scan-status');
+    var infoBanner = document.getElementById('info-banner');
+    var errorCard = document.getElementById('error-card');
+    var errorText = document.getElementById('error-text');
+    var btnRetry = document.getElementById('btn-retry');
+    var btnCancel = document.getElementById('btn-cancel');
+    var step2El = document.getElementById('step-2');
+    var step3El = document.getElementById('step-3');
+    var detailModel = document.getElementById('detail-model');
+    var detailHeatmap = document.getElementById('detail-heatmap');
 
-      var step2El = document.getElementById('step-2');
-      var step3El = document.getElementById('step-3');
-      var detailModel = document.getElementById('detail-model');
-      var detailHeatmap = document.getElementById('detail-heatmap');
+    var oodModal = document.getElementById('ood-modal');
+    var oodBackdrop = document.getElementById('ood-modal-backdrop');
+    var btnOodBack = document.getElementById('btn-ood-back');
+    var btnOodRetry = document.getElementById('btn-ood-retry');
+    var oodToast = document.getElementById('ood-toast');
+    var toastTimer = null;
 
-      var phases = [
-        { at: 0, text: 'Preprocessing image&hellip;', dot: true },
-        { at: 15, text: 'Running detection model&hellip;', dot: true },
-        { at: 35, text: 'Analyzing bone structures&hellip;', dot: true },
-        { at: 55, text: 'Generating heatmap&hellip;', dot: true },
-        { at: 75, text: 'Calculating confidence score&hellip;', dot: true },
-        { at: 90, text: 'Finalizing results&hellip;', dot: false }
-      ];
-      var currentPhase = -1;
-      var lastValue = -1;
+    var phases = [
+      { text: 'Preprocessing X-ray image&hellip;' },
+      { text: 'Running FracNet detection model&hellip;' },
+      { text: 'Computing calibrated confidence&hellip;' },
+      { text: 'Measuring OOD (Mahalanobis) distance&hellip;' },
+      { text: 'MC-Dropout uncertainty (&times;10 passes)&hellip;' },
+      { text: 'Generating fracture heatmap outline&hellip;' },
+    ];
+    var phaseIndex = 0;
+    var animFrame = null;
+    var phaseTimer = null;
+    var startTime = null;
+    var running = false;
 
-      function tick() {
-        var elapsed = performance.now() - startTime;
-        var t = Math.min(elapsed / DURATION, 1);
-        var value = Math.round(easeOut(t) * TARGET);
+    function setProgressWidth(pct) {
+      if (fillEl) fillEl.style.width = pct + '%';
+      if (labelEl) labelEl.textContent = pct + '%';
+      if (barEl) barEl.setAttribute('aria-valuenow', String(pct));
+    }
 
-        if (value !== lastValue) {
-          lastValue = value;
-          if (fillEl && labelEl && barEl) {
-            fillEl.style.width = value + '%';
-            labelEl.textContent = value + '%';
-            barEl.setAttribute('aria-valuenow', value);
-          }
-        }
+    function setStatus(html) {
+      if (scanStatus) scanStatus.innerHTML = html;
+    }
 
-        if (scanLine) {
-          var scanT = (Math.sin(elapsed / 1200) + 1) / 2;
-          scanLine.style.transform = 'translateY(' + (scanT * 100) + '%)';
-        }
+    function rotatePhase() {
+      phaseIndex = (phaseIndex + 1) % phases.length;
+      setStatus('<span class="scan-dot dot-active"></span><span>' + phases[phaseIndex].text + '</span>');
 
-        for (var p = phases.length - 1; p >= 0; p--) {
-          if (value >= phases[p].at && p > currentPhase) {
-            currentPhase = p;
-            if (scanStatus) {
-              scanStatus.innerHTML = '<span class="scan-dot' + (phases[p].dot ? ' dot-active' : '') + '"></span><span>' + phases[p].text + '</span>';
-            }
-            break;
-          }
-        }
-
-        if (value >= 15 && step2El && !step2El.classList.contains('active')) {
-          step2El.classList.add('active');
-          if (detailModel) detailModel.classList.add('active');
-        }
-        if (value >= 45 && step3El && !step3El.classList.contains('active')) {
-          step3El.classList.add('active');
-          if (detailHeatmap) detailHeatmap.classList.add('active');
-        }
-
-        if (t >= 1) {
-          clearInterval(timer);
-          if (scanStatus) {
-            scanStatus.innerHTML = '<span class="scan-dot dot-done"></span><span>Scan complete</span>';
-          }
-          setTimeout(callback, 400);
-        }
+      if (!step2El.classList.contains('active')) {
+        step2El.classList.add('active');
+        if (detailModel) detailModel.classList.add('active');
       }
-
-      var timer = setInterval(tick, 60);
+      if (phaseIndex >= 3 && !step3El.classList.contains('active')) {
+        step3El.classList.add('active');
+        if (detailHeatmap) detailHeatmap.classList.add('active');
+      }
     }
 
-    function easeOut(t) {
-      return 1 - Math.pow(1 - t, 3);
-    }
+    function startIndeterminate() {
+      running = true;
+      setProgressWidth(15);
+      setStatus('<span class="scan-dot dot-active"></span><span>Uploading image to analysis server&hellip;</span>');
+      startTime = performance.now();
 
-    function generateMockResult() {
-      var isFracture = Math.random() < 0.7;
-      return {
-        prediction: isFracture ? 'fracture' : 'normal',
-        confidence: isFracture
-          ? +(0.89 + Math.random() * 0.10).toFixed(3)
-          : +(0.85 + Math.random() * 0.12).toFixed(3),
-        inferenceTimeSec: +(0.28 + Math.random() * 0.33).toFixed(2),
+      setProgressWidth(30);
+      rotatePhase();
+
+      phaseTimer = setInterval(rotatePhase, 2200);
+
+      var scanStep = function () {
+        if (!running) return;
+        var elapsed = (performance.now() - startTime) / 1000;
+        var scanT = (Math.sin(elapsed * 1.8) + 1) / 2;
+        if (scanLine) scanLine.style.transform = 'translateY(' + (scanT * 100) + '%)';
+        animFrame = requestAnimationFrame(scanStep);
       };
+      animFrame = requestAnimationFrame(scanStep);
     }
 
-    simulateProgress(function () {
-      var result = generateMockResult();
+    function stopIndeterminate() {
+      running = false;
+      if (animFrame) { cancelAnimationFrame(animFrame); animFrame = null; }
+      if (phaseTimer) { clearInterval(phaseTimer); phaseTimer = null; }
+    }
+
+    function showError(message) {
+      stopIndeterminate();
+      setProgressWidth(0);
+      labelEl.textContent = '\u2014';
+      setStatus('<span class="scan-dot" style="background:#ef4444"></span><span>Analysis failed</span>');
+      if (infoBanner) infoBanner.classList.add('hidden');
+      if (errorText) errorText.textContent = message;
+      if (errorCard) errorCard.classList.remove('hidden');
+    }
+
+    function hideError() {
+      if (errorCard) errorCard.classList.add('hidden');
+      if (infoBanner) infoBanner.classList.remove('hidden');
+    }
+
+    function complete(results) {
+      stopIndeterminate();
+      setProgressWidth(100);
+      labelEl.textContent = '100%';
+      var timeStr = results.inference_time_sec
+        ? ' (' + results.inference_time_sec.toFixed(1) + 's)'
+        : '';
+      setStatus('<span class="scan-dot dot-done"></span><span>Analysis complete' + timeStr + '</span>');
+      step3El.classList.add('active');
+      if (detailHeatmap) detailHeatmap.classList.add('active');
       try {
-        sessionStorage.setItem('fracturedetect:result', JSON.stringify(result));
+        sessionStorage.setItem('fracturedetect:result', JSON.stringify(results));
       } catch (e) {}
-      window.location.href = '/results';
+      setTimeout(function () { window.location.href = '/results'; }, 600);
+    }
+
+    function cancel() {
+      stopIndeterminate();
+      window.location.href = '/analyze';
+    }
+
+    function showOodModal() {
+      oodModal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+
+      if (oodToast) {
+        oodToast.classList.remove('hidden');
+        oodToast.classList.add('visible');
+        if (toastTimer) clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () {
+          oodToast.classList.remove('visible');
+          setTimeout(function () { oodToast.classList.add('hidden'); }, 300);
+        }, 10000);
+      }
+    }
+
+    function hideOodModal() {
+      oodModal.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    oodModal.addEventListener('click', function (e) {
+      if (e.target === oodModal) hideOodModal();
     });
+
+    btnOodBack.addEventListener('click', function () {
+      hideOodModal();
+      window.location.href = '/analyze';
+    });
+
+    btnOodRetry.addEventListener('click', function () {
+      hideOodModal();
+      doAnalysis();
+    });
+
+    function doAnalysis() {
+      hideError();
+      startIndeterminate();
+
+      runInference(imageData).then(complete).catch(function (err) {
+        showError(err.message || 'An unexpected error occurred during analysis.');
+      });
+    }
+
+    btnRetry.addEventListener('click', doAnalysis);
+    btnCancel.addEventListener('click', cancel);
+
+    doAnalysis();
   })();
 </script>
 
@@ -594,6 +706,158 @@ import Layout from '../layouts/Layout.astro';
     flex-shrink: 0;
     color: var(--color-neutral);
   }
+
+  .error-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 20px 22px;
+    background: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: var(--radius-md);
+    text-align: left;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .error-card.hidden {
+    display: none;
+  }
+
+  .error-card-icon {
+    flex-shrink: 0;
+    color: #ef4444;
+    margin-top: 2px;
+  }
+
+  .error-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+  }
+
+  .error-card-text {
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--color-text);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .error-card-actions {
+    display: flex;
+    gap: 10px;
+  }
+
+  .error-btn {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 8px 18px;
+    border-radius: var(--radius-sm);
+    border: none;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .error-btn-primary {
+    background: var(--color-primary);
+    color: white;
+  }
+
+  .error-btn-primary:hover {
+    background: #1d4ed8;
+  }
+
+  .error-btn-secondary {
+    background: var(--color-bg-subtle);
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-border);
+  }
+
+  .error-btn-secondary:hover {
+    background: var(--color-border);
+    color: var(--color-text);
+  }
+
+  /* ── OOD modal ── */
+  .ood-modal {
+    position: fixed; inset: 0; z-index: 10001;
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px;
+  }
+  .ood-modal.hidden { display: none; }
+
+  .ood-modal-backdrop {
+    position: absolute; inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 0;
+    cursor: pointer;
+  }
+
+  .ood-modal-card {
+    position: relative; z-index: 1;
+    width: 100%; max-width: 440px;
+    background: #0B1121;
+    border: 1px solid rgba(220, 38, 38, 0.25);
+    border-radius: 14px;
+    padding: 32px 28px 24px;
+    text-align: center;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+  }
+
+  .ood-modal-icon {
+    display: flex; align-items: center; justify-content: center;
+    width: 56px; height: 56px; margin: 0 auto 16px;
+    border-radius: 50%;
+    background: rgba(220, 38, 38, 0.12); color: #ef4444;
+  }
+
+  .ood-modal-title {
+    font-family: var(--font-heading); font-weight: 600; font-size: 20px;
+    color: #DC2626; margin: 0 0 10px;
+  }
+
+  .ood-modal-text {
+    font-family: var(--font-body); font-size: 14px; line-height: 1.6;
+    color: var(--color-text-muted); margin: 0 0 24px;
+  }
+
+  .ood-modal-actions { display: flex; gap: 10px; justify-content: center; }
+
+  .ood-modal-btn {
+    font-family: var(--font-body); font-size: 14px; font-weight: 500;
+    padding: 10px 24px; border-radius: var(--radius-md);
+    border: none; cursor: pointer; transition: all 0.15s;
+  }
+
+  .ood-modal-btn-back {
+    background: var(--color-bg-subtle); color: var(--color-text-muted);
+    border: 1px solid var(--color-border);
+  }
+  .ood-modal-btn-back:hover { background: var(--color-border); color: var(--color-text); }
+
+  .ood-modal-btn-retry {
+    background: #DC2626; color: white;
+  }
+  .ood-modal-btn-retry:hover { background: #B91C1C; }
+
+  /* ── OOD toast ── */
+  .ood-toast {
+    position: fixed; top: 24px; left: 50%; transform: translateX(-50%);
+    z-index: 10002; display: flex; align-items: center; gap: 10px;
+    padding: 12px 22px; border-radius: var(--radius-md);
+    background: #0B1121; color: #fca5a5;
+    border: 1px solid rgba(220, 38, 38, 0.3);
+    font-family: var(--font-body); font-size: 13px; font-weight: 500;
+    line-height: 1.4; max-width: 480px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    opacity: 0; transition: opacity 0.3s ease;
+  }
+  .ood-toast.hidden { display: none; }
+  .ood-toast.visible { opacity: 1; }
+  .ood-toast svg { flex-shrink: 0; color: #ef4444; }
 
   @media (max-width: 480px) {
     .processing-page {

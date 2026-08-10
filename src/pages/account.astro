@@ -426,20 +426,20 @@ import Sidebar from '../components/Sidebar.astro';
           </div>
           <div class="modal-body">
             <dl class="mi-list">
-              <div class="mi-row"><dt>Model Name</dt><dd>FractureDetect v2.1.0</dd></div>
-              <div class="mi-row"><dt>Architecture</dt><dd>Custom CNN (ResNet-50 Backbone)</dd></div>
-              <div class="mi-row"><dt>Input Size</dt><dd>512 × 512 pixels (grayscale)</dd></div>
-              <div class="mi-row"><dt>Training Dataset</dt><dd>MURA + custom (50,000+ radiographs)</dd></div>
-              <div class="mi-row"><dt>Anatomical Sites</dt><dd>12 (wrist, hand, elbow, shoulder, hip, knee, ankle, foot, spine, chest, skull, pelvis)</dd></div>
-              <div class="mi-row"><dt>Detection Accuracy</dt><dd>98.5% (AUROC: 0.987)</dd></div>
-              <div class="mi-row"><dt>Sensitivity</dt><dd>97.8%</dd></div>
-              <div class="mi-row"><dt>Specificity</dt><dd>96.3%</dd></div>
+              <div class="mi-row"><dt>Model Name</dt><dd>FracNet v3</dd></div>
+              <div class="mi-row"><dt>Architecture</dt><dd>Attention U-Net / ResNet-34 encoder</dd></div>
+              <div class="mi-row"><dt>Input Size</dt><dd>512 × 512 pixels</dd></div>
+              <div class="mi-row"><dt>Training Dataset</dt><dd>MURA + custom radiograph dataset</dd></div>
+              <div class="mi-row"><dt>Anatomical Sites</dt><dd>4 — hand, leg, hip, shoulder</dd></div>
+              <div class="mi-row"><dt>AUROC</dt><dd>0.967</dd></div>
+              <div class="mi-row"><dt>Sensitivity</dt><dd>64.0%</dd></div>
+              <div class="mi-row"><dt>Specificity</dt><dd>95.5%</dd></div>
               <div class="mi-row"><dt>Inference Time</dt><dd>&lt; 500ms on GPU / ~3s on CPU</dd></div>
-              <div class="mi-row"><dt>Model Size</dt><dd>94 MB (ONNX quantized)</dd></div>
-              <div class="mi-row"><dt>Framework</dt><dd>PyTorch 2.1 + ONNX Runtime</dd></div>
-              <div class="mi-row"><dt>Last Updated</dt><dd>June 2026</dd></div>
-              <div class="mi-row"><dt>Regulatory Status</dt><dd>Research use only — FDA 510(k) pending</dd></div>
-              <div class="mi-row"><dt>Heatmap Method</dt><dd>Grad-CAM++ with guided backpropagation</dd></div>
+              <div class="mi-row"><dt>Model Size</dt><dd>101 MB</dd></div>
+              <div class="mi-row"><dt>Framework</dt><dd>PyTorch + FastAPI</dd></div>
+              <div class="mi-row"><dt>Last Updated</dt><dd>August 2026</dd></div>
+              <div class="mi-row"><dt>Heatmap Method</dt><dd>Segmentation-based probabilistic</dd></div>
+              <div class="mi-row"><dt>Regulatory Status</dt><dd>Research use only</dd></div>
             </dl>
             <div class="mi-disclaimer">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
@@ -483,6 +483,7 @@ import Sidebar from '../components/Sidebar.astro';
       if (titleEl) titleEl.textContent = 'Analysis History';
       loadHistoryList();
     }
+    if (viewId === 'reports-view') loadReportsList();
   }
 
   async function init() {
@@ -963,7 +964,7 @@ import Sidebar from '../components/Sidebar.astro';
     list.innerHTML = analyses.map(function (a) {
       var date = new Date(a.created_at).toLocaleString();
       var isFracture = a.prediction === 'fracture';
-      var label = isFracture ? 'Fracture' : 'Normal';
+      var label = isFracture ? 'Fracture' : 'Healthy';
       var badgeClass = isFracture ? 'hc-badge-danger' : 'hc-badge-safe';
       var badgeIcon = isFracture
         ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>'
@@ -993,6 +994,88 @@ import Sidebar from '../components/Sidebar.astro';
         '</div>' +
       '</div>';
     }).join('');
+  }
+
+  async function loadReportsList() {
+    var { getAnalytics } = await import('../scripts/api.js');
+    var analyses = await getAnalytics();
+    var list = document.getElementById('reports-list');
+    var empty = document.getElementById('reports-empty');
+    if (!analyses || !analyses.length) {
+      list.innerHTML = '';
+      empty.classList.remove('hidden');
+      return;
+    }
+    empty.classList.add('hidden');
+
+    var total = analyses.length;
+    var fractures = analyses.filter(function (a) { return a.prediction === 'fracture'; }).length;
+    var rate = ((fractures / total) * 100).toFixed(1);
+    var avgConf = (analyses.reduce(function (s, a) { return s + a.confidence; }, 0) / total * 100).toFixed(1);
+    var patientIds = new Set();
+    analyses.forEach(function (a) { if (a.patient_id) patientIds.add(a.patient_id); });
+    var uniquePatients = patientIds.size;
+
+    var today = new Date();
+    var daily = {};
+    for (var d = 6; d >= 0; d--) {
+      var dt = new Date(today);
+      dt.setDate(dt.getDate() - d);
+      var key = dt.toLocaleDateString('en-US', { weekday: 'short' });
+      daily[key] = 0;
+    }
+    analyses.forEach(function (a) {
+      var d = new Date(a.created_at);
+      var dayKey = d.toLocaleDateString('en-US', { weekday: 'short' });
+      if (daily.hasOwnProperty(dayKey)) daily[dayKey]++;
+    });
+
+    var confBuckets = [0, 0, 0, 0];
+    var confLabels = ['Low (<50%)', 'Medium (50–75%)', 'High (75–90%)', 'Very High (90%+)'];
+    analyses.forEach(function (a) {
+      var c = a.confidence * 100;
+      if (c < 50) confBuckets[0]++;
+      else if (c < 75) confBuckets[1]++;
+      else if (c < 90) confBuckets[2]++;
+      else confBuckets[3]++;
+    });
+
+    var dailyKeys = Object.keys(daily);
+    var maxDay = Math.max.apply(null, dailyKeys.map(function (k) { return daily[k]; })) || 1;
+    var maxConf = Math.max.apply(null, confBuckets) || 1;
+
+    var dayBars = dailyKeys.map(function (k) {
+      var count = daily[k];
+      var w = Math.round((count / maxDay) * 100);
+      return '<div class="rs-bar-row"><span class="rs-bar-label">' + k + '</span><div class="rs-bar-track"><div class="rs-bar-fill" style="width:' + w + '%"></div></div><span class="rs-bar-count">' + count + '</span></div>';
+    }).join('');
+
+    var fractPct = rate;
+    var normPct = (100 - parseFloat(rate)).toFixed(1);
+    var donutHtml = '<div class="rs-donut">' +
+      '<svg viewBox="0 0 120 120"><circle class="rs-donut-bg" cx="60" cy="60" r="50"/><circle class="rs-donut-fill" cx="60" cy="60" r="50" stroke="var(--color-danger)" stroke-dasharray="' + (fractPct * 3.14).toFixed(0) + ' 314.16"/></svg>' +
+      '<div class="rs-donut-legend">' +
+        '<div class="rs-donut-item"><span class="rs-donut-dot rs-donut-dot-danger"></span><span>Fracture ' + fractPct + '%</span></div>' +
+        '<div class="rs-donut-item"><span class="rs-donut-dot rs-donut-dot-safe"></span><span>Normal ' + normPct + '%</span></div>' +
+      '</div></div>';
+
+    var confBars = confBuckets.map(function (c, i) {
+      var w = Math.round((c / maxConf) * 100);
+      return '<div class="rs-conf-row"><span class="rs-conf-label">' + confLabels[i] + '</span><div class="rs-conf-track"><div class="rs-conf-fill" style="width:' + w + '%"></div></div><span class="rs-conf-count">' + c + '</span></div>';
+    }).join('');
+
+    list.innerHTML =
+      '<div class="reports-stats-row">' +
+        '<div class="reports-stat-card"><div class="rs-stat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><div class="rs-stat-value">' + total + '</div><div class="rs-stat-label">Total Scans</div></div>' +
+        '<div class="reports-stat-card"><div class="rs-stat-icon rs-stat-icon-danger"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg></div><div class="rs-stat-value">' + rate + '%</div><div class="rs-stat-label">Fracture Rate</div></div>' +
+        '<div class="reports-stat-card"><div class="rs-stat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div class="rs-stat-value">' + avgConf + '%</div><div class="rs-stat-label">Avg Confidence</div></div>' +
+        '<div class="reports-stat-card"><div class="rs-stat-icon rs-stat-icon-safe"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div class="rs-stat-value">' + uniquePatients + '</div><div class="rs-stat-label">Patients Scanned</div></div>' +
+      '</div>' +
+      '<div class="reports-row-2">' +
+        '<div class="reports-section-card"><h3 class="rs-section-title">Scans per Day (last 7 days)</h3>' + dayBars + '</div>' +
+        '<div class="reports-section-card"><h3 class="rs-section-title">Prediction Breakdown</h3>' + donutHtml + '</div>' +
+      '</div>' +
+      '<div class="reports-section-card"><h3 class="rs-section-title">Confidence Distribution</h3>' + confBars + '</div>';
   }
 
   /* ── Analyze flow (dashboard) ── */
@@ -1381,7 +1464,7 @@ import Sidebar from '../components/Sidebar.astro';
   init();
 </script>
 
-<style>
+<style is:global>
   .hidden { display: none !important; }
 
   .dash-gate {
@@ -2067,35 +2150,99 @@ import Sidebar from '../components/Sidebar.astro';
 
   .history-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
   .history-card {
-    background: var(--color-surface); border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg); padding: 20px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    background: linear-gradient(180deg, var(--color-surface) 0%, var(--color-bg-subtle) 100%);
+    border: 1px solid var(--color-border);
+    border-radius: 14px; padding: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
     display: flex; flex-direction: column; gap: 14px;
-    transition: all 0.15s;
+    transition: all 0.2s cubic-bezier(0.4,0,0.2,1);
+    position: relative;
   }
-  .history-card:hover { border-color: var(--color-primary); box-shadow: 0 3px 12px rgba(37,99,235,0.12); transform: translateY(-2px); }
-  .hc-badge { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-body); font-weight: 600; font-size: 12px; padding: 5px 10px; border-radius: var(--radius-md); align-self: flex-start; }
+  .history-card::before {
+    content: ''; position: absolute; top: 0; left: 0; bottom: 0;
+    width: 3px; border-radius: 14px 0 0 14px;
+    background: var(--color-border);
+    transition: all 0.2s ease;
+  }
+  .history-card:hover {
+    border-color: var(--color-primary);
+    box-shadow: 0 6px 20px rgba(37,99,235,0.10);
+    transform: translateY(-2px);
+  }
+  .history-card:hover::before { width: 4px; background: var(--color-primary); }
+  .hc-badge { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-body); font-weight: 600; font-size: 11px; padding: 5px 12px; border-radius: 100px; align-self: flex-start; letter-spacing: 0.01em; }
   .hc-badge svg { width: 14px; height: 14px; }
-  .hc-badge-danger { color: var(--color-danger); background: rgba(220,38,38,0.1); }
-  .hc-badge-safe { color: var(--color-success); background: rgba(22,163,74,0.1); }
+  .hc-badge-danger { color: #fff; background: linear-gradient(135deg, #dc2626, #b91c1c); box-shadow: 0 1px 3px rgba(220,38,38,0.25); }
+  .hc-badge-safe   { color: #fff; background: linear-gradient(135deg, #16a34a, #15803d); box-shadow: 0 1px 3px rgba(22,163,74,0.25); }
   .hc-body { flex: 1; }
-  .hc-conf { font-family: var(--font-heading); font-weight: 700; font-size: 28px; color: var(--color-text); line-height: 1.1; }
-  .hc-label { font-family: var(--font-body); font-size: 11px; color: var(--color-text-muted); margin-bottom: 10px; }
+  .hc-conf { font-family: var(--font-heading); font-weight: 700; font-size: 32px; color: var(--color-text); line-height: 1; letter-spacing: -0.02em; }
+  .hc-label { font-family: var(--font-body); font-size: 11px; color: var(--color-text-muted); margin-bottom: 12px; }
   .hc-meta { display: flex; align-items: center; gap: 5px; font-family: var(--font-body); font-size: 11px; color: var(--color-text-muted); }
   .hc-meta svg { flex-shrink: 0; color: var(--color-neutral); }
   .hc-patient { display: flex; align-items: center; gap: 5px; font-family: var(--font-body); font-size: 11px; font-weight: 600; color: var(--color-text); margin-bottom: 6px; overflow: hidden; }
   .hc-patient svg { flex-shrink: 0; color: var(--color-primary); }
   .hc-patient span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .hc-view-btn { display: flex; align-items: center; justify-content: space-between; gap: 6px; font-family: var(--font-body); font-weight: 500; font-size: 12px; color: var(--color-primary); text-decoration: none; padding: 8px 12px; border-radius: var(--radius-md); background: rgba(37,99,235,0.06); transition: all 0.15s; }
+  .hc-view-btn { display: flex; align-items: center; justify-content: space-between; gap: 6px; font-family: var(--font-body); font-weight: 500; font-size: 12px; color: var(--color-primary); text-decoration: none; padding: 8px 14px; border-radius: var(--radius-md); background: rgba(37,99,235,0.06); transition: all 0.15s; }
   .hc-view-btn:hover { background: rgba(37,99,235,0.14); }
   .hc-view-btn svg { flex-shrink: 0; }
-  .hc-actions { display: flex; align-items: center; gap: 6px; margin-top: 10px; }
+  .hc-actions { display: flex; align-items: center; gap: 6px; padding-top: 12px; border-top: 1px solid var(--color-border); }
   .hc-redo-btn { display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: var(--radius-md); border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text-muted); cursor: pointer; transition: all 0.15s; }
   .hc-redo-btn:hover { border-color: var(--color-primary); color: var(--color-primary); background: rgba(37,99,235,0.06); }
   .hc-redo-btn:disabled { opacity: 0.4; pointer-events: none; }
   .pc-redo-btn { display: flex; align-items: center; gap: 5px; width: 100%; font-family: var(--font-body); font-size: 11px; font-weight: 500; color: var(--color-primary); background: rgba(37,99,235,0.06); border: none; border-top: 1px solid var(--color-border); border-radius: 0 0 var(--radius-md) var(--radius-md); padding: 8px 12px; cursor: pointer; transition: all 0.15s; margin: 0; }
   .pc-redo-btn:hover { background: rgba(37,99,235,0.14); }
   .pc-redo-btn:disabled { opacity: 0.4; pointer-events: none; }
+
+  /* ── Reports ── */
+  .reports-stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
+  .reports-stat-card {
+    background: linear-gradient(180deg, var(--color-surface) 0%, var(--color-bg-subtle) 100%);
+    border: 1px solid var(--color-border); border-radius: 14px;
+    padding: 18px 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    display: flex; flex-direction: column; align-items: center; text-align: center; gap: 6px;
+  }
+  .rs-stat-icon { width: 40px; height: 40px; border-radius: 10px; background: rgba(37,99,235,0.08); display: flex; align-items: center; justify-content: center; color: var(--color-primary); margin-bottom: 4px; }
+  .rs-stat-icon-danger { background: rgba(220,38,38,0.08); color: var(--color-danger); }
+  .rs-stat-icon-safe { background: rgba(22,163,74,0.08); color: var(--color-success); }
+  .rs-stat-value { font-family: var(--font-heading); font-weight: 700; font-size: 24px; color: var(--color-text); line-height: 1; letter-spacing: -0.02em; }
+  .rs-stat-label { font-family: var(--font-body); font-size: 11px; color: var(--color-text-muted); font-weight: 500; }
+  .reports-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+  .reports-section-card {
+    background: linear-gradient(180deg, var(--color-surface) 0%, var(--color-bg-subtle) 100%);
+    border: 1px solid var(--color-border); border-radius: 14px;
+    padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .rs-section-title { font-family: var(--font-heading); font-weight: 600; font-size: 13px; color: var(--color-text); margin: 0 0 16px; letter-spacing: -0.01em; }
+
+  /* Day bar chart */
+  .rs-bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .rs-bar-row:last-child { margin-bottom: 0; }
+  .rs-bar-label { font-family: var(--font-body); font-size: 11px; font-weight: 500; color: var(--color-text-muted); width: 32px; text-align: right; flex-shrink: 0; }
+  .rs-bar-track { flex: 1; height: 8px; background: var(--color-bg-subtle); border-radius: 4px; overflow: hidden; }
+  .rs-bar-fill { height: 100%; background: var(--color-primary); border-radius: 4px; min-width: 2px; transition: width 0.5s ease; }
+  .rs-bar-count { font-family: var(--font-body); font-size: 11px; font-weight: 600; color: var(--color-text); width: 24px; flex-shrink: 0; }
+
+  /* Donut ring */
+  .rs-donut { display: flex; align-items: center; gap: 16px; }
+  .rs-donut svg { width: 80px; height: 80px; flex-shrink: 0; transform: rotate(-90deg); }
+  .rs-donut-bg { fill: none; stroke: var(--color-bg-subtle); stroke-width: 10; }
+  .rs-donut-fill { fill: none; stroke-width: 10; stroke-linecap: round; }
+  .rs-donut-legend { display: flex; flex-direction: column; gap: 6px; }
+  .rs-donut-item { display: flex; align-items: center; gap: 6px; font-family: var(--font-body); font-size: 12px; color: var(--color-text); }
+  .rs-donut-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .rs-donut-dot-danger { background: var(--color-danger); }
+  .rs-donut-dot-safe   { background: var(--color-success); }
+
+  /* Confidence bars */
+  .rs-conf-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .rs-conf-row:last-child { margin-bottom: 0; }
+  .rs-conf-label { font-family: var(--font-body); font-size: 11px; font-weight: 500; color: var(--color-text-muted); width: 120px; flex-shrink: 0; }
+  .rs-conf-track { flex: 1; height: 10px; background: var(--color-bg-subtle); border-radius: 5px; overflow: hidden; }
+  .rs-conf-fill { height: 100%; background: linear-gradient(90deg, var(--color-primary), #a855f7); border-radius: 5px; min-width: 2px; transition: width 0.5s ease; }
+  .rs-conf-count { font-family: var(--font-body); font-size: 11px; font-weight: 600; color: var(--color-text); width: 24px; flex-shrink: 0; }
+
+  @media (max-width: 1200px) { .reports-stats-row { grid-template-columns: repeat(2, 1fr); } .reports-row-2 { grid-template-columns: 1fr; } }
+  @media (max-width: 768px)  { .reports-stats-row { grid-template-columns: 1fr; } }
 
   /* ── Settings ── */
   .settings-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 20px 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.03); display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }

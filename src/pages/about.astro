@@ -65,23 +65,23 @@ import Footer from '../components/Footer.astro';
       <div class="tech-grid">
         <div class="tech-item">
           <div class="tech-num">01</div>
-          <h3>Convolutional Neural Networks</h3>
-          <p>Custom CNN architecture optimized for bone structure recognition and fracture localization.</p>
+          <h3>Dual-Task Attention U-Net</h3>
+          <p>Custom ResNet34-encoder architecture performing simultaneous fracture classification and pixel-level segmentation from a single forward pass.</p>
         </div>
         <div class="tech-item">
           <div class="tech-num">02</div>
-          <h3>Transfer Learning</h3>
-          <p>Pre-trained on ImageNet, fine-tuned on 50,000+ annotated radiographs from multiple institutions.</p>
+          <h3>Stop-Gradient Training</h3>
+          <p>The classification head reads the shared encoder without sending gradient back into it, so segmentation loss alone shapes the model's visual understanding.</p>
         </div>
         <div class="tech-item">
           <div class="tech-num">03</div>
-          <h3>Heatmap Visualization</h3>
-          <p>Grad-CAM++ overlays highlight suspicious regions with anatomical context.</p>
+          <h3>Intrinsic Localization</h3>
+          <p>Fracture regions are outlined directly from the model's own segmentation output — not a post-hoc approximation like Grad-CAM, but the model's actual reasoning made visible.</p>
         </div>
         <div class="tech-item">
           <div class="tech-num">04</div>
-          <h3>Confidence Calibration</h3>
-          <p>Temperature scaling ensures predicted probabilities reflect true clinical likelihood.</p>
+          <h3>Calibrated Confidence</h3>
+          <p>Isotonic regression calibration ensures predicted confidence reflects real-world accuracy,  paired with independent uncertainty signals.</p>
         </div>
       </div>
     </section>

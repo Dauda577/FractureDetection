@@ -416,7 +416,7 @@ import Footer from "../components/Footer.astro";
             </div>
             <div class="patient-row">
               <div class="patient-field">
-                <label class="patient-label" for="patient-age">Age</label>
+                <label class="patient-label" for="patient-age">Age <span class="required">*</span></label>
                 <input
                   class="patient-input"
                   id="patient-age"
@@ -425,14 +425,16 @@ import Footer from "../components/Footer.astro";
                   min="0"
                   max="150"
                   placeholder="e.g. 45"
+                  required
                 />
               </div>
               <div class="patient-field">
-                <label class="patient-label" for="patient-gender">Gender</label>
+                <label class="patient-label" for="patient-gender">Gender <span class="required">*</span></label>
                 <select
                   class="patient-input patient-select"
                   id="patient-gender"
                   name="gender"
+                  required
                 >
                   <option value="">Select</option>
                   <option value="male">Male</option>
@@ -443,7 +445,7 @@ import Footer from "../components/Footer.astro";
             </div>
             <div class="patient-field">
               <label class="patient-label" for="patient-mrn"
-                >Medical Record ID</label
+                >Medical Record ID <span class="required">*</span></label
               >
               <input
                 class="patient-input"
@@ -451,6 +453,7 @@ import Footer from "../components/Footer.astro";
                 name="mrn"
                 type="text"
                 placeholder="e.g. MRN-12345"
+                required
               />
             </div>
             <div class="patient-field">
@@ -1073,9 +1076,14 @@ import Footer from "../components/Footer.astro";
       var mrn = document.getElementById("patient-mrn").value.trim() || null;
       var notes = document.getElementById("patient-notes").value.trim() || null;
 
-      if (!name) {
+      if (!name || !age || !gender || !mrn) {
+        var missing = [];
+        if (!name) missing.push("Full Name");
+        if (!age) missing.push("Age");
+        if (!gender) missing.push("Gender");
+        if (!mrn) missing.push("Medical Record ID");
         if (patientError) {
-          patientError.textContent = "Please enter the patient name.";
+          patientError.textContent = "Please fill in all required fields: " + missing.join(", ") + ".";
           patientError.classList.add("visible");
         }
         if (patientContinue) patientContinue.disabled = false;
@@ -1148,6 +1156,50 @@ import Footer from "../components/Footer.astro";
 
   function isValidFile(file) {
     return ALLOWED_TYPES.includes(file.type) && file.size <= MAX_SIZE;
+  }
+
+  function isGrayscaleImage(file) {
+    return new Promise(function (resolve) {
+      var img = new Image();
+      var objectUrl = URL.createObjectURL(file);
+      img.onload = function () {
+        URL.revokeObjectURL(objectUrl);
+        var canvas = document.createElement('canvas');
+        var ctx = canvas.getContext('2d');
+        var sampleStep = 4;
+        var w = Math.min(img.naturalWidth, 512);
+        var h = Math.min(img.naturalHeight, 512);
+        canvas.width = w;
+        canvas.height = h;
+        ctx.drawImage(img, 0, 0, w, h);
+        var imageData = ctx.getImageData(0, 0, w, h);
+        var pixels = imageData.data;
+        var total = 0;
+        var grayscale = 0;
+        var pixelThreshold = 50;
+        var sumR = 0, sumG = 0, sumB = 0;
+        for (var i = 0; i < pixels.length; i += 4 * sampleStep) {
+          total++;
+          var r = pixels[i];
+          var g = pixels[i + 1];
+          var b = pixels[i + 2];
+          sumR += r; sumG += g; sumB += b;
+          if (Math.abs(r - g) < pixelThreshold && Math.abs(r - b) < pixelThreshold && Math.abs(g - b) < pixelThreshold) {
+            grayscale++;
+          }
+        }
+        if (total === 0) { resolve(false); return; }
+        var pixelRatio = grayscale / total;
+        var avgR = sumR / total, avgG = sumG / total, avgB = sumB / total;
+        var globalGray = Math.abs(avgR - avgG) < 60 && Math.abs(avgR - avgB) < 60 && Math.abs(avgG - avgB) < 60;
+        resolve(pixelRatio >= 0.50 || globalGray);
+      };
+      img.onerror = function () {
+        URL.revokeObjectURL(objectUrl);
+        resolve(false);
+      };
+      img.src = objectUrl;
+    });
   }
 
   function showError(message) {
@@ -1227,32 +1279,55 @@ import Footer from "../components/Footer.astro";
   }
 
   function addFiles(files) {
-    var added = 0;
-    var errors = [];
+    var initialErrors = [];
+    var validFiles = [];
     for (var i = 0; i < files.length; i++) {
       var file = files[i];
       if (!file) continue;
       if (!isValidFile(file)) {
-        errors.push('"' + file.name + '" - must be PNG or JPEG under 10MB.');
+        initialErrors.push('"' + file.name + '" - must be PNG or JPEG under 10MB.');
         continue;
       }
-      fileQueue.push(file);
-      added++;
+      validFiles.push(file);
     }
 
-    if (errors.length > 0) {
-      showError(errors.join(" "));
-    } else {
-      clearError();
+    if (validFiles.length === 0) {
+      if (initialErrors.length > 0) showError(initialErrors.join(" "));
+      return;
     }
 
-    if (added > 0) {
-      if (selectedIndex < 0) {
-        selectFile(0);
+    var grayscaleChecks = validFiles.map(function (file) {
+      return isGrayscaleImage(file).then(function (isGray) {
+        return { file: file, isGray: isGray, name: file.name };
+      });
+    });
+
+    Promise.all(grayscaleChecks).then(function (results) {
+      var errors = initialErrors.slice();
+      var added = 0;
+      results.forEach(function (r) {
+        if (!r.isGray) {
+          errors.push('Invalid image: Please upload a valid bone X-ray image.');
+          return;
+        }
+        fileQueue.push(r.file);
+        added++;
+      });
+
+      if (errors.length > 0) {
+        showError(errors.join(" "));
       } else {
-        renderBatchStrip();
+        clearError();
       }
-    }
+
+      if (added > 0) {
+        if (selectedIndex < 0) {
+          selectFile(0);
+        } else {
+          renderBatchStrip();
+        }
+      }
+    });
   }
 
   function removeCurrentFile() {
@@ -1305,6 +1380,12 @@ import Footer from "../components/Footer.astro";
 
   function storeAndNavigate() {
     if (selectedIndex < 0 || selectedIndex >= fileQueue.length) return;
+
+    if (!sessionStorage.getItem('fracturedetect:patient_id')) {
+      showError("Patient information is required before analysis. Please fill in patient details first.");
+      return;
+    }
+
     var file = fileQueue[selectedIndex];
 
     var reader = new FileReader();
