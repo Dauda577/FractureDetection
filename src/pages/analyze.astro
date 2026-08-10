@@ -1150,6 +1150,49 @@ import Footer from "../components/Footer.astro";
     return ALLOWED_TYPES.includes(file.type) && file.size <= MAX_SIZE;
   }
 
+  function isGrayscaleImage(file) {
+    return new Promise(function (resolve) {
+      var img = new Image();
+      var objectUrl = URL.createObjectURL(file);
+      img.onload = function () {
+        URL.revokeObjectURL(objectUrl);
+        var canvas = document.createElement('canvas');
+        var ctx = canvas.getContext('2d');
+        var sampleStep = 4;
+        var w = Math.min(img.naturalWidth, 512);
+        var h = Math.min(img.naturalHeight, 512);
+        canvas.width = w;
+        canvas.height = h;
+        ctx.drawImage(img, 0, 0, w, h);
+        var imageData = ctx.getImageData(0, 0, w, h);
+        var pixels = imageData.data;
+        var total = 0;
+        var grayscale = 0;
+        var pixelThreshold = 15;
+        var sumR = 0, sumG = 0, sumB = 0;
+        for (var i = 0; i < pixels.length; i += 4 * sampleStep) {
+          total++;
+          var r = pixels[i];
+          var g = pixels[i + 1];
+          var b = pixels[i + 2];
+          sumR += r; sumG += g; sumB += b;
+          if (Math.abs(r - g) < pixelThreshold && Math.abs(r - b) < pixelThreshold && Math.abs(g - b) < pixelThreshold) {
+            grayscale++;
+          }
+        }
+        if (total === 0) { resolve(false); return; }
+        var pixelRatio = grayscale / total;
+        var avgR = sumR / total, avgG = sumG / total, avgB = sumB / total;
+        var globalGray = Math.abs(avgR - avgG) < 25 && Math.abs(avgR - avgB) < 25 && Math.abs(avgG - avgB) < 25;
+        resolve(pixelRatio >= 0.90 || globalGray);
+      };
+      img.onerror = function () {
+        URL.revokeObjectURL(objectUrl);
+        resolve(false);
+      };
+    });
+  }
+
   function showError(message) {
     if (errorMsg) {
       errorMsg.textContent = message;
@@ -1227,7 +1270,7 @@ import Footer from "../components/Footer.astro";
   }
 
   function addFiles(files) {
-    var added = 0;
+    var validFiles = [];
     var errors = [];
     for (var i = 0; i < files.length; i++) {
       var file = files[i];
@@ -1236,23 +1279,45 @@ import Footer from "../components/Footer.astro";
         errors.push('"' + file.name + '" - must be PNG or JPEG under 10MB.');
         continue;
       }
-      fileQueue.push(file);
-      added++;
+      validFiles.push(file);
     }
 
-    if (errors.length > 0) {
-      showError(errors.join(" "));
-    } else {
-      clearError();
+    if (validFiles.length === 0) {
+      if (errors.length > 0) showError(errors.join(' '));
+      return;
     }
 
-    if (added > 0) {
-      if (selectedIndex < 0) {
-        selectFile(0);
-      } else {
-        renderBatchStrip();
+    var grayscaleChecks = validFiles.map(function (file) {
+      return isGrayscaleImage(file).then(function (isGray) {
+        return { file: file, isGray: isGray };
+      });
+    });
+    Promise.all(grayscaleChecks).then(function (results) {
+      var added = 0;
+      for (var j = 0; j < results.length; j++) {
+        var r = results[j];
+        if (!r.isGray) {
+          errors.push('"' + r.file.name + '" Invalid image: Please upload a valid bone X-ray image.');
+        } else {
+          fileQueue.push(r.file);
+          added++;
+        }
       }
-    }
+
+      if (errors.length > 0) {
+        showError(errors.join(' '));
+      } else {
+        clearError();
+      }
+
+      if (added > 0) {
+        if (selectedIndex < 0) {
+          selectFile(0);
+        } else {
+          renderBatchStrip();
+        }
+      }
+    });
   }
 
   function removeCurrentFile() {
