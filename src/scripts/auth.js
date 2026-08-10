@@ -64,8 +64,8 @@ export async function isSignedIn() {
 
 export async function waitForAuth() {
   const supabase = await getSupabase()
-  const { data: { session } } = await supabase.auth.getSession()
-  return !!session
+  const { data: { user }, error } = await supabase.auth.getUser()
+  return !!user && !error
 }
 
 export async function signInWithGoogle() {
