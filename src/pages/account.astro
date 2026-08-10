@@ -59,7 +59,7 @@ import Sidebar from '../components/Sidebar.astro';
                       <button class="notif-clear-btn" id="btn-notif-clear">Clear all</button>
                     </div>
                     <div class="notif-list" id="notif-list">
-                      <div class="notif-empty">Loading...</div>
+                      <div class="notif-empty"><div class="notif-spinner"></div><span>Loading notifications&hellip;</span></div>
                     </div>
                   </div>
                   <div class="top-avatar" id="top-avatar">
@@ -462,7 +462,7 @@ import Sidebar from '../components/Sidebar.astro';
 
 <script type="module">
   import { isSignedIn, getUser, logout, waitForAuth } from '../scripts/auth.js';
-  import { savePatient, getPatient, getPatients } from '../scripts/patients.js';
+  import { savePatient, getPatient, getPatients, checkMrnUnique } from '../scripts/patients.js';
 
   var gate = document.getElementById('dash-gate');
   var dashUi = document.getElementById('dash-ui');
@@ -1172,6 +1172,18 @@ import Sidebar from '../components/Sidebar.astro';
       if (dashPatientError) dashPatientError.classList.remove('visible');
       if (dashPatientContinue) dashPatientContinue.textContent = 'Saving\u2026';
 
+      if (mrn) {
+        var mrnUnique = await checkMrnUnique(mrn);
+        if (!mrnUnique) {
+          if (dashPatientError) { dashPatientError.textContent = 'This Medical Record ID is already in use.'; dashPatientError.classList.add('visible'); }
+          if (dashPatientContinue) {
+            dashPatientContinue.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6" /></svg> Continue to Upload';
+            dashPatientContinue.disabled = false;
+          }
+          return;
+        }
+      }
+
       var patientId = await savePatient(name, age, gender, mrn, notes);
       if (patientId) {
         try { sessionStorage.setItem('fracturedetect:patient_id', patientId); } catch (err) {}
@@ -1587,6 +1599,11 @@ import Sidebar from '../components/Sidebar.astro';
   .notif-text strong { font-weight: 600; }
   .notif-time { font-family: var(--font-body); font-size: 12px; color: var(--color-text-muted); margin-top: 4px; display: block; }
   .notif-empty { padding: 24px; text-align: center; font-family: var(--font-body); font-size: 13px; color: var(--color-text-muted); }
+  .notif-spinner {
+    width: 20px; height: 20px; margin: 0 auto 10px;
+    border: 2.5px solid var(--color-border); border-top-color: var(--color-primary);
+    border-radius: 50%; animation: dash-spin 0.6s linear infinite;
+  }
 
   /* ── Analyze flow (Dashboard) ── */
   #analysis-view { display: flex; flex-direction: column; flex: 1; min-height: 0; overflow-y: auto; }
@@ -2048,7 +2065,16 @@ import Sidebar from '../components/Sidebar.astro';
 
   .patients-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
   .skeleton-list { display: flex; flex-direction: column; gap: 10px; }
-  .skeleton-row { height: 68px; background: var(--color-bg-subtle); border-radius: var(--radius-lg); }
+  .skeleton-row {
+    height: 68px; border-radius: var(--radius-lg);
+    background: linear-gradient(90deg, var(--color-bg-subtle) 25%, var(--color-border) 50%, var(--color-bg-subtle) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s ease-in-out infinite;
+  }
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
 
   .empty-state { display: flex; flex-direction: column; align-items: center; padding: 60px 20px; text-align: center; }
   .empty-state svg { color: var(--color-neutral); opacity: 0.3; margin-bottom: 16px; }

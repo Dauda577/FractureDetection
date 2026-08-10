@@ -882,7 +882,7 @@ import Footer from "../components/Footer.astro";
 
 <script type="module">
   import { isSignedIn, getUser, waitForAuth } from "../scripts/auth.js";
-  import { savePatient, getPatient, getPatients } from "../scripts/patients.js";
+  import { savePatient, getPatient, getPatients, checkMrnUnique } from "../scripts/patients.js";
 
   var currentPatientId = sessionStorage.getItem("fracturedetect:patient_id");
 
@@ -1091,6 +1091,19 @@ import Footer from "../components/Footer.astro";
       }
 
       if (patientError) patientError.classList.remove("visible");
+
+      var mrnUnique = await checkMrnUnique(mrn);
+      if (!mrnUnique) {
+        if (patientError) {
+          patientError.textContent = "This Medical Record ID is already in use.";
+          patientError.classList.add("visible");
+        }
+        if (patientContinue) {
+          patientContinue.textContent = "Continue to Upload";
+          patientContinue.disabled = false;
+        }
+        return;
+      }
 
       if (patientContinue) patientContinue.textContent = "Saving\u2026";
       var patientId = await savePatient(name, age, gender, mrn, notes);

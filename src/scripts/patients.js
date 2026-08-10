@@ -62,3 +62,21 @@ export async function deletePatient(id) {
   const { error } = await supabase.from('patients').delete().eq('id', id)
   return !error
 }
+
+export async function checkMrnUnique(medicalRecordId, excludePatientId) {
+  if (!medicalRecordId) return true
+  const supabase = await getSupabase()
+  const { data: { session } } = await supabase.auth.getSession()
+  if (!session) return true
+
+  var query = supabase.from('patients')
+    .select('id')
+    .eq('user_id', session.user.id)
+    .eq('medical_record_id', medicalRecordId)
+
+  if (excludePatientId) query = query.neq('id', excludePatientId)
+
+  const { data, error } = await query
+  if (error) return true
+  return data.length === 0
+}
