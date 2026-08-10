@@ -23,6 +23,11 @@ import Footer from "../components/Footer.astro";
       </div>
     </div>
 
+    <div id="analyze-loading" class="analyze-loading">
+      <div class="analyze-loading-spinner"></div>
+      <p>Loading&hellip;</p>
+    </div>
+
     <div id="auth-demo" class="auth-demo hidden">
       <div class="demo-container">
         <div class="demo-left">
@@ -974,6 +979,8 @@ import Footer from "../components/Footer.astro";
   /* ── Main init ── */
   (async function () {
     var signedIn = await isSignedIn();
+    var loading = document.getElementById("analyze-loading");
+    if (loading) loading.classList.add("hidden");
     var demo = document.getElementById("auth-demo");
     var welcome = document.getElementById("welcome-signedin");
     var patientUi = document.getElementById("patient-ui");
@@ -1212,6 +1219,7 @@ import Footer from "../components/Footer.astro";
         URL.revokeObjectURL(objectUrl);
         resolve(false);
       };
+      img.src = objectUrl;
     });
   }
 
@@ -1604,6 +1612,29 @@ import Footer from "../components/Footer.astro";
 <style>
   .hidden {
     display: none !important;
+  }
+
+  .analyze-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 68px);
+    gap: 14px;
+    color: var(--color-text-muted);
+    font-family: var(--font-body);
+    font-size: 14px;
+  }
+  .analyze-loading-spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid var(--color-border);
+    border-top-color: var(--color-primary);
+    border-radius: 50%;
+    animation: analyze-spin 0.6s linear infinite;
+  }
+  @keyframes analyze-spin {
+    to { transform: rotate(360deg); }
   }
 
   .auth-gate {
