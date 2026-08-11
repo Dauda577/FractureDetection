@@ -9,6 +9,7 @@
   --color-text-muted: #475569;
   --color-border: #E2E8F0;
   --color-surface: #FFFFFF;
+  --color-surface-translucent: color-mix(in srgb, #FFFFFF 80%, transparent);
   --color-border-strong: #CBD5E1;
   --color-hover: rgba(15, 23, 42, 0.04);
   --color-sidebar: #0F172A;
@@ -36,6 +37,7 @@
   --color-text-muted: #94A3B8;
   --color-border: #334155;
   --color-surface: #1E293B;
+  --color-surface-translucent: color-mix(in srgb, #1E293B 80%, transparent);
   --color-border-strong: #475569;
   --color-hover: rgba(255, 255, 255, 0.06);
   --color-sidebar: #0B1121;

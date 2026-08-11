@@ -135,6 +135,7 @@ const { title, description, active, variant = "marketing" } = Astro.props;
   *,*::before,*::after{box-sizing:border-box}
   img{max-width:100%;display:block}
   body{margin:0;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;font-family:var(--font-body);color:var(--color-text);background:var(--color-surface);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overflow-x:hidden;overflow-wrap:break-word;word-break:break-word}
+  body::after{content:'';position:fixed;inset:0;z-index:-1;background:url('/images/app-bg.jpeg') center/cover no-repeat;opacity:.50;pointer-events:none}
   body>main{flex:1;display:flex;flex-direction:column;min-height:0}
 </style>
 

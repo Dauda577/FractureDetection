@@ -1306,7 +1306,7 @@ import Sidebar from '../components/Sidebar.astro';
       var file = files[i];
       if (!file) continue;
       if (!isValidFile(file)) {
-        errors.push('"' + file.name + '" - must be PNG or JPEG under 10MB.');
+        errors.push(' Invalid,Please Upload a valid bone X-rayimage.');
         continue;
       }
       fileQueue.push(file);
@@ -1510,7 +1510,7 @@ import Sidebar from '../components/Sidebar.astro';
   }
   .dash-gate-card {
     max-width: 460px; width: 100%;
-    background: var(--color-surface);
+    background: var(--color-surface-translucent);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
     padding: 48px 40px; text-align: center;
@@ -1537,17 +1537,17 @@ import Sidebar from '../components/Sidebar.astro';
   .btn-submit-alt {
     display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none;
     font-family: var(--font-body); font-weight: 600; font-size: 15px; color: var(--color-text);
-    background: var(--color-surface); padding: 12px 24px;
+    background: var(--color-surface-translucent); padding: 12px 24px;
     border: 1px solid var(--color-border); border-radius: var(--radius-md);
     cursor: pointer; transition: all 0.2s ease;
   }
   .btn-submit-alt:hover { border-color: var(--color-primary); color: var(--color-primary); transform: translateY(-1px); }
 
   /* ── Layout ── */
-  .dash-page { position: relative; background: var(--color-bg-subtle); min-height: calc(100vh - 68px); padding: 0; }
+  .dash-page { position: relative; min-height: calc(100vh - 68px); padding: 0; }
   .dash-layout { display: flex; align-items: center; justify-content: center; min-height: calc(100vh - 68px); padding: 24px; }
-  .dash-wrapper { display: flex; align-items: stretch; max-width: calc(100vw - 48px); width: 100%; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.04); height: calc(100vh - 116px); }
-  .dash-main { flex: 1; min-width: 0; background: var(--color-bg-subtle); display: flex; flex-direction: column; overflow: hidden; }
+  .dash-wrapper { display: flex; align-items: stretch; max-width: calc(100vw - 48px); width: 100%; background: var(--color-surface-translucent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--color-border); border-radius: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.04); height: calc(100vh - 116px); }
+  .dash-main { flex: 1; min-width: 0; background: transparent; display: flex; flex-direction: column; overflow: hidden; }
   .dash-content { flex: 1; padding: 20px 24px 24px; display: flex; flex-direction: column; overflow: hidden; }
 
   /* ── Top Bar ── */
@@ -1567,14 +1567,14 @@ import Sidebar from '../components/Sidebar.astro';
   .top-btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(37,99,235,0.35); }
   .top-icon-btn {
     position: relative; width: 38px; height: 38px; border-radius: 50%;
-    background: var(--color-surface); border: 1px solid var(--color-border);
+    background: var(--color-surface-translucent); border: 1px solid var(--color-border);
     display: flex; align-items: center; justify-content: center;
     color: var(--color-text-muted); cursor: pointer; transition: all 0.15s;
   }
   .top-icon-btn:hover { border-color: var(--color-primary); color: var(--color-primary); }
   .notif-dot {
     position: absolute; top: 8px; right: 8px; width: 7px; height: 7px;
-    border-radius: 50%; background: var(--color-danger); border: 2px solid var(--color-surface);
+    border-radius: 50%; background: var(--color-danger); border: 2px solid var(--color-surface-translucent);
   }
   .top-avatar {
     width: 38px; height: 38px; border-radius: 50%;
@@ -1586,7 +1586,7 @@ import Sidebar from '../components/Sidebar.astro';
 
   .notif-dropdown {
     position: absolute; top: calc(100% + 8px); right: 0; width: 360px; max-width: calc(100vw - 32px);
-    background: var(--color-surface); border: 1px solid var(--color-border);
+    background: var(--color-surface-translucent); border: 1px solid var(--color-border);
     border-radius: var(--radius-lg); box-shadow: 0 12px 40px rgba(0,0,0,0.12);
     z-index: 200; overflow: hidden;
   }
@@ -1637,7 +1637,7 @@ import Sidebar from '../components/Sidebar.astro';
     margin: 0 auto;
     padding: 48px 40px;
     text-align: center;
-    background: var(--color-surface);
+    background: var(--color-surface-translucent);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
@@ -1683,7 +1683,7 @@ import Sidebar from '../components/Sidebar.astro';
 
   /* ── Patient form card ── */
   .pform-card {
-    background: var(--color-surface);
+    background: var(--color-surface-translucent);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
     padding: 32px 36px;
@@ -1813,7 +1813,7 @@ import Sidebar from '../components/Sidebar.astro';
     cursor: pointer;
     transition: all 0.2s ease;
     outline: none;
-    background: var(--color-surface);
+    background: var(--color-surface-translucent);
     max-width: 100%;
     box-sizing: border-box;
   }
@@ -1914,7 +1914,7 @@ import Sidebar from '../components/Sidebar.astro';
   /* ── Batch Queue ── */
   .batch-queue {
     margin-top: 20px;
-    background: var(--color-surface);
+    background: var(--color-surface-translucent);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
     padding: 14px;
@@ -1975,7 +1975,7 @@ import Sidebar from '../components/Sidebar.astro';
     border-radius: var(--radius-lg);
     padding: 24px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
-    background: var(--color-surface);
+    background: var(--color-surface-translucent);
     min-width: 0;
   }
   .preview-card-header {
@@ -2065,7 +2065,7 @@ import Sidebar from '../components/Sidebar.astro';
   #patients-view, #history-view, #reports-view, #settings-view { display: flex; flex-direction: column; flex: 1; min-height: 0; overflow-y: auto; }
   .view-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
   .view-title { font-family: var(--font-heading); font-weight: 600; font-size: 20px; color: var(--color-text); margin: 0; flex: 1; }
-  .view-back-btn { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-surface); color: var(--color-text-muted); cursor: pointer; transition: all 0.15s; }
+  .view-back-btn { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-surface-translucent); color: var(--color-text-muted); cursor: pointer; transition: all 0.15s; }
   .view-back-btn:hover { border-color: var(--color-primary); color: var(--color-primary); }
 
   .patients-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
@@ -2098,7 +2098,7 @@ import Sidebar from '../components/Sidebar.astro';
     display: flex;
     flex-direction: column;
     gap: 10px;
-    background: var(--color-surface);
+    background: var(--color-surface-translucent);
     border: 1px solid var(--color-border);
     border-radius: 14px;
     padding: 16px;
@@ -2201,7 +2201,7 @@ import Sidebar from '../components/Sidebar.astro';
 
   .history-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
   .history-card {
-    background: linear-gradient(180deg, var(--color-surface) 0%, var(--color-bg-subtle) 100%);
+    background: linear-gradient(180deg, var(--color-surface-translucent) 0%, var(--color-bg-subtle) 100%);
     border: 1px solid var(--color-border);
     border-radius: 14px; padding: 20px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.04);
@@ -2237,7 +2237,7 @@ import Sidebar from '../components/Sidebar.astro';
   .hc-view-btn:hover { background: rgba(37,99,235,0.14); }
   .hc-view-btn svg { flex-shrink: 0; }
   .hc-actions { display: flex; align-items: center; gap: 6px; padding-top: 12px; border-top: 1px solid var(--color-border); }
-  .hc-redo-btn { display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: var(--radius-md); border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text-muted); cursor: pointer; transition: all 0.15s; }
+  .hc-redo-btn { display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: var(--radius-md); border: 1px solid var(--color-border); background: var(--color-surface-translucent); color: var(--color-text-muted); cursor: pointer; transition: all 0.15s; }
   .hc-redo-btn:hover { border-color: var(--color-primary); color: var(--color-primary); background: rgba(37,99,235,0.06); }
   .hc-redo-btn:disabled { opacity: 0.4; pointer-events: none; }
   .pc-redo-btn { display: flex; align-items: center; gap: 5px; width: 100%; font-family: var(--font-body); font-size: 11px; font-weight: 500; color: var(--color-primary); background: rgba(37,99,235,0.06); border: none; border-top: 1px solid var(--color-border); border-radius: 0 0 var(--radius-md) var(--radius-md); padding: 8px 12px; cursor: pointer; transition: all 0.15s; margin: 0; }
@@ -2247,7 +2247,7 @@ import Sidebar from '../components/Sidebar.astro';
   /* ── Reports ── */
   .reports-stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
   .reports-stat-card {
-    background: linear-gradient(180deg, var(--color-surface) 0%, var(--color-bg-subtle) 100%);
+    background: linear-gradient(180deg, var(--color-surface-translucent) 0%, var(--color-bg-subtle) 100%);
     border: 1px solid var(--color-border); border-radius: 14px;
     padding: 18px 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);
     display: flex; flex-direction: column; align-items: center; text-align: center; gap: 6px;
@@ -2259,7 +2259,7 @@ import Sidebar from '../components/Sidebar.astro';
   .rs-stat-label { font-family: var(--font-body); font-size: 11px; color: var(--color-text-muted); font-weight: 500; }
   .reports-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
   .reports-section-card {
-    background: linear-gradient(180deg, var(--color-surface) 0%, var(--color-bg-subtle) 100%);
+    background: linear-gradient(180deg, var(--color-surface-translucent) 0%, var(--color-bg-subtle) 100%);
     border: 1px solid var(--color-border); border-radius: 14px;
     padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);
   }
@@ -2296,7 +2296,7 @@ import Sidebar from '../components/Sidebar.astro';
   @media (max-width: 768px)  { .reports-stats-row { grid-template-columns: 1fr; } }
 
   /* ── Settings ── */
-  .settings-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 20px 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.03); display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+  .settings-card { background: var(--color-surface-translucent); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 20px 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.03); display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
   .settings-section { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
   .settings-section.settings-section-full { grid-column: 1 / -1; }
   .settings-section-title { font-family: var(--font-heading); font-weight: 600; font-size: 14px; color: var(--color-text); margin: 0 0 10px; }
@@ -2371,7 +2371,7 @@ import Sidebar from '../components/Sidebar.astro';
   .settings-danger-btn-outline {
     display: flex; align-items: center; gap: 6px;
     font-family: var(--font-body); font-weight: 500; font-size: 12px; color: var(--color-text-muted);
-    background: var(--color-surface); border: 1px solid var(--color-border);
+    background: var(--color-surface-translucent); border: 1px solid var(--color-border);
     border-radius: var(--radius-md); padding: 7px 14px; cursor: pointer;
     transition: all 0.15s;
   }
@@ -2407,7 +2407,7 @@ import Sidebar from '../components/Sidebar.astro';
   }
   .modal-panel {
     position: relative;
-    background: var(--color-surface);
+    background: var(--color-surface-translucent);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
