@@ -26,9 +26,6 @@ import Layout from '../layouts/Layout.astro';
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="8.5" cy="7" r="4" /><polyline points="17 11 19 13 23 9" /></svg>
                 Another Patient
               </button>
-              <button class="top-icon-btn" id="btn-download" title="Export Report">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
-              </button>
             </div>
           </div>
 
@@ -66,7 +63,7 @@ import Layout from '../layouts/Layout.astro';
             <div class="card card-ood">
               <div class="card-header">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" /></svg>
-                <span>Out-Of-Distribution(OOD) Score</span>
+                <span>Novel Image Score</span>
               </div>
               <div class="ood-value" id="ood-value">—</div>
               <div class="ood-label" id="ood-label">No data</div>
@@ -96,7 +93,7 @@ import Layout from '../layouts/Layout.astro';
             </div>
 
             <div class="pipeline-step">
-              <div class="step-label">Predicted Heatmap</div>
+              <div class="step-label">Location Of Fracture</div>
               <div class="step-img-wrap">
                 <img id="img-heatmap" class="step-img" alt="Heatmap" />
                 <div class="step-empty" id="empty-heatmap">
@@ -110,7 +107,7 @@ import Layout from '../layouts/Layout.astro';
           <div class="report-card card">
             <div class="card-header">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
-              <span>Export Report</span>
+              <span>Download Report</span>
             </div>
             <p class="report-desc">Download a printable summary of this analysis, including the patient details, diagnosis, confidence score, and findings.</p>
             <button class="report-btn" id="report-btn">
@@ -162,6 +159,7 @@ import Layout from '../layouts/Layout.astro';
 
 <script type="module">
   import { saveAnalysis } from '../scripts/api.js';
+  import { getUser } from '../scripts/auth.js';
 
   var imageData = sessionStorage.getItem('fracturedetect:image');
   var resultData = sessionStorage.getItem('fracturedetect:result');
@@ -260,16 +258,30 @@ import Layout from '../layouts/Layout.astro';
     var patientId = sessionStorage.getItem('fracturedetect:patient_id');
     var currentPatientName = '';
     var currentPatientMrn = '';
+    var currentPatientAge = '';
+    var currentPatientGender = '';
+    var currentPatientReason = '';
+    var currentClinicianName = '';
+    var currentClinicianEmail = '';
     if (patientId) {
       import('../scripts/patients.js').then(function (mod) {
         mod.getPatient(patientId).then(function (p) {
           if (p) {
             currentPatientName = p.name || '';
             currentPatientMrn = p.medical_record_id || '';
+            currentPatientAge = p.age ? String(p.age) : '';
+            currentPatientGender = p.gender ? p.gender.charAt(0).toUpperCase() + p.gender.slice(1) : '';
+            currentPatientReason = p.notes || '';
           }
         });
       });
     }
+    getUser().then(function (u) {
+      if (u) {
+        currentClinicianName = u.name || '';
+        currentClinicianEmail = u.email || '';
+      }
+    });
 
     /* Buttons */
     var btnAnother = document.getElementById('btn-another');
@@ -335,16 +347,26 @@ import Layout from '../layouts/Layout.astro';
       }
 
       /* ── Patient section ── */
-      var patientH = (currentPatientName || currentPatientMrn) ? 26 : 0;
+      var patientH = (currentPatientName || currentPatientMrn) ? 42 : 0;
       if (patientH) {
         var py = drawSection('PATIENT', y, patientH);
-        doc.setFont('helvetica', 'normal'); doc.setFontSize(10); doc.setTextColor.apply(doc, DK);
+        doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor.apply(doc, DK);
         doc.text('Name: ' + (currentPatientName || '\u2014'), M + 4, py + 1);
-        doc.text('MRN: ' + (currentPatientMrn || '\u2014'), M + CW / 2, py + 1);
+        doc.text('Age: ' + (currentPatientAge || '\u2014'), M + CW / 2, py + 1);
+        doc.text('Gender: ' + (currentPatientGender || '\u2014'), M + 4, py + 10);
+        doc.text('MRN: ' + (currentPatientMrn || '\u2014'), M + CW / 2, py + 10);
+        doc.text('Reason: ' + (currentPatientReason || '\u2014'), M + 4, py + 19);
         y += patientH + 6;
       }
 
-
+      /* ── Clinician section ── */
+      var clinH = (currentClinicianName || currentClinicianEmail) ? 22 : 0;
+      if (clinH) {
+        var cy = drawSection('CLINICIAN', y, clinH);
+        doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor.apply(doc, DK);
+        doc.text('Performed by: ' + (currentClinicianName || '') + (currentClinicianEmail ? ' (' + currentClinicianEmail + ')' : '') || '\u2014', M + 4, cy + 1);
+        y += clinH + 6;
+      }
 
       /* ── Cross-head disagreement warning ── */
       var crossDisagree = false;
@@ -358,31 +380,6 @@ import Layout from '../layouts/Layout.astro';
         doc.text('Segmentation detected a possible fracture despite classification of "Healthy" \u2014 clinical review recommended.', M + 4, y + 12.5);
         y += 24;
       }
-
-      /* ── Result section ── */
-      var resultH = 42;
-      var ry = drawSection('RESULT', y, resultH);
-      var badgeW = 44, badgeH = 16;
-      doc.setFillColor.apply(doc, isFracture ? [220, 38, 38] : [22, 163, 74]);
-      doc.roundedRect(M + 6, ry + 2, badgeW, badgeH, 3, 3, 'F');
-      doc.setFont('helvetica', 'bold'); doc.setFontSize(11); doc.setTextColor(255, 255, 255);
-      doc.text(isFracture ? 'FRACTURE' : 'HEALTHY', M + 6 + badgeW / 2, ry + 2 + badgeH / 2 + 1, { align: 'center' });
-
-      var rightX = M + 56;
-      doc.setFont('helvetica', 'normal'); doc.setFontSize(9);
-      doc.setTextColor.apply(doc, DK);
-      doc.text('Confidence', rightX, ry + 4);
-      doc.setFont('helvetica', 'bold'); doc.setFontSize(16);
-      doc.setTextColor.apply(doc, isFracture ? [220, 38, 38] : [22, 163, 74]);
-      doc.text(confNum + '%', rightX, ry + 13);
-
-      doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor.apply(doc, DK);
-      doc.text('OOD Score', rightX, ry + 20);
-      doc.setFont('helvetica', 'bold'); doc.setFontSize(11);
-      var oodColor = oodScore > 26.883 ? [220, 38, 38] : oodScore > 19.358 ? [202, 138, 4] : [22, 163, 74];
-      doc.setTextColor.apply(doc, oodColor);
-      doc.text(oodScore.toFixed(1) + '  ' + (oodScore > 26.883 ? 'High' : oodScore > 19.358 ? 'Moderate' : 'Low'), rightX, ry + 28);
-      y += resultH + 6;
 
       /* ── Findings section ── */
       var findH = 10 + findingsText.length * 6;
@@ -439,8 +436,6 @@ import Layout from '../layouts/Layout.astro';
       doc.save(fileName);
     }
 
-    var downloadBtn = document.getElementById('btn-download');
-    if (downloadBtn) downloadBtn.addEventListener('click', downloadReport);
     var reportBtn = document.getElementById('report-btn');
     if (reportBtn) reportBtn.addEventListener('click', downloadReport);
 
@@ -501,12 +496,6 @@ import Layout from '../layouts/Layout.astro';
     }
 
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'e' || e.key === 'E') {
-        if (!e.ctrlKey && !e.metaKey) {
-          e.preventDefault();
-          downloadBtn?.click();
-        }
-      }
       if (e.key === 'n' || e.key === 'N') {
         if (!e.ctrlKey && !e.metaKey) {
           e.preventDefault();
@@ -699,13 +688,6 @@ import Layout from '../layouts/Layout.astro';
     cursor: pointer; transition: all 0.15s; white-space: nowrap;
   }
   .top-btn-secondary:hover { border-color: var(--color-primary); color: var(--color-primary); }
-  .top-icon-btn {
-    width: 38px; height: 38px; border-radius: 50%;
-    background: var(--color-surface); border: 1px solid var(--color-border);
-    display: flex; align-items: center; justify-content: center;
-    color: var(--color-text-muted); cursor: pointer; transition: all 0.15s;
-  }
-  .top-icon-btn:hover { border-color: var(--color-primary); color: var(--color-primary); }
 
   .row-1 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; }
   .card {

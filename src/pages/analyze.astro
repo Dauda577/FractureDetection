@@ -31,10 +31,6 @@ import Footer from "../components/Footer.astro";
     <div id="auth-demo" class="auth-demo hidden">
       <div class="demo-container">
         <div class="demo-left">
-          <div class="demo-badge">
-            <span class="badge-dot"></span>
-            See It In Action
-          </div>
           <h2 class="demo-title">
             See how AI detects fractures<br />in real X-ray images
           </h2>
@@ -63,11 +59,9 @@ import Footer from "../components/Footer.astro";
               <div class="demo-card-body">
                 <div class="demo-card-tags">
                   <span class="demo-tag demo-tag-red">Fracture</span>
-                  <span class="demo-tag">Tibia Shaft</span>
                 </div>
                 <div class="demo-card-meta">
                   <span class="demo-card-conf">94.6% confidence</span>
-                  <span class="demo-card-time">Tibia/Fibula X-ray</span>
                 </div>
               </div>
             </div>
@@ -91,11 +85,9 @@ import Footer from "../components/Footer.astro";
               <div class="demo-card-body">
                 <div class="demo-card-tags">
                   <span class="demo-tag demo-tag-red">Fracture</span>
-                  <span class="demo-tag">Femoral Neck</span>
                 </div>
                 <div class="demo-card-meta">
                   <span class="demo-card-conf">96.2% confidence</span>
-                  <span class="demo-card-time">Hip X-ray</span>
                 </div>
               </div>
             </div>
@@ -119,11 +111,9 @@ import Footer from "../components/Footer.astro";
               <div class="demo-card-body">
                 <div class="demo-card-tags">
                   <span class="demo-tag demo-tag-red">Fracture</span>
-                  <span class="demo-tag">Femur Shaft</span>
                 </div>
                 <div class="demo-card-meta">
                   <span class="demo-card-conf">95.1% confidence</span>
-                  <span class="demo-card-time">Femur X-ray</span>
                 </div>
               </div>
             </div>
@@ -257,7 +247,7 @@ import Footer from "../components/Footer.astro";
                   x2="19"
                   y2="12"></line></svg
               >
-              Get Started Free
+              Sign Up
             </a>
             <a href="/signin" class="btn-demo-alt">
               <svg
@@ -463,14 +453,15 @@ import Footer from "../components/Footer.astro";
             </div>
             <div class="patient-field">
               <label class="patient-label" for="patient-notes"
-                >Notes (optional)</label
+                >Reason For Examination <span class="required">*</span></label
               >
               <textarea
                 class="patient-input patient-textarea"
                 id="patient-notes"
                 name="notes"
                 rows="2"
-                placeholder="Any additional notes..."></textarea>
+                placeholder="Enter reason for examination..."
+                required></textarea>
             </div>
             <p class="error-message" id="patient-error"></p>
             <button class="btn-analyze" id="btn-patient-continue" type="submit">
@@ -1092,7 +1083,7 @@ import Footer from "../components/Footer.astro";
         return;
       }
 
-      if (!age || !gender || !mrn) {
+      if (!age || !gender || !mrn || !notes) {
         if (patientError) {
           patientError.textContent = "Please fill in all required fields.";
           patientError.classList.add("visible");
@@ -2734,7 +2725,7 @@ import Footer from "../components/Footer.astro";
   }
   .demo-card-img-wrap {
     position: relative;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 1 / 1;
     overflow: hidden;
   }
   .demo-card-img {

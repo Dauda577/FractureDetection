@@ -119,8 +119,8 @@ import Sidebar from '../components/Sidebar.astro';
                           <input class="patient-input" id="dash-patient-mrn" name="mrn" type="text" placeholder="e.g. MRN-12345" />
                         </div>
                         <div class="patient-field patient-field-wide">
-                          <label class="patient-label" for="dash-patient-notes">Notes (optional)</label>
-                          <textarea class="patient-input patient-textarea" id="dash-patient-notes" name="notes" rows="2" placeholder="Any additional notes..."></textarea>
+                          <label class="patient-label" for="dash-patient-notes">Reason For Examination <span class="required">*</span></label>
+                          <textarea class="patient-input patient-textarea" id="dash-patient-notes" name="notes" rows="2" placeholder="Enter reason for examination..." required></textarea>
                         </div>
                       </div>
                       <p class="error-message" id="dash-patient-error"></p>
@@ -432,10 +432,10 @@ import Sidebar from '../components/Sidebar.astro';
           <div class="modal-body">
             <dl class="mi-list">
               <div class="mi-row"><dt>Model Name</dt><dd>MT-FracNet </dd></div>
-              <div class="mi-row"><dt>Architecture</dt><dd>Attention U-Net / ResNet-34 encoder</dd></div>
+              <div class="mi-row"><dt>Architecture</dt><dd>Multi-task Attention U-NET</dd></div>
               <div class="mi-row"><dt>Input Size</dt><dd>512 × 512 pixels</dd></div>
-              <div class="mi-row"><dt>Training Dataset</dt><dd>MURA + custom radiograph dataset</dd></div>
-              <div class="mi-row"><dt>Anatomical Sites</dt><dd>4 — hand, leg, hip, shoulder</dd></div>
+              <div class="mi-row"><dt>Training Dataset</dt><dd>FracAtlas Dataset</dd></div>
+              <div class="mi-row"><dt>Anatomical Sites</dt><dd>hand, leg, hip, shoulder</dd></div>
               <div class="mi-row"><dt>AUROC</dt><dd>0.967</dd></div>
               <div class="mi-row"><dt>Sensitivity</dt><dd>64.0%</dd></div>
               <div class="mi-row"><dt>Specificity</dt><dd>95.5%</dd></div>
@@ -1166,6 +1166,11 @@ import Sidebar from '../components/Sidebar.astro';
 
       if (!name) {
         if (dashPatientError) { dashPatientError.textContent = 'Please enter the patient name.'; dashPatientError.classList.add('visible'); }
+        if (dashPatientContinue) dashPatientContinue.disabled = false;
+        return;
+      }
+      if (!notes) {
+        if (dashPatientError) { dashPatientError.textContent = 'Please enter the reason for examination.'; dashPatientError.classList.add('visible'); }
         if (dashPatientContinue) dashPatientContinue.disabled = false;
         return;
       }
